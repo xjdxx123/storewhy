@@ -1,0 +1,106 @@
+{
+  "raw_columns": {
+    "visits": [
+      "User Id",
+      "Region",
+      "Device",
+      "Channel",
+      "Session Start",
+      "Session End"
+    ],
+    "purchases": [
+      "User Id",
+      "Event Dt",
+      "Revenue"
+    ],
+    "costs": [
+      "dt",
+      "Channel",
+      "costs"
+    ]
+  },
+  "definitions": [
+    "Ad cost is sum of costs for each calendar month across the 10 provided paid channels.",
+    "Users are attributed to their first observed session channel; users first observed in organic are excluded from paid-cohort revenue.",
+    "Revenue is sum of purchases within [first observed session, first observed session + 14 days), grouped by acquisition month, not purchase calendar month.",
+    "May-Sep cohorts only, to ensure complete follow-up. This is an observational allocation, not experimentally measured incremental revenue.",
+    "Currency is not labelled in the CSV; no currency symbol is assumed."
+  ],
+  "monthly": [
+    {
+      "month": "2019-05",
+      "ad_cost": 9978.57,
+      "visits": 45765,
+      "first_seen_paid_users": 12416,
+      "paid_cohort_revenue_14d": 10988.64,
+      "paid_cohort_buyers_14d": 967,
+      "purchase_revenue_calendar_all_users": 15787.38
+    },
+    {
+      "month": "2019-06",
+      "ad_cost": 15090.05,
+      "visits": 44623,
+      "first_seen_paid_users": 15315,
+      "paid_cohort_revenue_14d": 13645.59,
+      "paid_cohort_buyers_14d": 1227,
+      "purchase_revenue_calendar_all_users": 26428.25
+    },
+    {
+      "month": "2019-07",
+      "ad_cost": 16447.06,
+      "visits": 47970,
+      "first_seen_paid_users": 14941,
+      "paid_cohort_revenue_14d": 13688.12,
+      "paid_cohort_buyers_14d": 1195,
+      "purchase_revenue_calendar_all_users": 35988.44
+    },
+    {
+      "month": "2019-08",
+      "ad_cost": 20657.87,
+      "visits": 55996,
+      "first_seen_paid_users": 17545,
+      "paid_cohort_revenue_14d": 15861.45,
+      "paid_cohort_buyers_14d": 1397,
+      "purchase_revenue_calendar_all_users": 40401.18
+    },
+    {
+      "month": "2019-09",
+      "ad_cost": 22441.34,
+      "visits": 56628,
+      "first_seen_paid_users": 17303,
+      "paid_cohort_revenue_14d": 16346.65,
+      "paid_cohort_buyers_14d": 1437,
+      "purchase_revenue_calendar_all_users": 44941.7
+    }
+  ],
+  "changes": [
+    {
+      "from": "2019-05",
+      "to": "2019-06",
+      "ad_cost_change_pct": 51.22,
+      "paid_cohort_revenue_14d_change_pct": 24.18,
+      "first_seen_paid_users_change_pct": 23.35
+    },
+    {
+      "from": "2019-06",
+      "to": "2019-07",
+      "ad_cost_change_pct": 8.99,
+      "paid_cohort_revenue_14d_change_pct": 0.31,
+      "first_seen_paid_users_change_pct": -2.44
+    },
+    {
+      "from": "2019-07",
+      "to": "2019-08",
+      "ad_cost_change_pct": 25.6,
+      "paid_cohort_revenue_14d_change_pct": 15.88,
+      "first_seen_paid_users_change_pct": 17.43
+    },
+    {
+      "from": "2019-08",
+      "to": "2019-09",
+      "ad_cost_change_pct": 8.63,
+      "paid_cohort_revenue_14d_change_pct": 3.06,
+      "first_seen_paid_users_change_pct": -1.38
+    }
+  ]
+}

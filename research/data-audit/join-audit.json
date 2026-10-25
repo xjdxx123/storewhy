@@ -1,0 +1,41 @@
+[
+  {
+    "dataset": "Yandex Afisha / Showz",
+    "orders_without_visited_user": 0,
+    "orders_before_first_observed_visit": 0,
+    "users_with_multiple_channels": 37720,
+    "users_with_multiple_devices": 7699,
+    "visits_without_cost_source": [
+      "6",
+      "7"
+    ],
+    "negative_session_durations": 2,
+    "zero_session_durations": 35794,
+    "max_uid": "18446676030785672386",
+    "uids_above_JS_safe_integer": 228049,
+    "cost_coverage_end": "2018-05-31",
+    "visit_coverage_end": "2018-05-31"
+  },
+  {
+    "dataset": "Procrastinate Pro+",
+    "orders_without_visited_user": 0,
+    "orders_before_first_observed_visit": 0,
+    "users_with_multiple_channels": 5520,
+    "users_with_multiple_devices": 5007,
+    "visits_without_cost_source": [
+      "organic"
+    ],
+    "negative_session_durations": 0,
+    "zero_session_durations": 163,
+    "max_uid": "999999563947",
+    "uids_above_JS_safe_integer": 0,
+    "cost_coverage_end": "2019-10-27",
+    "visit_coverage_end": "2019-10-31",
+    "regions": {
+      "United States": 207327,
+      "UK": 36419,
+      "France": 35396,
+      "Germany": 30759
+    }
+  }
+]

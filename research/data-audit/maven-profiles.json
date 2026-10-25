@@ -1,0 +1,269 @@
+[
+  {
+    "file": "order_item_refunds.csv",
+    "bytes": 72233,
+    "source": "https://raw.githubusercontent.com/owolabiiyanuvictoria/fuzzy-and-co-ecommerce-analysis/main/data/order_item_refunds.csv",
+    "sha256": "546092db92a69f15befe62f5c83684fb8517a00fbcf105fa359095643a5befd6",
+    "rows": 1731,
+    "columns": [
+      "order_item_refund_id",
+      "created_at",
+      "order_item_id",
+      "order_id",
+      "refund_amount_usd"
+    ],
+    "nulls": {},
+    "start": "2012-04-06 11:32:43",
+    "end": "2015-04-01 18:11:08",
+    "sample": [
+      {
+        "order_item_refund_id": "1",
+        "created_at": "2012-04-06 11:32:43",
+        "order_item_id": "57",
+        "order_id": "57",
+        "refund_amount_usd": "49.99"
+      },
+      {
+        "order_item_refund_id": "2",
+        "created_at": "2012-04-13 01:09:43",
+        "order_item_id": "74",
+        "order_id": "74",
+        "refund_amount_usd": "49.99"
+      }
+    ]
+  },
+  {
+    "file": "order_items.csv",
+    "bytes": 1893888,
+    "source": "https://raw.githubusercontent.com/owolabiiyanuvictoria/fuzzy-and-co-ecommerce-analysis/main/data/order_items.csv",
+    "sha256": "dd5bc78a48bd07cfdd0291a1d165e360999e696d9751ea6c8ab30a602da53d91",
+    "rows": 40025,
+    "columns": [
+      "order_item_id",
+      "created_at",
+      "order_id",
+      "product_id",
+      "is_primary_item",
+      "price_usd",
+      "cogs_usd"
+    ],
+    "nulls": {},
+    "start": "2012-03-19 10:42:46",
+    "end": "2015-03-19 05:38:31",
+    "sample": [
+      {
+        "order_item_id": "1",
+        "created_at": "2012-03-19 10:42:46",
+        "order_id": "1",
+        "product_id": "1",
+        "is_primary_item": "1",
+        "price_usd": "49.99",
+        "cogs_usd": "19.49"
+      },
+      {
+        "order_item_id": "2",
+        "created_at": "2012-03-19 19:27:37",
+        "order_id": "2",
+        "product_id": "1",
+        "is_primary_item": "1",
+        "price_usd": "49.99",
+        "cogs_usd": "19.49"
+      }
+    ]
+  },
+  {
+    "file": "orders.csv",
+    "bytes": 1787224,
+    "source": "https://raw.githubusercontent.com/owolabiiyanuvictoria/fuzzy-and-co-ecommerce-analysis/main/data/orders.csv",
+    "sha256": "26517db0f5b01b8d3b3ff4597312af619d5a6ef51d895dd23d6d4736a359a477",
+    "rows": 32313,
+    "columns": [
+      "order_id",
+      "created_at",
+      "website_session_id",
+      "user_id",
+      "primary_product_id",
+      "items_purchased",
+      "price_usd",
+      "cogs_usd"
+    ],
+    "nulls": {},
+    "start": "2012-03-19 10:42:46",
+    "end": "2015-03-19 05:38:31",
+    "sample": [
+      {
+        "order_id": "1",
+        "created_at": "2012-03-19 10:42:46",
+        "website_session_id": "20",
+        "user_id": "20",
+        "primary_product_id": "1",
+        "items_purchased": "1",
+        "price_usd": "49.99",
+        "cogs_usd": "19.49"
+      },
+      {
+        "order_id": "2",
+        "created_at": "2012-03-19 19:27:37",
+        "website_session_id": "104",
+        "user_id": "104",
+        "primary_product_id": "1",
+        "items_purchased": "1",
+        "price_usd": "49.99",
+        "cogs_usd": "19.49"
+      }
+    ]
+  },
+  {
+    "file": "products.csv",
+    "bytes": 220,
+    "source": "https://raw.githubusercontent.com/owolabiiyanuvictoria/fuzzy-and-co-ecommerce-analysis/main/data/products.csv",
+    "sha256": "155262d23160c718f635dc2fa168ea1ae638341b189434eefe09ed895d8557e5",
+    "rows": 4,
+    "columns": [
+      "product_id",
+      "created_at",
+      "product_name"
+    ],
+    "nulls": {},
+    "start": "2012-03-19 08:00:00",
+    "end": "2014-02-05 10:00:00",
+    "sample": [
+      {
+        "product_id": "1",
+        "created_at": "2012-03-19 08:00:00",
+        "product_name": "The Original Mr. Fuzzy"
+      },
+      {
+        "product_id": "2",
+        "created_at": "2013-01-06 13:00:00",
+        "product_name": "The Forever Love Bear"
+      }
+    ]
+  },
+  {
+    "file": "website_pageviews.csv",
+    "bytes": 56915398,
+    "source": "https://raw.githubusercontent.com/owolabiiyanuvictoria/fuzzy-and-co-ecommerce-analysis/main/data/website_pageviews.csv",
+    "sha256": "e325f5678acc76356670a7538d185613265ba26038c6a2a5a0af68cc68722c4a",
+    "rows": 1188124,
+    "columns": [
+      "website_pageview_id",
+      "created_at",
+      "website_session_id",
+      "pageview_url"
+    ],
+    "nulls": {},
+    "start": "2012-03-19 08:04:16",
+    "end": "2015-03-19 07:59:32",
+    "sample": [
+      {
+        "website_pageview_id": "1",
+        "created_at": "2012-03-19 08:04:16",
+        "website_session_id": "1",
+        "pageview_url": "/home"
+      },
+      {
+        "website_pageview_id": "2",
+        "created_at": "2012-03-19 08:16:49",
+        "website_session_id": "2",
+        "pageview_url": "/home"
+      }
+    ],
+    "pageview_urls": {
+      "/home": 137576,
+      "/products": 261231,
+      "/the-original-mr-fuzzy": 162525,
+      "/cart": 94953,
+      "/shipping": 64484,
+      "/billing": 3617,
+      "/thank-you-for-your-order": 32313,
+      "/lander-1": 47574,
+      "/billing-2": 48441,
+      "/the-forever-love-bear": 26033,
+      "/lander-2": 131170,
+      "/lander-3": 79000,
+      "/the-birthday-sugar-panda": 19046,
+      "/lander-4": 9385,
+      "/lander-5": 68166,
+      "/the-hudson-river-mini-bear": 2610
+    }
+  },
+  {
+    "file": "website_sessions.csv",
+    "bytes": 41633860,
+    "source": "https://raw.githubusercontent.com/owolabiiyanuvictoria/fuzzy-and-co-ecommerce-analysis/main/data/website_sessions.csv",
+    "sha256": "4f7166499a1b7da95d74a8861931965592417d3dad43b681f9b17544c921cede",
+    "rows": 472871,
+    "columns": [
+      "website_session_id",
+      "created_at",
+      "user_id",
+      "is_repeat_session",
+      "utm_source",
+      "utm_campaign",
+      "utm_content",
+      "device_type",
+      "http_referer"
+    ],
+    "nulls": {
+      "utm_source": 83328,
+      "utm_campaign": 83328,
+      "utm_content": 83328,
+      "http_referer": 39917
+    },
+    "start": "2012-03-19 08:04:16",
+    "end": "2015-03-19 07:59:08",
+    "sample": [
+      {
+        "website_session_id": "1",
+        "created_at": "2012-03-19 08:04:16",
+        "user_id": "1",
+        "is_repeat_session": "0",
+        "utm_source": "gsearch",
+        "utm_campaign": "nonbrand",
+        "utm_content": "g_ad_1",
+        "device_type": "mobile",
+        "http_referer": "https://www.gsearch.com"
+      },
+      {
+        "website_session_id": "2",
+        "created_at": "2012-03-19 08:16:49",
+        "user_id": "2",
+        "is_repeat_session": "0",
+        "utm_source": "gsearch",
+        "utm_campaign": "nonbrand",
+        "utm_content": "g_ad_1",
+        "device_type": "desktop",
+        "http_referer": "https://www.gsearch.com"
+      }
+    ],
+    "utm_values": {
+      "utm_source": {
+        "gsearch": 316035,
+        "NULL": 83328,
+        "bsearch": 62823,
+        "socialbook": 10685
+      },
+      "utm_campaign": {
+        "nonbrand": 337615,
+        "NULL": 83328,
+        "brand": 41243,
+        "pilot": 5095,
+        "desktop_targeted": 5590
+      },
+      "utm_content": {
+        "g_ad_1": 282706,
+        "NULL": 83328,
+        "g_ad_2": 33329,
+        "b_ad_2": 7914,
+        "b_ad_1": 54909,
+        "social_ad_1": 5095,
+        "social_ad_2": 5590
+      }
+    },
+    "devices": {
+      "mobile": 145844,
+      "desktop": 327027
+    }
+  }
+]

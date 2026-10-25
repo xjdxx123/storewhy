@@ -1,0 +1,162 @@
+{
+  "audited_on": "2026-10-23",
+  "scope": "Dataset research only; no application implementation or Zetaris data import performed.",
+  "method": "Downloaded full public CSV files, inspected columns, record counts, nulls, coverage, joinability and selected reconciliations. Original files retained in /private/tmp/storewhy-data-audit. Derived reports retained here.",
+  "finding": "No verified single real independent-store dataset covers ad impressions/clicks/cost, website funnel, orders/refunds/products and operations change history. Existing public teaching datasets support narrower versions without fabricating missing fields.",
+  "candidates": [
+    {
+      "name": "Practicum Procrastinate Pro+ teaching sample",
+      "access": "All three public CSV downloads HTTP 200; complete files profiled",
+      "files": [
+        "https://code.s3.yandex.net/datasets/visits_info_short.csv",
+        "https://code.s3.yandex.net/datasets/orders_info_short.csv",
+        "https://code.s3.yandex.net/datasets/costs_info_short.csv"
+      ],
+      "has": [
+        "user ID",
+        "session start/end",
+        "channel",
+        "device",
+        "region",
+        "purchase timestamp",
+        "purchase revenue",
+        "daily channel spend"
+      ],
+      "missing": [
+        "ad impressions",
+        "ad clicks",
+        "campaign/creative IDs",
+        "cart/checkout events",
+        "SKU",
+        "refunds",
+        "product COGS",
+        "operations change log",
+        "experiment assignment"
+      ],
+      "join": "Purchases join visits by user ID; daily costs by channel and date after aggregation. No session ID in purchase records, so channel attribution must be explicit. All 8,881 buying users found in visits. 5,520 users observed across multiple channels.",
+      "coverage": "New-user acquisition and cost: 2019-05-01 through 2019-10-27; observed sessions/purchases extend through 2019-10-31. Fixed follow-up windows required for fair cohort comparison.",
+      "license_status": "No explicit redistribution license independently confirmed; public teaching sample, underlying production authenticity not independently verified.",
+      "recommendation": "Best verified fit for marketing-spend vs traffic/purchase/repeat-payment investigation; demo business is a paid app rather than a physical-goods storefront."
+    },
+    {
+      "name": "Maven Toy Store E-Commerce Database",
+      "official_source": "https://mavenanalytics.io/data-playground/toy-store-e-commerce-database",
+      "data_access": "Official page currently asks for login to download; audit used publicly accessible CSV mirror. Audit total 1,735,068 rows matches official catalogue total; mirror authenticity not cryptographically verified.",
+      "mirror": "https://github.com/owolabiiyanuvictoria/fuzzy-and-co-ecommerce-analysis/tree/main/data",
+      "has": [
+        "UTM source/campaign/content",
+        "sessions",
+        "pageview paths",
+        "order-to-session keys",
+        "products",
+        "line items",
+        "product COGS",
+        "refunds"
+      ],
+      "missing": [
+        "ad spend",
+        "ad impressions",
+        "ad clicks",
+        "complete operations/experiment log"
+      ],
+      "verification": "Zero missing order-session, item-order, item-product, refund-order/item or pageview-session joins. All order item amounts and item quantities reconcile to parent orders.",
+      "license_status": "Official dataset page labels Public Domain.",
+      "recommendation": "Best fit for storefront traffic-to-purchase/refund explanations; cannot honestly produce CPC/CPA/ROAS without additional same-business data."
+    },
+    {
+      "name": "Practicum Yandex Afisha / Showz teaching sample",
+      "files": [
+        "https://code.s3.yandex.net/datasets/visits_log_us.csv",
+        "https://code.s3.yandex.net/datasets/orders_log_us.csv",
+        "https://code.s3.yandex.net/datasets/costs_us.csv"
+      ],
+      "has": [
+        "user visits",
+        "anonymous channel IDs",
+        "purchase revenue",
+        "daily channel costs"
+      ],
+      "missing": [
+        "full website funnel",
+        "products",
+        "refunds",
+        "operations log",
+        "ad impressions/clicks"
+      ],
+      "cautions": [
+        "37,720 users have multiple channels, so attribution must be explicit.",
+        "Visit sources 6 and 7 have no expense rows; absence must not be treated as confirmed zero cost.",
+        "51 purchase rows have nonpositive revenue; classify before metric calculation.",
+        "One purchase timestamp extends into 2018-06-01 although cost coverage ends 2018-05-31.",
+        "User identifiers exceed JavaScript safe integer range and should be strings."
+      ],
+      "license_status": "No explicit redistribution license independently confirmed."
+    },
+    {
+      "name": "Practicum ch04 four-table sample",
+      "files": [
+        "https://code.s3.yandex.net/datasets/ch04_final_visits.csv",
+        "https://code.s3.yandex.net/datasets/ch04_final_orders.csv",
+        "https://code.s3.yandex.net/datasets/ch04_final_costs.csv",
+        "https://code.s3.yandex.net/datasets/ch04_final_events.csv"
+      ],
+      "has": [
+        "visits",
+        "purchase revenue",
+        "channel spend records",
+        "payment_error events"
+      ],
+      "missing": [
+        "full funnel",
+        "impressions/clicks",
+        "SKU/refunds",
+        "operations/experiment log"
+      ],
+      "cautions": [
+        "Every channel-date key has two different cost rows (180 nonunique keys), with no documented extra dimension. Additivity must be confirmed before spend reporting.",
+        "All 33,749 event rows are payment_error and each has a distinct user; this is not a complete payment-attempt denominator.",
+        "Dataset business context and redistribution license not independently established."
+      ],
+      "recommendation": "Promising backup for error-vs-acquisition investigation, not recommended as main demo before cost-grain semantics are established."
+    },
+    {
+      "name": "Google GA4 public ecommerce sample",
+      "official_source": "https://developers.google.com/analytics/bigquery/web-ecommerce-demo-dataset",
+      "access": "Official documentation checked; actual BigQuery rows not queried in this audit, no GCP setup performed.",
+      "cautions": [
+        "API-wide supported metrics are not proof of populated fields in this sample.",
+        "No accompanying verified advertiser-spend or operations-change table found.",
+        "Officially obfuscated; limited internal consistency and placeholder values."
+      ]
+    },
+    {
+      "name": "Criteo Attribution Modeling for Bidding",
+      "official_source": "https://ailab.criteo.com/criteo-attribution-modeling-bidding-dataset/",
+      "access": "Official data dictionary checked; no 623MB download performed.",
+      "has": [
+        "impressions",
+        "clicks",
+        "campaign IDs",
+        "conversion IDs",
+        "attribution labels",
+        "transformed cost/CPO"
+      ],
+      "cautions": [
+        "cost and cpo are transformed, not actual monetary amounts.",
+        "cpo is not merchant order revenue.",
+        "Anonymized contextual feature meanings are undisclosed; no storefront/product/funnel linkage."
+      ],
+      "license_status": "Official page CC BY-NC-SA 4.0."
+    }
+  ],
+  "cross_dataset_rule": "These datasets describe different businesses. Do not join a cost table from one to orders or traffic from another to fabricate a complete store.",
+  "evidence_files": [
+    "basic-profiles.json",
+    "join-audit.json",
+    "maven-profiles.json",
+    "maven-join-audit.json",
+    "procrastinate-14d-feasibility.json",
+    "four-table-profiles.json",
+    "cohort-and-cost-key-audit.json"
+  ]
+}

@@ -1,0 +1,189 @@
+[
+  {
+    "file": "visits_log_us.csv",
+    "bytes": 25117663,
+    "rows": 359400,
+    "columns": [
+      "Device",
+      "End Ts",
+      "Source Id",
+      "Start Ts",
+      "Uid"
+    ],
+    "sha256": "421674ac4cdac63b34ce87e13b057083f3f2fb8bbd56439763acfc8de36265d2",
+    "nulls": {
+      "Device": 0,
+      "End Ts": 0,
+      "Source Id": 0,
+      "Start Ts": 0,
+      "Uid": 0
+    },
+    "users": 228169,
+    "start": "2017-06-01 00:01:00",
+    "end": "2018-05-31 23:59:00",
+    "sources": {
+      "4": 101794,
+      "2": 47626,
+      "5": 66905,
+      "9": 13277,
+      "3": 85610,
+      "1": 34121,
+      "10": 10025,
+      "7": 36,
+      "6": 6
+    },
+    "devices": {
+      "touch": 96833,
+      "desktop": 262567
+    }
+  },
+  {
+    "file": "orders_log_us.csv",
+    "bytes": 2287508,
+    "rows": 50415,
+    "columns": [
+      "Buy Ts",
+      "Revenue",
+      "Uid"
+    ],
+    "sha256": "d06042bc76612758ea48900eb471f1b249ecaf16e5047dbcd80862e440a9ac86",
+    "nulls": {
+      "Buy Ts": 0,
+      "Revenue": 0,
+      "Uid": 0
+    },
+    "buyers": 36523,
+    "start": "2017-06-01 00:10:00",
+    "end": "2018-06-01 00:02:00",
+    "revenue_total": 252057.2,
+    "nonpositive_revenue": 51,
+    "duplicate_rows": 0
+  },
+  {
+    "file": "costs_us.csv",
+    "bytes": 49258,
+    "rows": 2542,
+    "columns": [
+      "source_id",
+      "dt",
+      "costs"
+    ],
+    "sha256": "f6e47f518201ea38e2cab930b8759e4afbdda36e18325ca2cb3832eacaeaa639",
+    "nulls": {
+      "source_id": 0,
+      "dt": 0,
+      "costs": 0
+    },
+    "start": "2017-06-01",
+    "end": "2018-05-31",
+    "sources": [
+      "1",
+      "10",
+      "2",
+      "3",
+      "4",
+      "5",
+      "9"
+    ],
+    "cost_total": 329131.62,
+    "duplicate_source_dates": 0
+  },
+  {
+    "file": "visits_info_short.csv",
+    "bytes": 25046582,
+    "rows": 309901,
+    "columns": [
+      "User Id",
+      "Region",
+      "Device",
+      "Channel",
+      "Session Start",
+      "Session End"
+    ],
+    "sha256": "c56826b20411f3873b6d2bb2e3f54a4e280be71fbec819034d6293d2dafd4b37",
+    "nulls": {
+      "User Id": 0,
+      "Region": 0,
+      "Device": 0,
+      "Channel": 0,
+      "Session Start": 0,
+      "Session End": 0
+    },
+    "users": 150008,
+    "start": "2019-05-01 00:00:41",
+    "end": "2019-10-31 23:59:23",
+    "sources": {
+      "organic": 107760,
+      "TipTop": 54794,
+      "RocketSuperAds": 12724,
+      "YRabbit": 9053,
+      "FaceBoom": 49022,
+      "MediaTornado": 8878,
+      "AdNonSense": 6891,
+      "LeapBob": 17013,
+      "WahooNetBanner": 20465,
+      "OppleCreativeMedia": 16794,
+      "lambdaMediaAds": 6507
+    },
+    "devices": {
+      "iPhone": 112603,
+      "Mac": 62022,
+      "Android": 72590,
+      "PC": 62686
+    }
+  },
+  {
+    "file": "orders_info_short.csv",
+    "bytes": 1568710,
+    "rows": 40212,
+    "columns": [
+      "User Id",
+      "Event Dt",
+      "Revenue"
+    ],
+    "sha256": "81cab4d4ed23799e54c7a2402860303cac7f337ec0b4b571ee041ccc18943e02",
+    "nulls": {
+      "User Id": 0,
+      "Event Dt": 0,
+      "Revenue": 0
+    },
+    "buyers": 8881,
+    "start": "2019-05-01 00:28:11",
+    "end": "2019-10-31 23:56:56",
+    "revenue_total": 215962.88,
+    "nonpositive_revenue": 0,
+    "duplicate_rows": 0
+  },
+  {
+    "file": "costs_info_short.csv",
+    "bytes": 59648,
+    "rows": 1800,
+    "columns": [
+      "dt",
+      "Channel",
+      "costs"
+    ],
+    "sha256": "cfe2f3329c221199a2d5f3379989a7240a505731b73b5ea8115e583812a9e74c",
+    "nulls": {
+      "dt": 0,
+      "Channel": 0,
+      "costs": 0
+    },
+    "start": "2019-05-01",
+    "end": "2019-10-27",
+    "sources": [
+      "AdNonSense",
+      "FaceBoom",
+      "LeapBob",
+      "MediaTornado",
+      "OppleCreativeMedia",
+      "RocketSuperAds",
+      "TipTop",
+      "WahooNetBanner",
+      "YRabbit",
+      "lambdaMediaAds"
+    ],
+    "cost_total": 105497.3,
+    "duplicate_source_dates": 0
+  }
+]

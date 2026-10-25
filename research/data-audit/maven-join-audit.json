@@ -1,0 +1,14 @@
+{
+  "dataset": "Maven Toy Store E-Commerce public CSV mirror",
+  "order_sessions_missing": 0,
+  "order_user_session_mismatches": 0,
+  "pageviews_without_session": 0,
+  "items_without_order": 0,
+  "items_without_product": 0,
+  "refunds_without_order": 0,
+  "refunds_without_item": 0,
+  "orders_item_amount_mismatch": 0,
+  "orders_item_quantity_mismatch": 0,
+  "total_gross_order_sales": 1938509.75,
+  "total_refunds": 85338.69
+}

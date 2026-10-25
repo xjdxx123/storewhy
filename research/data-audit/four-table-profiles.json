@@ -1,0 +1,114 @@
+[
+  {
+    "file": "ch04_final_visits.csv",
+    "bytes": 15020881,
+    "rows": 153135,
+    "columns": [
+      "user_id",
+      "region",
+      "device",
+      "channel",
+      "session_duration",
+      "session_start",
+      "last_ts"
+    ],
+    "sha256": "9ed70331e707b445e126a8fecee18c8a4fcddcc2f5f59daad356d0377ed4b53e",
+    "nulls": {
+      "user_id": 0,
+      "region": 0,
+      "device": 0,
+      "channel": 0,
+      "session_duration": 0,
+      "session_start": 0,
+      "last_ts": 0
+    },
+    "duplicate_rows": 0,
+    "start": "2019-08-08 00:02:14",
+    "end": "2019-11-19 23:56:19",
+    "users": 74998,
+    "channel": {
+      "Gooble": 72117,
+      "FaceNotebook": 81018
+    },
+    "region": {
+      "South Korea": 39015,
+      "Japan": 69345,
+      "Singapore": 29632,
+      "Hong Kong": 15143
+    },
+    "device": {
+      "iPhone": 75379,
+      "Android": 42365,
+      "iPad": 35391
+    }
+  },
+  {
+    "file": "ch04_final_events.csv",
+    "bytes": 1619981,
+    "rows": 33749,
+    "columns": [
+      "user_id",
+      "event_dt",
+      "event_name"
+    ],
+    "sha256": "6ae5b081603f8e46420939e6c5271a01c9333f517db7257fc74af4cf3b8fe4da",
+    "nulls": {
+      "user_id": 0,
+      "event_dt": 0,
+      "event_name": 0
+    },
+    "duplicate_rows": 0,
+    "start": "2019-08-08 00:08:32",
+    "end": "2019-11-06 00:20:47",
+    "events": {
+      "payment_error": 33749
+    },
+    "users": 33749
+  },
+  {
+    "file": "ch04_final_orders.csv",
+    "bytes": 514446,
+    "rows": 13461,
+    "columns": [
+      "user_id",
+      "event_dt",
+      "revenue"
+    ],
+    "sha256": "d64c759cf1e6f25bc177ea6710583ce934a44f3c044e418009f9f363bb07da12",
+    "nulls": {
+      "user_id": 0,
+      "event_dt": 0,
+      "revenue": 0
+    },
+    "duplicate_rows": 0,
+    "start": "2019-08-08 00:15:11",
+    "end": "2019-11-19 23:56:20",
+    "users": 5991,
+    "revenue_total": 105213.0,
+    "nonpositive_revenue": 0
+  },
+  {
+    "file": "ch04_final_costs.csv",
+    "bytes": 11333,
+    "rows": 360,
+    "columns": [
+      "dt",
+      "channel",
+      "costs"
+    ],
+    "sha256": "7d31b64ad763f450b35fd01c9a6b4555b1885208395b51d3dd2dd6354e2adf40",
+    "nulls": {
+      "dt": 0,
+      "channel": 0,
+      "costs": 0
+    },
+    "duplicate_rows": 0,
+    "start": "2019-08-08",
+    "end": "2019-11-05",
+    "channel": {
+      "FaceNotebook": 180,
+      "Gooble": 180
+    },
+    "cost_total": 239975.2
+  }
+]

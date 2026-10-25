@@ -1,0 +1,18 @@
+# Credentials and machine-specific runtime
+.env
+.env.*
+!.env.example
+.venv/
+.state/
+node_modules/
+dist/
+coverage/
+.DS_Store
+*.log
+*.tsbuildinfo
+# Vendor platform and research downloads
+setup/references/
+zetaris-platform/
+*.zip
+*.pdf
+data/raw/

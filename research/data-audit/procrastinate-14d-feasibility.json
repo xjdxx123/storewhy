@@ -1,0 +1,115 @@
+{
+  "definition": "Exploratory only: users first observed May-Sep 2019, attribution to first observed session channel, purchases in [first session, first session+14 days). Costs matched by channel and acquisition calendar dates; no incremental or profit claim. Organic cost not supplied, not assumed zero.",
+  "channels": [
+    {
+      "channel": "TipTop",
+      "new_users": 16104,
+      "buyers_14d": 1524,
+      "payer_rate_14d_pct": 9.46,
+      "observed_revenue_14d": 24322.44,
+      "cost_same_acquisition_dates": 42501.3,
+      "cost_per_first_seen_user_proxy": 2.64,
+      "revenue_14d_to_cost_ratio": 0.572
+    },
+    {
+      "channel": "FaceBoom",
+      "new_users": 23996,
+      "buyers_14d": 2841,
+      "payer_rate_14d_pct": 11.84,
+      "observed_revenue_14d": 19557.27,
+      "cost_same_acquisition_dates": 26709.1,
+      "cost_per_first_seen_user_proxy": 1.11,
+      "revenue_14d_to_cost_ratio": 0.732
+    },
+    {
+      "channel": "WahooNetBanner",
+      "new_users": 7007,
+      "buyers_14d": 370,
+      "payer_rate_14d_pct": 5.28,
+      "observed_revenue_14d": 6649.69,
+      "cost_same_acquisition_dates": 4209.0,
+      "cost_per_first_seen_user_proxy": 0.6,
+      "revenue_14d_to_cost_ratio": 1.58
+    },
+    {
+      "channel": "AdNonSense",
+      "new_users": 3339,
+      "buyers_14d": 354,
+      "payer_rate_14d_pct": 10.6,
+      "observed_revenue_14d": 2777.89,
+      "cost_same_acquisition_dates": 3373.65,
+      "cost_per_first_seen_user_proxy": 1.01,
+      "revenue_14d_to_cost_ratio": 0.823
+    },
+    {
+      "channel": "OppleCreativeMedia",
+      "new_users": 7098,
+      "buyers_14d": 190,
+      "payer_rate_14d_pct": 2.68,
+      "observed_revenue_14d": 2935.51,
+      "cost_same_acquisition_dates": 1773.25,
+      "cost_per_first_seen_user_proxy": 0.25,
+      "revenue_14d_to_cost_ratio": 1.655
+    },
+    {
+      "channel": "RocketSuperAds",
+      "new_users": 3746,
+      "buyers_14d": 282,
+      "payer_rate_14d_pct": 7.53,
+      "observed_revenue_14d": 3604.31,
+      "cost_same_acquisition_dates": 1627.27,
+      "cost_per_first_seen_user_proxy": 0.43,
+      "revenue_14d_to_cost_ratio": 2.215
+    },
+    {
+      "channel": "LeapBob",
+      "new_users": 7067,
+      "buyers_14d": 214,
+      "payer_rate_14d_pct": 3.03,
+      "observed_revenue_14d": 3423.54,
+      "cost_same_acquisition_dates": 1482.18,
+      "cost_per_first_seen_user_proxy": 0.21,
+      "revenue_14d_to_cost_ratio": 2.31
+    },
+    {
+      "channel": "lambdaMediaAds",
+      "new_users": 1847,
+      "buyers_14d": 187,
+      "payer_rate_14d_pct": 10.12,
+      "observed_revenue_14d": 3166.33,
+      "cost_same_acquisition_dates": 1344.0,
+      "cost_per_first_seen_user_proxy": 0.73,
+      "revenue_14d_to_cost_ratio": 2.356
+    },
+    {
+      "channel": "MediaTornado",
+      "new_users": 3702,
+      "buyers_14d": 121,
+      "payer_rate_14d_pct": 3.27,
+      "observed_revenue_14d": 1967.37,
+      "cost_same_acquisition_dates": 814.32,
+      "cost_per_first_seen_user_proxy": 0.22,
+      "revenue_14d_to_cost_ratio": 2.416
+    },
+    {
+      "channel": "YRabbit",
+      "new_users": 3614,
+      "buyers_14d": 140,
+      "payer_rate_14d_pct": 3.87,
+      "observed_revenue_14d": 2126.1,
+      "cost_same_acquisition_dates": 780.81,
+      "cost_per_first_seen_user_proxy": 0.22,
+      "revenue_14d_to_cost_ratio": 2.723
+    },
+    {
+      "channel": "organic",
+      "new_users": 48254,
+      "buyers_14d": 957,
+      "payer_rate_14d_pct": 1.98,
+      "observed_revenue_14d": 15402.33,
+      "cost_same_acquisition_dates": 0,
+      "cost_per_first_seen_user_proxy": null,
+      "revenue_14d_to_cost_ratio": null
+    }
+  ]
+}

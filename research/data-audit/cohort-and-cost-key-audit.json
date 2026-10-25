@@ -1,0 +1,41 @@
+[
+  {
+    "dataset": "Procrastinate Pro+",
+    "last_first_observed_user_at": "2019-10-27 23:59:04",
+    "new_users_after_cost_coverage": 0,
+    "orders_without_visited_user": 0,
+    "orders_before_first_observed_visit": 0,
+    "users_with_multiple_channels": 5520,
+    "nonunique_cost_channel_dates": 0,
+    "max_rows_per_cost_channel_date": 1
+  },
+  {
+    "dataset": "Practicum four-table sample",
+    "last_first_observed_user_at": "2019-11-05 23:57:36",
+    "new_users_after_cost_coverage": 0,
+    "orders_without_visited_user": 0,
+    "orders_before_first_observed_visit": 0,
+    "users_with_multiple_channels": 1368,
+    "nonunique_cost_channel_dates": 180,
+    "max_rows_per_cost_channel_date": 2,
+    "error_users_without_visit": 0,
+    "cost_duplicate_key_examples": [
+      {
+        "date": "2019-08-08",
+        "channel": "FaceNotebook",
+        "values": [
+          "891.0",
+          "287.09999999999997"
+        ]
+      },
+      {
+        "date": "2019-08-09",
+        "channel": "FaceNotebook",
+        "values": [
+          "1026.3",
+          "231.0"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "status": "PASS",
+    "check": "Python",
+    "detail": "3.12.2"
+  },
+  {
+    "status": "PASS",
+    "check": "openai",
+    "detail": "3.37.0"
+  },
+  {
+    "status": "PASS",
+    "check": "python-dotenv",
+    "detail": "1.2.4"
+  },
+  {
+    "status": "PASS",
+    "check": "requests",
+    "detail": "2.34.2"
+  },
+  {
+    "status": "PASS",
+    "check": "virtualenv",
+    "detail": ".venv active"
+  },
+  {
+    "status": "PASS",
+    "check": "Docker CLI",
+    "detail": "Docker version 29.9.2, build a82e528"
+  },
+  {
+    "status": "PASS",
+    "check": "Docker Compose",
+    "detail": "Docker Compose version v5.6.1"
+  },
+  {
+    "status": "PASS",
+    "check": "Docker resources",
+    "detail": "7.7 GiB, 11 CPUs; guide recommends 8 GiB and at least 4 CPUs"
+  },
+  {
+    "status": "PASS",
+    "check": "Zetaris UI",
+    "detail": "HTTP 200; Zetaris page identified"
+  },
+  {
+    "status": "PASS",
+    "check": "Zetaris SQL",
+    "detail": "SELECT 1 returned 1"
+  },
+  {
+    "status": "PASS",
+    "check": "Nightshift discovery",
+    "detail": "6 meterless/* routes available"
+  },
+  {
+    "status": "PASS",
+    "check": "Nightshift rejects wrong token",
+    "detail": "HTTP 401"
+  },
+  {
+    "status": "PASS",
+    "check": "Nightshift model request",
+    "detail": "model=nvidia/nemotron-3.5-lightning-30b-a3b, provider=nvidia; response verified"
+  }
+]
