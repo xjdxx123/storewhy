@@ -46,3 +46,15 @@ Super 系列的若干路由虽然出现在 Runtime 模型列表中，但实际�
 - 主会话完成 correctness review，重点核对逐点来源、图形单位、系列分组、完整行覆盖和追问旧证据隔离，未启动 subagent workflow。修复了 Demo Evidence 无法通过 API 展开的问题；源标签与图表标题也纳入校验。
 
 接入与边界见 [图表契约](chart-contract.md)，离线数据见 [自制 fixture mock](examples/charts.json)。
+
+## 2026-10-25 回答质量增量验收
+
+API 1.2.0 已实现具体结论、关键证据与可执行追问；接入见 [回答契约](answer-contract.md)。
+
+- 完整自动化 91/91，含新增 16 项回答/追问检查；lint、typecheck、build 全部通过。独立 CSV 参考与真实 Zetaris 14 条 SQL 复核通过。
+- [最终六项 Live 记录](../evidence/answer-quality-evaluation.json)：主 Why、连续两次推荐、八/九月变化、FaceBoom 反例、七月收入查询；全部通过事实绑定、范围、回答目标和推荐校验。五轮 completed；FaceBoom 为 limited，保留进一步解释未完成的状态。
+- 主问题约 51.3 秒；点击付费表现约 5.9 秒，结论为 10.15%→9.17%、下降 0.98 个百分点；首次/后续收入推荐约 3.3 秒，分别减少 176.65、424.19。数字均有本轮事实与 Zetaris 结果引用；这是本次样本耗时，不是延迟保证。
+- 已验证旧推荐返回 409 STALE_CONTEXT 且不修改会话，新动作明确携带任务类型，避免被范围追问纠正规则错误覆盖；显式 Why 即使带 UI patch 也进入 Reviewer 路径。
+- [开发记录](../evidence/answer-quality-development.json) 保留筛选摘要写“整体”、Why 误分类和推荐沿用错误目标的问题。修复后重新验收，未将这些问题混为解释质量通过。
+- 主会话完成 correctness review，核对主结论 ID 必须在已选观测内、事实引用、渠道增减相加、比例单位、scope 继承和新问题目标切换，未启动 subagent workflow。
+- 此次评测通过隔离 3122 服务执行；记录中的 ID 属于该服务。React 浏览器验收、更广的阶段 2 问题覆盖与性能优化仍待后续执行。

@@ -5,6 +5,8 @@ import {
   messageSchema,
   chartSchema,
   chartResponseSchema,
+  followupActionSchema,
+  expectedContextSchema,
 } from "@storewhy/contracts";
 import { settings } from "./config.ts";
 export function openapi() {
@@ -164,6 +166,8 @@ export function openapi() {
         AnalysisSpec: z.toJSONSchema(analysisSpecSchema),
         Chart: z.toJSONSchema(chartSchema),
         ChartResponse: z.toJSONSchema(chartResponseSchema),
+        FollowupAction: z.toJSONSchema(followupActionSchema),
+        ExpectedContext: z.toJSONSchema(expectedContextSchema),
         Error: {
           type: "object",
           properties: {

@@ -16,10 +16,15 @@ import { settings, AppError, cleanError } from "./config.ts";
 import { Analytics } from "./analytics/service.ts";
 import { catalog } from "./analytics/catalog.ts";
 import { chartsFor } from "./analytics/charts.ts";
+import { presentAnswer } from "./analytics/report.ts";
 import { type SqlBackend, ZetarisBackend } from "./integrations/zetaris.ts";
 import { FixtureBackend } from "./integrations/fixture.ts";
 import { type ModelGateway, Nightshift } from "./integrations/nightshift.ts";
-import { DiskStore, createConversation } from "./context/store.ts";
+import {
+  DiskStore,
+  createConversation,
+  initialContext,
+} from "./context/store.ts";
 import { MemoryManager } from "./memory/manager.ts";
 import { Engine, terminal, factsFor } from "./agents/engine.ts";
 import fs from "node:fs/promises";
@@ -236,6 +241,12 @@ export async function buildApp(
       const evidence = await a.query(DEFAULT_SPEC);
       disk.put("evidence", evidence.id, evidence);
       const presentation = chartsFor([evidence]);
+      const answer = presentAnswer({
+        context: initialContext("fixture-demo", "self-authored-fixture-v1"),
+        evidence: [evidence],
+        facts: factsFor([evidence]),
+        ready: false,
+      });
       return {
         kind: "fixture_replay",
         notice:
@@ -243,14 +254,15 @@ export async function buildApp(
         question: "对比样例中两个获客月份的费用与观察期收入",
         evidence,
         answer: {
-          summary: "样例费用增加，但观察期收入保持相同。",
+          ...answer,
           charts: presentation.charts,
           chartNotes: presentation.notes,
-          facts: factsFor([evidence]),
-          findings: [],
-          checkedExplanations: [],
-          limitations: ["这是自制样例，不是生产商家的效果验证。"],
-          nextSteps: ["连接 Nightshift 后可发起新的调查。"],
+          followups: [],
+          limitations: [
+            "自制样例；没有调用在线模型或 Reviewer。",
+            ...answer.limitations,
+          ],
+          nextSteps: ["创建真实会话并连接 Nightshift 后，可以执行推荐追问。"],
         },
       };
     } finally {

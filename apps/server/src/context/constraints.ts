@@ -252,3 +252,7 @@ export function protectScopePatch(
     allowed.groupBy = patch.groupBy;
   return allowed;
 }
+
+export function isWhyQuestion(text: string) {
+  return /为什么|为何|怎么会|\bwhy\b/i.test(text);
+}

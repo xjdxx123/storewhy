@@ -83,6 +83,10 @@ it("has a usable OpenAPI document", async () => {
   expect(r.json().openapi).toBe("3.1.0");
   expect(r.json().components.schemas.AnalysisSpec).toBeTruthy();
   expect(r.json().components.schemas.ChartResponse).toBeTruthy();
+  expect(r.json().components.schemas.FollowupAction).toBeTruthy();
+  expect(
+    r.json().components.schemas.Message.properties.expectedContext,
+  ).toBeTruthy();
   expect(
     r.json().paths["/api/v1/evidence/{id}/charts"].get.responses["200"].content[
       "application/json"
@@ -131,6 +135,8 @@ it("closes an active SSE stream by cancelling the run before server shutdown", a
 it("exposes fixture charts without a model and reports chart endpoint errors", async () => {
   const demo = (await server.app.inject("/api/v1/demo")).json();
   expect(demo.answer.charts).toHaveLength(2);
+  expect(demo.answer.summary).toBe(demo.answer.conclusion.text);
+  expect(demo.answer.followups).toEqual([]);
   expect(
     (await server.app.inject("/api/v1/evidence/" + demo.evidence.id))
       .statusCode,

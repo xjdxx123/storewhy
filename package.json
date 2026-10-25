@@ -27,7 +27,9 @@
     "pretest:live": "python3 scripts/reference-metrics.py",
     "test:http": "tsx scripts/smoke-http.ts",
     "test:charts": "tsx scripts/smoke-charts.ts",
-    "docs:charts": "tsx scripts/generate-chart-examples.ts"
+    "docs:charts": "tsx scripts/generate-chart-examples.ts",
+    "eval:answers": "tsx scripts/evaluate-answers.ts",
+    "docs:answer": "tsx scripts/generate-answer-example.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.16",

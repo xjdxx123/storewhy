@@ -35,6 +35,7 @@ export const toolPatchSchema = z
 export const draftSchema = z
   .object({
     observationIds: z.array(z.string()).min(1).max(6),
+    headlineObservationId: z.string().optional(),
     hypothesis: z.enum([
       "traffic",
       "conversion",

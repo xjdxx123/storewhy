@@ -1,6 +1,6 @@
 # 图表数据契约 v1
 
-后端 API 版本为 `1.1.0`，单张图的 `version` 为 `1.0.0`。共享 TypeScript/Zod 导出位于 `@storewhy/contracts`：`Chart`、`ChartPoint`、`ChartResponse`、`chartSchema`、`chartResponseSchema`。这是面向 React 图表组件的数据契约，后端不返回图片二进制或可执行绘图代码。
+图表自 API `1.1.0` 提供，当前后端为 `1.2.0`，单张图的 `version` 为 `1.0.0`。共享 TypeScript/Zod 导出位于 `@storewhy/contracts`：`Chart`、`ChartPoint`、`ChartResponse`、`chartSchema`、`chartResponseSchema`。这是面向 React 图表组件的数据契约，后端不返回图片二进制或可执行绘图代码。
 
 ## 获取图表
 

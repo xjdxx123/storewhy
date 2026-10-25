@@ -56,6 +56,22 @@ await api.rememberWindow(id, 7);
 - `evidence.rows[].bucket`：趋势桶起点；无 bucket 时用 period。相对变化/比例使用小数，显示百分比时乘百。金额不添加美元符号；`null` 显示“不可计算/数据缺失”。
 - `modelTraces`：真实 provider/model，可在详情中显示；普通用户不必看技术信息。
 
+## 具体结论与推荐追问（API 1.2.0 新增）
+
+```ts
+const run = await api.run(runId);
+const conclusion = run.answer?.conclusion?.text ?? run.answer?.summary;
+const keyEvidence = run.answer?.keyEvidence ?? run.answer?.findings ?? [];
+const actions = run.answer?.followups ?? [];
+
+// 用户点击推荐后提交，与普通消息一样返回 queued Run。
+const queued = await api.followup(action);
+```
+
+新字段均可选，兼容旧 Run。conclusion/keyEvidence 各自携带 factIds，可展开到当前 facts 和 Evidence。按钮使用 action.label，推荐理由使用 action.reason；action.patch 是完整目标条件，basedOn 包含上下文版本。若返回 409 STALE_CONTEXT，刷新当前条件和推荐，不自动绕过版本校验重试。同一会话仍须等待上轮结束。
+
+完整字段、错误处理、历史去重与展示规则见 [回答契约](answer-contract.md)；队友可用 [完整 Answer mock](examples/answer.json) 先搭组件。demo 提供结论和关键证据，执行推荐则需要实际 Conversation。limited 回答可以有具体数字，同时必须保留证据缺口。
+
 ## 图表接入（API 1.1.0 新增）
 
 ```ts
@@ -89,7 +105,7 @@ const response = chartResponseSchema.parse(
 | failed              | 展示 message，允许重试；Live 错误不会回退样例 |
 | cancelled           | 显示已取消，可继续提问                        |
 
-HTTP 校验错误统一 `{error:{code,message}}`，400 为参数，404 为记录不存在，409 为会话忙，429 为容量限制，503 为外部服务不可用。最多两个会话同时运行。运行中发生的错误写入 Run 和 SSE，消息接口本身仍已返回 202。
+HTTP 校验错误统一 `{error:{code,message}}`，400 为参数，404 为记录不存在，409 为会话忙或推荐上下文已过期，429 为容量限制，503 为外部服务不可用。最多两个会话同时运行。运行中发生的错误写入 Run 和 SSE，消息接口本身仍已返回 202。
 
 SSE type：run_started、scope_updated、hypothesis、query_started、query_completed、review_completed、memory_recalled、answer_ready、clarification、error、cancelled。使用 seq 去重。error 也可能是 EventSource 连接错误，仅在事件带 data 时解析 JSON。
 

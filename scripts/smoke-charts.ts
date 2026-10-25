@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import {
   DEFAULT_SPEC,
+  CONTRACT_VERSION,
   chartResponseSchema,
   type Chart,
   type Evidence,
@@ -12,7 +13,7 @@ const url = process.env.STOREWHY_HTTP_URL ?? "http://127.0.0.1:3100";
 const api = new StoreWhyClient(url);
 const health = await (await fetch(url + "/healthz")).json();
 assert.equal(health.dataMode, "zetaris");
-assert.equal(health.apiVersion, "1.1.0");
+assert.equal(health.apiVersion, CONTRACT_VERSION);
 const cache = new Map<string, Evidence>();
 async function checkChart(c: Chart) {
   let e = cache.get(c.source.evidenceId);

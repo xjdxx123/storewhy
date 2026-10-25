@@ -1,19 +1,19 @@
 # StoreWhy Agent 打磨计划
 
-日期：2026-10-25。状态：阶段 1A 图表后端子任务已完成并验证；其余优化待执行。UI 仍由队友负责，主会话负责 TypeScript 后端。
+日期：2026-10-25。状态：阶段 1 与 1A 已完成并验证；阶段 2 及后续优化待执行。UI 仍由队友负责，主会话负责 TypeScript 后端。
 
 目标：让运营人员从一次调查中看懂最值得关注的变化、支撑解释的证据、尚未解决的问题，并能顺畅追问。沿用现有六类问题和现有数据范围。
 
-## 已核验基线
+## 初始验收基线
 
-- 当前 main：1022e26，已 push 至 GitHub。后端和 Zetaris、Nightshift 连接正常。
+- 初始实现基准：1022e26，已 push 至 GitHub。后端和 Zetaris、Nightshift 连接正常。
 - 50 项自动化测试通过；44 项 Live 用例通过，另有 12 轮加强追问检查通过。
 - 44 项评测主要断言状态、分析范围、必需指标、Why 目标保留和事实绑定；其中 3 个用例执行了 Reviewer。这个通过率不等于解释质量已经全面验收。
 - 实际 Why 回答的 summary 仍是通用语句；checkedExplanations 只列整体/分组；nextSteps 为通用提示。模型选择的事实已有证据，但呈现尚未清楚区分主线、机制和缺口。
 - 44 项记录中，3 个有 Reviewer 的用例中位耗时约 37.2 秒，简单有查询用例约 7.8 秒；HTTP 主调查一次约 63.6 秒。60 次模型调用包含 5 次 JSON 修复；最高单轮耗时约 132.8 秒。
 - 证据来源：evidence/why-example.json、evidence/agent-evaluation.json、evidence/followup-evaluation.json、evidence/http-agent-smoke.json；实现来源：apps/server/src/agents/engine.ts、scripts/evaluate.ts。
 
-## 阶段 1：回答直接解决用户的问题（P0）
+## 阶段 1：回答直接解决用户的问题（P0，已完成）
 
 工作：
 
@@ -30,6 +30,16 @@ Done definition：
 - 每条关键结论可追溯至 evidenceId/factId；金额与独立参考一致；反向变化不被描述成下降。
 - 至少两条追问可经现有接口实际执行，保留未修改的时期、人群、筛选与窗口。
 - 旧 client 仍能读取结果，新增字段有契约测试；现有 tests、lint、typecheck、build 通过。
+
+### 阶段 1 验收记录
+
+- API 1.2.0 新增兼容字段 conclusion/keyEvidence/followups；摘要与带 factIds 的结论一致，关键证据去重，比例用百分比和百分点显示，筛选渠道直接写进结论。
+- 推荐携带完整目标范围、任务类型和 expectedContext；可通过 client.followup 执行。新指标问题更新目标，范围调整保留目标；过期、跨会话/版本推荐返回 409 STALE_CONTEXT，不创建 Run。
+- 避免重复同一调查最近十轮的完整检查。Why 的显式关键词有确定性保护；模型选择结论观测，不能写数字。
+- 完整测试 91/91、lint、typecheck、build 通过；独立参考与真实 Zetaris 14 条 SQL 通过。
+- 最终六项 Live 验收通过：主 Why、连续两次推荐、其他月份、FaceBoom 反例、单期查询。五轮 completed，一轮 limited；反例仍保留解释缺口，不把有限结论计作因果证明。
+- [真实记录](../../evidence/answer-quality-evaluation.json)、[开发问题记录](../../evidence/answer-quality-development.json)、[UI 回答契约](../answer-contract.md)、[自制 payload](../examples/answer.json)。
+- 本阶段只完成后端与接入材料；React 展示、阶段 2 的更广 Why 质量验收和性能优化继续按后续阶段推进。
 
 ### 阶段 1A：图表后端与证据绑定（已完成）
 

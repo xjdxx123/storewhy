@@ -1,7 +1,7 @@
 {
   "checks": "PASS",
   "baseline": {
-    "id": "ev-b6bc1e2b-5c01-435e-984e-e62b8a60db64",
+    "id": "ev-5c210056-10ef-48b7-816f-55d1be1c909d",
     "datasetVersion": "4c26d29934370408",
     "metricVersion": "procrastinate-v1",
     "spec": {
@@ -42,8 +42,8 @@
       "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201"
     ],
     "queryIds": [
-      "78fada57-9034-40b2-88e3-634e1629e924",
-      "d14992b2-697f-4319-9809-0a68f934c0ec"
+      "8c4e75ed-d30b-45b4-bc30-e1a322c46b1d",
+      "f08dc8a8-d810-43a8-bcab-d4703b3423cc"
     ],
     "comparisons": [
       {
@@ -175,12 +175,12 @@
       "时间为源数据原始时间，金额单位未标注。",
       "spec:8b783c6a719e54c25198a3f357ce939365a1b87d22bee71218e56da43cdef121"
     ],
-    "createdAt": "2026-10-25T05:26:06.293Z",
-    "durationMs": 6180,
+    "createdAt": "2026-10-25T22:00:46.343Z",
+    "durationMs": 5884,
     "truncated": false
   },
   "h7": {
-    "id": "ev-1ba1f1fe-e001-4866-b7eb-df557e11376c",
+    "id": "ev-c2896cc7-d0b7-475b-8e6d-b0405cf46957",
     "datasetVersion": "4c26d29934370408",
     "metricVersion": "procrastinate-v1",
     "spec": {
@@ -221,8 +221,8 @@
       "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '7' DAY GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '7' DAY ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201"
     ],
     "queryIds": [
-      "a25c78df-b5db-4b67-b5af-d8d68971ab09",
-      "de92e06f-ceca-4edf-b3df-6bcf139e8050"
+      "d2ca0c2c-95de-4bfd-879b-a90877a9dc9e",
+      "2c6a0682-4eb0-4a25-a7ff-5adb4881e640"
     ],
     "comparisons": [
       {
@@ -354,13 +354,13 @@
       "时间为源数据原始时间，金额单位未标注。",
       "spec:af27bc1643e663ab249dbd65818d3d532eefa5114077d6914e5e33ecbaf0c3c7"
     ],
-    "createdAt": "2026-10-25T05:26:12.084Z",
-    "durationMs": 5787,
+    "createdAt": "2026-10-25T22:00:51.888Z",
+    "durationMs": 5543,
     "truncated": false
   },
   "independentReference": "reference-metrics.json",
   "grouped": {
-    "id": "ev-57798455-8c60-4ca0-9f93-e0b4e7ffebe0",
+    "id": "ev-e738d416-852e-4b23-9077-1139f6b50ebc",
     "datasetVersion": "4c26d29934370408",
     "metricVersion": "procrastinate-v1",
     "spec": {
@@ -403,8 +403,8 @@
       "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,u.channel AS channel, '__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen,u.channel),\nuser_agg AS (SELECT channel, segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY channel, segment),\nsession_agg AS (SELECT u.channel AS channel, '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.channel),\ncost_agg AS (SELECT c.channel,'__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) GROUP BY c.channel),\nkeys AS (SELECT channel, segment FROM user_agg UNION SELECT channel, segment FROM session_agg UNION SELECT channel, segment FROM cost_agg) SELECT k.channel, k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.channel=u.channel AND k.segment=u.segment LEFT JOIN session_agg s ON k.channel=s.channel AND k.segment=s.segment LEFT JOIN cost_agg c ON k.channel=c.channel AND k.segment=c.segment ORDER BY k.channel, k.segment LIMIT 201"
     ],
     "queryIds": [
-      "935d7421-c76d-4920-aee0-d90db98c9de9",
-      "80ea5401-212b-4575-8210-7b114c8b5b8c"
+      "1685a51a-be0a-4480-a0ef-a2b6e9913210",
+      "5ad90d71-ce68-4583-9c3a-03dfe9475a2e"
     ],
     "comparisons": [
       {
@@ -1564,12 +1564,12 @@
       "时间为源数据原始时间，金额单位未标注。",
       "spec:6ed578780bef79b4660ba9ac441fce13d397459382fa493c7d22bbe8f940c6c8"
     ],
-    "createdAt": "2026-10-25T05:26:19.141Z",
-    "durationMs": 7056,
+    "createdAt": "2026-10-25T22:00:57.095Z",
+    "durationMs": 5206,
     "truncated": false
   },
   "device": {
-    "id": "ev-dcabdc8e-8fdb-4f7c-a2fa-11f99d6bc2fa",
+    "id": "ev-f6a16d18-ee39-4dd5-b58a-9ce7c755092c",
     "datasetVersion": "4c26d29934370408",
     "metricVersion": "procrastinate-v1",
     "spec": {
@@ -1608,8 +1608,8 @@
       "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,u.device AS device, '__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen,u.device),\nuser_agg AS (SELECT device, segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY device, segment),\nsession_agg AS (SELECT u.device AS device, '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.device),\ncost_agg AS (SELECT CAST(NULL AS VARCHAR(100)) AS device, '__all' AS segment,CAST(NULL AS BIGINT) AS spend_amount WHERE 1=0),\nkeys AS (SELECT device, segment FROM user_agg UNION SELECT device, segment FROM session_agg UNION SELECT device, segment FROM cost_agg) SELECT k.device, k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.device=u.device AND k.segment=u.segment LEFT JOIN session_agg s ON k.device=s.device AND k.segment=s.segment LEFT JOIN cost_agg c ON k.device=c.device AND k.segment=c.segment ORDER BY k.device, k.segment LIMIT 201"
     ],
     "queryIds": [
-      "db3269c3-7c7d-4247-ba12-ff6887e6c689",
-      "88f6f35c-4c3c-47f8-afca-8845999d9a81"
+      "96d9683f-6655-4763-b5dc-919b35f4c5bf",
+      "b57957bb-9e76-4306-8bec-87f9667fad52"
     ],
     "comparisons": [
       {
@@ -1901,12 +1901,12 @@
       "时间为源数据原始时间，金额单位未标注。",
       "spec:d1e6853fcd4bcb5b802dc54c019e4be31cd9fea98c3ef741bf113f4837af1891"
     ],
-    "createdAt": "2026-10-25T05:26:26.430Z",
-    "durationMs": 7288,
+    "createdAt": "2026-10-25T22:01:02.617Z",
+    "durationMs": 5521,
     "truncated": false
   },
   "calendar": {
-    "id": "ev-46a9049f-a459-48bf-85fd-3786c9c14767",
+    "id": "ev-b0aa2772-aa22-472c-ac58-9e86d5d85263",
     "datasetVersion": "4c26d29934370408",
     "metricVersion": "procrastinate-v1",
     "spec": {
@@ -1945,8 +1945,8 @@
       "WITH activity AS (SELECT user_id FROM storewhy.visits WHERE started_at >= CAST('2019-07-01' AS TIMESTAMP) AND started_at < CAST('2019-08-01' AS TIMESTAMP) UNION SELECT user_id FROM storewhy.purchases WHERE purchased_at >= CAST('2019-07-01' AS TIMESTAMP) AND purchased_at < CAST('2019-08-01' AS TIMESTAMP)),\npopulation AS (SELECT u.* FROM storewhy.profiles u JOIN activity a ON a.user_id=u.user_id WHERE 1=1 ),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= CAST('2019-07-01' AS TIMESTAMP) AND p.purchased_at < CAST('2019-08-01' AS TIMESTAMP) GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= CAST('2019-07-01' AS TIMESTAMP) AND v.started_at < CAST('2019-08-01' AS TIMESTAMP) ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201"
     ],
     "queryIds": [
-      "bab90d69-ee64-4113-b8da-d07b0b47760e",
-      "7e884214-171d-4567-aff4-030c29900a41"
+      "7625e11d-8661-46a0-9056-9fd2710423ca",
+      "85429c6b-4ffb-4bf0-b807-a9a121c5de7b"
     ],
     "comparisons": [
       {
@@ -2056,12 +2056,12 @@
       "时间为源数据原始时间，金额单位未标注。",
       "spec:7374188ef0ed949c7d39f0b278fd99884890044b7fa132b4f8b96d8b29d79fb2"
     ],
-    "createdAt": "2026-10-25T05:26:34.596Z",
-    "durationMs": 8165,
+    "createdAt": "2026-10-25T22:01:12.727Z",
+    "durationMs": 10109,
     "truncated": false
   },
   "immature": {
-    "id": "ev-44706e07-bcdb-476e-9b83-5b38f7e92ead",
+    "id": "ev-ad849de1-7382-4543-ad77-4e03f2338630",
     "datasetVersion": "4c26d29934370408",
     "metricVersion": "procrastinate-v1",
     "spec": {
@@ -2097,8 +2097,8 @@
       "SELECT COUNT(*) AS n FROM storewhy.profiles u WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-10-18' AS TIMESTAMP) AND u.first_seen >= CAST('2019-10-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-11-01' AS TIMESTAMP)"
     ],
     "queryIds": [
-      "ff84a2df-aecd-4a64-9e72-2d10466845f9",
-      "86592ad1-3c83-4a18-bf5a-34c9aa6a29eb"
+      "2f352cea-b5d4-4acd-9eca-1b4e98696a68",
+      "4a936639-a674-4c45-9ec2-bea5a64225f6"
     ],
     "comparisons": [],
     "backend": "zetaris",
@@ -2144,12 +2144,12 @@
       "已排除随访不足用户，并将费用裁剪到相同获客日期。",
       "spec:2242cc8abc960798d51fa2c378d1f9f54fab199efc4a1b93adbedc4e8ba63bb5"
     ],
-    "createdAt": "2026-10-25T05:26:38.384Z",
-    "durationMs": 3788,
+    "createdAt": "2026-10-25T22:01:18.364Z",
+    "durationMs": 5636,
     "truncated": false
   },
   "trend": {
-    "id": "ev-0b6421f3-08bb-4f0e-87d3-0e4e202555fa",
+    "id": "ev-83389254-8b29-45fa-859e-1648135b6507",
     "datasetVersion": "4c26d29934370408",
     "metricVersion": "procrastinate-v1",
     "spec": {
@@ -2189,8 +2189,8 @@
       "WITH activity AS (SELECT CAST(CAST(date_trunc('month',started_at) AS DATE) AS VARCHAR(10)) AS bucket,user_id FROM storewhy.visits WHERE started_at >= CAST('2019-07-01' AS TIMESTAMP) AND started_at < CAST('2019-08-01' AS TIMESTAMP) UNION SELECT CAST(CAST(date_trunc('month',purchased_at) AS DATE) AS VARCHAR(10)) AS bucket,user_id FROM storewhy.purchases WHERE purchased_at >= CAST('2019-07-01' AS TIMESTAMP) AND purchased_at < CAST('2019-08-01' AS TIMESTAMP)),\npurchase_user AS (SELECT CAST(CAST(date_trunc('month',p.purchased_at) AS DATE) AS VARCHAR(10)) AS bucket,p.user_id,COUNT(*) AS n_purchases,SUM(p.amount) AS revenue_amount,SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END) AS first_amount,SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM storewhy.purchase_facts p JOIN storewhy.profiles u ON p.user_id=u.user_id WHERE p.purchased_at >= CAST('2019-07-01' AS TIMESTAMP) AND p.purchased_at < CAST('2019-08-01' AS TIMESTAMP) AND 1=1 GROUP BY CAST(CAST(date_trunc('month',p.purchased_at) AS DATE) AS VARCHAR(10)),p.user_id),\nuser_agg AS (SELECT a.bucket,COUNT(*) AS n_users,SUM(CASE WHEN u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP) AND CAST(CAST(date_trunc('month',u.first_seen) AS DATE) AS VARCHAR(10))=a.bucket THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN p.n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN p.n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,COALESCE(SUM(p.n_purchases),0) AS n_purchases,COALESCE(SUM(p.revenue_amount),0) AS revenue_amount,COALESCE(SUM(p.first_amount),0) AS first_amount,COALESCE(SUM(p.repeat_amount),0) AS repeat_amount,AVG(p.first_hours) AS first_hours FROM activity a JOIN storewhy.profiles u ON a.user_id=u.user_id LEFT JOIN purchase_user p ON a.user_id=p.user_id AND a.bucket=p.bucket WHERE 1=1 GROUP BY a.bucket),\nsession_agg AS (SELECT CAST(CAST(date_trunc('month',v.started_at) AS DATE) AS VARCHAR(10)) AS bucket,COUNT(*) AS n_sessions FROM storewhy.visits v JOIN storewhy.profiles u ON v.user_id=u.user_id WHERE v.started_at >= CAST('2019-07-01' AS TIMESTAMP) AND v.started_at < CAST('2019-08-01' AS TIMESTAMP) AND 1=1 GROUP BY CAST(CAST(date_trunc('month',v.started_at) AS DATE) AS VARCHAR(10))),\ncost_agg AS (SELECT CAST(CAST(date_trunc('month',c.cost_date) AS DATE) AS VARCHAR(10)) AS bucket,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) GROUP BY CAST(CAST(date_trunc('month',c.cost_date) AS DATE) AS VARCHAR(10))),\nkeys AS (SELECT bucket FROM user_agg UNION SELECT bucket FROM session_agg UNION SELECT bucket FROM cost_agg) SELECT k.bucket,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.bucket=u.bucket LEFT JOIN session_agg s ON k.bucket=s.bucket LEFT JOIN cost_agg c ON k.bucket=c.bucket ORDER BY k.bucket LIMIT 201"
     ],
     "queryIds": [
-      "92a2a8cd-10ed-43c3-a47e-483735e23b10",
-      "2ca0785c-a569-44f9-afc2-d2dd3c9486a9"
+      "3dcaadff-7f87-4d98-8b7e-279d9fe5eca8",
+      "b3974d4a-4c58-4364-a4c5-af5fdc44677c"
     ],
     "comparisons": [],
     "backend": "zetaris",
@@ -2253,8 +2253,8 @@
       "时间为源数据原始时间，金额单位未标注。",
       "spec:7cb068d2019c02a9370125db69341e78b57b2e392b523a0df652a81e38f0f21d"
     ],
-    "createdAt": "2026-10-25T05:26:52.557Z",
-    "durationMs": 14171,
+    "createdAt": "2026-10-25T22:01:32.911Z",
+    "durationMs": 14546,
     "truncated": false
   }
 }

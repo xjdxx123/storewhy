@@ -8,10 +8,11 @@ import {
   type Fact,
   type ContextPatch,
   type InvestigationContext,
+  type ExpectedContext,
 } from "@storewhy/contracts";
 import { type ModelGateway } from "../integrations/nightshift.ts";
 import { Analytics, specKey } from "../analytics/service.ts";
-import { catalog, LABELS } from "../analytics/catalog.ts";
+import { catalog, LABELS, segmentLabel } from "../analytics/catalog.ts";
 import { validateSpec } from "../analytics/compiler.ts";
 import { DiskStore, initialContext, patchSpec } from "../context/store.ts";
 import { MemoryManager } from "../memory/manager.ts";
@@ -27,13 +28,14 @@ import {
   observationsFor,
   validateSelection,
 } from "../analytics/observations.ts";
-import { queryFindings } from "../analytics/report.ts";
+import { presentAnswer } from "../analytics/report.ts";
 import { chartsFor } from "../analytics/charts.ts";
 import {
   explicitConstraints,
   isScopeOnly,
   protectScopePatch,
   needsDateClarification,
+  isWhyQuestion,
 } from "../context/constraints.ts";
 const terminal = (s: Run["status"]) => s !== "queued" && s !== "running";
 export function factsFor(evidence: Evidence[]): Fact[] {
@@ -45,7 +47,7 @@ export function factsFor(evidence: Evidence[]): Fact[] {
         rowIndex: ri,
         metric: metric as Fact["metric"],
         value: value ?? null,
-        label: `${row.period}${row.bucket ? " / " + row.bucket : ""} / ${Object.values(row.dimensions).join(" / ") || "整体"} / ${e.spec.mode === "cohort" ? e.spec.windowDays + "天" : "自然时期"} / ${LABELS[metric as Fact["metric"]]}`,
+        label: `${row.period}${row.bucket ? " / " + row.bucket : ""} / ${segmentLabel(row.dimensions, e.spec.filters)} / ${e.spec.mode === "cohort" ? e.spec.windowDays + "天" : "自然时期"} / ${LABELS[metric as Fact["metric"]]}`,
       })),
     ),
   );
@@ -83,6 +85,8 @@ export class Engine {
       message: string;
       patch?: ContextPatch;
       newInvestigation?: boolean;
+      expectedContext?: ExpectedContext;
+      taskKind?: "query" | "why" | "followup";
     },
   ): Run {
     if (this.active.has(conversationId))
@@ -94,6 +98,21 @@ export class Engine {
     if (this.active.size >= 2)
       throw new AppError("CAPACITY", "当前已有两个调查运行，请稍后重试", 429);
     const c = this.store.get<Conversation>("conversations", conversationId);
+    if (input.expectedContext) {
+      const expected = input.expectedContext;
+      if (
+        Object.entries(expected).some(
+          ([key, value]) =>
+            c.context[key as keyof InvestigationContext] !== value,
+        ) ||
+        expected.datasetVersion !== this.analytics.datasetVersion
+      )
+        throw new AppError(
+          "STALE_CONTEXT",
+          "分析条件已更新，请使用最新回答中的推荐追问。",
+          409,
+        );
+    }
     const id = randomUUID();
     const run: Run = {
       id,
@@ -172,6 +191,8 @@ export class Engine {
       message: string;
       patch?: ContextPatch;
       newInvestigation?: boolean;
+      expectedContext?: ExpectedContext;
+      taskKind?: "query" | "why" | "followup";
     },
     signal: AbortSignal,
   ) {
@@ -211,7 +232,7 @@ export class Engine {
         return;
       }
       const intent = input.patch
-        ? { kind: "followup" as const, patch: input.patch }
+        ? { kind: input.taskKind ?? ("followup" as const), patch: input.patch }
         : await this.model.structured(
             "investigator.intent",
             intentSchema,
@@ -233,11 +254,17 @@ export class Engine {
           );
       if (
         intent.kind === "query" &&
+        !input.taskKind &&
         c.context.lastQuestion &&
         isScopeOnly(input.message) &&
         !input.newInvestigation
       )
         intent.kind = "followup";
+      if (
+        (intent.kind === "query" || intent.kind === "followup") &&
+        isWhyQuestion(input.message)
+      )
+        intent.kind = "why";
       if (intent.kind === "reset") {
         c.context = initialContext(
           c.id,
@@ -346,18 +373,25 @@ export class Engine {
         this.event(run, "clarification", run.message);
         return;
       }
+      const history = c.runIds
+        .slice(-11)
+        .filter((id) => id !== run.id)
+        .map((id) => this.store.get<Run>("runs", id))
+        .filter(
+          (prior) =>
+            prior.investigationId === run.investigationId &&
+            terminal(prior.status),
+        )
+        .flatMap((prior) => prior.evidenceIds)
+        .map((id) => this.store.get<Evidence>("evidence", id));
       if (taskKind === "query") {
-        run.answer = {
-          summary: "已按当前范围完成统计，具体数字与口径见事实和证据。",
+        run.answer = presentAnswer({
+          context: run.context,
+          evidence,
           facts: factsFor(evidence),
-          findings: queryFindings(evidence, factsFor(evidence)),
-          checkedExplanations: [],
-          limitations: catalog(
-            this.analytics.datasetVersion,
-            this.analytics.backend.kind,
-          ).limitations,
-          nextSteps: [],
-        };
+          ready: true,
+          history,
+        });
         run.status = "completed";
       } else {
         let lastDraft: z.infer<typeof draftSchema> | undefined;
@@ -390,7 +424,7 @@ export class Engine {
               {
                 role: "system",
                 content:
-                  "你是 Investigator。从 observations 选择最能解释用户问题的观测ID，并选择待检验的 hypothesis。数字与事实句由系统按所选证据生成，你不能重写数字或发明证据。如果已执行补查，必须选取最新补查中的相关观测，优先展示新增拆分的费用/收入关联，不能只重复最初的整体结果。若现有证据不能区分解释，提出 suggestedQuery，只能改metrics/groupBy/filters，不能扩大用户筛选。已有渠道拆分不能重复。收入与费用的变化只能解释观测构成，不能证明广告因果增量。根据 reviewFeedback 改选证据或补查。",
+                  "你是 Investigator。从 observations 选择最能解释用户问题的观测ID，并选择待检验的 hypothesis。headlineObservationId 必须是 observationIds 内最直接回答问题的一条，优先选择具体渠道或人群的关键变化；不要用审查状态充当结论。数字与事实句由系统按所选证据生成，你不能重写数字或发明证据。如果已执行补查，必须选取最新补查中的相关观测，优先展示新增拆分的费用/收入关联，不能只重复最初的整体结果。若现有证据不能区分解释，提出 suggestedQuery，只能改metrics/groupBy/filters，不能扩大用户筛选。已有渠道拆分不能重复。收入与费用的变化只能解释观测构成，不能证明广告因果增量。根据 reviewFeedback 改选证据或补查。",
               },
               {
                 role: "user",
@@ -410,6 +444,15 @@ export class Engine {
           );
           try {
             validateSelection(draft.observationIds, observations);
+            if (
+              draft.headlineObservationId &&
+              !draft.observationIds.includes(draft.headlineObservationId)
+            )
+              throw new AppError(
+                "UNBOUND_HEADLINE",
+                "结论必须引用已选择的观测。",
+                503,
+              );
             if (evidence.length > 1) {
               const newest = observations.filter(
                 (o) => o.evidenceId === evidence.at(-1)!.id,
@@ -520,34 +563,15 @@ export class Engine {
           lastDraft.observationIds,
           observationsFor(evidence, allFacts),
         );
-        run.answer = {
-          summary: ready
-            ? "在当前范围与观察口径下，以下观测变化及其结构贡献已通过证据审查。"
-            : "已确认以下观测变化；进一步解释尚未完全通过审查。",
+        run.answer = presentAnswer({
+          context: run.context,
+          evidence,
           facts: allFacts,
-          findings: selected.map(({ text, factIds }) => ({ text, factIds })),
-          checkedExplanations: [
-            ...new Set(
-              evidence.map((e) =>
-                e.spec.groupBy.length
-                  ? "已检查 " + e.spec.groupBy.join(" / ") + " 拆分。"
-                  : "已检查整体指标与比较时期。",
-              ),
-            ),
-          ],
-          limitations: [
-            ...(!ready ? ["调查达到当前预算或仍有未解决的证据缺口。"] : []),
-            ...catalog(
-              this.analytics.datasetVersion,
-              this.analytics.backend.kind,
-            ).limitations,
-          ],
-          nextSteps: ready
-            ? [
-                "可继续调整渠道、日期、指标或观察窗口核查；因果判断需要额外实验或触点数据。",
-              ]
-            : ["请缩小问题或补充缺失数据；当前证据不能作为因果结论。"],
-        };
+          selected,
+          headlineObservationId: lastDraft.headlineObservationId,
+          history,
+          ready,
+        });
         run.status = ready ? "completed" : "limited";
       }
       if (run.answer) {

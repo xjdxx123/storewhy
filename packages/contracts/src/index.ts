@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CONTRACT_VERSION = "1.1.0";
+export const CONTRACT_VERSION = "1.2.0";
 export const METRIC_VERSION = "procrastinate-v1";
 export const metricSchema = z.enum([
   "spend",
@@ -77,11 +77,36 @@ export const contextPatchSchema = z
   })
   .strict();
 export type ContextPatch = z.infer<typeof contextPatchSchema>;
+export const expectedContextSchema = z
+  .object({
+    conversationId: z.string().min(1),
+    investigationId: z.string().min(1),
+    datasetVersion: z.string().min(1),
+    metricVersion: z.string().min(1),
+    revision: z.number().int().nonnegative(),
+  })
+  .strict();
+export type ExpectedContext = z.infer<typeof expectedContextSchema>;
+export const followupActionSchema = z
+  .object({
+    id: z.string().min(1),
+    label: z.string().min(1),
+    message: z.string().min(1).max(4000),
+    reason: z.string().min(1),
+    taskKind: z.enum(["query", "why", "followup"]),
+    patch: analysisSpecSchema,
+    basedOn: expectedContextSchema,
+    evidenceIds: z.array(z.string().min(1)).min(1),
+  })
+  .strict();
+export type FollowupAction = z.infer<typeof followupActionSchema>;
 export const messageSchema = z
   .object({
     message: z.string().trim().min(1).max(4000),
     patch: contextPatchSchema.optional(),
     newInvestigation: z.boolean().default(false),
+    expectedContext: expectedContextSchema.optional(),
+    taskKind: z.enum(["query", "why", "followup"]).optional(),
   })
   .strict();
 export type RunStatus =
@@ -241,6 +266,9 @@ export interface Finding {
   factIds: string[];
 }
 export interface Answer {
+  conclusion?: Finding;
+  keyEvidence?: Finding[];
+  followups?: FollowupAction[];
   charts?: Chart[];
   chartNotes?: string[];
   summary: string;

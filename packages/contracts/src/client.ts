@@ -1,5 +1,7 @@
 import type {
   AnalysisSpec,
+  ExpectedContext,
+  FollowupAction,
   ChartResponse,
   DataCatalog,
   IntegrationStatus,
@@ -39,12 +41,24 @@ export class StoreWhyClient {
   send(
     id: string,
     message: string,
-    options: { patch?: ContextPatch; newInvestigation?: boolean } = {},
+    options: {
+      patch?: ContextPatch;
+      newInvestigation?: boolean;
+      expectedContext?: ExpectedContext;
+      taskKind?: "query" | "why" | "followup";
+    } = {},
   ) {
     return this.request<Run>(
       "/conversations/" + encodeURIComponent(id) + "/messages",
       { message, ...options },
     );
+  }
+  followup(action: FollowupAction) {
+    return this.send(action.basedOn.conversationId, action.message, {
+      patch: action.patch,
+      expectedContext: action.basedOn,
+      taskKind: action.taskKind,
+    });
   }
   run(id: string) {
     return this.request<Run>("/runs/" + encodeURIComponent(id));

@@ -1,4 +1,9 @@
-import { metricSchema, type Metric } from "@storewhy/contracts";
+import {
+  metricSchema,
+  type Metric,
+  type Dimension,
+  type AnalysisSpec,
+} from "@storewhy/contracts";
 export const CHANNELS = [
   "organic",
   "TipTop",
@@ -97,4 +102,19 @@ export function catalog(datasetVersion: string, backend: string) {
     ],
     dateEndIsExclusive: true,
   };
+}
+
+export function segmentLabel(
+  dimensions: Partial<Record<Dimension, string>>,
+  filters: AnalysisSpec["filters"],
+) {
+  const labels = Object.values(dimensions);
+  for (const [dimension, key] of [
+    ["channel", "channels"],
+    ["device", "devices"],
+    ["region", "regions"],
+  ] as const)
+    if (!dimensions[dimension] && filters[key].length)
+      labels.push(filters[key].join("、"));
+  return labels.join(" / ") || "整体";
 }

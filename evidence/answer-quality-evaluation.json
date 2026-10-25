@@ -1,0 +1,6067 @@
+{
+  "at": "2026-10-25T22:11:01.158Z",
+  "kind": "recorded_live_answer_quality",
+  "baseUrl": "http://127.0.0.1:3122",
+  "total": 6,
+  "passed": 6,
+  "records": [
+    {
+      "name": "main-why",
+      "pass": true,
+      "runId": "556f992e-73af-4cc6-a9f0-fddcec85460e",
+      "status": "completed",
+      "durationMs": 51281,
+      "question": "为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？",
+      "context": {
+        "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+        "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 1,
+        "spec": {
+          "timeGrain": null,
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [],
+          "metrics": [
+            "spend",
+            "new_users",
+            "payers",
+            "revenue",
+            "payer_rate",
+            "revenue_per_payer",
+            "cost_per_new_user",
+            "revenue_to_spend"
+          ]
+        },
+        "evidenceIds": [
+          "ev-1adf1007-089e-4c63-b909-002ed8a6fe77",
+          "ev-b055f442-9929-4094-b678-fac9e49d53f1"
+        ],
+        "lastQuestion": "为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？",
+        "taskKind": "why",
+        "objective": "为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？"
+      },
+      "answer": {
+        "summary": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加1734.6，收入减少600.84。费用增加没有伴随同口径收入增加。",
+        "conclusion": {
+          "text": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加1734.6，收入减少600.84。费用增加没有伴随同口径收入增加。",
+          "factIds": [
+            "f-1-6-spend",
+            "f-1-16-spend",
+            "f-1-6-revenue",
+            "f-1-16-revenue"
+          ]
+        },
+        "keyEvidence": [
+          {
+            "text": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加1734.6，收入减少600.84。费用增加没有伴随同口径收入增加。",
+            "factIds": [
+              "f-1-6-spend",
+              "f-1-16-spend",
+              "f-1-6-revenue",
+              "f-1-16-revenue"
+            ]
+          },
+          {
+            "text": "2019-07对比2019-06，首访后14天的记录渠道费用：TipTop增加1734.6，其余所列渠道合计减少377.59，所列渠道合计增加1357.01。",
+            "factIds": [
+              "f-1-0-spend",
+              "f-1-1-spend",
+              "f-1-2-spend",
+              "f-1-3-spend",
+              "f-1-4-spend",
+              "f-1-5-spend",
+              "f-1-6-spend",
+              "f-1-7-spend",
+              "f-1-8-spend",
+              "f-1-9-spend",
+              "f-1-10-spend",
+              "f-1-11-spend",
+              "f-1-12-spend",
+              "f-1-13-spend",
+              "f-1-14-spend",
+              "f-1-15-spend",
+              "f-1-16-spend",
+              "f-1-17-spend",
+              "f-1-18-spend",
+              "f-1-19-spend"
+            ]
+          },
+          {
+            "text": "2019-07对比2019-06，首访后14天的收入：TipTop减少600.84，其余所列渠道合计增加643.37，所列渠道合计增加42.53。",
+            "factIds": [
+              "f-1-0-revenue",
+              "f-1-1-revenue",
+              "f-1-2-revenue",
+              "f-1-3-revenue",
+              "f-1-4-revenue",
+              "f-1-5-revenue",
+              "f-1-6-revenue",
+              "f-1-7-revenue",
+              "f-1-8-revenue",
+              "f-1-9-revenue",
+              "f-1-10-revenue",
+              "f-1-11-revenue",
+              "f-1-12-revenue",
+              "f-1-13-revenue",
+              "f-1-14-revenue",
+              "f-1-15-revenue",
+              "f-1-16-revenue",
+              "f-1-17-revenue",
+              "f-1-18-revenue",
+              "f-1-19-revenue"
+            ]
+          }
+        ],
+        "followups": [
+          {
+            "id": "focus-channel",
+            "label": "核查 TipTop 的付费表现",
+            "message": "只看TipTop，进一步比较购买用户比例和每位购买用户收入？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
+            "reason": "该渠道出现在结论证据中，可继续核查其付费表现。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [
+                  "TipTop"
+                ],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "payer_rate",
+                "revenue_per_payer",
+                "users",
+                "payers",
+                "revenue",
+                "spend",
+                "new_users",
+                "cost_per_new_user",
+                "revenue_to_spend"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+              "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-1adf1007-089e-4c63-b909-002ed8a6fe77",
+              "ev-b055f442-9929-4094-b678-fac9e49d53f1"
+            ]
+          },
+          {
+            "id": "purchase-composition",
+            "label": "拆分首次与后续购买收入",
+            "message": "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户。",
+            "reason": "尚未在当前范围完成首次与后续购买收入的拆分。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "first_purchase_revenue",
+                "repeat_purchase_revenue",
+                "revenue",
+                "repeat_payer_rate",
+                "spend",
+                "new_users",
+                "payers",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+              "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-1adf1007-089e-4c63-b909-002ed8a6fe77",
+              "ev-b055f442-9929-4094-b678-fac9e49d53f1"
+            ]
+          },
+          {
+            "id": "compare-window",
+            "label": "改用首访后 7 天核查",
+            "message": "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户。",
+            "reason": "用另一种完整观察窗口检验结论是否依赖观察时长。",
+            "taskKind": "followup",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 7,
+              "audience": "paid",
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "spend",
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+              "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-1adf1007-089e-4c63-b909-002ed8a6fe77",
+              "ev-b055f442-9929-4094-b678-fac9e49d53f1"
+            ]
+          }
+        ],
+        "facts": [
+          {
+            "id": "f-1-0-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 0,
+            "metric": "spend",
+            "value": 538.65,
+            "label": "2019-06 / AdNonSense / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-0-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 0,
+            "metric": "revenue",
+            "value": 434.17,
+            "label": "2019-06 / AdNonSense / 14天 / 收入"
+          },
+          {
+            "id": "f-1-1-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 1,
+            "metric": "spend",
+            "value": 5501.1,
+            "label": "2019-06 / FaceBoom / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-1-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 1,
+            "metric": "revenue",
+            "value": 3830.09,
+            "label": "2019-06 / FaceBoom / 14天 / 收入"
+          },
+          {
+            "id": "f-1-2-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 2,
+            "metric": "spend",
+            "value": 314.58,
+            "label": "2019-06 / LeapBob / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-2-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 2,
+            "metric": "revenue",
+            "value": 669.77,
+            "label": "2019-06 / LeapBob / 14天 / 收入"
+          },
+          {
+            "id": "f-1-3-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 3,
+            "metric": "spend",
+            "value": 138,
+            "label": "2019-06 / MediaTornado / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-3-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 3,
+            "metric": "revenue",
+            "value": 319.42,
+            "label": "2019-06 / MediaTornado / 14天 / 收入"
+          },
+          {
+            "id": "f-1-4-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 4,
+            "metric": "spend",
+            "value": 370,
+            "label": "2019-06 / OppleCreativeMedia / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-4-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 4,
+            "metric": "revenue",
+            "value": 606.89,
+            "label": "2019-06 / OppleCreativeMedia / 14天 / 收入"
+          },
+          {
+            "id": "f-1-5-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 5,
+            "metric": "spend",
+            "value": 325.72,
+            "label": "2019-06 / RocketSuperAds / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-5-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 5,
+            "metric": "revenue",
+            "value": 521.06,
+            "label": "2019-06 / RocketSuperAds / 14天 / 收入"
+          },
+          {
+            "id": "f-1-6-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 6,
+            "metric": "spend",
+            "value": 6675.6,
+            "label": "2019-06 / TipTop / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-6-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 6,
+            "metric": "revenue",
+            "value": 5133.3,
+            "label": "2019-06 / TipTop / 14天 / 收入"
+          },
+          {
+            "id": "f-1-7-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 7,
+            "metric": "spend",
+            "value": 921,
+            "label": "2019-06 / WahooNetBanner / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-7-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 7,
+            "metric": "revenue",
+            "value": 1411.23,
+            "label": "2019-06 / WahooNetBanner / 14天 / 收入"
+          },
+          {
+            "id": "f-1-8-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 8,
+            "metric": "spend",
+            "value": 106.2,
+            "label": "2019-06 / YRabbit / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-8-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 8,
+            "metric": "revenue",
+            "value": 339.32,
+            "label": "2019-06 / YRabbit / 14天 / 收入"
+          },
+          {
+            "id": "f-1-9-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 9,
+            "metric": "spend",
+            "value": 199.2,
+            "label": "2019-06 / lambdaMediaAds / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-9-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 9,
+            "metric": "revenue",
+            "value": 380.34,
+            "label": "2019-06 / lambdaMediaAds / 14天 / 收入"
+          },
+          {
+            "id": "f-1-10-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 10,
+            "metric": "spend",
+            "value": 504,
+            "label": "2019-07 / AdNonSense / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-10-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 10,
+            "metric": "revenue",
+            "value": 430.23,
+            "label": "2019-07 / AdNonSense / 14天 / 收入"
+          },
+          {
+            "id": "f-1-11-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 11,
+            "metric": "spend",
+            "value": 5294.3,
+            "label": "2019-07 / FaceBoom / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-11-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 11,
+            "metric": "revenue",
+            "value": 4369.51,
+            "label": "2019-07 / FaceBoom / 14天 / 收入"
+          },
+          {
+            "id": "f-1-12-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 12,
+            "metric": "spend",
+            "value": 313.53,
+            "label": "2019-07 / LeapBob / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-12-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 12,
+            "metric": "revenue",
+            "value": 661.69,
+            "label": "2019-07 / LeapBob / 14天 / 收入"
+          },
+          {
+            "id": "f-1-13-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 13,
+            "metric": "spend",
+            "value": 138.48,
+            "label": "2019-07 / MediaTornado / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-13-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 13,
+            "metric": "revenue",
+            "value": 295.42,
+            "label": "2019-07 / MediaTornado / 14天 / 收入"
+          },
+          {
+            "id": "f-1-14-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 14,
+            "metric": "spend",
+            "value": 366.5,
+            "label": "2019-07 / OppleCreativeMedia / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-14-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 14,
+            "metric": "revenue",
+            "value": 486.03,
+            "label": "2019-07 / OppleCreativeMedia / 14天 / 收入"
+          },
+          {
+            "id": "f-1-15-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 15,
+            "metric": "spend",
+            "value": 252.07,
+            "label": "2019-07 / RocketSuperAds / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-15-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 15,
+            "metric": "revenue",
+            "value": 613.89,
+            "label": "2019-07 / RocketSuperAds / 14天 / 收入"
+          },
+          {
+            "id": "f-1-16-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 16,
+            "metric": "spend",
+            "value": 8410.2,
+            "label": "2019-07 / TipTop / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-16-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 16,
+            "metric": "revenue",
+            "value": 4532.46,
+            "label": "2019-07 / TipTop / 14天 / 收入"
+          },
+          {
+            "id": "f-1-17-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 17,
+            "metric": "spend",
+            "value": 851.4,
+            "label": "2019-07 / WahooNetBanner / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-17-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 17,
+            "metric": "revenue",
+            "value": 1249.79,
+            "label": "2019-07 / WahooNetBanner / 14天 / 收入"
+          },
+          {
+            "id": "f-1-18-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 18,
+            "metric": "spend",
+            "value": 97.38,
+            "label": "2019-07 / YRabbit / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-18-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 18,
+            "metric": "revenue",
+            "value": 445.13,
+            "label": "2019-07 / YRabbit / 14天 / 收入"
+          },
+          {
+            "id": "f-1-19-spend",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 19,
+            "metric": "spend",
+            "value": 219.2,
+            "label": "2019-07 / lambdaMediaAds / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-1-19-revenue",
+            "evidenceId": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+            "rowIndex": 19,
+            "metric": "revenue",
+            "value": 603.97,
+            "label": "2019-07 / lambdaMediaAds / 14天 / 收入"
+          }
+        ],
+        "findings": [
+          {
+            "text": "整体：2019-07对比2019-06，首访后14天口径下，费用增加1357.01，收入增加42.53。收入变化率低于费用变化率。",
+            "factIds": [
+              "f-0-0-spend",
+              "f-0-1-spend",
+              "f-0-0-revenue",
+              "f-0-1-revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加1734.6，收入减少600.84。费用增加没有伴随同口径收入增加。",
+            "factIds": [
+              "f-1-6-spend",
+              "f-1-16-spend",
+              "f-1-6-revenue",
+              "f-1-16-revenue"
+            ]
+          },
+          {
+            "text": "2019-07对比2019-06，首访后14天的记录渠道费用：TipTop增加1734.6，其余所列渠道合计减少377.59，所列渠道合计增加1357.01。",
+            "factIds": [
+              "f-1-0-spend",
+              "f-1-1-spend",
+              "f-1-2-spend",
+              "f-1-3-spend",
+              "f-1-4-spend",
+              "f-1-5-spend",
+              "f-1-6-spend",
+              "f-1-7-spend",
+              "f-1-8-spend",
+              "f-1-9-spend",
+              "f-1-10-spend",
+              "f-1-11-spend",
+              "f-1-12-spend",
+              "f-1-13-spend",
+              "f-1-14-spend",
+              "f-1-15-spend",
+              "f-1-16-spend",
+              "f-1-17-spend",
+              "f-1-18-spend",
+              "f-1-19-spend"
+            ]
+          },
+          {
+            "text": "2019-07对比2019-06，首访后14天的收入：TipTop减少600.84，其余所列渠道合计增加643.37，所列渠道合计增加42.53。",
+            "factIds": [
+              "f-1-0-revenue",
+              "f-1-1-revenue",
+              "f-1-2-revenue",
+              "f-1-3-revenue",
+              "f-1-4-revenue",
+              "f-1-5-revenue",
+              "f-1-6-revenue",
+              "f-1-7-revenue",
+              "f-1-8-revenue",
+              "f-1-9-revenue",
+              "f-1-10-revenue",
+              "f-1-11-revenue",
+              "f-1-12-revenue",
+              "f-1-13-revenue",
+              "f-1-14-revenue",
+              "f-1-15-revenue",
+              "f-1-16-revenue",
+              "f-1-17-revenue",
+              "f-1-18-revenue",
+              "f-1-19-revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 记录渠道费用 从6675.6变为8410.2，差额1734.6，变化率25.98%。",
+            "factIds": [
+              "f-1-6-spend",
+              "f-1-16-spend"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 每位新用户记录费用 从2.077684变为2.650552，差额0.572868，变化率27.57%。",
+            "factIds": [
+              "f-1-6-cost_per_new_user",
+              "f-1-16-cost_per_new_user"
+            ]
+          }
+        ],
+        "checkedExplanations": [
+          "首访后14天，整体已核查：记录渠道费用、首次观测用户数、购买用户数、收入、购买用户比例、每位购买用户收入、每位新用户记录费用、收入与记录费用比。",
+          "首访后14天，按渠道已核查：记录渠道费用、首次观测用户数、购买用户数、收入、购买用户比例、每位购买用户收入、每位新用户记录费用、收入与记录费用比。"
+        ],
+        "limitations": [
+          "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
+          "金额币种与时区未注明，沿用原始时间与样例金额单位",
+          "没有广告曝光、点击、预算、素材或真实广告增量",
+          "没有商品、结账步骤、退款或利润",
+          "费用只有渠道和日期粒度；无法计算设备或国家广告费用",
+          "订单没有 session ID；渠道、设备、国家使用首次观测访问归属",
+          "organic 未提供费用，费用缺失不补零"
+        ],
+        "nextSteps": [
+          "只看TipTop，进一步比较购买用户比例和每位购买用户收入？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
+          "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户。",
+          "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户。"
+        ],
+        "chartNotes": []
+      },
+      "evidence": [
+        {
+          "id": "ev-1adf1007-089e-4c63-b909-002ed8a6fe77",
+          "datasetVersion": "4c26d29934370408",
+          "metricVersion": "procrastinate-v1",
+          "spec": {
+            "timeGrain": null,
+            "mode": "cohort",
+            "periods": [
+              {
+                "label": "2019-06",
+                "start": "2019-06-01",
+                "end": "2019-07-01"
+              },
+              {
+                "label": "2019-07",
+                "start": "2019-07-01",
+                "end": "2019-08-01"
+              }
+            ],
+            "windowDays": 14,
+            "audience": "paid",
+            "filters": {
+              "channels": [],
+              "devices": [],
+              "regions": []
+            },
+            "groupBy": [],
+            "metrics": [
+              "spend",
+              "new_users",
+              "payers",
+              "revenue",
+              "payer_rate",
+              "revenue_per_payer",
+              "cost_per_new_user",
+              "revenue_to_spend"
+            ]
+          },
+          "rows": [
+            {
+              "period": "2019-06",
+              "dimensions": {},
+              "values": {
+                "spend": 15090.05,
+                "new_users": 15315,
+                "payers": 1227,
+                "revenue": 13645.59,
+                "payer_rate": 0.080118,
+                "revenue_per_payer": 11.1211,
+                "cost_per_new_user": 0.985312,
+                "revenue_to_spend": 0.904277
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {},
+              "values": {
+                "spend": 16447.06,
+                "new_users": 14941,
+                "payers": 1195,
+                "revenue": 13688.12,
+                "payer_rate": 0.079981,
+                "revenue_per_payer": 11.454494,
+                "cost_per_new_user": 1.1008,
+                "revenue_to_spend": 0.832253
+              }
+            }
+          ],
+          "comparisons": [
+            {
+              "dimensions": {},
+              "metric": "spend",
+              "baseline": 15090.05,
+              "current": 16447.06,
+              "delta": 1357.01,
+              "relativeChange": 0.089927
+            },
+            {
+              "dimensions": {},
+              "metric": "new_users",
+              "baseline": 15315,
+              "current": 14941,
+              "delta": -374,
+              "relativeChange": -0.024421
+            },
+            {
+              "dimensions": {},
+              "metric": "payers",
+              "baseline": 1227,
+              "current": 1195,
+              "delta": -32,
+              "relativeChange": -0.02608
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue",
+              "baseline": 13645.59,
+              "current": 13688.12,
+              "delta": 42.53,
+              "relativeChange": 0.003117
+            },
+            {
+              "dimensions": {},
+              "metric": "payer_rate",
+              "baseline": 0.080118,
+              "current": 0.079981,
+              "delta": -0.000137,
+              "relativeChange": -0.00171
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue_per_payer",
+              "baseline": 11.1211,
+              "current": 11.454494,
+              "delta": 0.333394,
+              "relativeChange": 0.029979
+            },
+            {
+              "dimensions": {},
+              "metric": "cost_per_new_user",
+              "baseline": 0.985312,
+              "current": 1.1008,
+              "delta": 0.115488,
+              "relativeChange": 0.11721
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue_to_spend",
+              "baseline": 0.904277,
+              "current": 0.832253,
+              "delta": -0.072024,
+              "relativeChange": -0.079648
+            }
+          ],
+          "coverage": [
+            {
+              "period": "2019-06",
+              "requestedStart": "2019-06-01",
+              "requestedEnd": "2019-07-01",
+              "effectiveEnd": "2019-07-01",
+              "excludedUsers": 0,
+              "days": 30
+            },
+            {
+              "period": "2019-07",
+              "requestedStart": "2019-07-01",
+              "requestedEnd": "2019-08-01",
+              "effectiveEnd": "2019-08-01",
+              "excludedUsers": 0,
+              "days": 31
+            }
+          ],
+          "queryIds": [
+            "cbdae34a-90e3-4288-9e2b-ca0530b7dc1e",
+            "66a2f0b5-6eb5-4fa8-a675-b3a46b2361d3"
+          ]
+        },
+        {
+          "id": "ev-b055f442-9929-4094-b678-fac9e49d53f1",
+          "datasetVersion": "4c26d29934370408",
+          "metricVersion": "procrastinate-v1",
+          "spec": {
+            "timeGrain": null,
+            "mode": "cohort",
+            "periods": [
+              {
+                "label": "2019-06",
+                "start": "2019-06-01",
+                "end": "2019-07-01"
+              },
+              {
+                "label": "2019-07",
+                "start": "2019-07-01",
+                "end": "2019-08-01"
+              }
+            ],
+            "windowDays": 14,
+            "audience": "paid",
+            "filters": {
+              "channels": [],
+              "devices": [],
+              "regions": []
+            },
+            "groupBy": [
+              "channel"
+            ],
+            "metrics": [
+              "spend",
+              "new_users",
+              "payers",
+              "revenue",
+              "payer_rate",
+              "revenue_per_payer",
+              "cost_per_new_user",
+              "revenue_to_spend"
+            ]
+          },
+          "rows": [
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "values": {
+                "spend": 538.65,
+                "new_users": 532,
+                "payers": 62,
+                "revenue": 434.17,
+                "payer_rate": 0.116541,
+                "revenue_per_payer": 7.002742,
+                "cost_per_new_user": 1.0125,
+                "revenue_to_spend": 0.806034
+              }
+            },
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "values": {
+                "spend": 5501.1,
+                "new_users": 4926,
+                "payers": 568,
+                "revenue": 3830.09,
+                "payer_rate": 0.115307,
+                "revenue_per_payer": 6.743116,
+                "cost_per_new_user": 1.116748,
+                "revenue_to_spend": 0.696241
+              }
+            },
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "values": {
+                "spend": 314.58,
+                "new_users": 1486,
+                "payers": 40,
+                "revenue": 669.77,
+                "payer_rate": 0.026918,
+                "revenue_per_payer": 16.74425,
+                "cost_per_new_user": 0.211696,
+                "revenue_to_spend": 2.129093
+              }
+            },
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "values": {
+                "spend": 138,
+                "new_users": 632,
+                "payers": 21,
+                "revenue": 319.42,
+                "payer_rate": 0.033228,
+                "revenue_per_payer": 15.210476,
+                "cost_per_new_user": 0.218354,
+                "revenue_to_spend": 2.314638
+              }
+            },
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "values": {
+                "spend": 370,
+                "new_users": 1481,
+                "payers": 39,
+                "revenue": 606.89,
+                "payer_rate": 0.026334,
+                "revenue_per_payer": 15.561282,
+                "cost_per_new_user": 0.249831,
+                "revenue_to_spend": 1.640243
+              }
+            },
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "values": {
+                "spend": 325.72,
+                "new_users": 653,
+                "payers": 40,
+                "revenue": 521.06,
+                "payer_rate": 0.061256,
+                "revenue_per_payer": 13.0265,
+                "cost_per_new_user": 0.498806,
+                "revenue_to_spend": 1.599718
+              }
+            },
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "values": {
+                "spend": 6675.6,
+                "new_users": 3213,
+                "payers": 326,
+                "revenue": 5133.3,
+                "payer_rate": 0.101463,
+                "revenue_per_payer": 15.746319,
+                "cost_per_new_user": 2.077684,
+                "revenue_to_spend": 0.768965
+              }
+            },
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "values": {
+                "spend": 921,
+                "new_users": 1539,
+                "payers": 84,
+                "revenue": 1411.23,
+                "payer_rate": 0.054581,
+                "revenue_per_payer": 16.800357,
+                "cost_per_new_user": 0.598441,
+                "revenue_to_spend": 1.53228
+              }
+            },
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "values": {
+                "spend": 106.2,
+                "new_users": 581,
+                "payers": 24,
+                "revenue": 339.32,
+                "payer_rate": 0.041308,
+                "revenue_per_payer": 14.138333,
+                "cost_per_new_user": 0.182788,
+                "revenue_to_spend": 3.195104
+              }
+            },
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "values": {
+                "spend": 199.2,
+                "new_users": 272,
+                "payers": 23,
+                "revenue": 380.34,
+                "payer_rate": 0.084559,
+                "revenue_per_payer": 16.536522,
+                "cost_per_new_user": 0.732353,
+                "revenue_to_spend": 1.909337
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "values": {
+                "spend": 504,
+                "new_users": 508,
+                "payers": 46,
+                "revenue": 430.23,
+                "payer_rate": 0.090551,
+                "revenue_per_payer": 9.352826,
+                "cost_per_new_user": 0.992126,
+                "revenue_to_spend": 0.853631
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "values": {
+                "spend": 5294.3,
+                "new_users": 4754,
+                "payers": 573,
+                "revenue": 4369.51,
+                "payer_rate": 0.12053,
+                "revenue_per_payer": 7.625672,
+                "cost_per_new_user": 1.113652,
+                "revenue_to_spend": 0.825323
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "values": {
+                "spend": 313.53,
+                "new_users": 1494,
+                "payers": 49,
+                "revenue": 661.69,
+                "payer_rate": 0.032798,
+                "revenue_per_payer": 13.503878,
+                "cost_per_new_user": 0.209859,
+                "revenue_to_spend": 2.110452
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "values": {
+                "spend": 138.48,
+                "new_users": 643,
+                "payers": 22,
+                "revenue": 295.42,
+                "payer_rate": 0.034215,
+                "revenue_per_payer": 13.428182,
+                "cost_per_new_user": 0.215365,
+                "revenue_to_spend": 2.133304
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "values": {
+                "spend": 366.5,
+                "new_users": 1457,
+                "payers": 39,
+                "revenue": 486.03,
+                "payer_rate": 0.026767,
+                "revenue_per_payer": 12.462308,
+                "cost_per_new_user": 0.251544,
+                "revenue_to_spend": 1.326139
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "values": {
+                "spend": 252.07,
+                "new_users": 604,
+                "payers": 46,
+                "revenue": 613.89,
+                "payer_rate": 0.076159,
+                "revenue_per_payer": 13.345435,
+                "cost_per_new_user": 0.417334,
+                "revenue_to_spend": 2.435395
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "values": {
+                "spend": 8410.2,
+                "new_users": 3173,
+                "payers": 291,
+                "revenue": 4532.46,
+                "payer_rate": 0.091711,
+                "revenue_per_payer": 15.575464,
+                "cost_per_new_user": 2.650552,
+                "revenue_to_spend": 0.538924
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "values": {
+                "spend": 851.4,
+                "new_users": 1401,
+                "payers": 69,
+                "revenue": 1249.79,
+                "payer_rate": 0.049251,
+                "revenue_per_payer": 18.112899,
+                "cost_per_new_user": 0.607709,
+                "revenue_to_spend": 1.467923
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "values": {
+                "spend": 97.38,
+                "new_users": 603,
+                "payers": 26,
+                "revenue": 445.13,
+                "payer_rate": 0.043118,
+                "revenue_per_payer": 17.120385,
+                "cost_per_new_user": 0.161493,
+                "revenue_to_spend": 4.571062
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "values": {
+                "spend": 219.2,
+                "new_users": 304,
+                "payers": 34,
+                "revenue": 603.97,
+                "payer_rate": 0.111842,
+                "revenue_per_payer": 17.763824,
+                "cost_per_new_user": 0.721053,
+                "revenue_to_spend": 2.755338
+              }
+            }
+          ],
+          "comparisons": [
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "spend",
+              "baseline": 538.65,
+              "current": 504,
+              "delta": -34.65,
+              "relativeChange": -0.064327
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "new_users",
+              "baseline": 532,
+              "current": 508,
+              "delta": -24,
+              "relativeChange": -0.045113
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "payers",
+              "baseline": 62,
+              "current": 46,
+              "delta": -16,
+              "relativeChange": -0.258065
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "revenue",
+              "baseline": 434.17,
+              "current": 430.23,
+              "delta": -3.94,
+              "relativeChange": -0.009075
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.116541,
+              "current": 0.090551,
+              "delta": -0.02599,
+              "relativeChange": -0.223012
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 7.002742,
+              "current": 9.352826,
+              "delta": 2.350084,
+              "relativeChange": 0.335595
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 1.0125,
+              "current": 0.992126,
+              "delta": -0.020374,
+              "relativeChange": -0.020122
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 0.806034,
+              "current": 0.853631,
+              "delta": 0.047597,
+              "relativeChange": 0.059051
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "spend",
+              "baseline": 5501.1,
+              "current": 5294.3,
+              "delta": -206.8,
+              "relativeChange": -0.037592
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "new_users",
+              "baseline": 4926,
+              "current": 4754,
+              "delta": -172,
+              "relativeChange": -0.034917
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "payers",
+              "baseline": 568,
+              "current": 573,
+              "delta": 5,
+              "relativeChange": 0.008803
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "revenue",
+              "baseline": 3830.09,
+              "current": 4369.51,
+              "delta": 539.42,
+              "relativeChange": 0.140837
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.115307,
+              "current": 0.12053,
+              "delta": 0.005223,
+              "relativeChange": 0.045296
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 6.743116,
+              "current": 7.625672,
+              "delta": 0.882556,
+              "relativeChange": 0.130883
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 1.116748,
+              "current": 1.113652,
+              "delta": -0.003096,
+              "relativeChange": -0.002772
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 0.696241,
+              "current": 0.825323,
+              "delta": 0.129082,
+              "relativeChange": 0.185398
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "spend",
+              "baseline": 314.58,
+              "current": 313.53,
+              "delta": -1.05,
+              "relativeChange": -0.003338
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "new_users",
+              "baseline": 1486,
+              "current": 1494,
+              "delta": 8,
+              "relativeChange": 0.005384
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "payers",
+              "baseline": 40,
+              "current": 49,
+              "delta": 9,
+              "relativeChange": 0.225
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "revenue",
+              "baseline": 669.77,
+              "current": 661.69,
+              "delta": -8.08,
+              "relativeChange": -0.012064
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.026918,
+              "current": 0.032798,
+              "delta": 0.00588,
+              "relativeChange": 0.218441
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 16.74425,
+              "current": 13.503878,
+              "delta": -3.240372,
+              "relativeChange": -0.193521
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.211696,
+              "current": 0.209859,
+              "delta": -0.001837,
+              "relativeChange": -0.008678
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 2.129093,
+              "current": 2.110452,
+              "delta": -0.018641,
+              "relativeChange": -0.008755
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "spend",
+              "baseline": 138,
+              "current": 138.48,
+              "delta": 0.48,
+              "relativeChange": 0.003478
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "new_users",
+              "baseline": 632,
+              "current": 643,
+              "delta": 11,
+              "relativeChange": 0.017405
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "payers",
+              "baseline": 21,
+              "current": 22,
+              "delta": 1,
+              "relativeChange": 0.047619
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "revenue",
+              "baseline": 319.42,
+              "current": 295.42,
+              "delta": -24,
+              "relativeChange": -0.075136
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.033228,
+              "current": 0.034215,
+              "delta": 0.000987,
+              "relativeChange": 0.029704
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 15.210476,
+              "current": 13.428182,
+              "delta": -1.782294,
+              "relativeChange": -0.117175
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.218354,
+              "current": 0.215365,
+              "delta": -0.002989,
+              "relativeChange": -0.013689
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 2.314638,
+              "current": 2.133304,
+              "delta": -0.181334,
+              "relativeChange": -0.078342
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "spend",
+              "baseline": 370,
+              "current": 366.5,
+              "delta": -3.5,
+              "relativeChange": -0.009459
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "new_users",
+              "baseline": 1481,
+              "current": 1457,
+              "delta": -24,
+              "relativeChange": -0.016205
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "payers",
+              "baseline": 39,
+              "current": 39,
+              "delta": 0,
+              "relativeChange": 0
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "revenue",
+              "baseline": 606.89,
+              "current": 486.03,
+              "delta": -120.86,
+              "relativeChange": -0.199146
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.026334,
+              "current": 0.026767,
+              "delta": 0.000433,
+              "relativeChange": 0.016443
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 15.561282,
+              "current": 12.462308,
+              "delta": -3.098974,
+              "relativeChange": -0.199146
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.249831,
+              "current": 0.251544,
+              "delta": 0.001713,
+              "relativeChange": 0.006857
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 1.640243,
+              "current": 1.326139,
+              "delta": -0.314104,
+              "relativeChange": -0.191498
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "spend",
+              "baseline": 325.72,
+              "current": 252.07,
+              "delta": -73.65,
+              "relativeChange": -0.226114
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "new_users",
+              "baseline": 653,
+              "current": 604,
+              "delta": -49,
+              "relativeChange": -0.075038
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "payers",
+              "baseline": 40,
+              "current": 46,
+              "delta": 6,
+              "relativeChange": 0.15
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "revenue",
+              "baseline": 521.06,
+              "current": 613.89,
+              "delta": 92.83,
+              "relativeChange": 0.178156
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.061256,
+              "current": 0.076159,
+              "delta": 0.014903,
+              "relativeChange": 0.24329
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 13.0265,
+              "current": 13.345435,
+              "delta": 0.318935,
+              "relativeChange": 0.024484
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.498806,
+              "current": 0.417334,
+              "delta": -0.081472,
+              "relativeChange": -0.163334
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 1.599718,
+              "current": 2.435395,
+              "delta": 0.835677,
+              "relativeChange": 0.52239
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "spend",
+              "baseline": 6675.6,
+              "current": 8410.2,
+              "delta": 1734.6,
+              "relativeChange": 0.259842
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "new_users",
+              "baseline": 3213,
+              "current": 3173,
+              "delta": -40,
+              "relativeChange": -0.012449
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "payers",
+              "baseline": 326,
+              "current": 291,
+              "delta": -35,
+              "relativeChange": -0.107362
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "revenue",
+              "baseline": 5133.3,
+              "current": 4532.46,
+              "delta": -600.84,
+              "relativeChange": -0.117048
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.101463,
+              "current": 0.091711,
+              "delta": -0.009752,
+              "relativeChange": -0.096114
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 15.746319,
+              "current": 15.575464,
+              "delta": -0.170855,
+              "relativeChange": -0.01085
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 2.077684,
+              "current": 2.650552,
+              "delta": 0.572868,
+              "relativeChange": 0.275724
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 0.768965,
+              "current": 0.538924,
+              "delta": -0.230041,
+              "relativeChange": -0.299157
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "spend",
+              "baseline": 921,
+              "current": 851.4,
+              "delta": -69.6,
+              "relativeChange": -0.07557
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "new_users",
+              "baseline": 1539,
+              "current": 1401,
+              "delta": -138,
+              "relativeChange": -0.089669
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "payers",
+              "baseline": 84,
+              "current": 69,
+              "delta": -15,
+              "relativeChange": -0.178571
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "revenue",
+              "baseline": 1411.23,
+              "current": 1249.79,
+              "delta": -161.44,
+              "relativeChange": -0.114397
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.054581,
+              "current": 0.049251,
+              "delta": -0.00533,
+              "relativeChange": -0.097653
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 16.800357,
+              "current": 18.112899,
+              "delta": 1.312542,
+              "relativeChange": 0.078126
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.598441,
+              "current": 0.607709,
+              "delta": 0.009268,
+              "relativeChange": 0.015487
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 1.53228,
+              "current": 1.467923,
+              "delta": -0.064357,
+              "relativeChange": -0.042001
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "spend",
+              "baseline": 106.2,
+              "current": 97.38,
+              "delta": -8.82,
+              "relativeChange": -0.083051
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "new_users",
+              "baseline": 581,
+              "current": 603,
+              "delta": 22,
+              "relativeChange": 0.037866
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "payers",
+              "baseline": 24,
+              "current": 26,
+              "delta": 2,
+              "relativeChange": 0.083333
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "revenue",
+              "baseline": 339.32,
+              "current": 445.13,
+              "delta": 105.81,
+              "relativeChange": 0.31183
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.041308,
+              "current": 0.043118,
+              "delta": 0.00181,
+              "relativeChange": 0.043817
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 14.138333,
+              "current": 17.120385,
+              "delta": 2.982052,
+              "relativeChange": 0.21092
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.182788,
+              "current": 0.161493,
+              "delta": -0.021295,
+              "relativeChange": -0.116501
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 3.195104,
+              "current": 4.571062,
+              "delta": 1.375958,
+              "relativeChange": 0.430646
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "spend",
+              "baseline": 199.2,
+              "current": 219.2,
+              "delta": 20,
+              "relativeChange": 0.100402
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "new_users",
+              "baseline": 272,
+              "current": 304,
+              "delta": 32,
+              "relativeChange": 0.117647
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "payers",
+              "baseline": 23,
+              "current": 34,
+              "delta": 11,
+              "relativeChange": 0.478261
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "revenue",
+              "baseline": 380.34,
+              "current": 603.97,
+              "delta": 223.63,
+              "relativeChange": 0.587974
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.084559,
+              "current": 0.111842,
+              "delta": 0.027283,
+              "relativeChange": 0.32265
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 16.536522,
+              "current": 17.763824,
+              "delta": 1.227302,
+              "relativeChange": 0.074218
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.732353,
+              "current": 0.721053,
+              "delta": -0.0113,
+              "relativeChange": -0.01543
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 1.909337,
+              "current": 2.755338,
+              "delta": 0.846001,
+              "relativeChange": 0.443086
+            }
+          ],
+          "coverage": [
+            {
+              "period": "2019-06",
+              "requestedStart": "2019-06-01",
+              "requestedEnd": "2019-07-01",
+              "effectiveEnd": "2019-07-01",
+              "excludedUsers": 0,
+              "days": 30
+            },
+            {
+              "period": "2019-07",
+              "requestedStart": "2019-07-01",
+              "requestedEnd": "2019-08-01",
+              "effectiveEnd": "2019-08-01",
+              "excludedUsers": 0,
+              "days": 31
+            }
+          ],
+          "queryIds": [
+            "210c8f0a-c2ab-4c0f-aad7-3eb6eff51e71",
+            "de74565b-5140-4e3d-9099-d73bb94021b9"
+          ]
+        }
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 12342,
+          "receiptId": "rcpt_req_mtaoalzu"
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1558,
+          "receiptId": "rcpt_req_ewt77lws"
+        },
+        {
+          "role": "investigator.explain:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1438,
+          "receiptId": "rcpt_req_xnqbbf92"
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3729,
+          "receiptId": "rcpt_req_gwrwt0w6"
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2747,
+          "receiptId": "rcpt_req_wb3l1o5m"
+        },
+        {
+          "role": "investigator.explain:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 7063,
+          "receiptId": "rcpt_req_r5tgkcqa"
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 7472,
+          "receiptId": "rcpt_req_p0hcihxj"
+        }
+      ]
+    },
+    {
+      "name": "recommended-followup-1",
+      "pass": true,
+      "runId": "bc804034-4a41-4b4f-861c-fc75b29292e0",
+      "status": "completed",
+      "durationMs": 5853,
+      "question": "只看TipTop，进一步比较购买用户比例和每位购买用户收入？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
+      "context": {
+        "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+        "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 2,
+        "spec": {
+          "timeGrain": null,
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [
+              "TipTop"
+            ],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [],
+          "metrics": [
+            "payer_rate",
+            "revenue_per_payer",
+            "users",
+            "payers",
+            "revenue",
+            "spend",
+            "new_users",
+            "cost_per_new_user",
+            "revenue_to_spend"
+          ]
+        },
+        "evidenceIds": [
+          "ev-0002f248-072d-49b5-939f-b86fad6242ad"
+        ],
+        "lastQuestion": "只看TipTop，进一步比较购买用户比例和每位购买用户收入？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
+        "taskKind": "query",
+        "objective": "只看TipTop，进一步比较购买用户比例和每位购买用户收入？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。"
+      },
+      "answer": {
+        "summary": "TipTop：2019-07相较2019-06，首访后14天的 购买用户比例 从10.15%变为9.17%，减少0.98个百分点。",
+        "conclusion": {
+          "text": "TipTop：2019-07相较2019-06，首访后14天的 购买用户比例 从10.15%变为9.17%，减少0.98个百分点。",
+          "factIds": [
+            "f-0-0-payer_rate",
+            "f-0-1-payer_rate"
+          ]
+        },
+        "keyEvidence": [
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 购买用户比例 从10.15%变为9.17%，减少0.98个百分点。",
+            "factIds": [
+              "f-0-0-payer_rate",
+              "f-0-1-payer_rate"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 每位购买用户收入 从15.746319变为15.575464，差额-0.170855，变化率-1.08%。",
+            "factIds": [
+              "f-0-0-revenue_per_payer",
+              "f-0-1-revenue_per_payer"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 用户数 从3213变为3173，差额-40，变化率-1.24%。",
+            "factIds": [
+              "f-0-0-users",
+              "f-0-1-users"
+            ]
+          }
+        ],
+        "followups": [
+          {
+            "id": "purchase-composition",
+            "label": "拆分首次与后续购买收入",
+            "message": "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
+            "reason": "尚未在当前范围完成首次与后续购买收入的拆分。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [
+                  "TipTop"
+                ],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "first_purchase_revenue",
+                "repeat_purchase_revenue",
+                "revenue",
+                "repeat_payer_rate",
+                "payer_rate",
+                "revenue_per_payer",
+                "users",
+                "payers",
+                "spend",
+                "new_users",
+                "cost_per_new_user",
+                "revenue_to_spend"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+              "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 2
+            },
+            "evidenceIds": [
+              "ev-0002f248-072d-49b5-939f-b86fad6242ad"
+            ]
+          },
+          {
+            "id": "compare-window",
+            "label": "改用首访后 7 天核查",
+            "message": "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户；渠道=TipTop。",
+            "reason": "用另一种完整观察窗口检验结论是否依赖观察时长。",
+            "taskKind": "followup",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 7,
+              "audience": "paid",
+              "filters": {
+                "channels": [
+                  "TipTop"
+                ],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "payer_rate",
+                "revenue_per_payer",
+                "users",
+                "payers",
+                "revenue",
+                "spend",
+                "new_users",
+                "cost_per_new_user",
+                "revenue_to_spend"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+              "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 2
+            },
+            "evidenceIds": [
+              "ev-0002f248-072d-49b5-939f-b86fad6242ad"
+            ]
+          },
+          {
+            "id": "calendar-trend",
+            "label": "查看自然月收入趋势",
+            "message": "切换为自然时期，不分组查看按月收入趋势？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；自然时期；付费渠道用户；渠道=TipTop。",
+            "reason": "自然时期趋势回答变化发生在哪个月；口径将明确切换。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": "month",
+              "mode": "calendar",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [
+                  "TipTop"
+                ],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "revenue"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+              "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 2
+            },
+            "evidenceIds": [
+              "ev-0002f248-072d-49b5-939f-b86fad6242ad"
+            ]
+          }
+        ],
+        "facts": [
+          {
+            "id": "f-0-0-payer_rate",
+            "evidenceId": "ev-0002f248-072d-49b5-939f-b86fad6242ad",
+            "rowIndex": 0,
+            "metric": "payer_rate",
+            "value": 0.101463,
+            "label": "2019-06 / TipTop / 14天 / 购买用户比例"
+          },
+          {
+            "id": "f-0-0-revenue_per_payer",
+            "evidenceId": "ev-0002f248-072d-49b5-939f-b86fad6242ad",
+            "rowIndex": 0,
+            "metric": "revenue_per_payer",
+            "value": 15.746319,
+            "label": "2019-06 / TipTop / 14天 / 每位购买用户收入"
+          },
+          {
+            "id": "f-0-0-users",
+            "evidenceId": "ev-0002f248-072d-49b5-939f-b86fad6242ad",
+            "rowIndex": 0,
+            "metric": "users",
+            "value": 3213,
+            "label": "2019-06 / TipTop / 14天 / 用户数"
+          },
+          {
+            "id": "f-0-1-payer_rate",
+            "evidenceId": "ev-0002f248-072d-49b5-939f-b86fad6242ad",
+            "rowIndex": 1,
+            "metric": "payer_rate",
+            "value": 0.091711,
+            "label": "2019-07 / TipTop / 14天 / 购买用户比例"
+          },
+          {
+            "id": "f-0-1-revenue_per_payer",
+            "evidenceId": "ev-0002f248-072d-49b5-939f-b86fad6242ad",
+            "rowIndex": 1,
+            "metric": "revenue_per_payer",
+            "value": 15.575464,
+            "label": "2019-07 / TipTop / 14天 / 每位购买用户收入"
+          },
+          {
+            "id": "f-0-1-users",
+            "evidenceId": "ev-0002f248-072d-49b5-939f-b86fad6242ad",
+            "rowIndex": 1,
+            "metric": "users",
+            "value": 3173,
+            "label": "2019-07 / TipTop / 14天 / 用户数"
+          }
+        ],
+        "findings": [
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 购买用户比例 从10.15%变为9.17%，减少0.98个百分点。",
+            "factIds": [
+              "f-0-0-payer_rate",
+              "f-0-1-payer_rate"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 每位购买用户收入 从15.746319变为15.575464，差额-0.170855，变化率-1.08%。",
+            "factIds": [
+              "f-0-0-revenue_per_payer",
+              "f-0-1-revenue_per_payer"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 用户数 从3213变为3173，差额-40，变化率-1.24%。",
+            "factIds": [
+              "f-0-0-users",
+              "f-0-1-users"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 购买用户数 从326变为291，差额-35，变化率-10.74%。",
+            "factIds": [
+              "f-0-0-payers",
+              "f-0-1-payers"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 收入 从5133.3变为4532.46，差额-600.84，变化率-11.70%。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 记录渠道费用 从6675.6变为8410.2，差额1734.6，变化率25.98%。",
+            "factIds": [
+              "f-0-0-spend",
+              "f-0-1-spend"
+            ]
+          }
+        ],
+        "checkedExplanations": [
+          "首访后14天，整体已核查：购买用户比例、每位购买用户收入、用户数、购买用户数、收入、记录渠道费用、首次观测用户数、每位新用户记录费用、收入与记录费用比。"
+        ],
+        "limitations": [
+          "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
+          "金额币种与时区未注明，沿用原始时间与样例金额单位",
+          "没有广告曝光、点击、预算、素材或真实广告增量",
+          "没有商品、结账步骤、退款或利润",
+          "费用只有渠道和日期粒度；无法计算设备或国家广告费用",
+          "订单没有 session ID；渠道、设备、国家使用首次观测访问归属",
+          "organic 未提供费用，费用缺失不补零"
+        ],
+        "nextSteps": [
+          "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
+          "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户；渠道=TipTop。",
+          "切换为自然时期，不分组查看按月收入趋势？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；自然时期；付费渠道用户；渠道=TipTop。"
+        ],
+        "chartNotes": []
+      },
+      "evidence": [
+        {
+          "id": "ev-0002f248-072d-49b5-939f-b86fad6242ad",
+          "datasetVersion": "4c26d29934370408",
+          "metricVersion": "procrastinate-v1",
+          "spec": {
+            "timeGrain": null,
+            "mode": "cohort",
+            "periods": [
+              {
+                "label": "2019-06",
+                "start": "2019-06-01",
+                "end": "2019-07-01"
+              },
+              {
+                "label": "2019-07",
+                "start": "2019-07-01",
+                "end": "2019-08-01"
+              }
+            ],
+            "windowDays": 14,
+            "audience": "paid",
+            "filters": {
+              "channels": [
+                "TipTop"
+              ],
+              "devices": [],
+              "regions": []
+            },
+            "groupBy": [],
+            "metrics": [
+              "payer_rate",
+              "revenue_per_payer",
+              "users",
+              "payers",
+              "revenue",
+              "spend",
+              "new_users",
+              "cost_per_new_user",
+              "revenue_to_spend"
+            ]
+          },
+          "rows": [
+            {
+              "period": "2019-06",
+              "dimensions": {},
+              "values": {
+                "payer_rate": 0.101463,
+                "revenue_per_payer": 15.746319,
+                "users": 3213,
+                "payers": 326,
+                "revenue": 5133.3,
+                "spend": 6675.6,
+                "new_users": 3213,
+                "cost_per_new_user": 2.077684,
+                "revenue_to_spend": 0.768965
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {},
+              "values": {
+                "payer_rate": 0.091711,
+                "revenue_per_payer": 15.575464,
+                "users": 3173,
+                "payers": 291,
+                "revenue": 4532.46,
+                "spend": 8410.2,
+                "new_users": 3173,
+                "cost_per_new_user": 2.650552,
+                "revenue_to_spend": 0.538924
+              }
+            }
+          ],
+          "comparisons": [
+            {
+              "dimensions": {},
+              "metric": "payer_rate",
+              "baseline": 0.101463,
+              "current": 0.091711,
+              "delta": -0.009752,
+              "relativeChange": -0.096114
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue_per_payer",
+              "baseline": 15.746319,
+              "current": 15.575464,
+              "delta": -0.170855,
+              "relativeChange": -0.01085
+            },
+            {
+              "dimensions": {},
+              "metric": "users",
+              "baseline": 3213,
+              "current": 3173,
+              "delta": -40,
+              "relativeChange": -0.012449
+            },
+            {
+              "dimensions": {},
+              "metric": "payers",
+              "baseline": 326,
+              "current": 291,
+              "delta": -35,
+              "relativeChange": -0.107362
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue",
+              "baseline": 5133.3,
+              "current": 4532.46,
+              "delta": -600.84,
+              "relativeChange": -0.117048
+            },
+            {
+              "dimensions": {},
+              "metric": "spend",
+              "baseline": 6675.6,
+              "current": 8410.2,
+              "delta": 1734.6,
+              "relativeChange": 0.259842
+            },
+            {
+              "dimensions": {},
+              "metric": "new_users",
+              "baseline": 3213,
+              "current": 3173,
+              "delta": -40,
+              "relativeChange": -0.012449
+            },
+            {
+              "dimensions": {},
+              "metric": "cost_per_new_user",
+              "baseline": 2.077684,
+              "current": 2.650552,
+              "delta": 0.572868,
+              "relativeChange": 0.275724
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue_to_spend",
+              "baseline": 0.768965,
+              "current": 0.538924,
+              "delta": -0.230041,
+              "relativeChange": -0.299157
+            }
+          ],
+          "coverage": [
+            {
+              "period": "2019-06",
+              "requestedStart": "2019-06-01",
+              "requestedEnd": "2019-07-01",
+              "effectiveEnd": "2019-07-01",
+              "excludedUsers": 0,
+              "days": 30
+            },
+            {
+              "period": "2019-07",
+              "requestedStart": "2019-07-01",
+              "requestedEnd": "2019-08-01",
+              "effectiveEnd": "2019-08-01",
+              "excludedUsers": 0,
+              "days": 31
+            }
+          ],
+          "queryIds": [
+            "01185b5c-311c-4a19-bce1-25af81335857",
+            "81414af4-a9b6-48cb-8d05-301a593496e8"
+          ]
+        }
+      ],
+      "modelTraces": []
+    },
+    {
+      "name": "recommended-followup-2",
+      "pass": true,
+      "runId": "d0ba44eb-4842-483e-9de7-1b384d74bec9",
+      "status": "completed",
+      "durationMs": 3305,
+      "question": "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
+      "context": {
+        "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+        "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 3,
+        "spec": {
+          "timeGrain": null,
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [
+              "TipTop"
+            ],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [],
+          "metrics": [
+            "first_purchase_revenue",
+            "repeat_purchase_revenue",
+            "revenue",
+            "repeat_payer_rate",
+            "payer_rate",
+            "revenue_per_payer",
+            "users",
+            "payers",
+            "spend",
+            "new_users",
+            "cost_per_new_user",
+            "revenue_to_spend"
+          ]
+        },
+        "evidenceIds": [
+          "ev-aad1078b-5eb8-46ef-a6bc-028c9e2784e2"
+        ],
+        "lastQuestion": "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
+        "taskKind": "query",
+        "objective": "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。"
+      },
+      "answer": {
+        "summary": "TipTop：2019-07相较2019-06，首访后14天的 首次购买收入 从1757.74变为1581.09，差额-176.65，变化率-10.05%。 TipTop：2019-07相较2019-06，首访后14天的 后续购买收入 从3375.56变为2951.37，差额-424.19，变化率-12.57%。",
+        "conclusion": {
+          "text": "TipTop：2019-07相较2019-06，首访后14天的 首次购买收入 从1757.74变为1581.09，差额-176.65，变化率-10.05%。 TipTop：2019-07相较2019-06，首访后14天的 后续购买收入 从3375.56变为2951.37，差额-424.19，变化率-12.57%。",
+          "factIds": [
+            "f-0-0-first_purchase_revenue",
+            "f-0-1-first_purchase_revenue",
+            "f-0-0-repeat_purchase_revenue",
+            "f-0-1-repeat_purchase_revenue"
+          ]
+        },
+        "keyEvidence": [
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 首次购买收入 从1757.74变为1581.09，差额-176.65，变化率-10.05%。",
+            "factIds": [
+              "f-0-0-first_purchase_revenue",
+              "f-0-1-first_purchase_revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 后续购买收入 从3375.56变为2951.37，差额-424.19，变化率-12.57%。",
+            "factIds": [
+              "f-0-0-repeat_purchase_revenue",
+              "f-0-1-repeat_purchase_revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 收入 从5133.3变为4532.46，差额-600.84，变化率-11.70%。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue"
+            ]
+          }
+        ],
+        "followups": [
+          {
+            "id": "compare-window",
+            "label": "改用首访后 7 天核查",
+            "message": "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户；渠道=TipTop。",
+            "reason": "用另一种完整观察窗口检验结论是否依赖观察时长。",
+            "taskKind": "followup",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 7,
+              "audience": "paid",
+              "filters": {
+                "channels": [
+                  "TipTop"
+                ],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "first_purchase_revenue",
+                "repeat_purchase_revenue",
+                "revenue",
+                "repeat_payer_rate",
+                "payer_rate",
+                "revenue_per_payer",
+                "users",
+                "payers",
+                "spend",
+                "new_users",
+                "cost_per_new_user",
+                "revenue_to_spend"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+              "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 3
+            },
+            "evidenceIds": [
+              "ev-aad1078b-5eb8-46ef-a6bc-028c9e2784e2"
+            ]
+          },
+          {
+            "id": "calendar-trend",
+            "label": "查看自然月收入趋势",
+            "message": "切换为自然时期，不分组查看按月收入趋势？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；自然时期；付费渠道用户；渠道=TipTop。",
+            "reason": "自然时期趋势回答变化发生在哪个月；口径将明确切换。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": "month",
+              "mode": "calendar",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [
+                  "TipTop"
+                ],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "revenue"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "61c9535f-0883-45d6-83f1-9254e55b6eba",
+              "investigationId": "37fabfe0-aae0-468d-827c-ea0e3f4e2293",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 3
+            },
+            "evidenceIds": [
+              "ev-aad1078b-5eb8-46ef-a6bc-028c9e2784e2"
+            ]
+          }
+        ],
+        "facts": [
+          {
+            "id": "f-0-0-first_purchase_revenue",
+            "evidenceId": "ev-aad1078b-5eb8-46ef-a6bc-028c9e2784e2",
+            "rowIndex": 0,
+            "metric": "first_purchase_revenue",
+            "value": 1757.74,
+            "label": "2019-06 / TipTop / 14天 / 首次购买收入"
+          },
+          {
+            "id": "f-0-0-repeat_purchase_revenue",
+            "evidenceId": "ev-aad1078b-5eb8-46ef-a6bc-028c9e2784e2",
+            "rowIndex": 0,
+            "metric": "repeat_purchase_revenue",
+            "value": 3375.56,
+            "label": "2019-06 / TipTop / 14天 / 后续购买收入"
+          },
+          {
+            "id": "f-0-0-revenue",
+            "evidenceId": "ev-aad1078b-5eb8-46ef-a6bc-028c9e2784e2",
+            "rowIndex": 0,
+            "metric": "revenue",
+            "value": 5133.3,
+            "label": "2019-06 / TipTop / 14天 / 收入"
+          },
+          {
+            "id": "f-0-1-first_purchase_revenue",
+            "evidenceId": "ev-aad1078b-5eb8-46ef-a6bc-028c9e2784e2",
+            "rowIndex": 1,
+            "metric": "first_purchase_revenue",
+            "value": 1581.09,
+            "label": "2019-07 / TipTop / 14天 / 首次购买收入"
+          },
+          {
+            "id": "f-0-1-repeat_purchase_revenue",
+            "evidenceId": "ev-aad1078b-5eb8-46ef-a6bc-028c9e2784e2",
+            "rowIndex": 1,
+            "metric": "repeat_purchase_revenue",
+            "value": 2951.37,
+            "label": "2019-07 / TipTop / 14天 / 后续购买收入"
+          },
+          {
+            "id": "f-0-1-revenue",
+            "evidenceId": "ev-aad1078b-5eb8-46ef-a6bc-028c9e2784e2",
+            "rowIndex": 1,
+            "metric": "revenue",
+            "value": 4532.46,
+            "label": "2019-07 / TipTop / 14天 / 收入"
+          }
+        ],
+        "findings": [
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 首次购买收入 从1757.74变为1581.09，差额-176.65，变化率-10.05%。",
+            "factIds": [
+              "f-0-0-first_purchase_revenue",
+              "f-0-1-first_purchase_revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 后续购买收入 从3375.56变为2951.37，差额-424.19，变化率-12.57%。",
+            "factIds": [
+              "f-0-0-repeat_purchase_revenue",
+              "f-0-1-repeat_purchase_revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 收入 从5133.3变为4532.46，差额-600.84，变化率-11.70%。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 复购用户比例 从86.2%变为84.88%，减少1.32个百分点。",
+            "factIds": [
+              "f-0-0-repeat_payer_rate",
+              "f-0-1-repeat_payer_rate"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 购买用户比例 从10.15%变为9.17%，减少0.98个百分点。",
+            "factIds": [
+              "f-0-0-payer_rate",
+              "f-0-1-payer_rate"
+            ]
+          },
+          {
+            "text": "TipTop：2019-07相较2019-06，首访后14天的 每位购买用户收入 从15.746319变为15.575464，差额-0.170855，变化率-1.08%。",
+            "factIds": [
+              "f-0-0-revenue_per_payer",
+              "f-0-1-revenue_per_payer"
+            ]
+          }
+        ],
+        "checkedExplanations": [
+          "首访后14天，整体已核查：首次购买收入、后续购买收入、收入、复购用户比例、购买用户比例、每位购买用户收入、用户数、购买用户数、记录渠道费用、首次观测用户数、每位新用户记录费用、收入与记录费用比。"
+        ],
+        "limitations": [
+          "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
+          "金额币种与时区未注明，沿用原始时间与样例金额单位",
+          "没有广告曝光、点击、预算、素材或真实广告增量",
+          "没有商品、结账步骤、退款或利润",
+          "费用只有渠道和日期粒度；无法计算设备或国家广告费用",
+          "订单没有 session ID；渠道、设备、国家使用首次观测访问归属",
+          "organic 未提供费用，费用缺失不补零"
+        ],
+        "nextSteps": [
+          "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户；渠道=TipTop。",
+          "切换为自然时期，不分组查看按月收入趋势？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；自然时期；付费渠道用户；渠道=TipTop。"
+        ],
+        "chartNotes": []
+      },
+      "evidence": [
+        {
+          "id": "ev-aad1078b-5eb8-46ef-a6bc-028c9e2784e2",
+          "datasetVersion": "4c26d29934370408",
+          "metricVersion": "procrastinate-v1",
+          "spec": {
+            "timeGrain": null,
+            "mode": "cohort",
+            "periods": [
+              {
+                "label": "2019-06",
+                "start": "2019-06-01",
+                "end": "2019-07-01"
+              },
+              {
+                "label": "2019-07",
+                "start": "2019-07-01",
+                "end": "2019-08-01"
+              }
+            ],
+            "windowDays": 14,
+            "audience": "paid",
+            "filters": {
+              "channels": [
+                "TipTop"
+              ],
+              "devices": [],
+              "regions": []
+            },
+            "groupBy": [],
+            "metrics": [
+              "first_purchase_revenue",
+              "repeat_purchase_revenue",
+              "revenue",
+              "repeat_payer_rate",
+              "payer_rate",
+              "revenue_per_payer",
+              "users",
+              "payers",
+              "spend",
+              "new_users",
+              "cost_per_new_user",
+              "revenue_to_spend"
+            ]
+          },
+          "rows": [
+            {
+              "period": "2019-06",
+              "dimensions": {},
+              "values": {
+                "first_purchase_revenue": 1757.74,
+                "repeat_purchase_revenue": 3375.56,
+                "revenue": 5133.3,
+                "repeat_payer_rate": 0.861963,
+                "payer_rate": 0.101463,
+                "revenue_per_payer": 15.746319,
+                "users": 3213,
+                "payers": 326,
+                "spend": 6675.6,
+                "new_users": 3213,
+                "cost_per_new_user": 2.077684,
+                "revenue_to_spend": 0.768965
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {},
+              "values": {
+                "first_purchase_revenue": 1581.09,
+                "repeat_purchase_revenue": 2951.37,
+                "revenue": 4532.46,
+                "repeat_payer_rate": 0.848797,
+                "payer_rate": 0.091711,
+                "revenue_per_payer": 15.575464,
+                "users": 3173,
+                "payers": 291,
+                "spend": 8410.2,
+                "new_users": 3173,
+                "cost_per_new_user": 2.650552,
+                "revenue_to_spend": 0.538924
+              }
+            }
+          ],
+          "comparisons": [
+            {
+              "dimensions": {},
+              "metric": "first_purchase_revenue",
+              "baseline": 1757.74,
+              "current": 1581.09,
+              "delta": -176.65,
+              "relativeChange": -0.100498
+            },
+            {
+              "dimensions": {},
+              "metric": "repeat_purchase_revenue",
+              "baseline": 3375.56,
+              "current": 2951.37,
+              "delta": -424.19,
+              "relativeChange": -0.125665
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue",
+              "baseline": 5133.3,
+              "current": 4532.46,
+              "delta": -600.84,
+              "relativeChange": -0.117048
+            },
+            {
+              "dimensions": {},
+              "metric": "repeat_payer_rate",
+              "baseline": 0.861963,
+              "current": 0.848797,
+              "delta": -0.013166,
+              "relativeChange": -0.015274
+            },
+            {
+              "dimensions": {},
+              "metric": "payer_rate",
+              "baseline": 0.101463,
+              "current": 0.091711,
+              "delta": -0.009752,
+              "relativeChange": -0.096114
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue_per_payer",
+              "baseline": 15.746319,
+              "current": 15.575464,
+              "delta": -0.170855,
+              "relativeChange": -0.01085
+            },
+            {
+              "dimensions": {},
+              "metric": "users",
+              "baseline": 3213,
+              "current": 3173,
+              "delta": -40,
+              "relativeChange": -0.012449
+            },
+            {
+              "dimensions": {},
+              "metric": "payers",
+              "baseline": 326,
+              "current": 291,
+              "delta": -35,
+              "relativeChange": -0.107362
+            },
+            {
+              "dimensions": {},
+              "metric": "spend",
+              "baseline": 6675.6,
+              "current": 8410.2,
+              "delta": 1734.6,
+              "relativeChange": 0.259842
+            },
+            {
+              "dimensions": {},
+              "metric": "new_users",
+              "baseline": 3213,
+              "current": 3173,
+              "delta": -40,
+              "relativeChange": -0.012449
+            },
+            {
+              "dimensions": {},
+              "metric": "cost_per_new_user",
+              "baseline": 2.077684,
+              "current": 2.650552,
+              "delta": 0.572868,
+              "relativeChange": 0.275724
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue_to_spend",
+              "baseline": 0.768965,
+              "current": 0.538924,
+              "delta": -0.230041,
+              "relativeChange": -0.299157
+            }
+          ],
+          "coverage": [
+            {
+              "period": "2019-06",
+              "requestedStart": "2019-06-01",
+              "requestedEnd": "2019-07-01",
+              "effectiveEnd": "2019-07-01",
+              "excludedUsers": 0,
+              "days": 30
+            },
+            {
+              "period": "2019-07",
+              "requestedStart": "2019-07-01",
+              "requestedEnd": "2019-08-01",
+              "effectiveEnd": "2019-08-01",
+              "excludedUsers": 0,
+              "days": 31
+            }
+          ],
+          "queryIds": [
+            "42dcee6e-6800-425e-a185-610befcf44b7",
+            "d2d9a315-325a-4c28-9152-5a3f0d4ee6b3"
+          ]
+        }
+      ],
+      "modelTraces": []
+    },
+    {
+      "name": "different-period-why",
+      "pass": true,
+      "runId": "58e25206-81be-4320-9ffd-bb7061aab794",
+      "status": "completed",
+      "durationMs": 15473,
+      "question": "比较2019年8月和9月付费渠道新用户首访后14天的表现，为什么收入与广告费用比会变化？请核查具体渠道。",
+      "context": {
+        "conversationId": "98f5852e-e9fc-421b-913a-b5d809f42c5d",
+        "investigationId": "9dca2df0-4ff2-45b7-bef9-63779e903450",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 1,
+        "spec": {
+          "timeGrain": null,
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-08",
+              "start": "2019-08-01",
+              "end": "2019-09-01"
+            },
+            {
+              "label": "2019-09",
+              "start": "2019-09-01",
+              "end": "2019-10-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [
+            "channel"
+          ],
+          "metrics": [
+            "spend",
+            "new_users",
+            "payers",
+            "revenue",
+            "payer_rate",
+            "revenue_per_payer",
+            "cost_per_new_user",
+            "revenue_to_spend",
+            "users"
+          ]
+        },
+        "evidenceIds": [
+          "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e"
+        ],
+        "lastQuestion": "比较2019年8月和9月付费渠道新用户首访后14天的表现，为什么收入与广告费用比会变化？请核查具体渠道。",
+        "taskKind": "why",
+        "objective": "比较2019年8月和9月付费渠道新用户首访后14天的表现，为什么收入与广告费用比会变化？请核查具体渠道。"
+      },
+      "answer": {
+        "summary": "2019-09对比2019-08，首访后14天的记录渠道费用：TipTop增加2030.5，其余所列渠道合计减少247.03，所列渠道合计增加1783.47。",
+        "conclusion": {
+          "text": "2019-09对比2019-08，首访后14天的记录渠道费用：TipTop增加2030.5，其余所列渠道合计减少247.03，所列渠道合计增加1783.47。",
+          "factIds": [
+            "f-0-0-spend",
+            "f-0-1-spend",
+            "f-0-2-spend",
+            "f-0-3-spend",
+            "f-0-4-spend",
+            "f-0-5-spend",
+            "f-0-6-spend",
+            "f-0-7-spend",
+            "f-0-8-spend",
+            "f-0-9-spend",
+            "f-0-10-spend",
+            "f-0-11-spend",
+            "f-0-12-spend",
+            "f-0-13-spend",
+            "f-0-14-spend",
+            "f-0-15-spend",
+            "f-0-16-spend",
+            "f-0-17-spend",
+            "f-0-18-spend",
+            "f-0-19-spend"
+          ]
+        },
+        "keyEvidence": [
+          {
+            "text": "2019-09对比2019-08，首访后14天的记录渠道费用：TipTop增加2030.5，其余所列渠道合计减少247.03，所列渠道合计增加1783.47。",
+            "factIds": [
+              "f-0-0-spend",
+              "f-0-1-spend",
+              "f-0-2-spend",
+              "f-0-3-spend",
+              "f-0-4-spend",
+              "f-0-5-spend",
+              "f-0-6-spend",
+              "f-0-7-spend",
+              "f-0-8-spend",
+              "f-0-9-spend",
+              "f-0-10-spend",
+              "f-0-11-spend",
+              "f-0-12-spend",
+              "f-0-13-spend",
+              "f-0-14-spend",
+              "f-0-15-spend",
+              "f-0-16-spend",
+              "f-0-17-spend",
+              "f-0-18-spend",
+              "f-0-19-spend"
+            ]
+          },
+          {
+            "text": "2019-09对比2019-08，首访后14天的收入：OppleCreativeMedia增加350.48，其余所列渠道合计增加134.72，所列渠道合计增加485.2。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue",
+              "f-0-2-revenue",
+              "f-0-3-revenue",
+              "f-0-4-revenue",
+              "f-0-5-revenue",
+              "f-0-6-revenue",
+              "f-0-7-revenue",
+              "f-0-8-revenue",
+              "f-0-9-revenue",
+              "f-0-10-revenue",
+              "f-0-11-revenue",
+              "f-0-12-revenue",
+              "f-0-13-revenue",
+              "f-0-14-revenue",
+              "f-0-15-revenue",
+              "f-0-16-revenue",
+              "f-0-17-revenue",
+              "f-0-18-revenue",
+              "f-0-19-revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-09相较2019-08，首访后14天的 每位新用户记录费用 从3.01129变为3.480405，差额0.469115，变化率15.58%。",
+            "factIds": [
+              "f-0-6-cost_per_new_user",
+              "f-0-16-cost_per_new_user"
+            ]
+          }
+        ],
+        "followups": [
+          {
+            "id": "focus-channel",
+            "label": "核查 TipTop 的付费表现",
+            "message": "只看TipTop，进一步比较购买用户比例和每位购买用户收入？时期：2019-08-01至2019-09-01（结束日不含）与2019-09-01至2019-10-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
+            "reason": "该渠道出现在结论证据中，可继续核查其付费表现。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-08",
+                  "start": "2019-08-01",
+                  "end": "2019-09-01"
+                },
+                {
+                  "label": "2019-09",
+                  "start": "2019-09-01",
+                  "end": "2019-10-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [
+                  "TipTop"
+                ],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "payer_rate",
+                "revenue_per_payer",
+                "users",
+                "payers",
+                "revenue",
+                "spend",
+                "new_users",
+                "cost_per_new_user",
+                "revenue_to_spend"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "98f5852e-e9fc-421b-913a-b5d809f42c5d",
+              "investigationId": "9dca2df0-4ff2-45b7-bef9-63779e903450",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e"
+            ]
+          },
+          {
+            "id": "purchase-composition",
+            "label": "拆分首次与后续购买收入",
+            "message": "比较收入变化来自首次购买还是后续购买？时期：2019-08-01至2019-09-01（结束日不含）与2019-09-01至2019-10-01（结束日不含）；首访后14天；付费渠道用户。",
+            "reason": "尚未在当前范围完成首次与后续购买收入的拆分。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-08",
+                  "start": "2019-08-01",
+                  "end": "2019-09-01"
+                },
+                {
+                  "label": "2019-09",
+                  "start": "2019-09-01",
+                  "end": "2019-10-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [
+                "channel"
+              ],
+              "metrics": [
+                "first_purchase_revenue",
+                "repeat_purchase_revenue",
+                "revenue",
+                "repeat_payer_rate",
+                "spend",
+                "new_users",
+                "payers",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend",
+                "users"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "98f5852e-e9fc-421b-913a-b5d809f42c5d",
+              "investigationId": "9dca2df0-4ff2-45b7-bef9-63779e903450",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e"
+            ]
+          },
+          {
+            "id": "compare-window",
+            "label": "改用首访后 7 天核查",
+            "message": "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-08-01至2019-09-01（结束日不含）与2019-09-01至2019-10-01（结束日不含）；首访后7天；付费渠道用户。",
+            "reason": "用另一种完整观察窗口检验结论是否依赖观察时长。",
+            "taskKind": "followup",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-08",
+                  "start": "2019-08-01",
+                  "end": "2019-09-01"
+                },
+                {
+                  "label": "2019-09",
+                  "start": "2019-09-01",
+                  "end": "2019-10-01"
+                }
+              ],
+              "windowDays": 7,
+              "audience": "paid",
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [
+                "channel"
+              ],
+              "metrics": [
+                "spend",
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend",
+                "users"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "98f5852e-e9fc-421b-913a-b5d809f42c5d",
+              "investigationId": "9dca2df0-4ff2-45b7-bef9-63779e903450",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e"
+            ]
+          }
+        ],
+        "facts": [
+          {
+            "id": "f-0-0-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 0,
+            "metric": "spend",
+            "value": 579.6,
+            "label": "2019-08 / AdNonSense / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-0-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 0,
+            "metric": "revenue",
+            "value": 590.01,
+            "label": "2019-08 / AdNonSense / 14天 / 收入"
+          },
+          {
+            "id": "f-0-1-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 1,
+            "metric": "spend",
+            "value": 6274.4,
+            "label": "2019-08 / FaceBoom / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-1-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 1,
+            "metric": "revenue",
+            "value": 4367.79,
+            "label": "2019-08 / FaceBoom / 14天 / 收入"
+          },
+          {
+            "id": "f-0-2-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 2,
+            "metric": "spend",
+            "value": 369.81,
+            "label": "2019-08 / LeapBob / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-2-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 2,
+            "metric": "revenue",
+            "value": 994.13,
+            "label": "2019-08 / LeapBob / 14天 / 收入"
+          },
+          {
+            "id": "f-0-3-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 3,
+            "metric": "spend",
+            "value": 154.56,
+            "label": "2019-08 / MediaTornado / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-3-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 3,
+            "metric": "revenue",
+            "value": 290.44,
+            "label": "2019-08 / MediaTornado / 14天 / 收入"
+          },
+          {
+            "id": "f-0-4-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 4,
+            "metric": "spend",
+            "value": 439.25,
+            "label": "2019-08 / OppleCreativeMedia / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-4-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 4,
+            "metric": "revenue",
+            "value": 613.77,
+            "label": "2019-08 / OppleCreativeMedia / 14天 / 收入"
+          },
+          {
+            "id": "f-0-5-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 5,
+            "metric": "spend",
+            "value": 253.11,
+            "label": "2019-08 / RocketSuperAds / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-5-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 5,
+            "metric": "revenue",
+            "value": 676.8,
+            "label": "2019-08 / RocketSuperAds / 14天 / 收入"
+          },
+          {
+            "id": "f-0-6-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 6,
+            "metric": "spend",
+            "value": 11202,
+            "label": "2019-08 / TipTop / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-6-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 6,
+            "metric": "revenue",
+            "value": 5736.25,
+            "label": "2019-08 / TipTop / 14天 / 收入"
+          },
+          {
+            "id": "f-0-6-cost_per_new_user",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 6,
+            "metric": "cost_per_new_user",
+            "value": 3.01129,
+            "label": "2019-08 / TipTop / 14天 / 每位新用户记录费用"
+          },
+          {
+            "id": "f-0-7-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 7,
+            "metric": "spend",
+            "value": 1040.4,
+            "label": "2019-08 / WahooNetBanner / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-7-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 7,
+            "metric": "revenue",
+            "value": 1734.9,
+            "label": "2019-08 / WahooNetBanner / 14天 / 收入"
+          },
+          {
+            "id": "f-0-8-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 8,
+            "metric": "spend",
+            "value": 124.74,
+            "label": "2019-08 / YRabbit / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-8-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 8,
+            "metric": "revenue",
+            "value": 365.31,
+            "label": "2019-08 / YRabbit / 14天 / 收入"
+          },
+          {
+            "id": "f-0-9-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 9,
+            "metric": "spend",
+            "value": 220,
+            "label": "2019-08 / lambdaMediaAds / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-9-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 9,
+            "metric": "revenue",
+            "value": 492.05,
+            "label": "2019-08 / lambdaMediaAds / 14天 / 收入"
+          },
+          {
+            "id": "f-0-10-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 10,
+            "metric": "spend",
+            "value": 581.7,
+            "label": "2019-09 / AdNonSense / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-10-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 10,
+            "metric": "revenue",
+            "value": 599.89,
+            "label": "2019-09 / AdNonSense / 14天 / 收入"
+          },
+          {
+            "id": "f-0-11-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 11,
+            "metric": "spend",
+            "value": 6114.9,
+            "label": "2019-09 / FaceBoom / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-11-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 11,
+            "metric": "revenue",
+            "value": 4536.52,
+            "label": "2019-09 / FaceBoom / 14天 / 收入"
+          },
+          {
+            "id": "f-0-12-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 12,
+            "metric": "spend",
+            "value": 343.98,
+            "label": "2019-09 / LeapBob / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-12-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 12,
+            "metric": "revenue",
+            "value": 853.44,
+            "label": "2019-09 / LeapBob / 14天 / 收入"
+          },
+          {
+            "id": "f-0-13-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 13,
+            "metric": "spend",
+            "value": 144.72,
+            "label": "2019-09 / MediaTornado / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-13-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 13,
+            "metric": "revenue",
+            "value": 422.19,
+            "label": "2019-09 / MediaTornado / 14天 / 收入"
+          },
+          {
+            "id": "f-0-14-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 14,
+            "metric": "spend",
+            "value": 427.75,
+            "label": "2019-09 / OppleCreativeMedia / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-14-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 14,
+            "metric": "revenue",
+            "value": 964.25,
+            "label": "2019-09 / OppleCreativeMedia / 14天 / 收入"
+          },
+          {
+            "id": "f-0-15-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 15,
+            "metric": "spend",
+            "value": 218.4,
+            "label": "2019-09 / RocketSuperAds / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-15-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 15,
+            "metric": "revenue",
+            "value": 614.78,
+            "label": "2019-09 / RocketSuperAds / 14天 / 收入"
+          },
+          {
+            "id": "f-0-16-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 16,
+            "metric": "spend",
+            "value": 13232.5,
+            "label": "2019-09 / TipTop / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-16-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 16,
+            "metric": "revenue",
+            "value": 5753.27,
+            "label": "2019-09 / TipTop / 14天 / 收入"
+          },
+          {
+            "id": "f-0-16-cost_per_new_user",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 16,
+            "metric": "cost_per_new_user",
+            "value": 3.480405,
+            "label": "2019-09 / TipTop / 14天 / 每位新用户记录费用"
+          },
+          {
+            "id": "f-0-17-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 17,
+            "metric": "spend",
+            "value": 977.4,
+            "label": "2019-09 / WahooNetBanner / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-17-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 17,
+            "metric": "revenue",
+            "value": 1530.15,
+            "label": "2019-09 / WahooNetBanner / 14天 / 收入"
+          },
+          {
+            "id": "f-0-18-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 18,
+            "metric": "spend",
+            "value": 152.79,
+            "label": "2019-09 / YRabbit / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-18-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 18,
+            "metric": "revenue",
+            "value": 542.21,
+            "label": "2019-09 / YRabbit / 14天 / 收入"
+          },
+          {
+            "id": "f-0-19-spend",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 19,
+            "metric": "spend",
+            "value": 247.2,
+            "label": "2019-09 / lambdaMediaAds / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-19-revenue",
+            "evidenceId": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+            "rowIndex": 19,
+            "metric": "revenue",
+            "value": 529.95,
+            "label": "2019-09 / lambdaMediaAds / 14天 / 收入"
+          }
+        ],
+        "findings": [
+          {
+            "text": "2019-09对比2019-08，首访后14天的记录渠道费用：TipTop增加2030.5，其余所列渠道合计减少247.03，所列渠道合计增加1783.47。",
+            "factIds": [
+              "f-0-0-spend",
+              "f-0-1-spend",
+              "f-0-2-spend",
+              "f-0-3-spend",
+              "f-0-4-spend",
+              "f-0-5-spend",
+              "f-0-6-spend",
+              "f-0-7-spend",
+              "f-0-8-spend",
+              "f-0-9-spend",
+              "f-0-10-spend",
+              "f-0-11-spend",
+              "f-0-12-spend",
+              "f-0-13-spend",
+              "f-0-14-spend",
+              "f-0-15-spend",
+              "f-0-16-spend",
+              "f-0-17-spend",
+              "f-0-18-spend",
+              "f-0-19-spend"
+            ]
+          },
+          {
+            "text": "2019-09对比2019-08，首访后14天的收入：OppleCreativeMedia增加350.48，其余所列渠道合计增加134.72，所列渠道合计增加485.2。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue",
+              "f-0-2-revenue",
+              "f-0-3-revenue",
+              "f-0-4-revenue",
+              "f-0-5-revenue",
+              "f-0-6-revenue",
+              "f-0-7-revenue",
+              "f-0-8-revenue",
+              "f-0-9-revenue",
+              "f-0-10-revenue",
+              "f-0-11-revenue",
+              "f-0-12-revenue",
+              "f-0-13-revenue",
+              "f-0-14-revenue",
+              "f-0-15-revenue",
+              "f-0-16-revenue",
+              "f-0-17-revenue",
+              "f-0-18-revenue",
+              "f-0-19-revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-09对比2019-08，首访后14天口径下，费用增加2030.5，收入增加17.02。收入变化率低于费用变化率。",
+            "factIds": [
+              "f-0-6-spend",
+              "f-0-16-spend",
+              "f-0-6-revenue",
+              "f-0-16-revenue"
+            ]
+          },
+          {
+            "text": "FaceBoom：2019-09对比2019-08，首访后14天口径下，费用减少159.5，收入增加168.73。",
+            "factIds": [
+              "f-0-1-spend",
+              "f-0-11-spend",
+              "f-0-1-revenue",
+              "f-0-11-revenue"
+            ]
+          },
+          {
+            "text": "OppleCreativeMedia：2019-09相较2019-08，首访后14天的 收入 从613.77变为964.25，差额350.48，变化率57.10%。",
+            "factIds": [
+              "f-0-4-revenue",
+              "f-0-14-revenue"
+            ]
+          },
+          {
+            "text": "TipTop：2019-09相较2019-08，首访后14天的 每位新用户记录费用 从3.01129变为3.480405，差额0.469115，变化率15.58%。",
+            "factIds": [
+              "f-0-6-cost_per_new_user",
+              "f-0-16-cost_per_new_user"
+            ]
+          }
+        ],
+        "checkedExplanations": [
+          "首访后14天，按渠道已核查：记录渠道费用、首次观测用户数、购买用户数、收入、购买用户比例、每位购买用户收入、每位新用户记录费用、收入与记录费用比、用户数。"
+        ],
+        "limitations": [
+          "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
+          "金额币种与时区未注明，沿用原始时间与样例金额单位",
+          "没有广告曝光、点击、预算、素材或真实广告增量",
+          "没有商品、结账步骤、退款或利润",
+          "费用只有渠道和日期粒度；无法计算设备或国家广告费用",
+          "订单没有 session ID；渠道、设备、国家使用首次观测访问归属",
+          "organic 未提供费用，费用缺失不补零"
+        ],
+        "nextSteps": [
+          "只看TipTop，进一步比较购买用户比例和每位购买用户收入？时期：2019-08-01至2019-09-01（结束日不含）与2019-09-01至2019-10-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
+          "比较收入变化来自首次购买还是后续购买？时期：2019-08-01至2019-09-01（结束日不含）与2019-09-01至2019-10-01（结束日不含）；首访后14天；付费渠道用户。",
+          "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-08-01至2019-09-01（结束日不含）与2019-09-01至2019-10-01（结束日不含）；首访后7天；付费渠道用户。"
+        ],
+        "chartNotes": []
+      },
+      "evidence": [
+        {
+          "id": "ev-8876589f-ced8-4ab8-8003-3f47ab60c74e",
+          "datasetVersion": "4c26d29934370408",
+          "metricVersion": "procrastinate-v1",
+          "spec": {
+            "timeGrain": null,
+            "mode": "cohort",
+            "periods": [
+              {
+                "label": "2019-08",
+                "start": "2019-08-01",
+                "end": "2019-09-01"
+              },
+              {
+                "label": "2019-09",
+                "start": "2019-09-01",
+                "end": "2019-10-01"
+              }
+            ],
+            "windowDays": 14,
+            "audience": "paid",
+            "filters": {
+              "channels": [],
+              "devices": [],
+              "regions": []
+            },
+            "groupBy": [
+              "channel"
+            ],
+            "metrics": [
+              "spend",
+              "new_users",
+              "payers",
+              "revenue",
+              "payer_rate",
+              "revenue_per_payer",
+              "cost_per_new_user",
+              "revenue_to_spend",
+              "users"
+            ]
+          },
+          "rows": [
+            {
+              "period": "2019-08",
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "values": {
+                "spend": 579.6,
+                "new_users": 582,
+                "payers": 63,
+                "revenue": 590.01,
+                "payer_rate": 0.108247,
+                "revenue_per_payer": 9.365238,
+                "cost_per_new_user": 0.995876,
+                "revenue_to_spend": 1.017961,
+                "users": 582
+              }
+            },
+            {
+              "period": "2019-08",
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "values": {
+                "spend": 6274.4,
+                "new_users": 5642,
+                "payers": 654,
+                "revenue": 4367.79,
+                "payer_rate": 0.115916,
+                "revenue_per_payer": 6.678578,
+                "cost_per_new_user": 1.112088,
+                "revenue_to_spend": 0.696129,
+                "users": 5642
+              }
+            },
+            {
+              "period": "2019-08",
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "values": {
+                "spend": 369.81,
+                "new_users": 1757,
+                "payers": 58,
+                "revenue": 994.13,
+                "payer_rate": 0.033011,
+                "revenue_per_payer": 17.140172,
+                "cost_per_new_user": 0.210478,
+                "revenue_to_spend": 2.688218,
+                "users": 1757
+              }
+            },
+            {
+              "period": "2019-08",
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "values": {
+                "spend": 154.56,
+                "new_users": 689,
+                "payers": 20,
+                "revenue": 290.44,
+                "payer_rate": 0.029028,
+                "revenue_per_payer": 14.522,
+                "cost_per_new_user": 0.224325,
+                "revenue_to_spend": 1.879141,
+                "users": 689
+              }
+            },
+            {
+              "period": "2019-08",
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "values": {
+                "spend": 439.25,
+                "new_users": 1756,
+                "payers": 43,
+                "revenue": 613.77,
+                "payer_rate": 0.024487,
+                "revenue_per_payer": 14.273721,
+                "cost_per_new_user": 0.250142,
+                "revenue_to_spend": 1.397314,
+                "users": 1756
+              }
+            },
+            {
+              "period": "2019-08",
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "values": {
+                "spend": 253.11,
+                "new_users": 715,
+                "payers": 47,
+                "revenue": 676.8,
+                "payer_rate": 0.065734,
+                "revenue_per_payer": 14.4,
+                "cost_per_new_user": 0.354,
+                "revenue_to_spend": 2.673936,
+                "users": 715
+              }
+            },
+            {
+              "period": "2019-08",
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "values": {
+                "spend": 11202,
+                "new_users": 3720,
+                "payers": 361,
+                "revenue": 5736.25,
+                "payer_rate": 0.097043,
+                "revenue_per_payer": 15.889889,
+                "cost_per_new_user": 3.01129,
+                "revenue_to_spend": 0.512074,
+                "users": 3720
+              }
+            },
+            {
+              "period": "2019-08",
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "values": {
+                "spend": 1040.4,
+                "new_users": 1717,
+                "payers": 93,
+                "revenue": 1734.9,
+                "payer_rate": 0.054164,
+                "revenue_per_payer": 18.654839,
+                "cost_per_new_user": 0.605941,
+                "revenue_to_spend": 1.667532,
+                "users": 1717
+              }
+            },
+            {
+              "period": "2019-08",
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "values": {
+                "spend": 124.74,
+                "new_users": 650,
+                "payers": 28,
+                "revenue": 365.31,
+                "payer_rate": 0.043077,
+                "revenue_per_payer": 13.046786,
+                "cost_per_new_user": 0.191908,
+                "revenue_to_spend": 2.928571,
+                "users": 650
+              }
+            },
+            {
+              "period": "2019-08",
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "values": {
+                "spend": 220,
+                "new_users": 317,
+                "payers": 30,
+                "revenue": 492.05,
+                "payer_rate": 0.094637,
+                "revenue_per_payer": 16.401667,
+                "cost_per_new_user": 0.694006,
+                "revenue_to_spend": 2.236591,
+                "users": 317
+              }
+            },
+            {
+              "period": "2019-09",
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "values": {
+                "spend": 581.7,
+                "new_users": 579,
+                "payers": 76,
+                "revenue": 599.89,
+                "payer_rate": 0.131261,
+                "revenue_per_payer": 7.893289,
+                "cost_per_new_user": 1.004663,
+                "revenue_to_spend": 1.03127,
+                "users": 579
+              }
+            },
+            {
+              "period": "2019-09",
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "values": {
+                "spend": 6114.9,
+                "new_users": 5487,
+                "payers": 682,
+                "revenue": 4536.52,
+                "payer_rate": 0.124294,
+                "revenue_per_payer": 6.651789,
+                "cost_per_new_user": 1.114434,
+                "revenue_to_spend": 0.74188,
+                "users": 5487
+              }
+            },
+            {
+              "period": "2019-09",
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "values": {
+                "spend": 343.98,
+                "new_users": 1635,
+                "payers": 47,
+                "revenue": 853.44,
+                "payer_rate": 0.028746,
+                "revenue_per_payer": 18.158298,
+                "cost_per_new_user": 0.210385,
+                "revenue_to_spend": 2.481074,
+                "users": 1635
+              }
+            },
+            {
+              "period": "2019-09",
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "values": {
+                "spend": 144.72,
+                "new_users": 686,
+                "payers": 23,
+                "revenue": 422.19,
+                "payer_rate": 0.033528,
+                "revenue_per_payer": 18.356087,
+                "cost_per_new_user": 0.210962,
+                "revenue_to_spend": 2.917289,
+                "users": 686
+              }
+            },
+            {
+              "period": "2019-09",
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "values": {
+                "spend": 427.75,
+                "new_users": 1707,
+                "payers": 57,
+                "revenue": 964.25,
+                "payer_rate": 0.033392,
+                "revenue_per_payer": 16.916667,
+                "cost_per_new_user": 0.250586,
+                "revenue_to_spend": 2.254237,
+                "users": 1707
+              }
+            },
+            {
+              "period": "2019-09",
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "values": {
+                "spend": 218.4,
+                "new_users": 722,
+                "payers": 54,
+                "revenue": 614.78,
+                "payer_rate": 0.074792,
+                "revenue_per_payer": 11.384815,
+                "cost_per_new_user": 0.302493,
+                "revenue_to_spend": 2.814927,
+                "users": 722
+              }
+            },
+            {
+              "period": "2019-09",
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "values": {
+                "spend": 13232.5,
+                "new_users": 3802,
+                "payers": 351,
+                "revenue": 5753.27,
+                "payer_rate": 0.09232,
+                "revenue_per_payer": 16.391083,
+                "cost_per_new_user": 3.480405,
+                "revenue_to_spend": 0.434783,
+                "users": 3802
+              }
+            },
+            {
+              "period": "2019-09",
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "values": {
+                "spend": 977.4,
+                "new_users": 1625,
+                "payers": 80,
+                "revenue": 1530.15,
+                "payer_rate": 0.049231,
+                "revenue_per_payer": 19.126875,
+                "cost_per_new_user": 0.601477,
+                "revenue_to_spend": 1.565531,
+                "users": 1625
+              }
+            },
+            {
+              "period": "2019-09",
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "values": {
+                "spend": 152.79,
+                "new_users": 714,
+                "payers": 30,
+                "revenue": 542.21,
+                "payer_rate": 0.042017,
+                "revenue_per_payer": 18.073667,
+                "cost_per_new_user": 0.213992,
+                "revenue_to_spend": 3.548727,
+                "users": 714
+              }
+            },
+            {
+              "period": "2019-09",
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "values": {
+                "spend": 247.2,
+                "new_users": 346,
+                "payers": 37,
+                "revenue": 529.95,
+                "payer_rate": 0.106936,
+                "revenue_per_payer": 14.322973,
+                "cost_per_new_user": 0.714451,
+                "revenue_to_spend": 2.143811,
+                "users": 346
+              }
+            }
+          ],
+          "comparisons": [
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "spend",
+              "baseline": 579.6,
+              "current": 581.7,
+              "delta": 2.1,
+              "relativeChange": 0.003623
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "new_users",
+              "baseline": 582,
+              "current": 579,
+              "delta": -3,
+              "relativeChange": -0.005155
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "payers",
+              "baseline": 63,
+              "current": 76,
+              "delta": 13,
+              "relativeChange": 0.206349
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "revenue",
+              "baseline": 590.01,
+              "current": 599.89,
+              "delta": 9.88,
+              "relativeChange": 0.016745
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.108247,
+              "current": 0.131261,
+              "delta": 0.023014,
+              "relativeChange": 0.212606
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 9.365238,
+              "current": 7.893289,
+              "delta": -1.471949,
+              "relativeChange": -0.157172
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.995876,
+              "current": 1.004663,
+              "delta": 0.008787,
+              "relativeChange": 0.008823
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 1.017961,
+              "current": 1.03127,
+              "delta": 0.013309,
+              "relativeChange": 0.013074
+            },
+            {
+              "dimensions": {
+                "channel": "AdNonSense"
+              },
+              "metric": "users",
+              "baseline": 582,
+              "current": 579,
+              "delta": -3,
+              "relativeChange": -0.005155
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "spend",
+              "baseline": 6274.4,
+              "current": 6114.9,
+              "delta": -159.5,
+              "relativeChange": -0.025421
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "new_users",
+              "baseline": 5642,
+              "current": 5487,
+              "delta": -155,
+              "relativeChange": -0.027473
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "payers",
+              "baseline": 654,
+              "current": 682,
+              "delta": 28,
+              "relativeChange": 0.042813
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "revenue",
+              "baseline": 4367.79,
+              "current": 4536.52,
+              "delta": 168.73,
+              "relativeChange": 0.038631
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.115916,
+              "current": 0.124294,
+              "delta": 0.008378,
+              "relativeChange": 0.072276
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 6.678578,
+              "current": 6.651789,
+              "delta": -0.026789,
+              "relativeChange": -0.004011
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 1.112088,
+              "current": 1.114434,
+              "delta": 0.002346,
+              "relativeChange": 0.00211
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 0.696129,
+              "current": 0.74188,
+              "delta": 0.045751,
+              "relativeChange": 0.065722
+            },
+            {
+              "dimensions": {
+                "channel": "FaceBoom"
+              },
+              "metric": "users",
+              "baseline": 5642,
+              "current": 5487,
+              "delta": -155,
+              "relativeChange": -0.027473
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "spend",
+              "baseline": 369.81,
+              "current": 343.98,
+              "delta": -25.83,
+              "relativeChange": -0.069847
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "new_users",
+              "baseline": 1757,
+              "current": 1635,
+              "delta": -122,
+              "relativeChange": -0.069437
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "payers",
+              "baseline": 58,
+              "current": 47,
+              "delta": -11,
+              "relativeChange": -0.189655
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "revenue",
+              "baseline": 994.13,
+              "current": 853.44,
+              "delta": -140.69,
+              "relativeChange": -0.141521
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.033011,
+              "current": 0.028746,
+              "delta": -0.004265,
+              "relativeChange": -0.129199
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 17.140172,
+              "current": 18.158298,
+              "delta": 1.018126,
+              "relativeChange": 0.0594
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.210478,
+              "current": 0.210385,
+              "delta": -0.000093,
+              "relativeChange": -0.000442
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 2.688218,
+              "current": 2.481074,
+              "delta": -0.207144,
+              "relativeChange": -0.077056
+            },
+            {
+              "dimensions": {
+                "channel": "LeapBob"
+              },
+              "metric": "users",
+              "baseline": 1757,
+              "current": 1635,
+              "delta": -122,
+              "relativeChange": -0.069437
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "spend",
+              "baseline": 154.56,
+              "current": 144.72,
+              "delta": -9.84,
+              "relativeChange": -0.063665
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "new_users",
+              "baseline": 689,
+              "current": 686,
+              "delta": -3,
+              "relativeChange": -0.004354
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "payers",
+              "baseline": 20,
+              "current": 23,
+              "delta": 3,
+              "relativeChange": 0.15
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "revenue",
+              "baseline": 290.44,
+              "current": 422.19,
+              "delta": 131.75,
+              "relativeChange": 0.453622
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.029028,
+              "current": 0.033528,
+              "delta": 0.0045,
+              "relativeChange": 0.155023
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 14.522,
+              "current": 18.356087,
+              "delta": 3.834087,
+              "relativeChange": 0.264019
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.224325,
+              "current": 0.210962,
+              "delta": -0.013363,
+              "relativeChange": -0.05957
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 1.879141,
+              "current": 2.917289,
+              "delta": 1.038148,
+              "relativeChange": 0.552459
+            },
+            {
+              "dimensions": {
+                "channel": "MediaTornado"
+              },
+              "metric": "users",
+              "baseline": 689,
+              "current": 686,
+              "delta": -3,
+              "relativeChange": -0.004354
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "spend",
+              "baseline": 439.25,
+              "current": 427.75,
+              "delta": -11.5,
+              "relativeChange": -0.026181
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "new_users",
+              "baseline": 1756,
+              "current": 1707,
+              "delta": -49,
+              "relativeChange": -0.027904
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "payers",
+              "baseline": 43,
+              "current": 57,
+              "delta": 14,
+              "relativeChange": 0.325581
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "revenue",
+              "baseline": 613.77,
+              "current": 964.25,
+              "delta": 350.48,
+              "relativeChange": 0.571028
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.024487,
+              "current": 0.033392,
+              "delta": 0.008905,
+              "relativeChange": 0.363662
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 14.273721,
+              "current": 16.916667,
+              "delta": 2.642946,
+              "relativeChange": 0.185162
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.250142,
+              "current": 0.250586,
+              "delta": 0.000444,
+              "relativeChange": 0.001775
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 1.397314,
+              "current": 2.254237,
+              "delta": 0.856923,
+              "relativeChange": 0.613264
+            },
+            {
+              "dimensions": {
+                "channel": "OppleCreativeMedia"
+              },
+              "metric": "users",
+              "baseline": 1756,
+              "current": 1707,
+              "delta": -49,
+              "relativeChange": -0.027904
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "spend",
+              "baseline": 253.11,
+              "current": 218.4,
+              "delta": -34.71,
+              "relativeChange": -0.137134
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "new_users",
+              "baseline": 715,
+              "current": 722,
+              "delta": 7,
+              "relativeChange": 0.00979
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "payers",
+              "baseline": 47,
+              "current": 54,
+              "delta": 7,
+              "relativeChange": 0.148936
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "revenue",
+              "baseline": 676.8,
+              "current": 614.78,
+              "delta": -62.02,
+              "relativeChange": -0.091637
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.065734,
+              "current": 0.074792,
+              "delta": 0.009058,
+              "relativeChange": 0.137798
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 14.4,
+              "current": 11.384815,
+              "delta": -3.015185,
+              "relativeChange": -0.209388
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.354,
+              "current": 0.302493,
+              "delta": -0.051507,
+              "relativeChange": -0.1455
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 2.673936,
+              "current": 2.814927,
+              "delta": 0.140991,
+              "relativeChange": 0.052728
+            },
+            {
+              "dimensions": {
+                "channel": "RocketSuperAds"
+              },
+              "metric": "users",
+              "baseline": 715,
+              "current": 722,
+              "delta": 7,
+              "relativeChange": 0.00979
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "spend",
+              "baseline": 11202,
+              "current": 13232.5,
+              "delta": 2030.5,
+              "relativeChange": 0.181262
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "new_users",
+              "baseline": 3720,
+              "current": 3802,
+              "delta": 82,
+              "relativeChange": 0.022043
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "payers",
+              "baseline": 361,
+              "current": 351,
+              "delta": -10,
+              "relativeChange": -0.027701
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "revenue",
+              "baseline": 5736.25,
+              "current": 5753.27,
+              "delta": 17.02,
+              "relativeChange": 0.002967
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.097043,
+              "current": 0.09232,
+              "delta": -0.004723,
+              "relativeChange": -0.048669
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 15.889889,
+              "current": 16.391083,
+              "delta": 0.501194,
+              "relativeChange": 0.031542
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 3.01129,
+              "current": 3.480405,
+              "delta": 0.469115,
+              "relativeChange": 0.155785
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 0.512074,
+              "current": 0.434783,
+              "delta": -0.077291,
+              "relativeChange": -0.150937
+            },
+            {
+              "dimensions": {
+                "channel": "TipTop"
+              },
+              "metric": "users",
+              "baseline": 3720,
+              "current": 3802,
+              "delta": 82,
+              "relativeChange": 0.022043
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "spend",
+              "baseline": 1040.4,
+              "current": 977.4,
+              "delta": -63,
+              "relativeChange": -0.060554
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "new_users",
+              "baseline": 1717,
+              "current": 1625,
+              "delta": -92,
+              "relativeChange": -0.053582
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "payers",
+              "baseline": 93,
+              "current": 80,
+              "delta": -13,
+              "relativeChange": -0.139785
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "revenue",
+              "baseline": 1734.9,
+              "current": 1530.15,
+              "delta": -204.75,
+              "relativeChange": -0.118018
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.054164,
+              "current": 0.049231,
+              "delta": -0.004933,
+              "relativeChange": -0.091075
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 18.654839,
+              "current": 19.126875,
+              "delta": 0.472036,
+              "relativeChange": 0.025304
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.605941,
+              "current": 0.601477,
+              "delta": -0.004464,
+              "relativeChange": -0.007367
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 1.667532,
+              "current": 1.565531,
+              "delta": -0.102001,
+              "relativeChange": -0.061169
+            },
+            {
+              "dimensions": {
+                "channel": "WahooNetBanner"
+              },
+              "metric": "users",
+              "baseline": 1717,
+              "current": 1625,
+              "delta": -92,
+              "relativeChange": -0.053582
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "spend",
+              "baseline": 124.74,
+              "current": 152.79,
+              "delta": 28.05,
+              "relativeChange": 0.224868
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "new_users",
+              "baseline": 650,
+              "current": 714,
+              "delta": 64,
+              "relativeChange": 0.098462
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "payers",
+              "baseline": 28,
+              "current": 30,
+              "delta": 2,
+              "relativeChange": 0.071429
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "revenue",
+              "baseline": 365.31,
+              "current": 542.21,
+              "delta": 176.9,
+              "relativeChange": 0.484246
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.043077,
+              "current": 0.042017,
+              "delta": -0.00106,
+              "relativeChange": -0.024607
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 13.046786,
+              "current": 18.073667,
+              "delta": 5.026881,
+              "relativeChange": 0.385297
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.191908,
+              "current": 0.213992,
+              "delta": 0.022084,
+              "relativeChange": 0.115076
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 2.928571,
+              "current": 3.548727,
+              "delta": 0.620156,
+              "relativeChange": 0.211761
+            },
+            {
+              "dimensions": {
+                "channel": "YRabbit"
+              },
+              "metric": "users",
+              "baseline": 650,
+              "current": 714,
+              "delta": 64,
+              "relativeChange": 0.098462
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "spend",
+              "baseline": 220,
+              "current": 247.2,
+              "delta": 27.2,
+              "relativeChange": 0.123636
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "new_users",
+              "baseline": 317,
+              "current": 346,
+              "delta": 29,
+              "relativeChange": 0.091483
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "payers",
+              "baseline": 30,
+              "current": 37,
+              "delta": 7,
+              "relativeChange": 0.233333
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "revenue",
+              "baseline": 492.05,
+              "current": 529.95,
+              "delta": 37.9,
+              "relativeChange": 0.077025
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.094637,
+              "current": 0.106936,
+              "delta": 0.012299,
+              "relativeChange": 0.12996
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "revenue_per_payer",
+              "baseline": 16.401667,
+              "current": 14.322973,
+              "delta": -2.078694,
+              "relativeChange": -0.126737
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "cost_per_new_user",
+              "baseline": 0.694006,
+              "current": 0.714451,
+              "delta": 0.020445,
+              "relativeChange": 0.029459
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "revenue_to_spend",
+              "baseline": 2.236591,
+              "current": 2.143811,
+              "delta": -0.09278,
+              "relativeChange": -0.041483
+            },
+            {
+              "dimensions": {
+                "channel": "lambdaMediaAds"
+              },
+              "metric": "users",
+              "baseline": 317,
+              "current": 346,
+              "delta": 29,
+              "relativeChange": 0.091483
+            }
+          ],
+          "coverage": [
+            {
+              "period": "2019-08",
+              "requestedStart": "2019-08-01",
+              "requestedEnd": "2019-09-01",
+              "effectiveEnd": "2019-09-01",
+              "excludedUsers": 0,
+              "days": 31
+            },
+            {
+              "period": "2019-09",
+              "requestedStart": "2019-09-01",
+              "requestedEnd": "2019-10-01",
+              "effectiveEnd": "2019-10-01",
+              "excludedUsers": 0,
+              "days": 30
+            }
+          ],
+          "queryIds": [
+            "40e08c58-f5a4-426b-a6c8-a44a61ca30c6",
+            "ee8ffe90-9947-4195-9f1a-185db421346d"
+          ]
+        }
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2050,
+          "receiptId": "rcpt_req_xzgvmpcu"
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2053,
+          "receiptId": "rcpt_req_oea7ak21"
+        },
+        {
+          "role": "investigator.explain:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1577,
+          "receiptId": "rcpt_req_fkinrvf1"
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2568,
+          "receiptId": "rcpt_req_a8ao5i7u"
+        }
+      ]
+    },
+    {
+      "name": "faceboom-counterexample",
+      "pass": true,
+      "runId": "4db79628-9507-45dd-a545-70699544e8e3",
+      "status": "limited",
+      "durationMs": 37133,
+      "question": "只看FaceBoom，为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？",
+      "context": {
+        "conversationId": "8ce325e1-eca6-4654-b2ab-3f74896d3024",
+        "investigationId": "e0c06425-ab5e-4e30-a6c2-985510f0f535",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 1,
+        "spec": {
+          "timeGrain": null,
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [
+              "FaceBoom"
+            ],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [],
+          "metrics": [
+            "spend",
+            "new_users",
+            "payers",
+            "revenue",
+            "payer_rate",
+            "revenue_per_payer",
+            "cost_per_new_user",
+            "revenue_to_spend",
+            "users"
+          ]
+        },
+        "evidenceIds": [
+          "ev-7f5ccd41-8ea0-40a1-8fae-0a69fb53b02f"
+        ],
+        "lastQuestion": "只看FaceBoom，为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？",
+        "taskKind": "why",
+        "objective": "只看FaceBoom，为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？"
+      },
+      "answer": {
+        "summary": "FaceBoom：2019-07对比2019-06，首访后14天口径下，费用减少206.8，收入增加539.42。进一步解释仍有证据缺口。",
+        "conclusion": {
+          "text": "FaceBoom：2019-07对比2019-06，首访后14天口径下，费用减少206.8，收入增加539.42。进一步解释仍有证据缺口。",
+          "factIds": [
+            "f-0-0-spend",
+            "f-0-1-spend",
+            "f-0-0-revenue",
+            "f-0-1-revenue"
+          ]
+        },
+        "keyEvidence": [
+          {
+            "text": "FaceBoom：2019-07对比2019-06，首访后14天口径下，费用减少206.8，收入增加539.42。",
+            "factIds": [
+              "f-0-0-spend",
+              "f-0-1-spend",
+              "f-0-0-revenue",
+              "f-0-1-revenue"
+            ]
+          }
+        ],
+        "followups": [
+          {
+            "id": "purchase-composition",
+            "label": "拆分首次与后续购买收入",
+            "message": "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=FaceBoom。",
+            "reason": "尚未在当前范围完成首次与后续购买收入的拆分。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [
+                  "FaceBoom"
+                ],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "first_purchase_revenue",
+                "repeat_purchase_revenue",
+                "revenue",
+                "repeat_payer_rate",
+                "spend",
+                "new_users",
+                "payers",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend",
+                "users"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "8ce325e1-eca6-4654-b2ab-3f74896d3024",
+              "investigationId": "e0c06425-ab5e-4e30-a6c2-985510f0f535",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-7f5ccd41-8ea0-40a1-8fae-0a69fb53b02f"
+            ]
+          },
+          {
+            "id": "compare-window",
+            "label": "改用首访后 7 天核查",
+            "message": "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户；渠道=FaceBoom。",
+            "reason": "用另一种完整观察窗口检验结论是否依赖观察时长。",
+            "taskKind": "followup",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 7,
+              "audience": "paid",
+              "filters": {
+                "channels": [
+                  "FaceBoom"
+                ],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "spend",
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend",
+                "users"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "8ce325e1-eca6-4654-b2ab-3f74896d3024",
+              "investigationId": "e0c06425-ab5e-4e30-a6c2-985510f0f535",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-7f5ccd41-8ea0-40a1-8fae-0a69fb53b02f"
+            ]
+          },
+          {
+            "id": "calendar-trend",
+            "label": "查看自然月收入趋势",
+            "message": "切换为自然时期，不分组查看按月收入趋势？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；自然时期；付费渠道用户；渠道=FaceBoom。",
+            "reason": "自然时期趋势回答变化发生在哪个月；口径将明确切换。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": "month",
+              "mode": "calendar",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [
+                  "FaceBoom"
+                ],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "revenue"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "8ce325e1-eca6-4654-b2ab-3f74896d3024",
+              "investigationId": "e0c06425-ab5e-4e30-a6c2-985510f0f535",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-7f5ccd41-8ea0-40a1-8fae-0a69fb53b02f"
+            ]
+          }
+        ],
+        "facts": [
+          {
+            "id": "f-0-0-spend",
+            "evidenceId": "ev-7f5ccd41-8ea0-40a1-8fae-0a69fb53b02f",
+            "rowIndex": 0,
+            "metric": "spend",
+            "value": 5501.1,
+            "label": "2019-06 / FaceBoom / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-0-revenue",
+            "evidenceId": "ev-7f5ccd41-8ea0-40a1-8fae-0a69fb53b02f",
+            "rowIndex": 0,
+            "metric": "revenue",
+            "value": 3830.09,
+            "label": "2019-06 / FaceBoom / 14天 / 收入"
+          },
+          {
+            "id": "f-0-1-spend",
+            "evidenceId": "ev-7f5ccd41-8ea0-40a1-8fae-0a69fb53b02f",
+            "rowIndex": 1,
+            "metric": "spend",
+            "value": 5294.3,
+            "label": "2019-07 / FaceBoom / 14天 / 记录渠道费用"
+          },
+          {
+            "id": "f-0-1-revenue",
+            "evidenceId": "ev-7f5ccd41-8ea0-40a1-8fae-0a69fb53b02f",
+            "rowIndex": 1,
+            "metric": "revenue",
+            "value": 4369.51,
+            "label": "2019-07 / FaceBoom / 14天 / 收入"
+          }
+        ],
+        "findings": [
+          {
+            "text": "FaceBoom：2019-07对比2019-06，首访后14天口径下，费用减少206.8，收入增加539.42。",
+            "factIds": [
+              "f-0-0-spend",
+              "f-0-1-spend",
+              "f-0-0-revenue",
+              "f-0-1-revenue"
+            ]
+          },
+          {
+            "text": "FaceBoom：2019-07相较2019-06，首访后14天的 记录渠道费用 从5501.1变为5294.3，差额-206.8，变化率-3.76%。",
+            "factIds": [
+              "f-0-0-spend",
+              "f-0-1-spend"
+            ]
+          },
+          {
+            "text": "FaceBoom：2019-07相较2019-06，首访后14天的 收入 从3830.09变为4369.51，差额539.42，变化率14.08%。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue"
+            ]
+          }
+        ],
+        "checkedExplanations": [
+          "首访后14天，整体已核查：记录渠道费用、首次观测用户数、购买用户数、收入、购买用户比例、每位购买用户收入、每位新用户记录费用、收入与记录费用比、用户数。"
+        ],
+        "limitations": [
+          "进一步解释尚未完全通过审查，当前只确认已查询到的观测变化。",
+          "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
+          "金额币种与时区未注明，沿用原始时间与样例金额单位",
+          "没有广告曝光、点击、预算、素材或真实广告增量",
+          "没有商品、结账步骤、退款或利润",
+          "费用只有渠道和日期粒度；无法计算设备或国家广告费用",
+          "订单没有 session ID；渠道、设备、国家使用首次观测访问归属",
+          "organic 未提供费用，费用缺失不补零"
+        ],
+        "nextSteps": [
+          "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=FaceBoom。",
+          "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户；渠道=FaceBoom。",
+          "切换为自然时期，不分组查看按月收入趋势？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；自然时期；付费渠道用户；渠道=FaceBoom。"
+        ],
+        "chartNotes": []
+      },
+      "evidence": [
+        {
+          "id": "ev-7f5ccd41-8ea0-40a1-8fae-0a69fb53b02f",
+          "datasetVersion": "4c26d29934370408",
+          "metricVersion": "procrastinate-v1",
+          "spec": {
+            "timeGrain": null,
+            "mode": "cohort",
+            "periods": [
+              {
+                "label": "2019-06",
+                "start": "2019-06-01",
+                "end": "2019-07-01"
+              },
+              {
+                "label": "2019-07",
+                "start": "2019-07-01",
+                "end": "2019-08-01"
+              }
+            ],
+            "windowDays": 14,
+            "audience": "paid",
+            "filters": {
+              "channels": [
+                "FaceBoom"
+              ],
+              "devices": [],
+              "regions": []
+            },
+            "groupBy": [],
+            "metrics": [
+              "spend",
+              "new_users",
+              "payers",
+              "revenue",
+              "payer_rate",
+              "revenue_per_payer",
+              "cost_per_new_user",
+              "revenue_to_spend",
+              "users"
+            ]
+          },
+          "rows": [
+            {
+              "period": "2019-06",
+              "dimensions": {},
+              "values": {
+                "spend": 5501.1,
+                "new_users": 4926,
+                "payers": 568,
+                "revenue": 3830.09,
+                "payer_rate": 0.115307,
+                "revenue_per_payer": 6.743116,
+                "cost_per_new_user": 1.116748,
+                "revenue_to_spend": 0.696241,
+                "users": 4926
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {},
+              "values": {
+                "spend": 5294.3,
+                "new_users": 4754,
+                "payers": 573,
+                "revenue": 4369.51,
+                "payer_rate": 0.12053,
+                "revenue_per_payer": 7.625672,
+                "cost_per_new_user": 1.113652,
+                "revenue_to_spend": 0.825323,
+                "users": 4754
+              }
+            }
+          ],
+          "comparisons": [
+            {
+              "dimensions": {},
+              "metric": "spend",
+              "baseline": 5501.1,
+              "current": 5294.3,
+              "delta": -206.8,
+              "relativeChange": -0.037592
+            },
+            {
+              "dimensions": {},
+              "metric": "new_users",
+              "baseline": 4926,
+              "current": 4754,
+              "delta": -172,
+              "relativeChange": -0.034917
+            },
+            {
+              "dimensions": {},
+              "metric": "payers",
+              "baseline": 568,
+              "current": 573,
+              "delta": 5,
+              "relativeChange": 0.008803
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue",
+              "baseline": 3830.09,
+              "current": 4369.51,
+              "delta": 539.42,
+              "relativeChange": 0.140837
+            },
+            {
+              "dimensions": {},
+              "metric": "payer_rate",
+              "baseline": 0.115307,
+              "current": 0.12053,
+              "delta": 0.005223,
+              "relativeChange": 0.045296
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue_per_payer",
+              "baseline": 6.743116,
+              "current": 7.625672,
+              "delta": 0.882556,
+              "relativeChange": 0.130883
+            },
+            {
+              "dimensions": {},
+              "metric": "cost_per_new_user",
+              "baseline": 1.116748,
+              "current": 1.113652,
+              "delta": -0.003096,
+              "relativeChange": -0.002772
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue_to_spend",
+              "baseline": 0.696241,
+              "current": 0.825323,
+              "delta": 0.129082,
+              "relativeChange": 0.185398
+            },
+            {
+              "dimensions": {},
+              "metric": "users",
+              "baseline": 4926,
+              "current": 4754,
+              "delta": -172,
+              "relativeChange": -0.034917
+            }
+          ],
+          "coverage": [
+            {
+              "period": "2019-06",
+              "requestedStart": "2019-06-01",
+              "requestedEnd": "2019-07-01",
+              "effectiveEnd": "2019-07-01",
+              "excludedUsers": 0,
+              "days": 30
+            },
+            {
+              "period": "2019-07",
+              "requestedStart": "2019-07-01",
+              "requestedEnd": "2019-08-01",
+              "effectiveEnd": "2019-08-01",
+              "excludedUsers": 0,
+              "days": 31
+            }
+          ],
+          "queryIds": [
+            "ea671893-e5a2-4b5f-b81c-faa2f8c2276f",
+            "454fa550-42e6-40d0-965c-a99d89d68528"
+          ]
+        }
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 13425,
+          "receiptId": "rcpt_req_xctpm50q"
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 13547,
+          "receiptId": "rcpt_req_msok25c9"
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 4220,
+          "receiptId": "rcpt_req_lgygh1rp"
+        }
+      ]
+    },
+    {
+      "name": "simple-query",
+      "pass": true,
+      "runId": "4e4dde2e-08fc-4610-a83e-362f77cded0a",
+      "status": "completed",
+      "durationMs": 6564,
+      "question": "查询2019年7月所有用户自然月购买收入，只要收入汇总。",
+      "context": {
+        "conversationId": "57f045a1-9833-4ce5-984f-161e0632d0ee",
+        "investigationId": "2d376b0f-54c8-40cb-82dc-93e2d23c72ee",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 1,
+        "spec": {
+          "timeGrain": null,
+          "mode": "calendar",
+          "periods": [
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "all",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [],
+          "metrics": [
+            "revenue"
+          ]
+        },
+        "evidenceIds": [
+          "ev-7868aae4-e01e-4a8b-b999-0ab8e0188ffc"
+        ],
+        "lastQuestion": "查询2019年7月所有用户自然月购买收入，只要收入汇总。",
+        "taskKind": "query",
+        "objective": "查询2019年7月所有用户自然月购买收入，只要收入汇总。"
+      },
+      "answer": {
+        "summary": "2019-07，整体：自然时期的 收入 为35988.44。",
+        "conclusion": {
+          "text": "2019-07，整体：自然时期的 收入 为35988.44。",
+          "factIds": [
+            "f-0-0-revenue"
+          ]
+        },
+        "keyEvidence": [
+          {
+            "text": "2019-07，整体：自然时期的 收入 为35988.44。",
+            "factIds": [
+              "f-0-0-revenue"
+            ]
+          }
+        ],
+        "followups": [
+          {
+            "id": "purchase-composition",
+            "label": "拆分首次与后续购买收入",
+            "message": "比较收入变化来自首次购买还是后续购买？时期：2019-07-01至2019-08-01（结束日不含）；自然时期；全部用户。",
+            "reason": "尚未在当前范围完成首次与后续购买收入的拆分。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "calendar",
+              "periods": [
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "all",
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "first_purchase_revenue",
+                "repeat_purchase_revenue",
+                "revenue",
+                "repeat_payer_rate"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "57f045a1-9833-4ce5-984f-161e0632d0ee",
+              "investigationId": "2d376b0f-54c8-40cb-82dc-93e2d23c72ee",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-7868aae4-e01e-4a8b-b999-0ab8e0188ffc"
+            ]
+          },
+          {
+            "id": "payer-performance",
+            "label": "核查付费比例与每位购买用户收入",
+            "message": "比较购买用户比例和每位购买用户收入的变化？时期：2019-07-01至2019-08-01（结束日不含）；自然时期；全部用户。",
+            "reason": "补充付费比例及每位购买用户收入，核查收入变化发生在哪一环。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "calendar",
+              "periods": [
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "all",
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [],
+              "metrics": [
+                "users",
+                "payers",
+                "payer_rate",
+                "revenue",
+                "revenue_per_payer"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "57f045a1-9833-4ce5-984f-161e0632d0ee",
+              "investigationId": "2d376b0f-54c8-40cb-82dc-93e2d23c72ee",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-7868aae4-e01e-4a8b-b999-0ab8e0188ffc"
+            ]
+          },
+          {
+            "id": "channel-breakdown",
+            "label": "按渠道拆分变化",
+            "message": "按首次观测渠道比较这些指标的变化？时期：2019-07-01至2019-08-01（结束日不含）；自然时期；全部用户。",
+            "reason": "当前范围仍可按渠道定位具体变化。",
+            "taskKind": "followup",
+            "patch": {
+              "timeGrain": null,
+              "mode": "calendar",
+              "periods": [
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "all",
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": []
+              },
+              "groupBy": [
+                "channel"
+              ],
+              "metrics": [
+                "revenue"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "57f045a1-9833-4ce5-984f-161e0632d0ee",
+              "investigationId": "2d376b0f-54c8-40cb-82dc-93e2d23c72ee",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-7868aae4-e01e-4a8b-b999-0ab8e0188ffc"
+            ]
+          }
+        ],
+        "facts": [
+          {
+            "id": "f-0-0-revenue",
+            "evidenceId": "ev-7868aae4-e01e-4a8b-b999-0ab8e0188ffc",
+            "rowIndex": 0,
+            "metric": "revenue",
+            "value": 35988.44,
+            "label": "2019-07 / 整体 / 自然时期 / 收入"
+          }
+        ],
+        "findings": [
+          {
+            "text": "2019-07，整体：自然时期的 收入 为35988.44。",
+            "factIds": [
+              "f-0-0-revenue"
+            ]
+          }
+        ],
+        "checkedExplanations": [
+          "自然时期，整体已核查：收入。"
+        ],
+        "limitations": [
+          "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
+          "金额币种与时区未注明，沿用原始时间与样例金额单位",
+          "没有广告曝光、点击、预算、素材或真实广告增量",
+          "没有商品、结账步骤、退款或利润",
+          "费用只有渠道和日期粒度；无法计算设备或国家广告费用",
+          "订单没有 session ID；渠道、设备、国家使用首次观测访问归属",
+          "organic 未提供费用，费用缺失不补零"
+        ],
+        "nextSteps": [
+          "比较收入变化来自首次购买还是后续购买？时期：2019-07-01至2019-08-01（结束日不含）；自然时期；全部用户。",
+          "比较购买用户比例和每位购买用户收入的变化？时期：2019-07-01至2019-08-01（结束日不含）；自然时期；全部用户。",
+          "按首次观测渠道比较这些指标的变化？时期：2019-07-01至2019-08-01（结束日不含）；自然时期；全部用户。"
+        ],
+        "chartNotes": []
+      },
+      "evidence": [
+        {
+          "id": "ev-7868aae4-e01e-4a8b-b999-0ab8e0188ffc",
+          "datasetVersion": "4c26d29934370408",
+          "metricVersion": "procrastinate-v1",
+          "spec": {
+            "timeGrain": null,
+            "mode": "calendar",
+            "periods": [
+              {
+                "label": "2019-07",
+                "start": "2019-07-01",
+                "end": "2019-08-01"
+              }
+            ],
+            "windowDays": 14,
+            "audience": "all",
+            "filters": {
+              "channels": [],
+              "devices": [],
+              "regions": []
+            },
+            "groupBy": [],
+            "metrics": [
+              "revenue"
+            ]
+          },
+          "rows": [
+            {
+              "period": "2019-07",
+              "dimensions": {},
+              "values": {
+                "revenue": 35988.44
+              }
+            }
+          ],
+          "comparisons": [],
+          "coverage": [
+            {
+              "period": "2019-07",
+              "requestedStart": "2019-07-01",
+              "requestedEnd": "2019-08-01",
+              "effectiveEnd": "2019-08-01",
+              "excludedUsers": 0,
+              "days": 31
+            }
+          ],
+          "queryIds": [
+            "c9c90a40-13f7-4ff6-8e31-92c01701670e"
+          ]
+        }
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1418,
+          "receiptId": "rcpt_req_vrb0f3s9"
+        }
+      ]
+    }
+  ]
+}

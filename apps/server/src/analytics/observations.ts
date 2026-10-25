@@ -1,14 +1,38 @@
-import { LABELS } from "./catalog.ts";
-import type { Evidence, Fact, Finding, Metric } from "@storewhy/contracts";
+import { Decimal } from "decimal.js";
+import { LABELS, segmentLabel } from "./catalog.ts";
+import type {
+  Evidence,
+  Fact,
+  Finding,
+  Metric,
+  Dimension,
+} from "@storewhy/contracts";
 import { AppError } from "../config.ts";
 export interface Observation extends Finding {
   id: string;
   evidenceId: string;
-  kind: "comparison" | "joint" | "coverage" | "snapshot";
+  kind: "comparison" | "joint" | "contribution" | "coverage" | "snapshot";
+  metrics: Metric[];
+  focus?: Partial<Record<Dimension, string>>;
+}
+const percentage = (value: number) => new Decimal(value).mul(100);
+const percentageText = (value: number) =>
+  percentage(value).toDecimalPlaces(2).toString() + "%";
+const isProportion = (metric: Metric) =>
+  metric === "payer_rate" || metric === "repeat_payer_rate";
+const metricText = (metric: Metric, value: number) =>
+  isProportion(metric) ? percentageText(value) : String(value);
+function pointDelta(value: number) {
+  const exact = percentage(value).abs(),
+    rounded = exact.toDecimalPlaces(2);
+  return (
+    rounded.isZero() && !exact.isZero() ? exact.toSignificantDigits(2) : rounded
+  ).toString();
 }
 export function observationsFor(
   evidence: Evidence[],
   facts: Fact[],
+  options: { query?: boolean } = {},
 ): Observation[] {
   const output: Observation[] = [];
   const add = (
@@ -16,6 +40,7 @@ export function observationsFor(
     kind: Observation["kind"],
     text: string,
     refs: Fact[],
+    focus?: Partial<Record<Dimension, string>>,
   ) =>
     output.push({
       id: "o-" + output.length,
@@ -23,10 +48,18 @@ export function observationsFor(
       kind,
       text,
       factIds: refs.map((f) => f.id),
+      metrics: [...new Set(refs.map((f) => f.metric))],
+      ...(focus
+        ? { focus }
+        : refs.length && e.rows[refs[0].rowIndex]
+          ? { focus: e.rows[refs[0].rowIndex].dimensions }
+          : {}),
     });
   const sign = (value: number) =>
     value > 0 ? "增加" : value < 0 ? "减少" : "不变";
   for (const e of evidence) {
+    const segment = (dimensions: Partial<Record<Dimension, string>>) =>
+      segmentLabel(dimensions, e.spec.filters);
     const bound = (metric: Metric, dimensions: object) =>
       facts.filter(
         (f) =>
@@ -35,8 +68,6 @@ export function observationsFor(
           JSON.stringify(e.rows[f.rowIndex].dimensions) ===
             JSON.stringify(dimensions),
       );
-    const segment = (dimensions: object) =>
-      Object.values(dimensions).join(" / ") || "整体";
     const mode =
       e.spec.mode === "cohort" ? `首访后${e.spec.windowDays}天` : "自然时期";
     if (e.comparisons.length) {
@@ -44,7 +75,7 @@ export function observationsFor(
       const spend = e.comparisons
         .filter((c) => c.metric === "spend" && c.delta !== null)
         .sort((a, b) => Math.abs(b.delta!) - Math.abs(a.delta!));
-      for (const c of spend.slice(0, 4)) {
+      for (const c of options.query ? [] : spend.slice(0, 4)) {
         const r = e.comparisons.find(
           (other) =>
             other.metric === "revenue" &&
@@ -64,27 +95,63 @@ export function observationsFor(
                 r.relativeChange !== null &&
                 c.relativeChange > r.relativeChange
               ? "收入变化率低于费用变化率。"
-              : "两者变化应结合各自分母与渠道结构判断。";
+              : "";
         add(
           e,
           "joint",
-          `${segment(c.dimensions)}：${mode}口径下，费用${sign(c.delta!)}${Math.abs(c.delta!)}，收入${sign(r.delta!)}${Math.abs(r.delta!)}。${mismatch}这只是观测比较。`,
+          `${segment(c.dimensions)}：${e.spec.periods[1].label}对比${e.spec.periods[0].label}，${mode}口径下，费用${sign(c.delta!)}${Math.abs(c.delta!)}，收入${sign(r.delta!)}${Math.abs(r.delta!)}。${mismatch}`,
           [...bound("spend", c.dimensions), ...bound("revenue", c.dimensions)],
         );
+      }
+      // Add only complete, additive channel amounts. Rates and cross factors are never summed.
+      if (
+        !options.query &&
+        !e.truncated &&
+        e.spec.groupBy.length === 1 &&
+        e.spec.groupBy[0] === "channel"
+      ) {
+        for (const metric of ["spend", "revenue"] as const) {
+          const changes = e.comparisons.filter((c) => c.metric === metric);
+          if (changes.length < 2 || changes.some((c) => c.delta === null))
+            continue;
+          const lead = [...changes].sort(
+            (a, b) => Math.abs(b.delta!) - Math.abs(a.delta!),
+          )[0];
+          const net = changes.reduce(
+            (sum, c) => sum.plus(c.delta!),
+            new Decimal(0),
+          );
+          const rest = net.minus(lead.delta!).toDecimalPlaces(6).toNumber();
+          add(
+            e,
+            "contribution",
+            `${e.spec.periods[1].label}对比${e.spec.periods[0].label}，${mode}的${LABELS[metric]}：${segment(lead.dimensions)}${sign(lead.delta!)}${Math.abs(lead.delta!)}，其余所列渠道合计${sign(rest)}${Math.abs(rest)}，所列渠道合计${sign(net.toNumber())}${net.abs().toNumber()}。`,
+            facts.filter((f) => f.evidenceId === e.id && f.metric === metric),
+            lead.dimensions,
+          );
+        }
       }
       for (const metric of e.spec.metrics) {
         const all = e.comparisons
           .filter((c) => c.metric === metric && c.delta !== null)
-          .sort((a, b) => Math.abs(b.delta!) - Math.abs(a.delta!));
-        for (const c of all.slice(0, e.spec.groupBy.length ? 2 : 1)) {
+          .sort((a, b) =>
+            options.query
+              ? b.delta! - a.delta!
+              : Math.abs(b.delta!) - Math.abs(a.delta!),
+          );
+        const candidates =
+          options.query && all.length > 1
+            ? [all[0], all.at(-1)!]
+            : all.slice(0, e.spec.groupBy.length ? 2 : 1);
+        for (const c of candidates) {
           const percent =
-            c.relativeChange === null
+            c.relativeChange === null || isProportion(metric)
               ? ""
               : `，变化率${(c.relativeChange * 100).toFixed(2)}%`;
           add(
             e,
             "comparison",
-            `${segment(c.dimensions)}：${e.spec.periods[1].label}相较${e.spec.periods[0].label}，${mode}的 ${LABELS[metric]} 从${c.baseline}变为${c.current}，差额${c.delta}${percent}。`,
+            `${segment(c.dimensions)}：${e.spec.periods[1].label}相较${e.spec.periods[0].label}，${mode}的 ${LABELS[metric]} 从${metricText(metric, c.baseline!)}变为${metricText(metric, c.current!)}，${isProportion(metric) ? `${sign(c.delta!)}${pointDelta(c.delta!)}个百分点` : `差额${c.delta}`}${percent}。`,
             bound(metric, c.dimensions),
           );
         }
@@ -103,7 +170,7 @@ export function observationsFor(
           add(
             e,
             "snapshot",
-            `${row.period}${row.bucket ? " / " + row.bucket : ""}，${segment(row.dimensions)}：${mode}的 ${LABELS[metric]} 为${value}。`,
+            `${row.period}${row.bucket ? " / " + row.bucket : ""}，${segment(row.dimensions)}：${mode}的 ${LABELS[metric]} 为${metricText(metric, value)}。`,
             facts.filter(
               (f) =>
                 f.evidenceId === e.id &&

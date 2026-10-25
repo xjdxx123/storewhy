@@ -91,3 +91,7 @@ H-MEM 复制自 Meterless 的 Apache-2.0 参考模块，版本与修改见 [UPST
 ## Evidence-bound charts
 
 后端 API 1.1.0 的回答增加可选 `charts/chartNotes`，支持对比条形、自然时期趋势和首次/后续购买收入构成。每点引用实际 Evidence 单元格；也可调用 `GET /api/v1/evidence/:id/charts` / `client.evidenceCharts(id)`，不会新增模型或 SQL 调用。React 接入见 [图表契约](docs/chart-contract.md)，离线 mock 见 [三类样例](docs/examples/charts.json)。运行 `npm run docs:charts` 重新生成自制样例，Live 验证用 `npm run test:charts -- --agent`（需已启动新版 Live 服务）。
+
+## Grounded answers and followups
+
+API 1.2.0 新增 `answer.conclusion/keyEvidence/followups`：具体结论、可展开的关键证据，以及带完整范围和上下文版本的可执行推荐。`client.followup(action)` 沿用 messages API；过期动作返回 409 STALE_CONTEXT。接入见 [回答契约](docs/answer-contract.md)，离线 payload 见 [Answer mock](docs/examples/answer.json)。`npm run docs:answer` 生成样例，`npm run eval:answers` 在运行中的 Live 服务验证真实模型回答与连续追问。
