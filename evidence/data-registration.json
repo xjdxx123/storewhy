@@ -1,0 +1,59 @@
+{
+  "at": "2026-10-25T05:04:03.670Z",
+  "backend": "zetaris",
+  "queries": [
+    {
+      "sql": "SELECT COUNT(*) AS n FROM storewhy.visits",
+      "rows": [
+        {
+          "n": "309901"
+        }
+      ],
+      "queryId": "e270cafd-1768-4f0a-aa58-4e6715681c26"
+    },
+    {
+      "sql": "SELECT COUNT(*) AS n FROM storewhy.purchases",
+      "rows": [
+        {
+          "n": "40212"
+        }
+      ],
+      "queryId": "4f185a84-8faf-4811-b261-3619446917ca"
+    },
+    {
+      "sql": "SELECT COUNT(*) AS n FROM storewhy.costs",
+      "rows": [
+        {
+          "n": "1800"
+        }
+      ],
+      "queryId": "f3263209-cf37-48c7-aeca-d86e5e9320d3"
+    },
+    {
+      "sql": "SELECT COUNT(*) AS n FROM storewhy.profiles",
+      "rows": [
+        {
+          "n": "150008"
+        }
+      ],
+      "queryId": "421da8f9-1188-48db-8b4c-4f650d591f31"
+    },
+    {
+      "sql": "SELECT COUNT(*) AS n FROM storewhy.purchase_facts",
+      "rows": [
+        {
+          "n": "40212"
+        }
+      ],
+      "queryId": "4942a23b-bcc7-4f59-8bd3-eaccae34b082"
+    }
+  ],
+  "result": "PASS",
+  "rowCounts": {
+    "visits": 309901,
+    "purchases": 40212,
+    "costs": 1800,
+    "profiles": 150008,
+    "purchase_facts": 40212
+  }
+}

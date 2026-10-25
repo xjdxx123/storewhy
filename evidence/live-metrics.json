@@ -1,0 +1,2260 @@
+{
+  "checks": "PASS",
+  "baseline": {
+    "id": "ev-b6bc1e2b-5c01-435e-984e-e62b8a60db64",
+    "datasetVersion": "4c26d29934370408",
+    "metricVersion": "procrastinate-v1",
+    "spec": {
+      "mode": "cohort",
+      "periods": [
+        {
+          "label": "2019-06",
+          "start": "2019-06-01",
+          "end": "2019-07-01"
+        },
+        {
+          "label": "2019-07",
+          "start": "2019-07-01",
+          "end": "2019-08-01"
+        }
+      ],
+      "windowDays": 14,
+      "audience": "paid",
+      "filters": {
+        "channels": [],
+        "devices": [],
+        "regions": []
+      },
+      "groupBy": [],
+      "metrics": [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend"
+      ]
+    },
+    "sql": [
+      "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-07-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND first_seen < CAST('2019-07-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-06-01' AS DATE) AND c.cost_date < CAST('2019-07-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201",
+      "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201"
+    ],
+    "queryIds": [
+      "78fada57-9034-40b2-88e3-634e1629e924",
+      "d14992b2-697f-4319-9809-0a68f934c0ec"
+    ],
+    "comparisons": [
+      {
+        "dimensions": {},
+        "metric": "spend",
+        "baseline": 15090.05,
+        "current": 16447.06,
+        "delta": 1357.01,
+        "relativeChange": 0.089927
+      },
+      {
+        "dimensions": {},
+        "metric": "new_users",
+        "baseline": 15315,
+        "current": 14941,
+        "delta": -374,
+        "relativeChange": -0.024421
+      },
+      {
+        "dimensions": {},
+        "metric": "payers",
+        "baseline": 1227,
+        "current": 1195,
+        "delta": -32,
+        "relativeChange": -0.02608
+      },
+      {
+        "dimensions": {},
+        "metric": "revenue",
+        "baseline": 13645.59,
+        "current": 13688.12,
+        "delta": 42.53,
+        "relativeChange": 0.003117
+      },
+      {
+        "dimensions": {},
+        "metric": "payer_rate",
+        "baseline": 0.080118,
+        "current": 0.079981,
+        "delta": -0.000137,
+        "relativeChange": -0.00171
+      },
+      {
+        "dimensions": {},
+        "metric": "revenue_per_payer",
+        "baseline": 11.1211,
+        "current": 11.454494,
+        "delta": 0.333394,
+        "relativeChange": 0.029979
+      },
+      {
+        "dimensions": {},
+        "metric": "cost_per_new_user",
+        "baseline": 0.985312,
+        "current": 1.1008,
+        "delta": 0.115488,
+        "relativeChange": 0.11721
+      },
+      {
+        "dimensions": {},
+        "metric": "revenue_to_spend",
+        "baseline": 0.904277,
+        "current": 0.832253,
+        "delta": -0.072024,
+        "relativeChange": -0.079648
+      }
+    ],
+    "backend": "zetaris",
+    "rows": [
+      {
+        "period": "2019-06",
+        "dimensions": {},
+        "values": {
+          "spend": 15090.05,
+          "new_users": 15315,
+          "payers": 1227,
+          "revenue": 13645.59,
+          "payer_rate": 0.080118,
+          "revenue_per_payer": 11.1211,
+          "cost_per_new_user": 0.985312,
+          "revenue_to_spend": 0.904277
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {},
+        "values": {
+          "spend": 16447.06,
+          "new_users": 14941,
+          "payers": 1195,
+          "revenue": 13688.12,
+          "payer_rate": 0.079981,
+          "revenue_per_payer": 11.454494,
+          "cost_per_new_user": 1.1008,
+          "revenue_to_spend": 0.832253
+        }
+      }
+    ],
+    "coverage": [
+      {
+        "period": "2019-06",
+        "requestedStart": "2019-06-01",
+        "requestedEnd": "2019-07-01",
+        "effectiveEnd": "2019-07-01",
+        "excludedUsers": 0,
+        "days": 30
+      },
+      {
+        "period": "2019-07",
+        "requestedStart": "2019-07-01",
+        "requestedEnd": "2019-08-01",
+        "effectiveEnd": "2019-08-01",
+        "excludedUsers": 0,
+        "days": 31
+      }
+    ],
+    "definitions": {
+      "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
+      "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
+      "payers": "时期或观察窗口内至少购买一次的不同用户数",
+      "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
+      "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
+      "revenue_per_payer": "收入 / 购买用户数",
+      "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
+      "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+    },
+    "notes": [
+      "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
+      "时间为源数据原始时间，金额单位未标注。",
+      "spec:8b783c6a719e54c25198a3f357ce939365a1b87d22bee71218e56da43cdef121"
+    ],
+    "createdAt": "2026-10-25T05:26:06.293Z",
+    "durationMs": 6180,
+    "truncated": false
+  },
+  "h7": {
+    "id": "ev-1ba1f1fe-e001-4866-b7eb-df557e11376c",
+    "datasetVersion": "4c26d29934370408",
+    "metricVersion": "procrastinate-v1",
+    "spec": {
+      "mode": "cohort",
+      "periods": [
+        {
+          "label": "2019-06",
+          "start": "2019-06-01",
+          "end": "2019-07-01"
+        },
+        {
+          "label": "2019-07",
+          "start": "2019-07-01",
+          "end": "2019-08-01"
+        }
+      ],
+      "windowDays": 7,
+      "audience": "paid",
+      "filters": {
+        "channels": [],
+        "devices": [],
+        "regions": []
+      },
+      "groupBy": [],
+      "metrics": [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend"
+      ]
+    },
+    "sql": [
+      "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-07-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '7' DAY GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND first_seen < CAST('2019-07-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '7' DAY ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-06-01' AS DATE) AND c.cost_date < CAST('2019-07-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201",
+      "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '7' DAY GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '7' DAY ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201"
+    ],
+    "queryIds": [
+      "a25c78df-b5db-4b67-b5af-d8d68971ab09",
+      "de92e06f-ceca-4edf-b3df-6bcf139e8050"
+    ],
+    "comparisons": [
+      {
+        "dimensions": {},
+        "metric": "spend",
+        "baseline": 15090.05,
+        "current": 16447.06,
+        "delta": 1357.01,
+        "relativeChange": 0.089927
+      },
+      {
+        "dimensions": {},
+        "metric": "new_users",
+        "baseline": 15315,
+        "current": 14941,
+        "delta": -374,
+        "relativeChange": -0.024421
+      },
+      {
+        "dimensions": {},
+        "metric": "payers",
+        "baseline": 1164,
+        "current": 1141,
+        "delta": -23,
+        "relativeChange": -0.019759
+      },
+      {
+        "dimensions": {},
+        "metric": "revenue",
+        "baseline": 10239.01,
+        "current": 10697.85,
+        "delta": 458.84,
+        "relativeChange": 0.044813
+      },
+      {
+        "dimensions": {},
+        "metric": "payer_rate",
+        "baseline": 0.076004,
+        "current": 0.076367,
+        "delta": 0.000363,
+        "relativeChange": 0.004776
+      },
+      {
+        "dimensions": {},
+        "metric": "revenue_per_payer",
+        "baseline": 8.7964,
+        "current": 9.375855,
+        "delta": 0.579455,
+        "relativeChange": 0.065874
+      },
+      {
+        "dimensions": {},
+        "metric": "cost_per_new_user",
+        "baseline": 0.985312,
+        "current": 1.1008,
+        "delta": 0.115488,
+        "relativeChange": 0.11721
+      },
+      {
+        "dimensions": {},
+        "metric": "revenue_to_spend",
+        "baseline": 0.678527,
+        "current": 0.650441,
+        "delta": -0.028086,
+        "relativeChange": -0.041393
+      }
+    ],
+    "backend": "zetaris",
+    "rows": [
+      {
+        "period": "2019-06",
+        "dimensions": {},
+        "values": {
+          "spend": 15090.05,
+          "new_users": 15315,
+          "payers": 1164,
+          "revenue": 10239.01,
+          "payer_rate": 0.076004,
+          "revenue_per_payer": 8.7964,
+          "cost_per_new_user": 0.985312,
+          "revenue_to_spend": 0.678527
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {},
+        "values": {
+          "spend": 16447.06,
+          "new_users": 14941,
+          "payers": 1141,
+          "revenue": 10697.85,
+          "payer_rate": 0.076367,
+          "revenue_per_payer": 9.375855,
+          "cost_per_new_user": 1.1008,
+          "revenue_to_spend": 0.650441
+        }
+      }
+    ],
+    "coverage": [
+      {
+        "period": "2019-06",
+        "requestedStart": "2019-06-01",
+        "requestedEnd": "2019-07-01",
+        "effectiveEnd": "2019-07-01",
+        "excludedUsers": 0,
+        "days": 30
+      },
+      {
+        "period": "2019-07",
+        "requestedStart": "2019-07-01",
+        "requestedEnd": "2019-08-01",
+        "effectiveEnd": "2019-08-01",
+        "excludedUsers": 0,
+        "days": 31
+      }
+    ],
+    "definitions": {
+      "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
+      "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
+      "payers": "时期或观察窗口内至少购买一次的不同用户数",
+      "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
+      "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
+      "revenue_per_payer": "收入 / 购买用户数",
+      "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
+      "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+    },
+    "notes": [
+      "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
+      "时间为源数据原始时间，金额单位未标注。",
+      "spec:af27bc1643e663ab249dbd65818d3d532eefa5114077d6914e5e33ecbaf0c3c7"
+    ],
+    "createdAt": "2026-10-25T05:26:12.084Z",
+    "durationMs": 5787,
+    "truncated": false
+  },
+  "independentReference": "reference-metrics.json",
+  "grouped": {
+    "id": "ev-57798455-8c60-4ca0-9f93-e0b4e7ffebe0",
+    "datasetVersion": "4c26d29934370408",
+    "metricVersion": "procrastinate-v1",
+    "spec": {
+      "mode": "cohort",
+      "periods": [
+        {
+          "label": "2019-06",
+          "start": "2019-06-01",
+          "end": "2019-07-01"
+        },
+        {
+          "label": "2019-07",
+          "start": "2019-07-01",
+          "end": "2019-08-01"
+        }
+      ],
+      "windowDays": 14,
+      "audience": "paid",
+      "filters": {
+        "channels": [],
+        "devices": [],
+        "regions": []
+      },
+      "groupBy": [
+        "channel"
+      ],
+      "metrics": [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend"
+      ]
+    },
+    "sql": [
+      "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-07-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,u.channel AS channel, '__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen,u.channel),\nuser_agg AS (SELECT channel, segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND first_seen < CAST('2019-07-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY channel, segment),\nsession_agg AS (SELECT u.channel AS channel, '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.channel),\ncost_agg AS (SELECT c.channel,'__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-06-01' AS DATE) AND c.cost_date < CAST('2019-07-01' AS DATE) GROUP BY c.channel),\nkeys AS (SELECT channel, segment FROM user_agg UNION SELECT channel, segment FROM session_agg UNION SELECT channel, segment FROM cost_agg) SELECT k.channel, k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.channel=u.channel AND k.segment=u.segment LEFT JOIN session_agg s ON k.channel=s.channel AND k.segment=s.segment LEFT JOIN cost_agg c ON k.channel=c.channel AND k.segment=c.segment ORDER BY k.channel, k.segment LIMIT 201",
+      "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,u.channel AS channel, '__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen,u.channel),\nuser_agg AS (SELECT channel, segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY channel, segment),\nsession_agg AS (SELECT u.channel AS channel, '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.channel),\ncost_agg AS (SELECT c.channel,'__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) GROUP BY c.channel),\nkeys AS (SELECT channel, segment FROM user_agg UNION SELECT channel, segment FROM session_agg UNION SELECT channel, segment FROM cost_agg) SELECT k.channel, k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.channel=u.channel AND k.segment=u.segment LEFT JOIN session_agg s ON k.channel=s.channel AND k.segment=s.segment LEFT JOIN cost_agg c ON k.channel=c.channel AND k.segment=c.segment ORDER BY k.channel, k.segment LIMIT 201"
+    ],
+    "queryIds": [
+      "935d7421-c76d-4920-aee0-d90db98c9de9",
+      "80ea5401-212b-4575-8210-7b114c8b5b8c"
+    ],
+    "comparisons": [
+      {
+        "dimensions": {
+          "channel": "AdNonSense"
+        },
+        "metric": "spend",
+        "baseline": 538.65,
+        "current": 504,
+        "delta": -34.65,
+        "relativeChange": -0.064327
+      },
+      {
+        "dimensions": {
+          "channel": "AdNonSense"
+        },
+        "metric": "new_users",
+        "baseline": 532,
+        "current": 508,
+        "delta": -24,
+        "relativeChange": -0.045113
+      },
+      {
+        "dimensions": {
+          "channel": "AdNonSense"
+        },
+        "metric": "payers",
+        "baseline": 62,
+        "current": 46,
+        "delta": -16,
+        "relativeChange": -0.258065
+      },
+      {
+        "dimensions": {
+          "channel": "AdNonSense"
+        },
+        "metric": "revenue",
+        "baseline": 434.17,
+        "current": 430.23,
+        "delta": -3.94,
+        "relativeChange": -0.009075
+      },
+      {
+        "dimensions": {
+          "channel": "AdNonSense"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.116541,
+        "current": 0.090551,
+        "delta": -0.02599,
+        "relativeChange": -0.223012
+      },
+      {
+        "dimensions": {
+          "channel": "AdNonSense"
+        },
+        "metric": "revenue_per_payer",
+        "baseline": 7.002742,
+        "current": 9.352826,
+        "delta": 2.350084,
+        "relativeChange": 0.335595
+      },
+      {
+        "dimensions": {
+          "channel": "AdNonSense"
+        },
+        "metric": "cost_per_new_user",
+        "baseline": 1.0125,
+        "current": 0.992126,
+        "delta": -0.020374,
+        "relativeChange": -0.020122
+      },
+      {
+        "dimensions": {
+          "channel": "AdNonSense"
+        },
+        "metric": "revenue_to_spend",
+        "baseline": 0.806034,
+        "current": 0.853631,
+        "delta": 0.047597,
+        "relativeChange": 0.059051
+      },
+      {
+        "dimensions": {
+          "channel": "FaceBoom"
+        },
+        "metric": "spend",
+        "baseline": 5501.1,
+        "current": 5294.3,
+        "delta": -206.8,
+        "relativeChange": -0.037592
+      },
+      {
+        "dimensions": {
+          "channel": "FaceBoom"
+        },
+        "metric": "new_users",
+        "baseline": 4926,
+        "current": 4754,
+        "delta": -172,
+        "relativeChange": -0.034917
+      },
+      {
+        "dimensions": {
+          "channel": "FaceBoom"
+        },
+        "metric": "payers",
+        "baseline": 568,
+        "current": 573,
+        "delta": 5,
+        "relativeChange": 0.008803
+      },
+      {
+        "dimensions": {
+          "channel": "FaceBoom"
+        },
+        "metric": "revenue",
+        "baseline": 3830.09,
+        "current": 4369.51,
+        "delta": 539.42,
+        "relativeChange": 0.140837
+      },
+      {
+        "dimensions": {
+          "channel": "FaceBoom"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.115307,
+        "current": 0.12053,
+        "delta": 0.005223,
+        "relativeChange": 0.045296
+      },
+      {
+        "dimensions": {
+          "channel": "FaceBoom"
+        },
+        "metric": "revenue_per_payer",
+        "baseline": 6.743116,
+        "current": 7.625672,
+        "delta": 0.882556,
+        "relativeChange": 0.130883
+      },
+      {
+        "dimensions": {
+          "channel": "FaceBoom"
+        },
+        "metric": "cost_per_new_user",
+        "baseline": 1.116748,
+        "current": 1.113652,
+        "delta": -0.003096,
+        "relativeChange": -0.002772
+      },
+      {
+        "dimensions": {
+          "channel": "FaceBoom"
+        },
+        "metric": "revenue_to_spend",
+        "baseline": 0.696241,
+        "current": 0.825323,
+        "delta": 0.129082,
+        "relativeChange": 0.185398
+      },
+      {
+        "dimensions": {
+          "channel": "LeapBob"
+        },
+        "metric": "spend",
+        "baseline": 314.58,
+        "current": 313.53,
+        "delta": -1.05,
+        "relativeChange": -0.003338
+      },
+      {
+        "dimensions": {
+          "channel": "LeapBob"
+        },
+        "metric": "new_users",
+        "baseline": 1486,
+        "current": 1494,
+        "delta": 8,
+        "relativeChange": 0.005384
+      },
+      {
+        "dimensions": {
+          "channel": "LeapBob"
+        },
+        "metric": "payers",
+        "baseline": 40,
+        "current": 49,
+        "delta": 9,
+        "relativeChange": 0.225
+      },
+      {
+        "dimensions": {
+          "channel": "LeapBob"
+        },
+        "metric": "revenue",
+        "baseline": 669.77,
+        "current": 661.69,
+        "delta": -8.08,
+        "relativeChange": -0.012064
+      },
+      {
+        "dimensions": {
+          "channel": "LeapBob"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.026918,
+        "current": 0.032798,
+        "delta": 0.00588,
+        "relativeChange": 0.218441
+      },
+      {
+        "dimensions": {
+          "channel": "LeapBob"
+        },
+        "metric": "revenue_per_payer",
+        "baseline": 16.74425,
+        "current": 13.503878,
+        "delta": -3.240372,
+        "relativeChange": -0.193521
+      },
+      {
+        "dimensions": {
+          "channel": "LeapBob"
+        },
+        "metric": "cost_per_new_user",
+        "baseline": 0.211696,
+        "current": 0.209859,
+        "delta": -0.001837,
+        "relativeChange": -0.008678
+      },
+      {
+        "dimensions": {
+          "channel": "LeapBob"
+        },
+        "metric": "revenue_to_spend",
+        "baseline": 2.129093,
+        "current": 2.110452,
+        "delta": -0.018641,
+        "relativeChange": -0.008755
+      },
+      {
+        "dimensions": {
+          "channel": "MediaTornado"
+        },
+        "metric": "spend",
+        "baseline": 138,
+        "current": 138.48,
+        "delta": 0.48,
+        "relativeChange": 0.003478
+      },
+      {
+        "dimensions": {
+          "channel": "MediaTornado"
+        },
+        "metric": "new_users",
+        "baseline": 632,
+        "current": 643,
+        "delta": 11,
+        "relativeChange": 0.017405
+      },
+      {
+        "dimensions": {
+          "channel": "MediaTornado"
+        },
+        "metric": "payers",
+        "baseline": 21,
+        "current": 22,
+        "delta": 1,
+        "relativeChange": 0.047619
+      },
+      {
+        "dimensions": {
+          "channel": "MediaTornado"
+        },
+        "metric": "revenue",
+        "baseline": 319.42,
+        "current": 295.42,
+        "delta": -24,
+        "relativeChange": -0.075136
+      },
+      {
+        "dimensions": {
+          "channel": "MediaTornado"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.033228,
+        "current": 0.034215,
+        "delta": 0.000987,
+        "relativeChange": 0.029704
+      },
+      {
+        "dimensions": {
+          "channel": "MediaTornado"
+        },
+        "metric": "revenue_per_payer",
+        "baseline": 15.210476,
+        "current": 13.428182,
+        "delta": -1.782294,
+        "relativeChange": -0.117175
+      },
+      {
+        "dimensions": {
+          "channel": "MediaTornado"
+        },
+        "metric": "cost_per_new_user",
+        "baseline": 0.218354,
+        "current": 0.215365,
+        "delta": -0.002989,
+        "relativeChange": -0.013689
+      },
+      {
+        "dimensions": {
+          "channel": "MediaTornado"
+        },
+        "metric": "revenue_to_spend",
+        "baseline": 2.314638,
+        "current": 2.133304,
+        "delta": -0.181334,
+        "relativeChange": -0.078342
+      },
+      {
+        "dimensions": {
+          "channel": "OppleCreativeMedia"
+        },
+        "metric": "spend",
+        "baseline": 370,
+        "current": 366.5,
+        "delta": -3.5,
+        "relativeChange": -0.009459
+      },
+      {
+        "dimensions": {
+          "channel": "OppleCreativeMedia"
+        },
+        "metric": "new_users",
+        "baseline": 1481,
+        "current": 1457,
+        "delta": -24,
+        "relativeChange": -0.016205
+      },
+      {
+        "dimensions": {
+          "channel": "OppleCreativeMedia"
+        },
+        "metric": "payers",
+        "baseline": 39,
+        "current": 39,
+        "delta": 0,
+        "relativeChange": 0
+      },
+      {
+        "dimensions": {
+          "channel": "OppleCreativeMedia"
+        },
+        "metric": "revenue",
+        "baseline": 606.89,
+        "current": 486.03,
+        "delta": -120.86,
+        "relativeChange": -0.199146
+      },
+      {
+        "dimensions": {
+          "channel": "OppleCreativeMedia"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.026334,
+        "current": 0.026767,
+        "delta": 0.000433,
+        "relativeChange": 0.016443
+      },
+      {
+        "dimensions": {
+          "channel": "OppleCreativeMedia"
+        },
+        "metric": "revenue_per_payer",
+        "baseline": 15.561282,
+        "current": 12.462308,
+        "delta": -3.098974,
+        "relativeChange": -0.199146
+      },
+      {
+        "dimensions": {
+          "channel": "OppleCreativeMedia"
+        },
+        "metric": "cost_per_new_user",
+        "baseline": 0.249831,
+        "current": 0.251544,
+        "delta": 0.001713,
+        "relativeChange": 0.006857
+      },
+      {
+        "dimensions": {
+          "channel": "OppleCreativeMedia"
+        },
+        "metric": "revenue_to_spend",
+        "baseline": 1.640243,
+        "current": 1.326139,
+        "delta": -0.314104,
+        "relativeChange": -0.191498
+      },
+      {
+        "dimensions": {
+          "channel": "RocketSuperAds"
+        },
+        "metric": "spend",
+        "baseline": 325.72,
+        "current": 252.07,
+        "delta": -73.65,
+        "relativeChange": -0.226114
+      },
+      {
+        "dimensions": {
+          "channel": "RocketSuperAds"
+        },
+        "metric": "new_users",
+        "baseline": 653,
+        "current": 604,
+        "delta": -49,
+        "relativeChange": -0.075038
+      },
+      {
+        "dimensions": {
+          "channel": "RocketSuperAds"
+        },
+        "metric": "payers",
+        "baseline": 40,
+        "current": 46,
+        "delta": 6,
+        "relativeChange": 0.15
+      },
+      {
+        "dimensions": {
+          "channel": "RocketSuperAds"
+        },
+        "metric": "revenue",
+        "baseline": 521.06,
+        "current": 613.89,
+        "delta": 92.83,
+        "relativeChange": 0.178156
+      },
+      {
+        "dimensions": {
+          "channel": "RocketSuperAds"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.061256,
+        "current": 0.076159,
+        "delta": 0.014903,
+        "relativeChange": 0.24329
+      },
+      {
+        "dimensions": {
+          "channel": "RocketSuperAds"
+        },
+        "metric": "revenue_per_payer",
+        "baseline": 13.0265,
+        "current": 13.345435,
+        "delta": 0.318935,
+        "relativeChange": 0.024484
+      },
+      {
+        "dimensions": {
+          "channel": "RocketSuperAds"
+        },
+        "metric": "cost_per_new_user",
+        "baseline": 0.498806,
+        "current": 0.417334,
+        "delta": -0.081472,
+        "relativeChange": -0.163334
+      },
+      {
+        "dimensions": {
+          "channel": "RocketSuperAds"
+        },
+        "metric": "revenue_to_spend",
+        "baseline": 1.599718,
+        "current": 2.435395,
+        "delta": 0.835677,
+        "relativeChange": 0.52239
+      },
+      {
+        "dimensions": {
+          "channel": "TipTop"
+        },
+        "metric": "spend",
+        "baseline": 6675.6,
+        "current": 8410.2,
+        "delta": 1734.6,
+        "relativeChange": 0.259842
+      },
+      {
+        "dimensions": {
+          "channel": "TipTop"
+        },
+        "metric": "new_users",
+        "baseline": 3213,
+        "current": 3173,
+        "delta": -40,
+        "relativeChange": -0.012449
+      },
+      {
+        "dimensions": {
+          "channel": "TipTop"
+        },
+        "metric": "payers",
+        "baseline": 326,
+        "current": 291,
+        "delta": -35,
+        "relativeChange": -0.107362
+      },
+      {
+        "dimensions": {
+          "channel": "TipTop"
+        },
+        "metric": "revenue",
+        "baseline": 5133.3,
+        "current": 4532.46,
+        "delta": -600.84,
+        "relativeChange": -0.117048
+      },
+      {
+        "dimensions": {
+          "channel": "TipTop"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.101463,
+        "current": 0.091711,
+        "delta": -0.009752,
+        "relativeChange": -0.096114
+      },
+      {
+        "dimensions": {
+          "channel": "TipTop"
+        },
+        "metric": "revenue_per_payer",
+        "baseline": 15.746319,
+        "current": 15.575464,
+        "delta": -0.170855,
+        "relativeChange": -0.01085
+      },
+      {
+        "dimensions": {
+          "channel": "TipTop"
+        },
+        "metric": "cost_per_new_user",
+        "baseline": 2.077684,
+        "current": 2.650552,
+        "delta": 0.572868,
+        "relativeChange": 0.275724
+      },
+      {
+        "dimensions": {
+          "channel": "TipTop"
+        },
+        "metric": "revenue_to_spend",
+        "baseline": 0.768965,
+        "current": 0.538924,
+        "delta": -0.230041,
+        "relativeChange": -0.299157
+      },
+      {
+        "dimensions": {
+          "channel": "WahooNetBanner"
+        },
+        "metric": "spend",
+        "baseline": 921,
+        "current": 851.4,
+        "delta": -69.6,
+        "relativeChange": -0.07557
+      },
+      {
+        "dimensions": {
+          "channel": "WahooNetBanner"
+        },
+        "metric": "new_users",
+        "baseline": 1539,
+        "current": 1401,
+        "delta": -138,
+        "relativeChange": -0.089669
+      },
+      {
+        "dimensions": {
+          "channel": "WahooNetBanner"
+        },
+        "metric": "payers",
+        "baseline": 84,
+        "current": 69,
+        "delta": -15,
+        "relativeChange": -0.178571
+      },
+      {
+        "dimensions": {
+          "channel": "WahooNetBanner"
+        },
+        "metric": "revenue",
+        "baseline": 1411.23,
+        "current": 1249.79,
+        "delta": -161.44,
+        "relativeChange": -0.114397
+      },
+      {
+        "dimensions": {
+          "channel": "WahooNetBanner"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.054581,
+        "current": 0.049251,
+        "delta": -0.00533,
+        "relativeChange": -0.097653
+      },
+      {
+        "dimensions": {
+          "channel": "WahooNetBanner"
+        },
+        "metric": "revenue_per_payer",
+        "baseline": 16.800357,
+        "current": 18.112899,
+        "delta": 1.312542,
+        "relativeChange": 0.078126
+      },
+      {
+        "dimensions": {
+          "channel": "WahooNetBanner"
+        },
+        "metric": "cost_per_new_user",
+        "baseline": 0.598441,
+        "current": 0.607709,
+        "delta": 0.009268,
+        "relativeChange": 0.015487
+      },
+      {
+        "dimensions": {
+          "channel": "WahooNetBanner"
+        },
+        "metric": "revenue_to_spend",
+        "baseline": 1.53228,
+        "current": 1.467923,
+        "delta": -0.064357,
+        "relativeChange": -0.042001
+      },
+      {
+        "dimensions": {
+          "channel": "YRabbit"
+        },
+        "metric": "spend",
+        "baseline": 106.2,
+        "current": 97.38,
+        "delta": -8.82,
+        "relativeChange": -0.083051
+      },
+      {
+        "dimensions": {
+          "channel": "YRabbit"
+        },
+        "metric": "new_users",
+        "baseline": 581,
+        "current": 603,
+        "delta": 22,
+        "relativeChange": 0.037866
+      },
+      {
+        "dimensions": {
+          "channel": "YRabbit"
+        },
+        "metric": "payers",
+        "baseline": 24,
+        "current": 26,
+        "delta": 2,
+        "relativeChange": 0.083333
+      },
+      {
+        "dimensions": {
+          "channel": "YRabbit"
+        },
+        "metric": "revenue",
+        "baseline": 339.32,
+        "current": 445.13,
+        "delta": 105.81,
+        "relativeChange": 0.31183
+      },
+      {
+        "dimensions": {
+          "channel": "YRabbit"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.041308,
+        "current": 0.043118,
+        "delta": 0.00181,
+        "relativeChange": 0.043817
+      },
+      {
+        "dimensions": {
+          "channel": "YRabbit"
+        },
+        "metric": "revenue_per_payer",
+        "baseline": 14.138333,
+        "current": 17.120385,
+        "delta": 2.982052,
+        "relativeChange": 0.21092
+      },
+      {
+        "dimensions": {
+          "channel": "YRabbit"
+        },
+        "metric": "cost_per_new_user",
+        "baseline": 0.182788,
+        "current": 0.161493,
+        "delta": -0.021295,
+        "relativeChange": -0.116501
+      },
+      {
+        "dimensions": {
+          "channel": "YRabbit"
+        },
+        "metric": "revenue_to_spend",
+        "baseline": 3.195104,
+        "current": 4.571062,
+        "delta": 1.375958,
+        "relativeChange": 0.430646
+      },
+      {
+        "dimensions": {
+          "channel": "lambdaMediaAds"
+        },
+        "metric": "spend",
+        "baseline": 199.2,
+        "current": 219.2,
+        "delta": 20,
+        "relativeChange": 0.100402
+      },
+      {
+        "dimensions": {
+          "channel": "lambdaMediaAds"
+        },
+        "metric": "new_users",
+        "baseline": 272,
+        "current": 304,
+        "delta": 32,
+        "relativeChange": 0.117647
+      },
+      {
+        "dimensions": {
+          "channel": "lambdaMediaAds"
+        },
+        "metric": "payers",
+        "baseline": 23,
+        "current": 34,
+        "delta": 11,
+        "relativeChange": 0.478261
+      },
+      {
+        "dimensions": {
+          "channel": "lambdaMediaAds"
+        },
+        "metric": "revenue",
+        "baseline": 380.34,
+        "current": 603.97,
+        "delta": 223.63,
+        "relativeChange": 0.587974
+      },
+      {
+        "dimensions": {
+          "channel": "lambdaMediaAds"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.084559,
+        "current": 0.111842,
+        "delta": 0.027283,
+        "relativeChange": 0.32265
+      },
+      {
+        "dimensions": {
+          "channel": "lambdaMediaAds"
+        },
+        "metric": "revenue_per_payer",
+        "baseline": 16.536522,
+        "current": 17.763824,
+        "delta": 1.227302,
+        "relativeChange": 0.074218
+      },
+      {
+        "dimensions": {
+          "channel": "lambdaMediaAds"
+        },
+        "metric": "cost_per_new_user",
+        "baseline": 0.732353,
+        "current": 0.721053,
+        "delta": -0.0113,
+        "relativeChange": -0.01543
+      },
+      {
+        "dimensions": {
+          "channel": "lambdaMediaAds"
+        },
+        "metric": "revenue_to_spend",
+        "baseline": 1.909337,
+        "current": 2.755338,
+        "delta": 0.846001,
+        "relativeChange": 0.443086
+      }
+    ],
+    "backend": "zetaris",
+    "rows": [
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "channel": "AdNonSense"
+        },
+        "values": {
+          "spend": 538.65,
+          "new_users": 532,
+          "payers": 62,
+          "revenue": 434.17,
+          "payer_rate": 0.116541,
+          "revenue_per_payer": 7.002742,
+          "cost_per_new_user": 1.0125,
+          "revenue_to_spend": 0.806034
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "channel": "FaceBoom"
+        },
+        "values": {
+          "spend": 5501.1,
+          "new_users": 4926,
+          "payers": 568,
+          "revenue": 3830.09,
+          "payer_rate": 0.115307,
+          "revenue_per_payer": 6.743116,
+          "cost_per_new_user": 1.116748,
+          "revenue_to_spend": 0.696241
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "channel": "LeapBob"
+        },
+        "values": {
+          "spend": 314.58,
+          "new_users": 1486,
+          "payers": 40,
+          "revenue": 669.77,
+          "payer_rate": 0.026918,
+          "revenue_per_payer": 16.74425,
+          "cost_per_new_user": 0.211696,
+          "revenue_to_spend": 2.129093
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "channel": "MediaTornado"
+        },
+        "values": {
+          "spend": 138,
+          "new_users": 632,
+          "payers": 21,
+          "revenue": 319.42,
+          "payer_rate": 0.033228,
+          "revenue_per_payer": 15.210476,
+          "cost_per_new_user": 0.218354,
+          "revenue_to_spend": 2.314638
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "channel": "OppleCreativeMedia"
+        },
+        "values": {
+          "spend": 370,
+          "new_users": 1481,
+          "payers": 39,
+          "revenue": 606.89,
+          "payer_rate": 0.026334,
+          "revenue_per_payer": 15.561282,
+          "cost_per_new_user": 0.249831,
+          "revenue_to_spend": 1.640243
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "channel": "RocketSuperAds"
+        },
+        "values": {
+          "spend": 325.72,
+          "new_users": 653,
+          "payers": 40,
+          "revenue": 521.06,
+          "payer_rate": 0.061256,
+          "revenue_per_payer": 13.0265,
+          "cost_per_new_user": 0.498806,
+          "revenue_to_spend": 1.599718
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "channel": "TipTop"
+        },
+        "values": {
+          "spend": 6675.6,
+          "new_users": 3213,
+          "payers": 326,
+          "revenue": 5133.3,
+          "payer_rate": 0.101463,
+          "revenue_per_payer": 15.746319,
+          "cost_per_new_user": 2.077684,
+          "revenue_to_spend": 0.768965
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "channel": "WahooNetBanner"
+        },
+        "values": {
+          "spend": 921,
+          "new_users": 1539,
+          "payers": 84,
+          "revenue": 1411.23,
+          "payer_rate": 0.054581,
+          "revenue_per_payer": 16.800357,
+          "cost_per_new_user": 0.598441,
+          "revenue_to_spend": 1.53228
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "channel": "YRabbit"
+        },
+        "values": {
+          "spend": 106.2,
+          "new_users": 581,
+          "payers": 24,
+          "revenue": 339.32,
+          "payer_rate": 0.041308,
+          "revenue_per_payer": 14.138333,
+          "cost_per_new_user": 0.182788,
+          "revenue_to_spend": 3.195104
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "channel": "lambdaMediaAds"
+        },
+        "values": {
+          "spend": 199.2,
+          "new_users": 272,
+          "payers": 23,
+          "revenue": 380.34,
+          "payer_rate": 0.084559,
+          "revenue_per_payer": 16.536522,
+          "cost_per_new_user": 0.732353,
+          "revenue_to_spend": 1.909337
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "channel": "AdNonSense"
+        },
+        "values": {
+          "spend": 504,
+          "new_users": 508,
+          "payers": 46,
+          "revenue": 430.23,
+          "payer_rate": 0.090551,
+          "revenue_per_payer": 9.352826,
+          "cost_per_new_user": 0.992126,
+          "revenue_to_spend": 0.853631
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "channel": "FaceBoom"
+        },
+        "values": {
+          "spend": 5294.3,
+          "new_users": 4754,
+          "payers": 573,
+          "revenue": 4369.51,
+          "payer_rate": 0.12053,
+          "revenue_per_payer": 7.625672,
+          "cost_per_new_user": 1.113652,
+          "revenue_to_spend": 0.825323
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "channel": "LeapBob"
+        },
+        "values": {
+          "spend": 313.53,
+          "new_users": 1494,
+          "payers": 49,
+          "revenue": 661.69,
+          "payer_rate": 0.032798,
+          "revenue_per_payer": 13.503878,
+          "cost_per_new_user": 0.209859,
+          "revenue_to_spend": 2.110452
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "channel": "MediaTornado"
+        },
+        "values": {
+          "spend": 138.48,
+          "new_users": 643,
+          "payers": 22,
+          "revenue": 295.42,
+          "payer_rate": 0.034215,
+          "revenue_per_payer": 13.428182,
+          "cost_per_new_user": 0.215365,
+          "revenue_to_spend": 2.133304
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "channel": "OppleCreativeMedia"
+        },
+        "values": {
+          "spend": 366.5,
+          "new_users": 1457,
+          "payers": 39,
+          "revenue": 486.03,
+          "payer_rate": 0.026767,
+          "revenue_per_payer": 12.462308,
+          "cost_per_new_user": 0.251544,
+          "revenue_to_spend": 1.326139
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "channel": "RocketSuperAds"
+        },
+        "values": {
+          "spend": 252.07,
+          "new_users": 604,
+          "payers": 46,
+          "revenue": 613.89,
+          "payer_rate": 0.076159,
+          "revenue_per_payer": 13.345435,
+          "cost_per_new_user": 0.417334,
+          "revenue_to_spend": 2.435395
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "channel": "TipTop"
+        },
+        "values": {
+          "spend": 8410.2,
+          "new_users": 3173,
+          "payers": 291,
+          "revenue": 4532.46,
+          "payer_rate": 0.091711,
+          "revenue_per_payer": 15.575464,
+          "cost_per_new_user": 2.650552,
+          "revenue_to_spend": 0.538924
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "channel": "WahooNetBanner"
+        },
+        "values": {
+          "spend": 851.4,
+          "new_users": 1401,
+          "payers": 69,
+          "revenue": 1249.79,
+          "payer_rate": 0.049251,
+          "revenue_per_payer": 18.112899,
+          "cost_per_new_user": 0.607709,
+          "revenue_to_spend": 1.467923
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "channel": "YRabbit"
+        },
+        "values": {
+          "spend": 97.38,
+          "new_users": 603,
+          "payers": 26,
+          "revenue": 445.13,
+          "payer_rate": 0.043118,
+          "revenue_per_payer": 17.120385,
+          "cost_per_new_user": 0.161493,
+          "revenue_to_spend": 4.571062
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "channel": "lambdaMediaAds"
+        },
+        "values": {
+          "spend": 219.2,
+          "new_users": 304,
+          "payers": 34,
+          "revenue": 603.97,
+          "payer_rate": 0.111842,
+          "revenue_per_payer": 17.763824,
+          "cost_per_new_user": 0.721053,
+          "revenue_to_spend": 2.755338
+        }
+      }
+    ],
+    "coverage": [
+      {
+        "period": "2019-06",
+        "requestedStart": "2019-06-01",
+        "requestedEnd": "2019-07-01",
+        "effectiveEnd": "2019-07-01",
+        "excludedUsers": 0,
+        "days": 30
+      },
+      {
+        "period": "2019-07",
+        "requestedStart": "2019-07-01",
+        "requestedEnd": "2019-08-01",
+        "effectiveEnd": "2019-08-01",
+        "excludedUsers": 0,
+        "days": 31
+      }
+    ],
+    "definitions": {
+      "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
+      "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
+      "payers": "时期或观察窗口内至少购买一次的不同用户数",
+      "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
+      "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
+      "revenue_per_payer": "收入 / 购买用户数",
+      "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
+      "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+    },
+    "notes": [
+      "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
+      "时间为源数据原始时间，金额单位未标注。",
+      "spec:6ed578780bef79b4660ba9ac441fce13d397459382fa493c7d22bbe8f940c6c8"
+    ],
+    "createdAt": "2026-10-25T05:26:19.141Z",
+    "durationMs": 7056,
+    "truncated": false
+  },
+  "device": {
+    "id": "ev-dcabdc8e-8fdb-4f7c-a2fa-11f99d6bc2fa",
+    "datasetVersion": "4c26d29934370408",
+    "metricVersion": "procrastinate-v1",
+    "spec": {
+      "mode": "cohort",
+      "periods": [
+        {
+          "label": "2019-06",
+          "start": "2019-06-01",
+          "end": "2019-07-01"
+        },
+        {
+          "label": "2019-07",
+          "start": "2019-07-01",
+          "end": "2019-08-01"
+        }
+      ],
+      "windowDays": 14,
+      "audience": "paid",
+      "filters": {
+        "channels": [],
+        "devices": [],
+        "regions": []
+      },
+      "groupBy": [
+        "device"
+      ],
+      "metrics": [
+        "users",
+        "payers",
+        "revenue",
+        "payer_rate"
+      ]
+    },
+    "sql": [
+      "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-07-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,u.device AS device, '__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen,u.device),\nuser_agg AS (SELECT device, segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND first_seen < CAST('2019-07-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY device, segment),\nsession_agg AS (SELECT u.device AS device, '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.device),\ncost_agg AS (SELECT CAST(NULL AS VARCHAR(100)) AS device, '__all' AS segment,CAST(NULL AS BIGINT) AS spend_amount WHERE 1=0),\nkeys AS (SELECT device, segment FROM user_agg UNION SELECT device, segment FROM session_agg UNION SELECT device, segment FROM cost_agg) SELECT k.device, k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.device=u.device AND k.segment=u.segment LEFT JOIN session_agg s ON k.device=s.device AND k.segment=s.segment LEFT JOIN cost_agg c ON k.device=c.device AND k.segment=c.segment ORDER BY k.device, k.segment LIMIT 201",
+      "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,u.device AS device, '__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen,u.device),\nuser_agg AS (SELECT device, segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY device, segment),\nsession_agg AS (SELECT u.device AS device, '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.device),\ncost_agg AS (SELECT CAST(NULL AS VARCHAR(100)) AS device, '__all' AS segment,CAST(NULL AS BIGINT) AS spend_amount WHERE 1=0),\nkeys AS (SELECT device, segment FROM user_agg UNION SELECT device, segment FROM session_agg UNION SELECT device, segment FROM cost_agg) SELECT k.device, k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.device=u.device AND k.segment=u.segment LEFT JOIN session_agg s ON k.device=s.device AND k.segment=s.segment LEFT JOIN cost_agg c ON k.device=c.device AND k.segment=c.segment ORDER BY k.device, k.segment LIMIT 201"
+    ],
+    "queryIds": [
+      "db3269c3-7c7d-4247-ba12-ff6887e6c689",
+      "88f6f35c-4c3c-47f8-afca-8845999d9a81"
+    ],
+    "comparisons": [
+      {
+        "dimensions": {
+          "device": "Android"
+        },
+        "metric": "users",
+        "baseline": 3639,
+        "current": 3479,
+        "delta": -160,
+        "relativeChange": -0.043968
+      },
+      {
+        "dimensions": {
+          "device": "Android"
+        },
+        "metric": "payers",
+        "baseline": 272,
+        "current": 268,
+        "delta": -4,
+        "relativeChange": -0.014706
+      },
+      {
+        "dimensions": {
+          "device": "Android"
+        },
+        "metric": "revenue",
+        "baseline": 3053.34,
+        "current": 2930.46,
+        "delta": -122.88,
+        "relativeChange": -0.040244
+      },
+      {
+        "dimensions": {
+          "device": "Android"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.074746,
+        "current": 0.077034,
+        "delta": 0.002288,
+        "relativeChange": 0.03061
+      },
+      {
+        "dimensions": {
+          "device": "Mac"
+        },
+        "metric": "users",
+        "baseline": 2993,
+        "current": 3042,
+        "delta": 49,
+        "relativeChange": 0.016372
+      },
+      {
+        "dimensions": {
+          "device": "Mac"
+        },
+        "metric": "payers",
+        "baseline": 263,
+        "current": 273,
+        "delta": 10,
+        "relativeChange": 0.038023
+      },
+      {
+        "dimensions": {
+          "device": "Mac"
+        },
+        "metric": "revenue",
+        "baseline": 2671.91,
+        "current": 3076.36,
+        "delta": 404.45,
+        "relativeChange": 0.151371
+      },
+      {
+        "dimensions": {
+          "device": "Mac"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.087872,
+        "current": 0.089744,
+        "delta": 0.001872,
+        "relativeChange": 0.021304
+      },
+      {
+        "dimensions": {
+          "device": "PC"
+        },
+        "metric": "users",
+        "baseline": 3099,
+        "current": 3086,
+        "delta": -13,
+        "relativeChange": -0.004195
+      },
+      {
+        "dimensions": {
+          "device": "PC"
+        },
+        "metric": "payers",
+        "baseline": 217,
+        "current": 190,
+        "delta": -27,
+        "relativeChange": -0.124424
+      },
+      {
+        "dimensions": {
+          "device": "PC"
+        },
+        "metric": "revenue",
+        "baseline": 2731.92,
+        "current": 2537.54,
+        "delta": -194.38,
+        "relativeChange": -0.071151
+      },
+      {
+        "dimensions": {
+          "device": "PC"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.070023,
+        "current": 0.061568,
+        "delta": -0.008455,
+        "relativeChange": -0.120746
+      },
+      {
+        "dimensions": {
+          "device": "iPhone"
+        },
+        "metric": "users",
+        "baseline": 5584,
+        "current": 5334,
+        "delta": -250,
+        "relativeChange": -0.044771
+      },
+      {
+        "dimensions": {
+          "device": "iPhone"
+        },
+        "metric": "payers",
+        "baseline": 475,
+        "current": 464,
+        "delta": -11,
+        "relativeChange": -0.023158
+      },
+      {
+        "dimensions": {
+          "device": "iPhone"
+        },
+        "metric": "revenue",
+        "baseline": 5188.42,
+        "current": 5143.76,
+        "delta": -44.66,
+        "relativeChange": -0.008608
+      },
+      {
+        "dimensions": {
+          "device": "iPhone"
+        },
+        "metric": "payer_rate",
+        "baseline": 0.085064,
+        "current": 0.086989,
+        "delta": 0.001925,
+        "relativeChange": 0.02263
+      }
+    ],
+    "backend": "zetaris",
+    "rows": [
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "device": "Android"
+        },
+        "values": {
+          "users": 3639,
+          "payers": 272,
+          "revenue": 3053.34,
+          "payer_rate": 0.074746
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "device": "Mac"
+        },
+        "values": {
+          "users": 2993,
+          "payers": 263,
+          "revenue": 2671.91,
+          "payer_rate": 0.087872
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "device": "PC"
+        },
+        "values": {
+          "users": 3099,
+          "payers": 217,
+          "revenue": 2731.92,
+          "payer_rate": 0.070023
+        }
+      },
+      {
+        "period": "2019-06",
+        "dimensions": {
+          "device": "iPhone"
+        },
+        "values": {
+          "users": 5584,
+          "payers": 475,
+          "revenue": 5188.42,
+          "payer_rate": 0.085064
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "device": "Android"
+        },
+        "values": {
+          "users": 3479,
+          "payers": 268,
+          "revenue": 2930.46,
+          "payer_rate": 0.077034
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "device": "Mac"
+        },
+        "values": {
+          "users": 3042,
+          "payers": 273,
+          "revenue": 3076.36,
+          "payer_rate": 0.089744
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "device": "PC"
+        },
+        "values": {
+          "users": 3086,
+          "payers": 190,
+          "revenue": 2537.54,
+          "payer_rate": 0.061568
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {
+          "device": "iPhone"
+        },
+        "values": {
+          "users": 5334,
+          "payers": 464,
+          "revenue": 5143.76,
+          "payer_rate": 0.086989
+        }
+      }
+    ],
+    "coverage": [
+      {
+        "period": "2019-06",
+        "requestedStart": "2019-06-01",
+        "requestedEnd": "2019-07-01",
+        "effectiveEnd": "2019-07-01",
+        "excludedUsers": 0,
+        "days": 30
+      },
+      {
+        "period": "2019-07",
+        "requestedStart": "2019-07-01",
+        "requestedEnd": "2019-08-01",
+        "effectiveEnd": "2019-08-01",
+        "excludedUsers": 0,
+        "days": 31
+      }
+    ],
+    "definitions": {
+      "users": "自然时期内有访问或购买的用户数；批次模式为首次出现且具有完整观察期的用户数",
+      "payers": "时期或观察窗口内至少购买一次的不同用户数",
+      "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
+      "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户"
+    },
+    "notes": [
+      "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
+      "时间为源数据原始时间，金额单位未标注。",
+      "spec:d1e6853fcd4bcb5b802dc54c019e4be31cd9fea98c3ef741bf113f4837af1891"
+    ],
+    "createdAt": "2026-10-25T05:26:26.430Z",
+    "durationMs": 7288,
+    "truncated": false
+  },
+  "calendar": {
+    "id": "ev-46a9049f-a459-48bf-85fd-3786c9c14767",
+    "datasetVersion": "4c26d29934370408",
+    "metricVersion": "procrastinate-v1",
+    "spec": {
+      "mode": "calendar",
+      "periods": [
+        {
+          "label": "2019-06",
+          "start": "2019-06-01",
+          "end": "2019-07-01"
+        },
+        {
+          "label": "2019-07",
+          "start": "2019-07-01",
+          "end": "2019-08-01"
+        }
+      ],
+      "windowDays": 14,
+      "audience": "all",
+      "filters": {
+        "channels": [],
+        "devices": [],
+        "regions": []
+      },
+      "groupBy": [],
+      "metrics": [
+        "users",
+        "purchases",
+        "revenue",
+        "first_purchase_revenue",
+        "repeat_purchase_revenue",
+        "avg_first_purchase_hours"
+      ]
+    },
+    "sql": [
+      "WITH activity AS (SELECT user_id FROM storewhy.visits WHERE started_at >= CAST('2019-06-01' AS TIMESTAMP) AND started_at < CAST('2019-07-01' AS TIMESTAMP) UNION SELECT user_id FROM storewhy.purchases WHERE purchased_at >= CAST('2019-06-01' AS TIMESTAMP) AND purchased_at < CAST('2019-07-01' AS TIMESTAMP)),\npopulation AS (SELECT u.* FROM storewhy.profiles u JOIN activity a ON a.user_id=u.user_id WHERE 1=1 ),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= CAST('2019-06-01' AS TIMESTAMP) AND p.purchased_at < CAST('2019-07-01' AS TIMESTAMP) GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND first_seen < CAST('2019-07-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= CAST('2019-06-01' AS TIMESTAMP) AND v.started_at < CAST('2019-07-01' AS TIMESTAMP) ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-06-01' AS DATE) AND c.cost_date < CAST('2019-07-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201",
+      "WITH activity AS (SELECT user_id FROM storewhy.visits WHERE started_at >= CAST('2019-07-01' AS TIMESTAMP) AND started_at < CAST('2019-08-01' AS TIMESTAMP) UNION SELECT user_id FROM storewhy.purchases WHERE purchased_at >= CAST('2019-07-01' AS TIMESTAMP) AND purchased_at < CAST('2019-08-01' AS TIMESTAMP)),\npopulation AS (SELECT u.* FROM storewhy.profiles u JOIN activity a ON a.user_id=u.user_id WHERE 1=1 ),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= CAST('2019-07-01' AS TIMESTAMP) AND p.purchased_at < CAST('2019-08-01' AS TIMESTAMP) GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= CAST('2019-07-01' AS TIMESTAMP) AND v.started_at < CAST('2019-08-01' AS TIMESTAMP) ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201"
+    ],
+    "queryIds": [
+      "bab90d69-ee64-4113-b8da-d07b0b47760e",
+      "7e884214-171d-4567-aff4-030c29900a41"
+    ],
+    "comparisons": [
+      {
+        "dimensions": {},
+        "metric": "users",
+        "baseline": 26042,
+        "current": 26672,
+        "delta": 630,
+        "relativeChange": 0.024192
+      },
+      {
+        "dimensions": {},
+        "metric": "purchases",
+        "baseline": 4875,
+        "current": 6556,
+        "delta": 1681,
+        "relativeChange": 0.344821
+      },
+      {
+        "dimensions": {},
+        "metric": "revenue",
+        "baseline": 26428.25,
+        "current": 35988.44,
+        "delta": 9560.19,
+        "relativeChange": 0.361741
+      },
+      {
+        "dimensions": {},
+        "metric": "first_purchase_revenue",
+        "baseline": 7728.84,
+        "current": 8090.71,
+        "delta": 361.87,
+        "relativeChange": 0.046821
+      },
+      {
+        "dimensions": {},
+        "metric": "repeat_purchase_revenue",
+        "baseline": 18699.41,
+        "current": 27897.73,
+        "delta": 9198.32,
+        "relativeChange": 0.491904
+      },
+      {
+        "dimensions": {},
+        "metric": "avg_first_purchase_hours",
+        "baseline": 44.239136,
+        "current": 47.588188,
+        "delta": 3.349052,
+        "relativeChange": 0.075703
+      }
+    ],
+    "backend": "zetaris",
+    "rows": [
+      {
+        "period": "2019-06",
+        "dimensions": {},
+        "values": {
+          "users": 26042,
+          "purchases": 4875,
+          "revenue": 26428.25,
+          "first_purchase_revenue": 7728.84,
+          "repeat_purchase_revenue": 18699.41,
+          "avg_first_purchase_hours": 44.239136
+        }
+      },
+      {
+        "period": "2019-07",
+        "dimensions": {},
+        "values": {
+          "users": 26672,
+          "purchases": 6556,
+          "revenue": 35988.44,
+          "first_purchase_revenue": 8090.71,
+          "repeat_purchase_revenue": 27897.73,
+          "avg_first_purchase_hours": 47.588188
+        }
+      }
+    ],
+    "coverage": [
+      {
+        "period": "2019-06",
+        "requestedStart": "2019-06-01",
+        "requestedEnd": "2019-07-01",
+        "effectiveEnd": "2019-07-01",
+        "excludedUsers": 0,
+        "days": 30
+      },
+      {
+        "period": "2019-07",
+        "requestedStart": "2019-07-01",
+        "requestedEnd": "2019-08-01",
+        "effectiveEnd": "2019-08-01",
+        "excludedUsers": 0,
+        "days": 31
+      }
+    ],
+    "definitions": {
+      "users": "自然时期内有访问或购买的用户数；批次模式为首次出现且具有完整观察期的用户数",
+      "purchases": "购买事件行数，不是不同购买用户数",
+      "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
+      "first_purchase_revenue": "快照中每位用户首次购买产生的收入",
+      "repeat_purchase_revenue": "快照中每位用户首次购买之后的购买收入",
+      "avg_first_purchase_hours": "已观测到首次购买的用户，从首次访问到首次购买的平均小时数；未购买用户不进入该平均值"
+    },
+    "notes": [
+      "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
+      "时间为源数据原始时间，金额单位未标注。",
+      "spec:7374188ef0ed949c7d39f0b278fd99884890044b7fa132b4f8b96d8b29d79fb2"
+    ],
+    "createdAt": "2026-10-25T05:26:34.596Z",
+    "durationMs": 8165,
+    "truncated": false
+  },
+  "immature": {
+    "id": "ev-44706e07-bcdb-476e-9b83-5b38f7e92ead",
+    "datasetVersion": "4c26d29934370408",
+    "metricVersion": "procrastinate-v1",
+    "spec": {
+      "mode": "cohort",
+      "periods": [
+        {
+          "label": "2019-10",
+          "start": "2019-10-01",
+          "end": "2019-11-01"
+        }
+      ],
+      "windowDays": 14,
+      "audience": "paid",
+      "filters": {
+        "channels": [],
+        "devices": [],
+        "regions": []
+      },
+      "groupBy": [],
+      "metrics": [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend"
+      ]
+    },
+    "sql": [
+      "WITH population AS (SELECT u.* FROM storewhy.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-10-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-10-18' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN storewhy.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-10-01' AS TIMESTAMP) AND first_seen < CAST('2019-10-18' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN storewhy.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-10-01' AS DATE) AND c.cost_date < CAST('2019-10-18' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201",
+      "SELECT COUNT(*) AS n FROM storewhy.profiles u WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-10-18' AS TIMESTAMP) AND u.first_seen >= CAST('2019-10-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-11-01' AS TIMESTAMP)"
+    ],
+    "queryIds": [
+      "ff84a2df-aecd-4a64-9e72-2d10466845f9",
+      "86592ad1-3c83-4a18-bf5a-34c9aa6a29eb"
+    ],
+    "comparisons": [],
+    "backend": "zetaris",
+    "rows": [
+      {
+        "period": "2019-10",
+        "dimensions": {},
+        "values": {
+          "spend": 12918.75,
+          "new_users": 9945,
+          "payers": 779,
+          "revenue": 8293.34,
+          "payer_rate": 0.078331,
+          "revenue_per_payer": 10.646136,
+          "cost_per_new_user": 1.29902,
+          "revenue_to_spend": 0.641961
+        }
+      }
+    ],
+    "coverage": [
+      {
+        "period": "2019-10",
+        "requestedStart": "2019-10-01",
+        "requestedEnd": "2019-11-01",
+        "effectiveEnd": "2019-10-18",
+        "excludedUsers": 6104,
+        "days": 17
+      }
+    ],
+    "definitions": {
+      "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
+      "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
+      "payers": "时期或观察窗口内至少购买一次的不同用户数",
+      "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
+      "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
+      "revenue_per_payer": "收入 / 购买用户数",
+      "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
+      "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+    },
+    "notes": [
+      "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
+      "时间为源数据原始时间，金额单位未标注。",
+      "已排除随访不足用户，并将费用裁剪到相同获客日期。",
+      "spec:2242cc8abc960798d51fa2c378d1f9f54fab199efc4a1b93adbedc4e8ba63bb5"
+    ],
+    "createdAt": "2026-10-25T05:26:38.384Z",
+    "durationMs": 3788,
+    "truncated": false
+  },
+  "trend": {
+    "id": "ev-0b6421f3-08bb-4f0e-87d3-0e4e202555fa",
+    "datasetVersion": "4c26d29934370408",
+    "metricVersion": "procrastinate-v1",
+    "spec": {
+      "timeGrain": "month",
+      "mode": "calendar",
+      "periods": [
+        {
+          "label": "2019-06",
+          "start": "2019-06-01",
+          "end": "2019-07-01"
+        },
+        {
+          "label": "2019-07",
+          "start": "2019-07-01",
+          "end": "2019-08-01"
+        }
+      ],
+      "windowDays": 14,
+      "audience": "all",
+      "filters": {
+        "channels": [],
+        "devices": [],
+        "regions": []
+      },
+      "groupBy": [],
+      "metrics": [
+        "users",
+        "purchases",
+        "revenue",
+        "first_purchase_revenue",
+        "repeat_purchase_revenue",
+        "avg_first_purchase_hours"
+      ]
+    },
+    "sql": [
+      "WITH activity AS (SELECT CAST(CAST(date_trunc('month',started_at) AS DATE) AS VARCHAR(10)) AS bucket,user_id FROM storewhy.visits WHERE started_at >= CAST('2019-06-01' AS TIMESTAMP) AND started_at < CAST('2019-07-01' AS TIMESTAMP) UNION SELECT CAST(CAST(date_trunc('month',purchased_at) AS DATE) AS VARCHAR(10)) AS bucket,user_id FROM storewhy.purchases WHERE purchased_at >= CAST('2019-06-01' AS TIMESTAMP) AND purchased_at < CAST('2019-07-01' AS TIMESTAMP)),\npurchase_user AS (SELECT CAST(CAST(date_trunc('month',p.purchased_at) AS DATE) AS VARCHAR(10)) AS bucket,p.user_id,COUNT(*) AS n_purchases,SUM(p.amount) AS revenue_amount,SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END) AS first_amount,SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM storewhy.purchase_facts p JOIN storewhy.profiles u ON p.user_id=u.user_id WHERE p.purchased_at >= CAST('2019-06-01' AS TIMESTAMP) AND p.purchased_at < CAST('2019-07-01' AS TIMESTAMP) AND 1=1 GROUP BY CAST(CAST(date_trunc('month',p.purchased_at) AS DATE) AS VARCHAR(10)),p.user_id),\nuser_agg AS (SELECT a.bucket,COUNT(*) AS n_users,SUM(CASE WHEN u.first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-07-01' AS TIMESTAMP) AND CAST(CAST(date_trunc('month',u.first_seen) AS DATE) AS VARCHAR(10))=a.bucket THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN p.n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN p.n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,COALESCE(SUM(p.n_purchases),0) AS n_purchases,COALESCE(SUM(p.revenue_amount),0) AS revenue_amount,COALESCE(SUM(p.first_amount),0) AS first_amount,COALESCE(SUM(p.repeat_amount),0) AS repeat_amount,AVG(p.first_hours) AS first_hours FROM activity a JOIN storewhy.profiles u ON a.user_id=u.user_id LEFT JOIN purchase_user p ON a.user_id=p.user_id AND a.bucket=p.bucket WHERE 1=1 GROUP BY a.bucket),\nsession_agg AS (SELECT CAST(CAST(date_trunc('month',v.started_at) AS DATE) AS VARCHAR(10)) AS bucket,COUNT(*) AS n_sessions FROM storewhy.visits v JOIN storewhy.profiles u ON v.user_id=u.user_id WHERE v.started_at >= CAST('2019-06-01' AS TIMESTAMP) AND v.started_at < CAST('2019-07-01' AS TIMESTAMP) AND 1=1 GROUP BY CAST(CAST(date_trunc('month',v.started_at) AS DATE) AS VARCHAR(10))),\ncost_agg AS (SELECT CAST(CAST(date_trunc('month',c.cost_date) AS DATE) AS VARCHAR(10)) AS bucket,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-06-01' AS DATE) AND c.cost_date < CAST('2019-07-01' AS DATE) GROUP BY CAST(CAST(date_trunc('month',c.cost_date) AS DATE) AS VARCHAR(10))),\nkeys AS (SELECT bucket FROM user_agg UNION SELECT bucket FROM session_agg UNION SELECT bucket FROM cost_agg) SELECT k.bucket,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.bucket=u.bucket LEFT JOIN session_agg s ON k.bucket=s.bucket LEFT JOIN cost_agg c ON k.bucket=c.bucket ORDER BY k.bucket LIMIT 201",
+      "WITH activity AS (SELECT CAST(CAST(date_trunc('month',started_at) AS DATE) AS VARCHAR(10)) AS bucket,user_id FROM storewhy.visits WHERE started_at >= CAST('2019-07-01' AS TIMESTAMP) AND started_at < CAST('2019-08-01' AS TIMESTAMP) UNION SELECT CAST(CAST(date_trunc('month',purchased_at) AS DATE) AS VARCHAR(10)) AS bucket,user_id FROM storewhy.purchases WHERE purchased_at >= CAST('2019-07-01' AS TIMESTAMP) AND purchased_at < CAST('2019-08-01' AS TIMESTAMP)),\npurchase_user AS (SELECT CAST(CAST(date_trunc('month',p.purchased_at) AS DATE) AS VARCHAR(10)) AS bucket,p.user_id,COUNT(*) AS n_purchases,SUM(p.amount) AS revenue_amount,SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END) AS first_amount,SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM storewhy.purchase_facts p JOIN storewhy.profiles u ON p.user_id=u.user_id WHERE p.purchased_at >= CAST('2019-07-01' AS TIMESTAMP) AND p.purchased_at < CAST('2019-08-01' AS TIMESTAMP) AND 1=1 GROUP BY CAST(CAST(date_trunc('month',p.purchased_at) AS DATE) AS VARCHAR(10)),p.user_id),\nuser_agg AS (SELECT a.bucket,COUNT(*) AS n_users,SUM(CASE WHEN u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP) AND CAST(CAST(date_trunc('month',u.first_seen) AS DATE) AS VARCHAR(10))=a.bucket THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN p.n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN p.n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,COALESCE(SUM(p.n_purchases),0) AS n_purchases,COALESCE(SUM(p.revenue_amount),0) AS revenue_amount,COALESCE(SUM(p.first_amount),0) AS first_amount,COALESCE(SUM(p.repeat_amount),0) AS repeat_amount,AVG(p.first_hours) AS first_hours FROM activity a JOIN storewhy.profiles u ON a.user_id=u.user_id LEFT JOIN purchase_user p ON a.user_id=p.user_id AND a.bucket=p.bucket WHERE 1=1 GROUP BY a.bucket),\nsession_agg AS (SELECT CAST(CAST(date_trunc('month',v.started_at) AS DATE) AS VARCHAR(10)) AS bucket,COUNT(*) AS n_sessions FROM storewhy.visits v JOIN storewhy.profiles u ON v.user_id=u.user_id WHERE v.started_at >= CAST('2019-07-01' AS TIMESTAMP) AND v.started_at < CAST('2019-08-01' AS TIMESTAMP) AND 1=1 GROUP BY CAST(CAST(date_trunc('month',v.started_at) AS DATE) AS VARCHAR(10))),\ncost_agg AS (SELECT CAST(CAST(date_trunc('month',c.cost_date) AS DATE) AS VARCHAR(10)) AS bucket,SUM(c.amount) AS spend_amount FROM storewhy.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) GROUP BY CAST(CAST(date_trunc('month',c.cost_date) AS DATE) AS VARCHAR(10))),\nkeys AS (SELECT bucket FROM user_agg UNION SELECT bucket FROM session_agg UNION SELECT bucket FROM cost_agg) SELECT k.bucket,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.bucket=u.bucket LEFT JOIN session_agg s ON k.bucket=s.bucket LEFT JOIN cost_agg c ON k.bucket=c.bucket ORDER BY k.bucket LIMIT 201"
+    ],
+    "queryIds": [
+      "92a2a8cd-10ed-43c3-a47e-483735e23b10",
+      "2ca0785c-a569-44f9-afc2-d2dd3c9486a9"
+    ],
+    "comparisons": [],
+    "backend": "zetaris",
+    "rows": [
+      {
+        "period": "2019-06",
+        "bucket": "2019-06-01",
+        "dimensions": {},
+        "values": {
+          "users": 26042,
+          "purchases": 4875,
+          "revenue": 26428.25,
+          "first_purchase_revenue": 7728.84,
+          "repeat_purchase_revenue": 18699.41,
+          "avg_first_purchase_hours": 44.239136
+        }
+      },
+      {
+        "period": "2019-07",
+        "bucket": "2019-07-01",
+        "dimensions": {},
+        "values": {
+          "users": 26672,
+          "purchases": 6556,
+          "revenue": 35988.44,
+          "first_purchase_revenue": 8090.71,
+          "repeat_purchase_revenue": 27897.73,
+          "avg_first_purchase_hours": 47.588188
+        }
+      }
+    ],
+    "coverage": [
+      {
+        "period": "2019-06",
+        "requestedStart": "2019-06-01",
+        "requestedEnd": "2019-07-01",
+        "effectiveEnd": "2019-07-01",
+        "excludedUsers": 0,
+        "days": 30
+      },
+      {
+        "period": "2019-07",
+        "requestedStart": "2019-07-01",
+        "requestedEnd": "2019-08-01",
+        "effectiveEnd": "2019-08-01",
+        "excludedUsers": 0,
+        "days": 31
+      }
+    ],
+    "definitions": {
+      "users": "自然时期内有访问或购买的用户数；批次模式为首次出现且具有完整观察期的用户数",
+      "purchases": "购买事件行数，不是不同购买用户数",
+      "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
+      "first_purchase_revenue": "快照中每位用户首次购买产生的收入",
+      "repeat_purchase_revenue": "快照中每位用户首次购买之后的购买收入",
+      "avg_first_purchase_hours": "已观测到首次购买的用户，从首次访问到首次购买的平均小时数；未购买用户不进入该平均值"
+    },
+    "notes": [
+      "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
+      "时间为源数据原始时间，金额单位未标注。",
+      "spec:7cb068d2019c02a9370125db69341e78b57b2e392b523a0df652a81e38f0f21d"
+    ],
+    "createdAt": "2026-10-25T05:26:52.557Z",
+    "durationMs": 14171,
+    "truncated": false
+  }
+}

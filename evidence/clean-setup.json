@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-25T05:47:32.853Z",
+  "result": "PASS",
+  "verifiedCodeCommit": "86483f4",
+  "cleanClone": true,
+  "privateEnvPresent": false,
+  "health": {
+    "status": "ok",
+    "apiVersion": "1.0.0",
+    "dataMode": "fixture",
+    "datasetVersion": "self-authored-fixture-v1"
+  },
+  "demoKind": "fixture_replay",
+  "tests": 50,
+  "npmCi": "PASS",
+  "lint": "PASS",
+  "typecheck": "PASS",
+  "build": "PASS"
+}

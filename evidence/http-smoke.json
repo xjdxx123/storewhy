@@ -1,0 +1,34 @@
+{
+  "at": "2026-10-25T05:47:32.394Z",
+  "result": "PASS",
+  "health": {
+    "status": "ok",
+    "apiVersion": "1.0.0",
+    "dataMode": "zetaris",
+    "datasetVersion": "4c26d29934370408"
+  },
+  "openapiPathCount": 15,
+  "cors": true,
+  "runId": "c8ff4744-4d76-4cb3-9567-24383365019f",
+  "evidenceId": "ev-7ce646f8-1e04-4703-99b4-8adc3defcd27",
+  "rows": [
+    {
+      "period": "2019-07",
+      "dimensions": {},
+      "values": {
+        "revenue": 35988.44,
+        "purchases": 6556,
+        "users": 26672
+      }
+    }
+  ],
+  "sseEventTypes": [
+    "run_started",
+    "scope_updated",
+    "query_started",
+    "query_completed",
+    "answer_ready",
+    "done"
+  ],
+  "builtArtifact": true
+}
