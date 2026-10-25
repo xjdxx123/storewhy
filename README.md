@@ -87,3 +87,7 @@ npm run eval:live
 - **NVIDIA**：通过 Nightshift 提供实际推理模型。
 
 H-MEM 复制自 Meterless 的 Apache-2.0 参考模块，版本与修改见 [UPSTREAM](packages/hmem/UPSTREAM.md)，保留 [LICENSE](packages/hmem/LICENSE)。本项目新增指标编译、数据接入、调查循环、状态/记忆适配、API、客户端与验证。Zetaris/Meterless 文档来源固定版本见 [source_versions](setup/source_versions.json)。
+
+## Evidence-bound charts
+
+后端 API 1.1.0 的回答增加可选 `charts/chartNotes`，支持对比条形、自然时期趋势和首次/后续购买收入构成。每点引用实际 Evidence 单元格；也可调用 `GET /api/v1/evidence/:id/charts` / `client.evidenceCharts(id)`，不会新增模型或 SQL 调用。React 接入见 [图表契约](docs/chart-contract.md)，离线 mock 见 [三类样例](docs/examples/charts.json)。运行 `npm run docs:charts` 重新生成自制样例，Live 验证用 `npm run test:charts -- --agent`（需已启动新版 Live 服务）。

@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { FixtureBackend } from "../apps/server/src/integrations/fixture.ts";
 import { buildApp } from "../apps/server/src/app.ts";
+import { chartResponseSchema } from "@storewhy/contracts";
 import { ScriptedGateway, wait } from "./helpers.ts";
 let server: Awaited<ReturnType<typeof buildApp>>,
   b: FixtureBackend,
@@ -41,6 +42,19 @@ it("exposes catalog, async runs, result evidence and resumable SSE", async () =>
   expect(r.status).toBe("completed");
   const e = await server.app.inject("/api/v1/evidence/" + r.evidenceIds[0]);
   expect(e.json().backend).toBe("fixture");
+  const result = (await server.app.inject("/api/v1/runs/" + r.id)).json();
+  expect(result.answer.charts).toHaveLength(2);
+  expect(
+    result.answer.charts.every((chart: any) =>
+      r.evidenceIds.includes(chart.source.evidenceId),
+    ),
+  ).toBe(true);
+  const charts = await server.app.inject(
+    "/api/v1/evidence/" + r.evidenceIds.at(-1) + "/charts",
+  );
+  expect(charts.statusCode).toBe(200);
+  expect(chartResponseSchema.safeParse(charts.json()).success).toBe(true);
+  expect(charts.json().charts).toEqual(result.answer.charts);
   const stream = await server.app.inject(
     "/api/v1/runs/" + r.id + "/events?after=1",
   );
@@ -68,6 +82,12 @@ it("has a usable OpenAPI document", async () => {
   expect(r.statusCode).toBe(200);
   expect(r.json().openapi).toBe("3.1.0");
   expect(r.json().components.schemas.AnalysisSpec).toBeTruthy();
+  expect(r.json().components.schemas.ChartResponse).toBeTruthy();
+  expect(
+    r.json().paths["/api/v1/evidence/{id}/charts"].get.responses["200"].content[
+      "application/json"
+    ].schema.$ref,
+  ).toBe("#/components/schemas/ChartResponse");
 });
 
 it("closes an active SSE stream by cancelling the run before server shutdown", async () => {
@@ -106,4 +126,24 @@ it("closes an active SSE stream by cancelling the run before server shutdown", a
     await local.app.close();
     rmSync(temporary, { recursive: true, force: true });
   }
+});
+
+it("exposes fixture charts without a model and reports chart endpoint errors", async () => {
+  const demo = (await server.app.inject("/api/v1/demo")).json();
+  expect(demo.answer.charts).toHaveLength(2);
+  expect(
+    (await server.app.inject("/api/v1/evidence/" + demo.evidence.id))
+      .statusCode,
+  ).toBe(200);
+  expect(
+    demo.answer.charts.every(
+      (chart: any) => chart.source.backend === "fixture",
+    ),
+  ).toBe(true);
+  expect(
+    (await server.app.inject("/api/v1/evidence/missing/charts")).statusCode,
+  ).toBe(404);
+  expect(
+    (await server.app.inject("/api/v1/evidence/bad!/charts")).statusCode,
+  ).toBe(400);
 });

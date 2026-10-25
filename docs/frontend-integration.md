@@ -56,6 +56,26 @@ await api.rememberWindow(id, 7);
 - `evidence.rows[].bucket`：趋势桶起点；无 bucket 时用 period。相对变化/比例使用小数，显示百分比时乘百。金额不添加美元符号；`null` 显示“不可计算/数据缺失”。
 - `modelTraces`：真实 provider/model，可在详情中显示；普通用户不必看技术信息。
 
+## 图表接入（API 1.1.0 新增）
+
+```ts
+import { chartResponseSchema } from "@storewhy/contracts";
+
+// Agent 的最终回答已经附带图表；旧 Run 没有这个字段时按空数组处理。
+const run = await api.run(runId);
+const charts = run.answer?.charts ?? [];
+const notices = run.answer?.chartNotes ?? [];
+
+// 也可以从已有 Evidence 单独获取，不额外调用模型或执行 SQL。
+const response = chartResponseSchema.parse(
+  await api.evidenceCharts(evidenceId),
+);
+```
+
+支持 `bar`（时期/渠道对比）、`line`（日/周/月自然时期趋势）、`stacked_bar`（首次与后续购买收入构成），每次最多两张。数据点含 `source: {evidenceId,rowIndex,metric}`，可通过 `api.evidence` 展开真实查询结果、SQL 和 queryId。展示以 `chart.source.spec/coverage` 为准，按 `point.key` 对齐系列；缺失值保留 null，比例只在显示时乘百，金额不加货币符号。
+
+首版使用确定性规则从已执行结果选图，不增加模型调用。完整规则、单位表、断线方式、缓存和点击渠道追问代码见 [图表契约](chart-contract.md)。免凭据开发可直接使用 `(await api.demo()).answer.charts` 或 [三类离线 mock payload](examples/charts.json)；mock 的 Evidence 嵌在文件内，ID 不对应服务器。新追问完成后替换图表，不沿用旧图的证据。
+
 ## 状态与错误
 
 | 状态                | UI 行为                                       |
@@ -86,6 +106,7 @@ SSE type：run_started、scope_updated、hypothesis、query_started、query_comp
 | GET    | /runs/:id/events                             | SSE，可恢复                                |
 | POST   | /runs/:id/cancel                             | 取消请求或已结束 Run                       |
 | GET    | /evidence/:id                                | Evidence                                   |
+| GET    | /evidence/:id/charts                         | ChartResponse，至多两张，绑定已有 Evidence |
 | POST   | /analytics/query                             | AnalysisSpec → Evidence，直接数据查询      |
 | GET    | /conversations/:id/memory                    | 不含 embedding 的记忆列表                  |
 | POST   | /conversations/:id/preferences/window        | `{windowDays:7或14}`                       |

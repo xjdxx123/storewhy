@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CONTRACT_VERSION = "1.0.0";
+export const CONTRACT_VERSION = "1.1.0";
 export const METRIC_VERSION = "procrastinate-v1";
 export const metricSchema = z.enum([
   "spend",
@@ -100,14 +100,17 @@ export interface AnalysisRow {
   dimensions: Partial<Record<Dimension, string>>;
   values: Partial<Record<Metric, number | null>>;
 }
-export interface Coverage {
-  period: string;
-  requestedStart: string;
-  requestedEnd: string;
-  effectiveEnd: string;
-  excludedUsers: number;
-  days: number;
-}
+export const coverageSchema = z
+  .object({
+    period: z.string(),
+    requestedStart: date,
+    requestedEnd: date,
+    effectiveEnd: date,
+    excludedUsers: z.number().int().nonnegative(),
+    days: z.number().int().nonnegative(),
+  })
+  .strict();
+export type Coverage = z.infer<typeof coverageSchema>;
 export interface Comparison {
   dimensions: Partial<Record<Dimension, string>>;
   bucket?: string;
@@ -134,6 +137,97 @@ export interface Evidence {
   durationMs: number;
   truncated: boolean;
 }
+export const CHART_VERSION = "1.0.0";
+export const chartUnitSchema = z.enum([
+  "sample_amount",
+  "count",
+  "proportion",
+  "multiple",
+  "hours",
+  "sample_amount_per_user",
+  "sample_amount_per_payer",
+]);
+export type ChartUnit = z.infer<typeof chartUnitSchema>;
+const chartDimensionsSchema = z
+  .object({
+    channel: z.string().optional(),
+    device: z.string().optional(),
+    region: z.string().optional(),
+  })
+  .strict();
+export const chartPointSchema = z
+  .object({
+    key: z.string().min(1),
+    label: z.string().min(1),
+    period: z.string(),
+    bucket: date.optional(),
+    dimensions: chartDimensionsSchema,
+    value: z.number().finite().nullable(),
+    source: z
+      .object({
+        evidenceId: z.string().min(1),
+        rowIndex: z.number().int().nonnegative(),
+        metric: metricSchema,
+      })
+      .strict(),
+  })
+  .strict();
+export const chartSchema = z
+  .object({
+    id: z.string().min(1),
+    version: z.literal(CHART_VERSION),
+    type: z.enum(["bar", "line", "stacked_bar"]),
+    title: z.string().min(1),
+    xAxis: z
+      .object({ label: z.string(), kind: z.enum(["category", "time"]) })
+      .strict(),
+    yAxis: z
+      .object({
+        label: z.string(),
+        unit: chartUnitSchema,
+        zeroBaseline: z.literal(true),
+      })
+      .strict(),
+    missingValues: z.literal("gap"),
+    source: z
+      .object({
+        evidenceId: z.string().min(1),
+        datasetVersion: z.string(),
+        metricVersion: z.string(),
+        backend: z.enum(["zetaris", "fixture"]),
+        createdAt: z.string(),
+        spec: analysisSpecSchema,
+        coverage: z.array(coverageSchema),
+        definitions: z.record(z.string(), z.string()),
+      })
+      .strict(),
+    series: z
+      .array(
+        z
+          .object({
+            id: z.string().min(1),
+            label: z.string().min(1),
+            metric: metricSchema,
+            period: z.string().optional(),
+            dimensions: chartDimensionsSchema.optional(),
+            points: z.array(chartPointSchema).min(1).max(200),
+          })
+          .strict(),
+      )
+      .min(1)
+      .max(64),
+    notes: z.array(z.string()),
+  })
+  .strict();
+export type ChartPoint = z.infer<typeof chartPointSchema>;
+export type Chart = z.infer<typeof chartSchema>;
+export const chartResponseSchema = z
+  .object({
+    charts: z.array(chartSchema).max(2),
+    notes: z.array(z.string()),
+  })
+  .strict();
+export type ChartResponse = z.infer<typeof chartResponseSchema>;
 export interface Fact {
   id: string;
   evidenceId: string;
@@ -147,6 +241,8 @@ export interface Finding {
   factIds: string[];
 }
 export interface Answer {
+  charts?: Chart[];
+  chartNotes?: string[];
   summary: string;
   facts: Fact[];
   findings: Finding[];

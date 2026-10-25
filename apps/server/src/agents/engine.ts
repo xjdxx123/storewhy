@@ -28,6 +28,7 @@ import {
   validateSelection,
 } from "../analytics/observations.ts";
 import { queryFindings } from "../analytics/report.ts";
+import { chartsFor } from "../analytics/charts.ts";
 import {
   explicitConstraints,
   isScopeOnly,
@@ -548,6 +549,11 @@ export class Engine {
             : ["请缩小问题或补充缺失数据；当前证据不能作为因果结论。"],
         };
         run.status = ready ? "completed" : "limited";
+      }
+      if (run.answer) {
+        const presentation = chartsFor(evidence);
+        run.answer.charts = presentation.charts;
+        run.answer.chartNotes = presentation.notes;
       }
       c.context.evidenceIds = [...run.evidenceIds];
       this.store.put("conversations", c.id, c);

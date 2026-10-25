@@ -1,5 +1,6 @@
 import type {
   AnalysisSpec,
+  ChartResponse,
   DataCatalog,
   IntegrationStatus,
   MemoryView,
@@ -53,6 +54,11 @@ export class StoreWhyClient {
   }
   evidence(id: string) {
     return this.request<Evidence>("/evidence/" + encodeURIComponent(id));
+  }
+  evidenceCharts(id: string) {
+    return this.request<ChartResponse>(
+      "/evidence/" + encodeURIComponent(id) + "/charts",
+    );
   }
   query(spec: AnalysisSpec) {
     return this.request<Evidence>("/analytics/query", spec);

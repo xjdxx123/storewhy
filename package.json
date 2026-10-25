@@ -25,7 +25,9 @@
     "dev:live": "STOREWHY_MODE=live tsx watch apps/server/src/index.ts",
     "format": "prettier --write apps/server/src packages/contracts/src scripts tests docs README.md package.json tsconfig.json vitest.config.ts eslint.config.js",
     "pretest:live": "python3 scripts/reference-metrics.py",
-    "test:http": "tsx scripts/smoke-http.ts"
+    "test:http": "tsx scripts/smoke-http.ts",
+    "test:charts": "tsx scripts/smoke-charts.ts",
+    "docs:charts": "tsx scripts/generate-chart-examples.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.16",

@@ -3,6 +3,8 @@ import {
   CONTRACT_VERSION,
   analysisSpecSchema,
   messageSchema,
+  chartSchema,
+  chartResponseSchema,
 } from "@storewhy/contracts";
 import { settings } from "./config.ts";
 export function openapi() {
@@ -13,19 +15,23 @@ export function openapi() {
     schema: { type: "string" },
   };
   const json = (schema: unknown) => ({ "application/json": { schema } });
-  const response = (description: string) => ({ description });
+  const response = (description: string, schema?: unknown) => ({
+    description,
+    ...(schema ? { content: json(schema) } : {}),
+  });
   const body = (schema: unknown) => ({ required: true, content: json(schema) });
   const paths: Record<string, unknown> = {};
   const get = (
     route: string,
     description: string,
     parameters: unknown[] = [],
+    schema?: unknown,
   ) =>
     (paths[route] = {
       get: {
         parameters,
         responses: {
-          "200": response(description),
+          "200": response(description, schema),
           "404": response("Record not found"),
         },
       },
@@ -96,6 +102,12 @@ export function openapi() {
     "SQL, queryIds, rows, comparisons and definitions",
     [id],
   );
+  get(
+    "/api/v1/evidence/{id}/charts",
+    "Up to two charts bound to complete source evidence; no new SQL or model call",
+    [id],
+    { $ref: "#/components/schemas/ChartResponse" },
+  );
   post(
     "/api/v1/analytics/query",
     "Evidence for a validated analysis specification",
@@ -150,6 +162,8 @@ export function openapi() {
       schemas: {
         Message: z.toJSONSchema(messageSchema),
         AnalysisSpec: z.toJSONSchema(analysisSpecSchema),
+        Chart: z.toJSONSchema(chartSchema),
+        ChartResponse: z.toJSONSchema(chartResponseSchema),
         Error: {
           type: "object",
           properties: {

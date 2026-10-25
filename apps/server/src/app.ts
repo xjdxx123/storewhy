@@ -15,6 +15,7 @@ import {
 import { settings, AppError, cleanError } from "./config.ts";
 import { Analytics } from "./analytics/service.ts";
 import { catalog } from "./analytics/catalog.ts";
+import { chartsFor } from "./analytics/charts.ts";
 import { type SqlBackend, ZetarisBackend } from "./integrations/zetaris.ts";
 import { FixtureBackend } from "./integrations/fixture.ts";
 import { type ModelGateway, Nightshift } from "./integrations/nightshift.ts";
@@ -129,6 +130,9 @@ export async function buildApp(
   app.get(API_PREFIX + "/evidence/:id", (req) =>
     disk.get<Evidence>("evidence", params(req.params).id),
   );
+  app.get(API_PREFIX + "/evidence/:id/charts", (req) =>
+    chartsFor([disk.get<Evidence>("evidence", params(req.params).id)]),
+  );
   app.post(API_PREFIX + "/analytics/query", async (req) => {
     const e = await analytics.query(analysisSpecSchema.parse(req.body));
     disk.put("evidence", e.id, e);
@@ -230,6 +234,8 @@ export async function buildApp(
       const a = new Analytics(f, "self-authored-fixture-v1");
       const { DEFAULT_SPEC } = await import("@storewhy/contracts");
       const evidence = await a.query(DEFAULT_SPEC);
+      disk.put("evidence", evidence.id, evidence);
+      const presentation = chartsFor([evidence]);
       return {
         kind: "fixture_replay",
         notice:
@@ -238,6 +244,8 @@ export async function buildApp(
         evidence,
         answer: {
           summary: "样例费用增加，但观察期收入保持相同。",
+          charts: presentation.charts,
+          chartNotes: presentation.notes,
           facts: factsFor([evidence]),
           findings: [],
           checkedExplanations: [],

@@ -79,6 +79,15 @@ describe("multi-agent and context contracts", () => {
         .id,
     );
     expect(r.context.spec.windowDays).toBe(7);
+    expect(r.answer?.charts?.length).toBeGreaterThan(0);
+    expect(
+      r.answer?.charts?.every(
+        (chart) =>
+          r.evidenceIds.includes(chart.source.evidenceId) &&
+          chart.source.spec.windowDays === 7 &&
+          chart.source.spec.filters.channels.join() === "FaceBoom",
+      ),
+    ).toBe(true);
     expect(r.context.spec.filters.channels).toEqual(["FaceBoom"]);
     r = await wait(
       engine,

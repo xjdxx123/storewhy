@@ -1,0 +1,173 @@
+{
+  "at": "2026-10-25T19:21:11.340Z",
+  "result": "PASS",
+  "health": {
+    "status": "ok",
+    "apiVersion": "1.1.0",
+    "dataMode": "zetaris",
+    "datasetVersion": "4c26d29934370408"
+  },
+  "checks": [
+    {
+      "name": "channel-comparison",
+      "charts": [
+        {
+          "type": "bar",
+          "metric": "spend",
+          "evidenceId": "ev-38fdf4d0-43b9-430b-bad0-ef7241233130",
+          "points": 20,
+          "unit": "sample_amount"
+        },
+        {
+          "type": "bar",
+          "metric": "revenue",
+          "evidenceId": "ev-38fdf4d0-43b9-430b-bad0-ef7241233130",
+          "points": 20,
+          "unit": "sample_amount"
+        }
+      ]
+    },
+    {
+      "name": "calendar-trend",
+      "charts": [
+        {
+          "type": "line",
+          "metric": "revenue",
+          "evidenceId": "ev-9d3a3d62-da10-43c1-ac10-d802b894fe28",
+          "points": 2,
+          "unit": "sample_amount"
+        }
+      ]
+    },
+    {
+      "name": "purchase-composition",
+      "charts": [
+        {
+          "type": "stacked_bar",
+          "metric": "first_purchase_revenue",
+          "evidenceId": "ev-da7890b6-a6a0-4fb8-aa3b-a93198f1fadc",
+          "points": 4,
+          "unit": "sample_amount"
+        }
+      ]
+    }
+  ],
+  "agentRuns": [
+    {
+      "runId": "00c8a4e4-9c6a-499d-9d8d-01fd57b642f0",
+      "question": "为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？",
+      "status": "completed",
+      "durationMs": 43238,
+      "charts": [
+        {
+          "type": "bar",
+          "metric": "spend",
+          "evidenceId": "ev-8b53edef-581c-4240-a9d6-45db7d347303",
+          "points": 20,
+          "unit": "sample_amount"
+        },
+        {
+          "type": "bar",
+          "metric": "revenue",
+          "evidenceId": "ev-8b53edef-581c-4240-a9d6-45db7d347303",
+          "points": 20,
+          "unit": "sample_amount"
+        }
+      ],
+      "modelCalls": 7,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      }
+    },
+    {
+      "runId": "6ea6181a-bab6-497d-9c92-72ebe0fca213",
+      "question": "只看TipTop，观察窗口改成7天，其他条件不变。",
+      "status": "limited",
+      "durationMs": 37398,
+      "charts": [
+        {
+          "type": "bar",
+          "metric": "spend",
+          "evidenceId": "ev-3278e9ba-ac7b-4604-9ad1-8659661d1b85",
+          "points": 2,
+          "unit": "sample_amount"
+        },
+        {
+          "type": "bar",
+          "metric": "revenue",
+          "evidenceId": "ev-3278e9ba-ac7b-4604-9ad1-8659661d1b85",
+          "points": 2,
+          "unit": "sample_amount"
+        }
+      ],
+      "modelCalls": 9,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "TipTop"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      }
+    }
+  ]
+}
