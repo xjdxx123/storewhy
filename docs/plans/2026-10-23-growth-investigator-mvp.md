@@ -4,7 +4,9 @@
 
 定位已经确认：帮助增长运营人员围绕渠道费用、访问、获客、付费和复购自由提问，通过多轮查询和独立审查形成有证据的解释。一个完整调查案例用于展示，产品支持一类问题及其追问。
 
-本轮只编写计划。阶段 0 的文档核查已完成；阶段 1—7 均未实施。执行时按编号推进，每阶段通过验收后记录证据；“开始下一步”指进入当前未完成阶段。开发由主会话推进，产品内的两个 Agent 是应用组件。
+2026-10-25 执行更新：用户明确将 React / TypeScript UI 交给队友，主会话负责 TypeScript 后端并执行至后端任务完成。阶段 5 调整为 API、SSE、共享 contracts 与 UI 接入文档；实际页面、浏览器验收和录制留给 UI 接入阶段。后端开发由主会话推进，未启动开发 subagent workflow；产品内 Investigator / Reviewer 是两种实际模型角色。
+
+当前已建立本地 main 和实施分支；远程 private 仓库为 xjdxx123/storewhy。用户尚未要求 push。以下完成记录与验证证据随实际结果更新，不将队友 UI 或正式提交标记为完成。
 
 ## 1 产品目标和完成标准
 
@@ -23,14 +25,14 @@ MVP 完成标准：
 
 ## 2 MVP 的问题范围
 
-| 问题族 | 示例 | 首版能力 |
-| --- | --- | --- |
-| 现状查询 | 7 月各渠道花了多少费用、获得多少首次出现用户？ | 金额、访问、用户、购买记录和购买用户汇总；日、周、月趋势 |
-| 时期变化 | 为什么 7 月费用增加，新用户收入却几乎没涨？ | 自然时期比较，或等长用户观察期比较；检查渠道结构与相关指标变化 |
-| 结构贡献 | 哪些渠道贡献了收入增量？增长来自首次购买还是后续购买？ | 渠道金额增量、首次与后续购买收入拆分 |
-| 用户批次 | 这批用户多久首次购买？首访后 7 天和 14 天表现如何？ | 首次购买延迟、观察期付费比例、每用户收入和复购表现 |
-| 人群比较 | iPhone 和 Android 用户的付费表现有什么不同？ | 按首次观测设备、国家或渠道比较用户行为与收入；最多两个拆分维度 |
-| 解释检验 | 新渠道真的更差吗，还是观察时间不足？ | 检查批次成熟度、分母、比较口径、渠道占比；按反馈重查 |
+| 问题族   | 示例                                                   | 首版能力                                                       |
+| -------- | ------------------------------------------------------ | -------------------------------------------------------------- |
+| 现状查询 | 7 月各渠道花了多少费用、获得多少首次出现用户？         | 金额、访问、用户、购买记录和购买用户汇总；日、周、月趋势       |
+| 时期变化 | 为什么 7 月费用增加，新用户收入却几乎没涨？            | 自然时期比较，或等长用户观察期比较；检查渠道结构与相关指标变化 |
+| 结构贡献 | 哪些渠道贡献了收入增量？增长来自首次购买还是后续购买？ | 渠道金额增量、首次与后续购买收入拆分                           |
+| 用户批次 | 这批用户多久首次购买？首访后 7 天和 14 天表现如何？    | 首次购买延迟、观察期付费比例、每用户收入和复购表现             |
+| 人群比较 | iPhone 和 Android 用户的付费表现有什么不同？           | 按首次观测设备、国家或渠道比较用户行为与收入；最多两个拆分维度 |
+| 解释检验 | 新渠道真的更差吗，还是观察时间不足？                   | 检查批次成熟度、分母、比较口径、渠道占比；按反馈重查           |
 
 首版明确边界：
 
@@ -48,11 +50,11 @@ MVP 完成标准：
 
 ### 3.1 原始数据与版本
 
-| 原始文件 | 核验行数 | 字段 |
-| --- | ---: | --- |
-| visits_info_short.csv | 309,901 | User Id, Region, Device, Channel, Session Start, Session End |
-| orders_info_short.csv | 40,212 | User Id, Event Dt, Revenue |
-| costs_info_short.csv | 1,800 | dt, Channel, costs |
+| 原始文件              | 核验行数 | 字段                                                         |
+| --------------------- | -------: | ------------------------------------------------------------ |
+| visits_info_short.csv |  309,901 | User Id, Region, Device, Channel, Session Start, Session End |
+| orders_info_short.csv |   40,212 | User Id, Event Dt, Revenue                                   |
+| costs_info_short.csv  |    1,800 | dt, Channel, costs                                           |
 
 来源分别为 `https://code.s3.yandex.net/datasets/` 下的同名文件。下载时记录 URL、时间、SHA-256、行数、字段和覆盖区间，内容版本由三文件哈希共同决定。已有哈希在 [数据画像](../../research/data-audit/basic-profiles.json)。
 
@@ -62,7 +64,7 @@ MVP 完成标准：
 
 ### 3.2 计算规则
 
-- user ID 按字符串保存；金额以 Decimal 或整数最小金额单位计算，显示时统一四舍五入。
+- user ID 按字符串保存；源金额保留到 NUMERIC(28,8)，以 Decimal 汇总后再统一舍入显示。费用含小数分位，禁止逐行先舍入到两位，否则六月费用会累积偏差。
 - “新用户”指本快照中首次出现的用户，不宣称是业务历史上的首次注册。
 - 先为每个用户确定首次观测访问及其归属；同一时间有多个候选来源时记录冲突，采用稳定且公开的规则，不依赖文件偶然顺序。
 - 购买记录每行是一个观测购买事件。原表没有 order ID；生成的导入行 ID 仅用于证据定位，不冒充原始业务订单号。
@@ -85,11 +87,11 @@ MVP 完成标准：
 
 已有核算采用首次观测为付费渠道的用户、完整 14 天窗口：
 
-| 指标 | 2019-06 | 2019-07 |
-| --- | ---: | ---: |
-| 记录广告费用 | 15,090.05 | 16,447.06 |
-| 付费渠道首次观测用户 | 15,315 | 14,941 |
-| 这批用户 14 天收入 | 13,645.59 | 13,688.12 |
+| 指标                 |   2019-06 |   2019-07 |
+| -------------------- | --------: | --------: |
+| 记录广告费用         | 15,090.05 | 16,447.06 |
+| 付费渠道首次观测用户 |    15,315 |    14,941 |
+| 这批用户 14 天收入   | 13,645.59 | 13,688.12 |
 
 这些值作为独立核对基准，不写进产品答案逻辑。来源和定义见 [月度核算](../../research/data-audit/spend-revenue-monthly-check.json)。其他时期和追问必须重新计算。
 
@@ -97,11 +99,11 @@ MVP 完成标准：
 
 ### 4.1 两个 Agent 与一个执行工具层
 
-| 组件 | 责任 | 输出 |
-| --- | --- | --- |
-| Investigator Agent | 理解问题、合并追问条件、提出候选解释、选择查询、根据证据追加调查、撰写报告 | 结构化意图、假设、工具请求、引用证据的回答 |
-| Reviewer Agent | 独立检查口径与证据充分性，指出遗漏的解释或无依据的断言，决定是否需要重查 | ready / needs_query / missing_data / clarify 及具体理由 |
-| 分析执行工具层 | 校验请求，编译并执行受控分析查询，计算派生指标，返回可追溯结果 | 数值、范围、查询 ID、来源与校验结果；它是工具，不包装成第三个 Agent |
+| 组件               | 责任                                                                       | 输出                                                                |
+| ------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Investigator Agent | 理解问题、合并追问条件、提出候选解释、选择查询、根据证据追加调查、撰写报告 | 结构化意图、假设、工具请求、引用证据的回答                          |
+| Reviewer Agent     | 独立检查口径与证据充分性，指出遗漏的解释或无依据的断言，决定是否需要重查   | ready / needs_query / missing_data / clarify 及具体理由             |
+| 分析执行工具层     | 校验请求，编译并执行受控分析查询，计算派生指标，返回可追溯结果             | 数值、范围、查询 ID、来源与校验结果；它是工具，不包装成第三个 Agent |
 
 两个 Agent 可以复用同一个模型，但使用独立提示词和结构化输出契约。确定性的指标校验始终执行，不能被 Reviewer 的自然语言通过意见覆盖。
 
@@ -138,8 +140,8 @@ Investigator 输出严格 JSON 的工具指令，由 Zod schema 校验；通过�
 - Reviewer 可请求新的拆分、口径修正或补充解释；只有发现具体缺口才返工。
 - 输出区分“核实的变化”“证据支持的解释”“尚未验证的解释”。相关变化不写成已证明的广告因果作用。
 - Why 至少经过一次独立 Reviewer；数字引用必须存在于证据中。只有核对通过的数字可以进入最终结构化事实。
-- 单轮用户请求最多 3 个调查回合、8 个分析查询；JSON 格式修复最多 1 次。超过预算输出已核实部分和未完成项。
-- 同一请求避免重复执行相同的“数据版本 + 指标契约版本 + 分析规格”。模型请求超时上限采用已验证的 180 秒，同时受整轮 6 分钟总上限约束；认证失败不重试，暂时性网络错误最多重试 1 次。
+- 单轮用户请求最多 3 个调查回合、8 个分析查询；每次模型调用的 JSON 格式修复最多 1 次。超过预算输出已核实部分和未完成项。
+- 同一请求避免重复执行相同的“数据版本 + 指标契约版本 + 分析规格”。模型意图提取单次 30 秒、调查/审查单次 90 秒，均受整轮 6 分钟总上限约束；认证失败不重试，暂时性网络错误最多重试 1 次。
 - 无数据、零分母、查询错误、模型不可用分别作为显式状态。Live 模式不偷偷改用本地计算或缓存答案冒充成功。
 
 ## 5 追问与记忆
@@ -150,15 +152,15 @@ Investigator 输出严格 JSON 的工具指令，由 Zod schema 校验；通过�
 
 解析追问时先生成 `ContextPatch`，只修改用户明确改变的字段。状态规则：
 
-| 用户输入 | 状态变化 |
-| --- | --- |
-| 按渠道拆开看 | 保留时期、指标、筛选和 H，修改分组 |
-| 只看 FaceBoom | 保留其他条件，新增/替换渠道筛选 |
-| 改成首访后 7 天 | H 从 14 改为 7，重算相关指标 |
-| 我说的是 8 月，不是 7 月 | 更新时期，增加 revision，旧证据不进入新结论 |
-| 去掉设备限制 | 清除指定筛选，不清空其他条件 |
-| 开始一个新分析 | 创建新的 investigationId，不继承旧任务临时筛选 |
-| 这个渠道呢 | 如果指代不唯一，询问渠道；不猜测 |
+| 用户输入                        | 状态变化                                                                     |
+| ------------------------------- | ---------------------------------------------------------------------------- |
+| 按渠道拆开看                    | 保留时期、指标、筛选和 H，修改分组                                           |
+| 只看 FaceBoom                   | 保留其他条件，新增/替换渠道筛选                                              |
+| 改成首访后 7 天                 | H 从 14 改为 7，重算相关指标                                                 |
+| 我说的是 8 月，不是 7 月        | 更新时期，增加 revision，旧证据不进入新结论                                  |
+| 去掉设备限制                    | 清除指定筛选，不清空其他条件                                                 |
+| 开始一个新分析                  | 创建新的 investigationId，不继承旧任务临时筛选                               |
+| 这个渠道呢                      | 如果指代不唯一，询问渠道；不猜测                                             |
 | 只看 iPhone（此前在看费用回报） | 先解释设备成本缺失，提供用户/付费/收入分析范围；不沿用全渠道费用计算设备回报 |
 
 当前用户明确指令优先于当前状态，当前状态优先于记忆中的默认偏好。时间、筛选、H 或指标改变后重新查询；缓存只能使用完全一致的数据版本和分析规格。数据版本或任务不一致的旧数字不能作为新证据。
@@ -181,14 +183,14 @@ Investigator 输出严格 JSON 的工具指令，由 Zod schema 校验；通过�
 
 ## 6 Zetaris 与 Meterless 的具体分工
 
-| 部分 | 具体工作 | 验收证据 |
-| --- | --- | --- |
-| 数据准备层 | 下载和校验三表、规范字段与类型、生成稳定导入行 ID；原始业务记录保持可追溯 | 哈希、行数、孤立买家检查、数据覆盖清单 |
-| Zetaris | 登记三类业务记录，执行筛选、关联、聚合及用户批次相关查询，形成结果来源 | 实际 SQL、queryId、结果、耗时；与独立基准一致 |
-| Nightshift | 两个 Agent 的统一模型入口，使用 Runtime token；记录实际模型和 provider | /models 探测、真实调用与 meterless winning_route/receipt |
-| NVIDIA Nemotron | 经 Nightshift 执行问题理解、计划、审查和解释 | 请求 trace 中的实际 provider/model；不依赖网页当前打开的模型 |
-| H-MEM | 保存、检索和纠正有来源的口径与记忆，供后续请求使用 | add/query/feedback、supersedes、ledger、重启恢复测试 |
-| 应用工具层 | 指标契约、范围验证、SQL 编译、数值校验、会话状态和输出证据 | 指标与追问测试；数值引用完整性 |
+| 部分            | 具体工作                                                                  | 验收证据                                                     |
+| --------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 数据准备层      | 下载和校验三表、规范字段与类型、生成稳定导入行 ID；原始业务记录保持可追溯 | 哈希、行数、孤立买家检查、数据覆盖清单                       |
+| Zetaris         | 登记三类业务记录，执行筛选、关联、聚合及用户批次相关查询，形成结果来源    | 实际 SQL、queryId、结果、耗时；与独立基准一致                |
+| Nightshift      | 两个 Agent 的统一模型入口，使用 Runtime token；记录实际模型和 provider    | /models 探测、真实调用与 meterless winning_route/receipt     |
+| NVIDIA Nemotron | 经 Nightshift 执行问题理解、计划、审查和解释                              | 请求 trace 中的实际 provider/model；不依赖网页当前打开的模型 |
+| H-MEM           | 保存、检索和纠正有来源的口径与记忆，供后续请求使用                        | add/query/feedback、supersedes、ledger、重启恢复测试         |
+| 应用工具层      | 指标契约、范围验证、SQL 编译、数值校验、会话状态和输出证据                | 指标与追问测试；数值引用完整性                               |
 
 首选技术栈：Node.js 22 + TypeScript 后端、React + Vite 前端，使用同一语言接入 H-MEM TypeScript 参考模块。HTTP/输入校验优先使用 Fastify/Zod，开发运行采用 tsx；依赖在实施时锁定版本，并验证 H-MEM 的 .ts 导入在最终构建中可运行。已有 Python 环境保留，用于独立参考核算与现有 setup 检查。
 
@@ -200,21 +202,21 @@ JDBC 登记是有文档、尚未在本机验证的接入点。阶段 1 先做连
 
 本阶段已完成阅读和路径核对，已有的成功记录不等于新数据接入成功。
 
-| 编号 | 已阅读来源 | 可使用的真实接口或模式 |
-| --- | --- | --- |
-| Z1 | [zetaris_sql.py](../../setup/references/zetaris-getting-started/scripts/zetaris_sql.py)，RestChannel，约第 198—240 行 | GET /datasource/datasources；POST /sql-editor/sqls/run，body 为 queryId/sql/source/limit；Bearer、X-Org-ID、X-Request-ID |
-| Z2 | [Lightning commands](../../setup/references/zetaris-getting-started/docs/guides/zetaris-lightning-sql-commands.md)，4.1—4.3 | CREATE DATASOURCE ... OPTIONS(jdbcdriver,jdbcurl,username,password,fetchsize)；REGISTER DATASOURCE TABLE(S) |
-| Z3 | 同一文档 6.1—6.2，以及 [PokéAPI 模式](../../setup/references/zetaris-getting-started/open_data/rest_apis/sql/non_rate_limited/02_pokeapi_create.sql) | CREATE REST SESSION TABLE；CREATE LIGHTNING REST TABLE；可达 HTTP JSON 来源 |
-| Z4 | [recipe readiness](../../setup/references/zetaris-getting-started/docs/guides/recipe-readiness.md)、[文件 cookbook](../../setup/references/zetaris-getting-started/open_data/parquet_csv/HOWTO.md) | 本地 CSV 缓存不能直接当作已登记的 Zetaris 文件表；SQL 数据库 cookbook 尚未形成已验证 onboarding 路径 |
-| N1 | [provider contract](../../setup/references/meterless/docs/agent-ready/add-meterless-provider.md) | OpenAI-compatible /v1/models、/v1/chat/completions；Bearer、meterless-app、meterless-scope；401/403 与 offline 区分 |
-| N2 | [本机检查器](../../setup/check_environment.py)，check_meterless，约第 118—158 行；[已保存结果](../../setup/status.json) | 本机现有 Runtime 已成功使用具体 nvidia 模型 ID；读取 winning_route；严格 JSON/原生 tool calling 尚未验证 |
-| H1 | [H-MEM spec](../../setup/references/meterless/engines/hmem/AGENTS.md)、[reference README](../../setup/references/meterless/engines/hmem/reference/README.md) | 分层记忆、来源、审计与纠正契约；参考模块不是已发布生产 SDK |
-| H2 | [index.ts](../../setup/references/meterless/engines/hmem/reference/src/index.ts)、types.ts、memoryStore.ts、memoryRetrieval.ts | new HMEM({persistDir,clock,actor})；add(input)、query(query,{topN,threshold,chatId})、feedback(id,kind)；store.update 支持显式替换标记 |
-| H3 | reference/test/smoke.test.ts | 参考测试包含来源拒绝、排名公式、feedback、superseded、ledger、确定性等；参考测试通过不能替代本产品集成测试 |
+| 编号 | 已阅读来源                                                                                                                                                                                         | 可使用的真实接口或模式                                                                                                                 |
+| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Z1   | [zetaris_sql.py](../../setup/references/zetaris-getting-started/scripts/zetaris_sql.py)，RestChannel，约第 198—240 行                                                                              | GET /datasource/datasources；POST /sql-editor/sqls/run，body 为 queryId/sql/source/limit；Bearer、X-Org-ID、X-Request-ID               |
+| Z2   | [Lightning commands](../../setup/references/zetaris-getting-started/docs/guides/zetaris-lightning-sql-commands.md)，4.1—4.3                                                                        | CREATE DATASOURCE ... OPTIONS(jdbcdriver,jdbcurl,username,password,fetchsize)；REGISTER DATASOURCE TABLE(S)                            |
+| Z3   | 同一文档 6.1—6.2，以及 [PokéAPI 模式](../../setup/references/zetaris-getting-started/open_data/rest_apis/sql/non_rate_limited/02_pokeapi_create.sql)                                               | CREATE REST SESSION TABLE；CREATE LIGHTNING REST TABLE；可达 HTTP JSON 来源                                                            |
+| Z4   | [recipe readiness](../../setup/references/zetaris-getting-started/docs/guides/recipe-readiness.md)、[文件 cookbook](../../setup/references/zetaris-getting-started/open_data/parquet_csv/HOWTO.md) | 本地 CSV 缓存不能直接当作已登记的 Zetaris 文件表；SQL 数据库 cookbook 尚未形成已验证 onboarding 路径                                   |
+| N1   | [provider contract](../../setup/references/meterless/docs/agent-ready/add-meterless-provider.md)                                                                                                   | OpenAI-compatible /v1/models、/v1/chat/completions；Bearer、meterless-app、meterless-scope；401/403 与 offline 区分                    |
+| N2   | [本机检查器](../../setup/check_environment.py)，check_meterless，约第 118—158 行；[已保存结果](../../setup/status.json)                                                                            | 本机现有 Runtime 已成功使用具体 nvidia 模型 ID；读取 winning_route；严格 JSON/原生 tool calling 尚未验证                               |
+| H1   | [H-MEM spec](../../setup/references/meterless/engines/hmem/AGENTS.md)、[reference README](../../setup/references/meterless/engines/hmem/reference/README.md)                                       | 分层记忆、来源、审计与纠正契约；参考模块不是已发布生产 SDK                                                                             |
+| H2   | [index.ts](../../setup/references/meterless/engines/hmem/reference/src/index.ts)、types.ts、memoryStore.ts、memoryRetrieval.ts                                                                     | new HMEM({persistDir,clock,actor})；add(input)、query(query,{topN,threshold,chatId})、feedback(id,kind)；store.update 支持显式替换标记 |
+| H3   | reference/test/smoke.test.ts                                                                                                                                                                       | 参考测试包含来源拒绝、排名公式、feedback、superseded、ledger、确定性等；参考测试通过不能替代本产品集成测试                             |
 
 参考版本：Zetaris 文档 `6a2fbaa47c32c9ac33f6584c64b43b146c621bed`；Meterless `1742dec56a66e58eef9dda2d2b865823758ca8cd`。复制 H-MEM 参考模块时保留 Apache-2.0 许可与来源，并说明本项目修改。
 
-当前基础证据：[setup/status.json](../../setup/status.json) 记录 13 项通过，已有 Zetaris SELECT 1 和 Nightshift→NVIDIA 调用。Node 本次检测为 v22.22.0。项目目前没有 Git 仓库。产品调查循环、数据接入、UI 与 H-MEM 集成尚未实现。
+当前基础证据：[setup/status.json](../../setup/status.json) 记录 13 项通过，已有 Zetaris SELECT 1 和 Nightshift→NVIDIA 调用。Node 本次检测为 v22.22.0。该记录为实施前基线。后端当前通路、数据、Agent 与 H-MEM 验证见 evidence/；UI 由队友负责。
 
 ## 8 顺序实施计划
 
@@ -224,12 +226,12 @@ JDBC 登记是有文档、尚未在本机验证的接入点。阶段 1 先做连
 
 工作：
 
-- [ ] 初始化本地 Git main，收录计划与已有 setup 研究记录；先完善忽略规则，排除原始下载、.state、凭据、平台包和参考依赖。创建实施分支。
-- [ ] 建立最小 TypeScript workspace 与开发/测试命令；锁依赖版本。
-- [ ] 从已核验来源重现下载及哈希检查，生成 manifest；保留三类原始业务数据独立性。
-- [ ] 首选用专用 PostgreSQL 加载三表，经 Z2 登记；先用小片段检查 schema，再核对全量。
-- [ ] 将本项目的 Zetaris 客户端按 Z1 的请求契约实现，保留 queryId 和结果来源。
-- [ ] 按 N1/N2 通过 Nightshift 执行 3 种结构化意图试验；验证 JSON 校验和一次修复路径，记录模型/provider。先沿用当前已验证、由环境变量指定的 nvidia 模型。
+- [x] 初始化本地 Git main，收录计划与已有 setup 研究记录；先完善忽略规则，排除原始下载、.state、凭据、平台包和参考依赖。创建实施分支。
+- [x] 建立最小 TypeScript workspace 与开发/测试命令；锁依赖版本。
+- [x] 从已核验来源重现下载及哈希检查，生成 manifest；保留三类原始业务数据独立性。
+- [x] 首选用专用 PostgreSQL 加载三表，经 Z2 登记；先用小片段检查 schema，再核对全量。
+- [x] 将本项目的 Zetaris 客户端按 Z1 的请求契约实现，保留 queryId 和结果来源。
+- [x] 按 N1/N2 通过 Nightshift 执行 3 种结构化意图试验；验证 JSON 校验和一次修复路径，记录模型/provider。先沿用当前已验证、由环境变量指定的 nvidia 模型。
 
 文档与复制模式：Z1—Z4、N1—N2；数据字段以第 3 节与 research/data-audit 为准。
 
@@ -243,11 +245,11 @@ JDBC 登记是有文档、尚未在本机验证的接入点。阶段 1 先做连
 
 工作：
 
-- [ ] 实现字段目录、AnalysisSpec schema、指标/粒度能力矩阵与只读 SQL 编译。
-- [ ] 实现日期汇总、首次观测用户、首次/后续购买、7/14 天付费与收入、渠道费用匹配。
-- [ ] 实现贡献比较与 evidenceId、spec fingerprint、数据版本和统计口径。
-- [ ] 用现有 Python 路径建立独立参考核算；先冻结数值与边界用例，再接入 Agent。
-- [ ] 在小型自制 fixture 中覆盖多渠道用户、多次访问、多次购买、零购买、缺失费用、末期未成熟用户。
+- [x] 实现字段目录、AnalysisSpec schema、指标/粒度能力矩阵与只读 SQL 编译。
+- [x] 实现日期汇总、首次观测用户、首次/后续购买、7/14 天付费与收入、渠道费用匹配。
+- [x] 实现贡献比较与 evidenceId、spec fingerprint、数据版本和统计口径。
+- [x] 用现有 Python 路径建立独立参考核算；先冻结数值与边界用例，再接入 Agent。
+- [x] 在小型自制 fixture 中覆盖多渠道用户、多次访问、多次购买、零购买、缺失费用、末期未成熟用户。
 
 文档与复制模式：Z1 的查询调用、Z2/Z3 的查询对象；业务计算遵循第 3 节，不从模型提示词推导口径。
 
@@ -261,11 +263,11 @@ JDBC 登记是有文档、尚未在本机验证的接入点。阶段 1 先做连
 
 工作：
 
-- [ ] 定义两个 Agent 的提示词、JSON 输出契约和共享证据状态；走 Nightshift。
-- [ ] 实现简答、调查、待澄清、能力不足、有限结论、失败六类路径。
-- [ ] 依据数据结果选择查询和假设；Reviewer 给出具体补查要求，Investigator 接受反馈重查。
-- [ ] 实现数值引用检查、范围检查、轮数/查询/时间预算及错误恢复。
-- [ ] 将报告拆成事实、解释、限制与下一步；数字绑定 evidenceId，禁止无来源数值进入最终事实卡。
+- [x] 定义两个 Agent 的提示词、JSON 输出契约和共享证据状态；走 Nightshift。
+- [x] 实现简答、调查、待澄清、能力不足、有限结论、失败六类路径。
+- [x] 依据数据结果选择查询和假设；Reviewer 给出具体补查要求，Investigator 接受反馈重查。
+- [x] 实现数值引用检查、范围检查、轮数/查询/时间预算及错误恢复。
+- [x] 将报告拆成事实、解释、限制与下一步；数字绑定 evidenceId，禁止无来源数值进入最终事实卡。
 
 文档与复制模式：N1/N2；内部工具接口采用第 4 节；Z1 负责真实查询。
 
@@ -279,35 +281,36 @@ JDBC 登记是有文档、尚未在本机验证的接入点。阶段 1 先做连
 
 工作：
 
-- [ ] 实现 InvestigationContext、ContextPatch、revision 和状态持久化；会话内串行提交变更。
-- [ ] 实现第 5 节的继承、替换、清除、重置及必要澄清。
-- [ ] 按 H1—H3 复制并注明 H-MEM 参考模块，接入 add/query/feedback、provenance、ledger 与显式 supersedes。
-- [ ] 提供“记为本会话默认口径”操作；普通筛选只保存在当前调查。
-- [ ] 参考检索结果再次核验 scope 和状态，采用规范指标键；对记录进行错误反馈和替代后不继续注入旧规则。
-- [ ] 持久化写入使用原子替换；重启恢复和新会话隔离可测试。
+- [x] 实现 InvestigationContext、ContextPatch、revision 和状态持久化；会话内串行提交变更。
+- [x] 实现第 5 节的继承、替换、清除、重置及必要澄清。
+- [x] 按 H1—H3 复制并注明 H-MEM 参考模块，接入 add/query/feedback、provenance、ledger 与显式 supersedes。
+- [x] 提供“记为本会话默认口径”操作；普通筛选只保存在当前调查。
+- [x] 参考检索结果再次核验 scope 和状态，采用规范指标键；对记录进行错误反馈和替代后不继续注入旧规则。
+- [x] 持久化写入使用原子替换；重启恢复和新会话隔离可测试。
 
 完成定义：三组各至少四轮对话可正确继承与重算；14 天改为 7 天后 query spec 和结果均变化；纠正月份不会继续引用旧数字；新分析清除临时筛选；重启后恢复来源明确的默认窗口；其他会话/数据版本不会串入。产品集成测试通过，不能只提交上游 10 个参考测试。
 
 防错：不能把 prompt 中粘贴历史聊天称为 H-MEM 集成；不能用 hash embedding 声称可靠中文语义搜索；不能让旧记忆覆盖本轮明确指令。
 
-### 阶段 5 可操作的调查界面
+### 阶段 5 后端 API 与 UI 交接
 
-预计 3—4 小时。依赖：阶段 3—4。
+2026-10-25 根据用户分工调整：主会话负责后端接口；队友负责 React UI。
 
-工作：
+后端工作：
 
-- [ ] 一个主页面：数据范围与连接状态、自由输入及追问、当前分析条件、结果与证据抽屉。
-- [ ] 展示简短调查事件：正在比较、正在拆分、发现口径问题、重新查询、已得到有限结论。
-- [ ] 支持修改当前时期/渠道/7 或 14 天，发出与自然语言相同的 ContextPatch。
-- [ ] 最多一张趋势/对比图与一张结果表；证据抽屉可看查询、字段和源记录定位。
-- [ ] 实现加载、澄清、无数据、能力不足、模型/数据服务异常和取消状态。
-- [ ] 做最小免凭据示例回放，使用自制 fixture 和已标注的示例 trace；发起新的开放式调查需要 Live 连接，回放不显示为在线 Agent。
+- [x] Fastify API：字段目录、连接状态、会话、提问/追问、运行状态、取消和证据。
+- [x] 可恢复 SSE：当前条件、查询、审查、答案与错误事件，保留 seq 和 Last-Event-ID。
+- [x] 共享 TypeScript/Zod contracts 与浏览器客户端，支持同一 ContextPatch 编辑条件。
+- [x] 日期/渠道/窗口编辑、日周月趋势、两时期比较数值与明确的数据缺口。
+- [x] 自制 fixture 的免凭据查询和示例回放；自由调查需要 Nightshift，Live 不自动回退。
+- [x] OpenAPI 与 docs/frontend-integration.md，说明状态、错误、CORS、订阅/取消和证据展示。
 
-文档与复制模式：组件按第 4—5 节的状态和事件契约展示；供应商连接状态遵循 N1 的 online/unauthorized/offline 区分。
+后端完成定义：真实 HTTP 完成会话→202→SSE→Run→Evidence，结果来自 Zetaris；contracts 可在 React/Vite 消费；错误和取消有测试。后端不创建或改动 apps/web。
 
-完成定义：浏览器实际打开目标 route，完成主调查与三轮追问；条件变化可见，证据可展开，返回不误用旧结果；服务关闭后有真实错误状态；示例与 Live 清楚标注。保存页面截图和检查步骤。
+队友接入后的产品验收：
 
-防错：不堆 BI 大屏、复杂动画、多页面后台、用户系统或完整 i18n；不在产品主流程展示与用户决策无关的实现细节。
+- [ ] 单页 UI 展示条件、提问、进度、结果、最多一张趋势/对比图与证据抽屉。
+- [ ] 浏览器完成主调查与三轮追问，截图验证错误、无数据、取消及 Live/fixture 标识。
 
 ### 阶段 6 完整验证与泛化验收
 
@@ -315,12 +318,12 @@ JDBC 登记是有文档、尚未在本机验证的接入点。阶段 1 先做连
 
 工作：
 
-- [ ] 建立 12 个固定基准案例，覆盖六类问题与缺失字段、零分母、范围外日期、批次不成熟等边界；预期口径与关键数值独立定义。
-- [ ] 再保留 10 条不写进系统提示词、路由或示例的改写/组合提问，验证日期、渠道和问题组合的泛化。
-- [ ] 验证三组多轮追问、记忆纠正与持久化、服务失败和一次 JSON 修复。
-- [ ] 完成 tests、lint、typecheck、build、真实 Zetaris 集成检查与浏览器检查。
-- [ ] 记录模型/provider、查询耗时、总耗时、轮数、通过/失败项，不反复扩大测试范围来拖延收尾。
-- [ ] 只有新失败、修复或未解决疑点才重跑相关检查；供应商服务缺失应记录为未完成的 Live 检查，不能当作通过。
+- [x] 建立 12 个固定基准案例，覆盖六类问题与缺失字段、零分母、范围外日期、批次不成熟等边界；预期口径与关键数值独立定义。
+- [x] 再保留 10 条不写进系统提示词、路由或示例的改写/组合提问，验证日期、渠道和问题组合的泛化。
+- [x] 验证三组多轮追问、记忆纠正与持久化、服务失败和一次 JSON 修复。
+- [x] 完成 tests、lint、typecheck、build、真实 Zetaris 集成检查与 HTTP/SSE 检查；浏览器检查在队友 UI 接入后执行。
+- [x] 记录模型/provider、查询耗时、总耗时、轮数、通过/失败项，不反复扩大测试范围来拖延收尾。
+- [x] 只有新失败、修复或未解决疑点才重跑相关检查；供应商服务缺失应记录为未完成的 Live 检查，不能当作通过。
 
 完成定义：固定数字/口径与边界检查全部通过；10 条泛化问题至少 9 条正确处理，并公开记录剩余失败的边界。凡数字错误、跨会话污染、越界伪造字段、费用错误分摊或绕过 Zetaris，均为阻断项，不能用总体通过率抵消。
 
@@ -334,19 +337,19 @@ JDBC 登记是有文档、尚未在本机验证的接入点。阶段 1 先做连
 
 工作：
 
-- [ ] 单独做 correctness review：金额/分母、成熟窗口、费用粒度、记忆隔离、错误状态、模型与数据 trace。
-- [ ] 修复阻断项并重跑受影响验证；主会话给出审查结论与残余限制。
-- [ ] 验证通过后本地 merge 到 main；不 push、不创建远程仓库、不对外提交，除非用户明确要求。
-- [ ] README 写明依赖、三表来源、口径、配置、启动、离线 tests、Live 验证、示例回放和数据限制。
-- [ ] 保留 H-MEM 许可与版本说明，明确既有 sponsor 参考代码和本项目新增工作；Zetaris/Engine/Nightshift/NVIDIA 的作用各有证据。
-- [ ] 准备 1—4 分钟演示脚本：完整 Why 调查、真实追加查询、一轮条件修改、一个缺数据问题；准备简短 slides 内容。
-- [ ] 最后核对公开仓库、视频、slides 与 sponsor 说明清单；发布、push、正式提交或对外打包在用户要求后执行。
+- [x] 单独做 correctness review：金额/分母、成熟窗口、费用粒度、记忆隔离、错误状态、模型与数据 trace。
+- [x] 修复阻断项并重跑受影响验证；主会话给出审查结论与残余限制。
+- [x] 验证通过后本地 merge 到 main；不 push、不创建远程仓库、不对外提交，除非用户明确要求。
+- [x] README 写明依赖、三表来源、口径、配置、启动、离线 tests、Live 验证、示例回放和数据限制。
+- [x] 保留 H-MEM 许可与版本说明，明确既有 sponsor 参考代码和本项目新增工作；Zetaris/Engine/Nightshift/NVIDIA 的作用各有证据。
+- [x] 准备 1—4 分钟演示脚本：完整 Why 调查、真实追加查询、一轮条件修改、一个缺数据问题；准备简短 slides 内容。
+- [ ] 团队发布步骤：最后核对公开仓库、视频、slides 与 sponsor 说明清单；发布、push、正式提交或对外打包在用户要求后执行。
 
 完成定义：main 本地可重现，clean setup 按 README 成功，review 无阻断项；提交材料在本地可检查；所有未完成的服务或功能明确标注。
 
 ## 9 建议目录和命令
 
-计划中的文件布局，不代表已经创建实现：
+后端已经实现的目录布局；apps/web 由队友接入：
 
 ```text
 apps/server/src/agents/       Investigator 与 Reviewer
@@ -354,7 +357,7 @@ apps/server/src/analytics/    指标契约 查询编译 校验
 apps/server/src/integrations/ Zetaris Nightshift
 apps/server/src/context/      会话状态和 ContextPatch
 apps/server/src/memory/       H-MEM 适配与 scope
-apps/web/                    单页调查界面
+apps/web/                    队友负责的 React 界面（后端分支未创建）
 packages/contracts/          前后端共享的规格 证据 事件
 packages/hmem/               保留来源许可的参考模块
 infra/                       专用数据服务和登记配置
@@ -367,18 +370,18 @@ evidence/                    脱敏阶段证据和评测摘要
 docs/plans/                  本计划和阶段完成记录
 ```
 
-阶段 1 建立并记录统一命令，预期接口为：`npm run data:prepare`、`npm run data:register`、`npm run dev`、`npm test`、`npm run test:live`、`npm run lint`、`npm run typecheck`、`npm run build`、`npm run eval:live`。这些是拟新增项目命令，当前尚不可运行。Live 前重新执行现有 `setup/check_environment.py --live`。
+阶段 1 建立并记录统一命令，预期接口为：`npm run data:prepare`、`npm run data:register`、`npm run dev`、`npm test`、`npm run test:live`、`npm run lint`、`npm run typecheck`、`npm run build`、`npm run eval:live`。这些命令现已建立；运行方式见 README。Live 前重新执行现有 `setup/check_environment.py --live`。
 
 ## 10 时间安排与删减顺序
 
 按 Toronto 当地日期安排，各阶段合计约 20—27 个专注小时，再留 3—4 小时录制与返工缓冲，不含供应商阻塞与等待：
 
-| 日期 | 目标 |
-| --- | --- |
-| 10 月 23—24 日 | 完成阶段 1—3，尽早验证数据与结构化模型调用，得到真实调查循环 |
-| 10 月 25 日 | 完成阶段 4—5，追问、H-MEM 与可操作界面贯通 |
-| 10 月 26 日 | 阶段 6—7 的验证、review、README 和演示材料 |
-| 10 月 27 日 | 缓冲、干净环境复现和提交准备；已提供材料中的截止时间为 23:45 UTC，即 Toronto 19:45 |
+| 日期           | 目标                                                                               |
+| -------------- | ---------------------------------------------------------------------------------- |
+| 10 月 23—24 日 | 完成阶段 1—3，尽早验证数据与结构化模型调用，得到真实调查循环                       |
+| 10 月 25 日    | 完成追问、H-MEM、后端 API 与队友 UI 的接入契约                                     |
+| 10 月 26 日    | 阶段 6—7 的验证、review、README 和演示材料                                         |
+| 10 月 27 日    | 缓冲、干净环境复现和提交准备；已提供材料中的截止时间为 23:45 UTC，即 Toronto 19:45 |
 
 若时间不足，先删高级图表、额外页面、复杂记忆自动整理、其他 Engine、归因模型扩展和自动报告排版。保留自由提问、追问重算、数字和口径正确、实际 Zetaris 查询、独立审查、H-MEM 功能与测试、来源证据。
 
@@ -386,12 +389,21 @@ docs/plans/                  本计划和阶段完成记录
 
 - [x] 定位与数据范围已经确认。
 - [x] 阶段 0：阅读实际 sponsor 文档和参考实现，核对基础证据。
-- [ ] 阶段 1：数据与模型通路验证。
-- [ ] 阶段 2：指标语义层和查询工具。
-- [ ] 阶段 3：动态调查循环。
-- [ ] 阶段 4：追问与 H-MEM。
-- [ ] 阶段 5：调查界面。
-- [ ] 阶段 6：完整验证。
-- [ ] 阶段 7：review、本地合并及提交材料。
+- [x] 阶段 1：数据与模型通路验证。
+- [x] 阶段 2：指标语义层和查询工具。
+- [x] 阶段 3：动态调查循环。
+- [x] 阶段 4：追问与 H-MEM。
+- [x] 阶段 5：后端 API 与 UI 交接；队友界面验收待接入。
+- [x] 阶段 6：后端完整验证；浏览器联调待队友 UI。
+- [x] 阶段 7：后端 review、本地合并与提交内容草稿；正式发布待授权。
 
-下一步：阶段 1。首先证明本项目的数据和结构化模型调用可以贯通，再推进后续实现。
+实施记录（2026-10-25）：
+
+- 三表和派生表已导入独立 PostgreSQL，并通过 Zetaris 完成登记与行数核对；反复登记走刷新路径。证据：evidence/data-registration.json。
+- 六月/七月 14 天指标与先前独立 Python 核算一致；渠道合计、设备行为、未成熟批次和自然月趋势已通过真实 Zetaris 核对。证据：evidence/live-metrics.json。
+- Nightshift 路由至 NVIDIA 的结构化意图调用已经验证；真实 Agent 日志含实际 provider/model 与 receipt ID。
+- 本地覆盖指标、条件、HMEM、故障、取消、JSON 修复、HTTP/SSE 的测试已建立；最新验收结果在 docs/verification.md 更新。
+- 首轮真实评测发现并修复日期替换、窗口遗漏、organic 范围和重复补查问题。未审查通过的解释不会以“有限结论”名义发布；limited 仅输出确定性事实。
+- 调查上下文给模型提供紧凑证据，避免多次重复全量 facts/rows；所有动态查询仍通过 Zetaris。模型只选择 Observation ID、解释重点和补查；最终数字与比较句由后端根据实际查询确定性生成，拒绝未知 ID。保留 Reviewer 与有限结论边界，不证明广告因果。
+
+后端任务已完成。最终验证见 [verification](../verification.md)，队友按 [frontend-integration](../frontend-integration.md) 接入。UI、浏览器联调、push、视频/slides 成品与正式提交仍由后续团队流程完成。

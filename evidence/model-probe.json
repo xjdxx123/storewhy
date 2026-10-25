@@ -1,0 +1,54 @@
+{
+  "results": [
+    {
+      "message": "对比 2019 年 7 月和 6 月，广告费用为什么增加？",
+      "result": {
+        "operation": "compare",
+        "month": 7,
+        "channel": null,
+        "windowDays": null
+      }
+    },
+    {
+      "message": "只看 FaceBoom 渠道",
+      "result": {
+        "operation": "filter",
+        "month": null,
+        "channel": "FaceBoom",
+        "windowDays": null
+      }
+    },
+    {
+      "message": "改成首访后 7 天观察窗口",
+      "result": {
+        "operation": "window",
+        "month": null,
+        "channel": null,
+        "windowDays": 7
+      }
+    }
+  ],
+  "traces": [
+    {
+      "role": "probe",
+      "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "provider": "nvidia",
+      "durationMs": 754,
+      "receiptId": "rcpt_req_y6hd39ab"
+    },
+    {
+      "role": "probe",
+      "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "provider": "nvidia",
+      "durationMs": 379,
+      "receiptId": "rcpt_req_x4yclgge"
+    },
+    {
+      "role": "probe",
+      "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "provider": "nvidia",
+      "durationMs": 465,
+      "receiptId": "rcpt_req_uxtw5dap"
+    }
+  ]
+}

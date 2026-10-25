@@ -1,0 +1,67 @@
+{
+  "method": "Python stdlib CSV loops and Decimal; independent of TypeScript and SQL compiler",
+  "cohorts": {
+    "7": [
+      {
+        "spend": 15090.05,
+        "new_users": 15315,
+        "payers": 1164,
+        "revenue": 10239.01,
+        "payer_rate": 0.076004,
+        "revenue_per_payer": 8.7964,
+        "cost_per_new_user": 0.985311,
+        "revenue_to_spend": 0.678527
+      },
+      {
+        "spend": 16447.06,
+        "new_users": 14941,
+        "payers": 1141,
+        "revenue": 10697.85,
+        "payer_rate": 0.076367,
+        "revenue_per_payer": 9.375855,
+        "cost_per_new_user": 1.1008,
+        "revenue_to_spend": 0.650441
+      }
+    ],
+    "14": [
+      {
+        "spend": 15090.05,
+        "new_users": 15315,
+        "payers": 1227,
+        "revenue": 13645.59,
+        "payer_rate": 0.080118,
+        "revenue_per_payer": 11.1211,
+        "cost_per_new_user": 0.985311,
+        "revenue_to_spend": 0.904278
+      },
+      {
+        "spend": 16447.06,
+        "new_users": 14941,
+        "payers": 1195,
+        "revenue": 13688.12,
+        "payer_rate": 0.079981,
+        "revenue_per_payer": 11.454494,
+        "cost_per_new_user": 1.1008,
+        "revenue_to_spend": 0.832253
+      }
+    ]
+  },
+  "calendar": [
+    {
+      "users": 26042,
+      "purchases": 4875,
+      "revenue": 26428.25,
+      "first_purchase_revenue": 7728.84,
+      "repeat_purchase_revenue": 18699.41,
+      "avg_first_purchase_hours": 44.239136
+    },
+    {
+      "users": 26672,
+      "purchases": 6556,
+      "revenue": 35988.44,
+      "first_purchase_revenue": 8090.71,
+      "repeat_purchase_revenue": 27897.73,
+      "avg_first_purchase_hours": 47.588188
+    }
+  ]
+}

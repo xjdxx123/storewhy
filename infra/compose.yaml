@@ -1,0 +1,25 @@
+services:
+  data:
+    image: postgres:16-alpine
+    container_name: storewhy-data
+    environment:
+      POSTGRES_DB: storewhy
+      POSTGRES_USER: storewhy
+      POSTGRES_PASSWORD: ${STOREWHY_DB_PASSWORD:?set STOREWHY_DB_PASSWORD}
+    ports:
+      - "127.0.0.1:${STOREWHY_DB_PORT:-55432}:5432"
+    volumes:
+      - storewhy-data:/var/lib/postgresql/data
+    networks:
+      - zetaris
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U storewhy -d storewhy"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+networks:
+  zetaris:
+    external: true
+    name: ${ZETARIS_DOCKER_NETWORK:-zetaris_default}
+volumes:
+  storewhy-data:

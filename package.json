@@ -1,0 +1,54 @@
+{
+  "name": "storewhy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "tsx watch apps/server/src/index.ts",
+    "start": "node dist/server.js",
+    "build": "esbuild apps/server/src/index.ts --bundle --platform=node --target=node22 --format=esm --packages=external --outfile=dist/server.js --alias:@storewhy/hmem=./packages/hmem/src/index.ts --alias:@storewhy/contracts=./packages/contracts/src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint apps/server packages/contracts scripts tests",
+    "test": "vitest run",
+    "test:live": "tsx scripts/verify-live.ts",
+    "data:prepare": "tsx scripts/prepare-data.ts",
+    "data:load": "tsx scripts/load-data.ts",
+    "data:register": "tsx scripts/register-data.ts",
+    "eval:live": "tsx scripts/evaluate.ts",
+    "dev:live": "STOREWHY_MODE=live tsx watch apps/server/src/index.ts",
+    "format": "prettier --write apps/server/src packages/contracts/src scripts tests docs README.md package.json tsconfig.json vitest.config.ts eslint.config.js",
+    "pretest:live": "python3 scripts/reference-metrics.py",
+    "test:http": "tsx scripts/smoke-http.ts"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.3.16",
+    "@fastify/cors": "^11.3.1",
+    "csv-parse": "^7.0.3",
+    "decimal.js": "^10.6.0",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.12.7",
+    "pg": "^8.23.1",
+    "pg-copy-streams": "^7.0.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^22.20.5",
+    "@types/pg": "^8.23.1",
+    "@types/pg-copy-streams": "^1.2.5",
+    "esbuild": "^0.28.2",
+    "eslint": "^9.39.5",
+    "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
+    "typescript": "5.9",
+    "typescript-eslint": "^8.72.0",
+    "vitest": "^5.0.5"
+  }
+}
