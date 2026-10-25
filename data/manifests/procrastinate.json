@@ -1,0 +1,48 @@
+{
+  "id": "procrastinate-pro-plus",
+  "version": "4c26d29934370408",
+  "kind": "public_teaching_sample",
+  "files": [
+    {
+      "name": "visits_info_short.csv",
+      "url": "https://code.s3.yandex.net/datasets/visits_info_short.csv",
+      "sha256": "c56826b20411f3873b6d2bb2e3f54a4e280be71fbec819034d6293d2dafd4b37",
+      "rows": 309901,
+      "columns": [
+        "User Id",
+        "Region",
+        "Device",
+        "Channel",
+        "Session Start",
+        "Session End"
+      ]
+    },
+    {
+      "name": "orders_info_short.csv",
+      "url": "https://code.s3.yandex.net/datasets/orders_info_short.csv",
+      "sha256": "81cab4d4ed23799e54c7a2402860303cac7f337ec0b4b571ee041ccc18943e02",
+      "rows": 40212,
+      "columns": [
+        "User Id",
+        "Event Dt",
+        "Revenue"
+      ]
+    },
+    {
+      "name": "costs_info_short.csv",
+      "url": "https://code.s3.yandex.net/datasets/costs_info_short.csv",
+      "sha256": "cfe2f3329c221199a2d5f3379989a7240a505731b73b5ea8115e583812a9e74c",
+      "rows": 1800,
+      "columns": [
+        "dt",
+        "Channel",
+        "costs"
+      ]
+    }
+  ],
+  "observationEnd": "2019-11-01",
+  "acquisitionEnd": "2019-10-28",
+  "currency": "unspecified",
+  "timezone": "naive_source_time",
+  "redistributionLicense": "unconfirmed; raw files are not committed"
+}
