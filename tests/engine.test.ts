@@ -41,6 +41,15 @@ describe("multi-agent and context contracts", () => {
     const r = await wait(engine, queued.id);
     expect(r.status).toBe("completed");
     expect(r.evidenceIds).toHaveLength(2);
+    expect(
+      r.answer?.findings.some((f) =>
+        f.factIds.some(
+          (id) =>
+            r.answer!.facts.find((fact) => fact.id === id)?.evidenceId ===
+            r.evidenceIds.at(-1),
+        ),
+      ),
+    ).toBe(true);
     expect(r.events.filter((e) => e.type === "review_completed")).toHaveLength(
       2,
     );

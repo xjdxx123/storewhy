@@ -408,19 +408,24 @@ export class Engine {
             signal,
           );
           try {
-            const selected = validateSelection(
-              draft.observationIds,
-              observations,
-            );
-            if (
-              evidence.length > 1 &&
-              !selected.some((o) => o.evidenceId === evidence.at(-1)!.id)
-            )
-              throw new AppError(
-                "UNUSED_FOLLOWUP_EVIDENCE",
-                "新增补查的结果尚未进入解释，请选择最新证据中的观测",
-                503,
+            validateSelection(draft.observationIds, observations);
+            if (evidence.length > 1) {
+              const newest = observations.filter(
+                (o) => o.evidenceId === evidence.at(-1)!.id,
               );
+              const required =
+                newest.find((o) => o.kind === "joint") ?? newest[0];
+              if (
+                required &&
+                !draft.observationIds.some((id) =>
+                  newest.some((o) => o.id === id),
+                )
+              )
+                draft.observationIds = [
+                  required.id,
+                  ...draft.observationIds,
+                ].slice(0, 6);
+            }
           } catch (error) {
             feedback = cleanError(error);
             if (round === 2) {
@@ -445,7 +450,7 @@ export class Engine {
               {
                 role: "system",
                 content:
-                  "你是独立 Reviewer，检查证据是否足以解释问题、金额/分母/窗口是否一致、是否有无证据断言。需要数据才能支持的未查解释不能当事实。若涉及整体渠道费用/增长且只有整体数据，要求按渠道拆分；若已有拆分不要重复。发现具体缺口才 needs_query，给出 query patch；不能扩大用户筛选。数据缺失或无法由观测记录证明的原因应 limited，不要索取无效查询。充分时 ready。 query 仅 metrics/groupBy/filters。请首先检查 availableAnalyses，里面列出的拆分和指标已经真实执行，不能再次要求同一数据。不要相信草稿中与实际证据矛盾的限制。用中文简洁说明理由。",
+                  "你是独立 Reviewer，检查证据是否足以解释问题、金额/分母/窗口是否一致、是否有无证据断言。需要数据才能支持的未查解释不能当事实。若涉及整体渠道费用/增长且只有整体数据，要求按渠道拆分；若已有拆分不要重复。发现具体缺口才 needs_query，给出 query patch；不能扩大用户筛选。数据缺失或无法由观测记录证明的原因应 limited，不要索取无效查询。充分时 ready。 query 仅 metrics/groupBy/filters。请首先检查 availableAnalyses，里面列出的拆分和指标已经真实执行，不能再次要求同一数据。不要相信草稿中与实际证据矛盾的限制。用中文简洁说明理由。cohort只比较该批新获客用户，不需要混入自然月老用户；完整随访的批次不能再说随访不足；金额单位未标注不妨碍同单位内比较。",
               },
               {
                 role: "user",

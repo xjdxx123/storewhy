@@ -28,7 +28,11 @@ export class ScriptedGateway implements ModelGateway {
       };
     else if (role === "investigator.explain")
       out = {
-        observationIds: [data.observations[0].id],
+        observationIds: [
+          data.observations.find(
+            (o: any) => o.evidenceId === data.evidence[0].id,
+          ).id,
+        ],
         hypothesis: "channel_mix",
         suggestedQuery: null,
       };
