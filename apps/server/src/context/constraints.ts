@@ -167,3 +167,88 @@ export function explicitConstraints(
   }
   return next;
 }
+
+export function isScopeOnly(text: string) {
+  return (
+    /^(只看|只保留|仅看|仅保留|清除|去掉|观察窗口|窗口|改成|改为|刚才|更正|纠正|only\b|clear\b|change (?:the )?(?:window|period|channel))/i.test(
+      text.trim(),
+    ) && !/多少|为什么|查询|统计|计算|how|why|what/i.test(text)
+  );
+}
+
+export function protectScopePatch(
+  text: string,
+  patch: ContextPatch,
+): ContextPatch {
+  const allowed: ContextPatch = {};
+  const unchanged = [...text.matchAll(/([^，。；]*)(?:保持|不变|unchanged)/gi)]
+    .map((m) => m[1])
+    .join(" ");
+  const fixed = (words: RegExp) => words.test(unchanged);
+  if (
+    /年|月|时期|日期|date|period/i.test(text) &&
+    !fixed(/时期|月份|日期|period|date/i) &&
+    patch.periods
+  )
+    allowed.periods = patch.periods;
+  if (
+    /窗口|\d+\s*天|七天|十四天|首周|两周|一周|window|days|weeks/i.test(text) &&
+    !fixed(/窗口|window/i) &&
+    patch.windowDays
+  )
+    allowed.windowDays = patch.windowDays;
+  if (
+    /自然月|自然时期|calendar|批次|cohort|趋势|走势|按天|按周|按月|daily|weekly|monthly/i.test(
+      text,
+    )
+  ) {
+    if (patch.mode !== undefined) allowed.mode = patch.mode;
+    if (patch.timeGrain !== undefined) allowed.timeGrain = patch.timeGrain;
+  }
+  if (
+    /所有用户|全部用户|付费渠道|organic|自然流量|all users|paid channels/i.test(
+      text,
+    ) &&
+    patch.audience
+  )
+    allowed.audience = patch.audience;
+  if (
+    /收入|费用|访问次数|用户数|购买次数|购买用户|复购|付费比例|转化率|revenue|spend|payer|sessions/i.test(
+      text,
+    ) &&
+    !fixed(/指标|metrics/i) &&
+    patch.metrics
+  )
+    allowed.metrics = patch.metrics;
+  const f: NonNullable<ContextPatch["filters"]> = {};
+  if (
+    (/渠道|来源|channel|source/i.test(text) ||
+      CHANNELS.some((v) => text.toLowerCase().includes(v.toLowerCase()))) &&
+    !fixed(/渠道|channel|source/i) &&
+    patch.filters?.channels !== undefined
+  )
+    f.channels = patch.filters.channels;
+  if (
+    /国家|地区|地域|region|country|France|Germany|UK|United States|英国|法国|德国|美国/i.test(
+      text,
+    ) &&
+    !fixed(/国家|地区|region|country/i) &&
+    patch.filters?.regions !== undefined
+  )
+    f.regions = patch.filters.regions;
+  if (
+    /设备|手机|电脑|device|iPhone|Android|\bMac\b|\bPC\b/i.test(text) &&
+    !fixed(/设备|device/i) &&
+    patch.filters?.devices !== undefined
+  )
+    f.devices = patch.filters.devices;
+  if (Object.keys(f).length) allowed.filters = f;
+  if (
+    /按|拆|分组|分别|分开|group|split|by channel|by device|by country/i.test(
+      text,
+    ) &&
+    patch.groupBy
+  )
+    allowed.groupBy = patch.groupBy;
+  return allowed;
+}

@@ -149,3 +149,41 @@ it("persists a requested new investigation even when its first question needs cl
   expect(saved.context.spec.filters.channels).toEqual([]);
   expect(saved.context.investigationId).not.toBe(before.investigationId);
 });
+
+it("preserves the Why objective when a model mislabels a scope-only follow-up as a query", async () => {
+  const scripted = new ScriptedGateway();
+  const gateway: import("../apps/server/src/integrations/nightshift.ts").ModelGateway =
+    {
+      async structured(role, schema, messages, traces, signal) {
+        if (
+          role === "investigator.intent" &&
+          JSON.parse(messages.at(-1)!.content).currentContext.lastQuestion
+        )
+          return schema.parse({
+            kind: "query",
+            patch: { filters: { channels: ["FaceBoom"] } },
+          });
+        return scripted.structured(role, schema, messages, traces, signal);
+      },
+    };
+  const local = new Engine(
+    new Analytics(b, "fixture-test"),
+    gateway,
+    store,
+    memory,
+  );
+  const c = createConversation(store, "fixture-test");
+  const first = await wait(
+    local,
+    local.createRun(c.id, { message: "解释费用与收入变化" }).id,
+  );
+  const next = await wait(
+    local,
+    local.createRun(c.id, { message: "只看FaceBoom" }).id,
+  );
+  expect(next.context.spec.periods).toEqual(first.context.spec.periods);
+  expect(next.context.spec.metrics).toEqual(first.context.spec.metrics);
+  expect(next.context.taskKind).toBe("why");
+  expect(next.context.objective).toBe(first.question);
+  expect(next.modelTraces.some((t) => t.role === "reviewer")).toBe(true);
+});

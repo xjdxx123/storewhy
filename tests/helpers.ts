@@ -11,6 +11,7 @@ export class ScriptedGateway implements ModelGateway {
     schema: z.ZodType<T>,
     messages: ChatMessage[],
     traces: ModelTrace[],
+    _signal?: AbortSignal,
   ): Promise<T> {
     traces.push({
       role,

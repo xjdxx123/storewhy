@@ -51,7 +51,7 @@ await api.rememberWindow(id, 7);
 
 - `run.context.spec`：本轮已经执行的完整条件。不要只显示用户最后一句话。
 - `run.answer.summary/findings/checkedExplanations/limitations/nextSteps`：报告内容，普通文本渲染，不使用危险 HTML。
-- `run.answer.facts[]`：数字卡，含 `evidenceId`、`rowIndex`、`metric`、`value`；finding.factIds 对应这些卡。
+- `run.answer.facts[]`：数字卡，含 `evidenceId`、`rowIndex`、`metric`、`value`；finding.factIds 对应这些卡。fact.id 在单个 Run 内使用；跨轮缓存请用 run.id 加 fact.id，避免引用旧轮次。
 - `api.evidence(id)`：真实 SQL、queryIds、结果、定义、数据版本、观察期排除人数；`comparisons` 含两时期差额和相对变化。
 - `evidence.rows[].bucket`：趋势桶起点；无 bucket 时用 period。相对变化/比例使用小数，显示百分比时乘百。金额不添加美元符号；`null` 显示“不可计算/数据缺失”。
 - `modelTraces`：真实 provider/model，可在详情中显示；普通用户不必看技术信息。

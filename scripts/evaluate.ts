@@ -320,6 +320,8 @@ async function turn(
     errors.push("scope mismatch: " + JSON.stringify(run.context.spec));
   if (test.metrics?.some((m) => !run.context.spec.metrics.includes(m as any)))
     errors.push("missing metrics");
+  if (test.name.startsWith("a-") && run.context.taskKind !== "why")
+    errors.push("Lost original why objective");
   for (const f of run.answer?.facts ?? []) {
     const evidence = server.disk.get<any>("evidence", f.evidenceId);
     if (
@@ -359,7 +361,12 @@ async function turn(
   return run;
 }
 try {
-  const all = process.argv.includes("--smoke") ? fixed.slice(0, 2) : fixed;
+  const followupsOnly = process.argv.includes("--followups-only");
+  const all = followupsOnly
+    ? []
+    : process.argv.includes("--smoke")
+      ? fixed.slice(0, 2)
+      : fixed;
   for (const test of all)
     await turn(
       createConversation(server.disk, server.analytics.datasetVersion),
@@ -367,13 +374,13 @@ try {
       "fixed",
     );
   if (!process.argv.includes("--smoke")) {
-    for (const test of held)
+    for (const test of followupsOnly ? [] : held)
       await turn(
         createConversation(server.disk, server.analytics.datasetVersion),
         test,
         "heldout",
       );
-    for (const test of fresh)
+    for (const test of followupsOnly ? [] : fresh)
       await turn(
         createConversation(server.disk, server.analytics.datasetVersion),
         test,
@@ -411,12 +418,16 @@ try {
         {
           name: "b-country",
           question: "只看首次观测国家是France的用户，其他不变。",
-          expected: { filters: { regions: ["France"] } },
+          expected: { filters: { regions: ["France"] }, periods: [month(6)] },
         },
         {
           name: "b-clear",
           question: "清除国家筛选。",
-          expected: { filters: { regions: [] }, audience: "all" },
+          expected: {
+            filters: { regions: [] },
+            audience: "all",
+            periods: [month(6)],
+          },
         },
       ],
       [
@@ -428,7 +439,7 @@ try {
         {
           name: "c-channel",
           question: "只保留TipTop。",
-          expected: { filters: { channels: ["TipTop"] } },
+          expected: { filters: { channels: ["TipTop"] }, periods: [month(6)] },
         },
         {
           name: "c-correct",
@@ -469,9 +480,11 @@ try {
   };
   await fs.mkdir("evidence", { recursive: true });
   await fs.writeFile(
-    process.argv.includes("--smoke")
-      ? "evidence/agent-smoke.json"
-      : "evidence/agent-evaluation.json",
+    process.argv.includes("--followups-only")
+      ? "evidence/followup-evaluation.json"
+      : process.argv.includes("--smoke")
+        ? "evidence/agent-smoke.json"
+        : "evidence/agent-evaluation.json",
     JSON.stringify(report, null, 2),
   );
   await server.app.close();

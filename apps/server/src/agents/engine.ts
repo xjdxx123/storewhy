@@ -30,6 +30,8 @@ import {
 import { queryFindings } from "../analytics/report.ts";
 import {
   explicitConstraints,
+  isScopeOnly,
+  protectScopePatch,
   needsDateClarification,
 } from "../context/constraints.ts";
 const terminal = (s: Run["status"]) => s !== "queued" && s !== "running";
@@ -37,7 +39,7 @@ export function factsFor(evidence: Evidence[]): Fact[] {
   return evidence.flatMap((e, ei) =>
     e.rows.flatMap((row, ri) =>
       Object.entries(row.values).map(([metric, value]) => ({
-        id: `f-${ei}-${ri}-${LABELS[metric as Fact["metric"]]}`,
+        id: `f-${ei}-${ri}-${metric}`,
         evidenceId: e.id,
         rowIndex: ri,
         metric: metric as Fact["metric"],
@@ -228,6 +230,13 @@ export class Engine {
             run.modelTraces,
             signal,
           );
+      if (
+        intent.kind === "query" &&
+        c.context.lastQuestion &&
+        isScopeOnly(input.message) &&
+        !input.newInvestigation
+      )
+        intent.kind = "followup";
       if (intent.kind === "reset") {
         c.context = initialContext(
           c.id,
@@ -254,7 +263,12 @@ export class Engine {
         c.context.spec,
         input.patch
           ? intent.patch
-          : explicitConstraints(input.message, intent.patch),
+          : c.context.lastQuestion && isScopeOnly(input.message)
+            ? protectScopePatch(
+                input.message,
+                explicitConstraints(input.message, intent.patch),
+              )
+            : explicitConstraints(input.message, intent.patch),
       );
       const spec = validateSpec(candidate);
       const taskKind =
@@ -351,7 +365,11 @@ export class Engine {
         for (let round = 0; round < 3; round++) {
           signal.throwIfAborted();
           const facts = factsFor(evidence);
-          const observations = observationsFor(evidence, facts);
+          const observations = observationsFor(evidence, facts).sort(
+            (a, b) =>
+              evidence.findIndex((e) => e.id === b.evidenceId) -
+              evidence.findIndex((e) => e.id === a.evidenceId),
+          );
           const evidenceBrief = evidence.map((e) => ({
             id: e.id,
             scope: e.spec,
@@ -371,7 +389,7 @@ export class Engine {
               {
                 role: "system",
                 content:
-                  "你是 Investigator。从 observations 选择最能解释用户问题的观测ID，并选择待检验的 hypothesis。数字与事实句由系统按所选证据生成，你不能重写数字或发明证据。若现有证据不能区分解释，提出 suggestedQuery，只能改metrics/groupBy/filters，不能扩大用户筛选。已有渠道拆分不能重复。收入与费用的变化只能解释观测构成，不能证明广告因果增量。根据 reviewFeedback 改选证据或补查。",
+                  "你是 Investigator。从 observations 选择最能解释用户问题的观测ID，并选择待检验的 hypothesis。数字与事实句由系统按所选证据生成，你不能重写数字或发明证据。如果已执行补查，必须选取最新补查中的相关观测，优先展示新增拆分的费用/收入关联，不能只重复最初的整体结果。若现有证据不能区分解释，提出 suggestedQuery，只能改metrics/groupBy/filters，不能扩大用户筛选。已有渠道拆分不能重复。收入与费用的变化只能解释观测构成，不能证明广告因果增量。根据 reviewFeedback 改选证据或补查。",
               },
               {
                 role: "user",
@@ -390,7 +408,19 @@ export class Engine {
             signal,
           );
           try {
-            validateSelection(draft.observationIds, observations);
+            const selected = validateSelection(
+              draft.observationIds,
+              observations,
+            );
+            if (
+              evidence.length > 1 &&
+              !selected.some((o) => o.evidenceId === evidence.at(-1)!.id)
+            )
+              throw new AppError(
+                "UNUSED_FOLLOWUP_EVIDENCE",
+                "新增补查的结果尚未进入解释，请选择最新证据中的观测",
+                503,
+              );
           } catch (error) {
             feedback = cleanError(error);
             if (round === 2) {
