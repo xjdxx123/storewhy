@@ -1,4 +1,4 @@
-# 具体结论与推荐追问（API 1.2.0）
+# 具体结论与推荐追问（API 1.3.0）
 
 本版保留现有 Answer 字段，并新增可选 `conclusion`、`keyEvidence`、`followups`。旧 Run 缺少新字段仍然可以展示。完整离线 payload 见 [answer.json](examples/answer.json)，包含自制 fixture 的 Context、Answer 和 Evidence；没有调用在线模型或 Reviewer，ID 不对应服务器。
 
@@ -90,3 +90,32 @@ taskKind 用于带 patch 的结构化请求；普通自由提问仍由模型识�
 - `npm test`：含具体结论、事实绑定、渠道抵消、比例显示、追问执行、过期拒绝和明确 Why 审查保护。
 - 启动新版 Live 服务后运行 `npm run eval:answers`：主 Why、连续两轮推荐、另一组月份、FaceBoom 反例、简单查询；同时检查过期动作返回 STALE_CONTEXT。会使用已配置的 NVIDIA 额度。
 - 可设置 `STOREWHY_HTTP_URL` 使用隔离服务；结果保存在 `evidence/answer-quality-evaluation.json`。
+
+## Why 解释检查（API 1.3.0）
+
+Why 回答新增可选 `answer.explanations: Explanation[]`。保留既有 `checkedExplanations`；旧 Run 没有 explanations 时按旧方式展示，不能把缺省当成所有解释都已排除。普通 query 不新增这些检查。
+
+每条包含 `id / kind / claim / status / text / factIds / evidenceIds / coverageRefs`。UI 必须把 claim 与 status 一起展示：状态针对具体的观测命题，不代表发现了因果根源。
+
+| status       | 建议标签 | 含义                                                 |
+| ------------ | -------- | ---------------------------------------------------- |
+| supported    | 观测支持 | 已执行结果符合该 claim；不能显示成“已证明原因”       |
+| contradicted | 观测反驳 | 已执行结果与该 claim 不符；不代表排除其他所有解释    |
+| missing_data | 数据不足 | 执行过相关查询，但时期无法配对、分母为空或分组不完整 |
+| not_checked  | 尚未检查 | 本轮没有执行所需指标或拆分；不能宣称排除             |
+
+检查覆盖用户规模、购买用户比例、每位购买用户收入、首次/后续购买收入构成、费用与收入前提、渠道差异及完整随访。规模、比例、每位付费用户收入的 supported 只表示与收入同向变化；它们不是可相加的广告贡献。分组检查的 text 会指出具体渠道/人群，来源 spec 包含完整 scope。
+
+数值检查通过 `factIds → facts → evidence 单元格` 展开。随访检查使用 `coverageRefs: [{evidenceId,period}] → evidence.coverage`，因此 factIds 可以为空；不能为完整随访状态伪造金额事实。不要把 Reviewer 的事件 data.reason 当成经过数字校验的业务结论，用户报告以 Answer 中的确定性文字为准。
+
+`completed` 表示 Reviewer 接受了本次可观测解释，且至少有一项非随访解释检查有证据；不是穷尽所有原因。`limited` 保留具体观测并披露缺口。`unsupported` 表示所需数据或能力不存在，读取 run.message，不显示上一轮 Answer 作为本轮结果。
+
+对十月批次，context.spec 保留用户请求的完整月份；coverage 单独披露 effectiveEnd 与 excludedUsers。即使状态 completed，仍须展示裁剪限制：当前结论只涉及剩余完整观察窗口，不能推断被排除用户表现，也不能把不同有效获客天数的合计当作完整月份比较。
+
+新增检查由后端的实际 Evidence 生成，不增加模型调用，也不会为了把状态都改成 supported 而查询全部分支。推荐追问、SSE、图表与事实接口不变。
+
+验证：`npm run eval:why` 执行 8 个 Why、2 个反例、两组各 3 轮追问，逐题记录 scope、解释状态、Reviewer 补查与聚合证据。`python3 scripts/verify-why-reference.py evidence/why-reliability-final.json` 从本机原始 CSV 独立核对全部已执行聚合单元格和随访裁剪。
+
+批次模式的默认人群为现有 Context 的付费渠道口径；没有用户指令时，模型不能擅自切到包含 organic 的全部用户。明确“所有用户/包含 organic”等要求仍生效。请始终显示 context.spec.audience；设备/国家筛选不会隐式改变人群。
+
+多渠道的收入/费用比问题优先展示完整结果中的渠道金额汇总比值（总收入 / 总费用），随后展示主要渠道增减。它不是各渠道比值的算术平均。汇总结论绑定所有收入/费用 factIds；任一渠道缺少费用、时期缺行或结果不完整时，不生成该汇总。图表仍使用原始逐点值，不为汇总结论伪造原始行。

@@ -8,6 +8,7 @@ import type {
 } from "@storewhy/contracts";
 import { catalog } from "./catalog.ts";
 import { observationsFor, type Observation } from "./observations.ts";
+import { explanationsFor } from "./explanations.ts";
 import { followupsFor } from "./followups.ts";
 export function presentAnswer(input: {
   context: InvestigationContext;
@@ -21,12 +22,73 @@ export function presentAnswer(input: {
   const { context, evidence, facts, ready } = input;
   const selected =
     input.selected ?? observationsFor(evidence, facts, { query: true });
+  const observations = observationsFor(evidence, facts);
+  const objective = context.objective ?? context.lastQuestion;
+  const ratioQuestion = /收入.*(?:费用|广告费).*比|revenue.*spend.*ratio/i.test(
+    objective,
+  );
+  const compositionQuestion = /首次.*(?:后续|复购)|first.*repeat/i.test(
+    objective,
+  );
+  const revenueQuestion =
+    /收入|revenue/i.test(objective.split(/[？?；;]/)[0]) &&
+    !/比例.*收入|比率.*收入/.test(objective);
+  const relevant =
+    input.selected &&
+    (ratioQuestion
+      ? (observations.find(
+          (o) => o.kind === "ratio" && o.evidenceId === evidence[0]?.id,
+        ) ??
+        observations.find(
+          (o) =>
+            o.kind === "comparison" &&
+            o.metrics.includes("revenue_to_spend") &&
+            o.evidenceId === evidence[0]?.id,
+        ))
+      : compositionQuestion
+        ? observations.find((o) => o.kind === "composition")
+        : revenueQuestion && !observations.some((o) => o.kind === "joint")
+          ? (selected.find(
+              (o) => o.kind === "comparison" && o.metrics.includes("revenue"),
+            ) ??
+            observations.find(
+              (o) => o.kind === "comparison" && o.metrics.includes("revenue"),
+            ))
+          : undefined);
+  const reversedPremise =
+    /费用(?:增加|更多|上升)|(?:广告费|费用).*增/.test(objective) &&
+    /收入.*(?:减少|下降|没有|未)/.test(objective)
+      ? observations.find(
+          (o) =>
+            o.kind === "joint" &&
+            evidence.some(
+              (e) =>
+                e.id === o.evidenceId &&
+                !e.spec.groupBy.length &&
+                e.comparisons.some(
+                  (c) =>
+                    c.metric === "spend" && c.delta !== null && c.delta < 0,
+                ) &&
+                e.comparisons.some(
+                  (c) =>
+                    c.metric === "revenue" && c.delta !== null && c.delta > 0,
+                ),
+            ),
+        )
+      : undefined;
+  const headline = selected.find(
+    (o) => o.id === input.headlineObservationId && o.kind !== "coverage",
+  );
   const lead =
-    selected.find((o) => o.id === input.headlineObservationId) ??
+    reversedPremise ??
+    relevant ??
+    headline ??
     selected.find(
       (o) => o.kind === "joint" && Object.keys(o.focus ?? {}).length > 0,
     ) ??
     selected.find((o) => o.kind === "joint") ??
+    selected.find((o) => o.kind !== "coverage") ??
+    observations.find((o) => o.kind !== "coverage") ??
     selected[0];
   const fallback = facts.find((f) => f.value !== null);
   const finding = (o: Finding): Finding => ({
@@ -59,6 +121,9 @@ export function presentAnswer(input: {
       ];
     }
   }
+  if (reversedPremise)
+    conclusion.text =
+      "提问中的费用与收入变化前提与当前数据不符。" + conclusion.text;
   if (!ready) conclusion.text += "进一步解释仍有证据缺口。";
   const keyEvidence: Finding[] = [];
   const covered = new Set<string>();
@@ -86,8 +151,11 @@ export function presentAnswer(input: {
     lead?.focus,
   );
   const dimensions = { channel: "渠道", device: "设备", region: "国家" };
+  const explanations =
+    context.taskKind === "why" ? explanationsFor(evidence, facts) : undefined;
   return {
     summary: conclusion.text,
+    ...(explanations ? { explanations } : {}),
     conclusion,
     keyEvidence,
     followups,
@@ -104,6 +172,21 @@ export function presentAnswer(input: {
     limitations: [
       ...(!ready
         ? ["进一步解释尚未完全通过审查，当前只确认已查询到的观测变化。"]
+        : []),
+      ...(evidence.some((e) => e.coverage.some((c) => c.excludedUsers > 0))
+        ? [
+            "已排除随访不足的获客日期，费用同步裁剪；时期有效获客天数可能不同，不能把这些合计直接解释成完整月份的表现或被排除用户的表现。",
+          ]
+        : []),
+      ...(explanations?.some((e) => e.status === "not_checked")
+        ? [
+            "尚未检查：" +
+              explanations
+                .filter((e) => e.status === "not_checked")
+                .map((e) => e.claim)
+                .join("；") +
+              "。这些解释尚未排除。",
+          ]
         : []),
       "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
       ...catalog(context.datasetVersion, evidence[0]?.backend ?? "fixture")

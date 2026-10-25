@@ -1,0 +1,1841 @@
+{
+  "at": "2026-10-25T22:55:06.220Z",
+  "kind": "recorded_live_why_reliability",
+  "datasetVersion": "4c26d29934370408",
+  "stateDir": "/var/folders/6f/1bk6420x15567_wyjvlz1j880000gn/T/storewhy-why-eval-w923o5",
+  "total": 2,
+  "passed": 2,
+  "records": [
+    {
+      "id": "w6-device",
+      "question": "为什么2019年7月比6月iPhone和Android新用户首访后14天收入变化不同？按首次设备检查用户数与付费比例，只谈行为，不查费用。",
+      "expected": {
+        "mode": "cohort",
+        "windowDays": 14,
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "groupBy": [
+          "device"
+        ],
+        "audience": "paid",
+        "filters": {
+          "devices": [
+            "iPhone",
+            "Android"
+          ]
+        }
+      },
+      "requiredMetrics": [
+        "revenue",
+        "payer_rate"
+      ],
+      "pass": true,
+      "errors": [],
+      "qualityGaps": [],
+      "status": "completed",
+      "runId": "25ebc6fb-1148-4be8-b19a-f8fac534d5ff",
+      "context": {
+        "conversationId": "46c0d435-e688-4efa-94f2-2ce2300725b5",
+        "investigationId": "de094eb1-da67-4045-a4d6-b6e5a42e4de6",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 1,
+        "spec": {
+          "timeGrain": null,
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [],
+            "devices": [
+              "iPhone",
+              "Android"
+            ],
+            "regions": []
+          },
+          "groupBy": [
+            "device"
+          ],
+          "metrics": [
+            "new_users",
+            "payers",
+            "payer_rate",
+            "revenue",
+            "users"
+          ]
+        },
+        "evidenceIds": [
+          "ev-1baaec99-7e96-4473-8677-dae301ff491c"
+        ],
+        "lastQuestion": "为什么2019年7月比6月iPhone和Android新用户首访后14天收入变化不同？按首次设备检查用户数与付费比例，只谈行为，不查费用。",
+        "taskKind": "why",
+        "objective": "为什么2019年7月比6月iPhone和Android新用户首访后14天收入变化不同？按首次设备检查用户数与付费比例，只谈行为，不查费用。"
+      },
+      "answer": {
+        "summary": "Android：2019-07相较2019-06，首访后14天的 收入 从3053.34变为2930.46，差额-122.88，变化率-4.02%。",
+        "explanations": [
+          {
+            "id": "traffic",
+            "kind": "traffic",
+            "claim": "用户规模与收入同向变化",
+            "status": "supported",
+            "text": "Android：2019-07相较2019-06，首访后14天的 收入 从3053.34变为2930.46，差额-122.88，变化率-4.02%。 Android：2019-07相较2019-06，首访后14天的 用户数 从3639变为3479，差额-160，变化率-4.40%。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-2-revenue",
+              "f-0-0-users",
+              "f-0-2-users"
+            ],
+            "evidenceIds": [
+              "ev-1baaec99-7e96-4473-8677-dae301ff491c"
+            ],
+            "coverageRefs": []
+          },
+          {
+            "id": "conversion",
+            "kind": "conversion",
+            "claim": "购买用户比例与收入同向变化",
+            "status": "contradicted",
+            "text": "Android：2019-07相较2019-06，首访后14天的 购买用户比例 从7.47%变为7.7%，增加0.23个百分点。 Android：2019-07相较2019-06，首访后14天的 收入 从3053.34变为2930.46，差额-122.88，变化率-4.02%。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+            "factIds": [
+              "f-0-0-payer_rate",
+              "f-0-2-payer_rate",
+              "f-0-0-revenue",
+              "f-0-2-revenue"
+            ],
+            "evidenceIds": [
+              "ev-1baaec99-7e96-4473-8677-dae301ff491c"
+            ],
+            "coverageRefs": []
+          },
+          {
+            "id": "purchase_value",
+            "kind": "purchase_value",
+            "claim": "每位购买用户收入与总收入同向变化",
+            "status": "not_checked",
+            "text": "尚未执行所需指标与拆分，不能支持或排除该解释。",
+            "factIds": [],
+            "evidenceIds": [],
+            "coverageRefs": []
+          },
+          {
+            "id": "repeat",
+            "kind": "repeat",
+            "claim": "首次与后续购买收入能拆解已观测收入变化",
+            "status": "not_checked",
+            "text": "尚未执行所需指标与拆分，不能支持或排除该解释。",
+            "factIds": [],
+            "evidenceIds": [],
+            "coverageRefs": []
+          },
+          {
+            "id": "spend_efficiency",
+            "kind": "spend_efficiency",
+            "claim": "费用增加且收入增长未跟上费用增长",
+            "status": "not_checked",
+            "text": "尚未执行所需指标与拆分，不能支持或排除该解释。",
+            "factIds": [],
+            "evidenceIds": [],
+            "coverageRefs": []
+          },
+          {
+            "id": "channel_mix",
+            "kind": "channel_mix",
+            "claim": "所列渠道的收入变化存在差异",
+            "status": "not_checked",
+            "text": "尚未完成多个渠道同口径收入变化的拆分，不能支持或排除渠道构成解释。",
+            "factIds": [],
+            "evidenceIds": [],
+            "coverageRefs": []
+          },
+          {
+            "id": "maturity",
+            "kind": "maturity",
+            "claim": "请求范围内所有用户均有完整随访",
+            "status": "supported",
+            "text": "当前获客批次已保留完整观察窗口；不能把剩余批次的变化归咎于随访不足，也不能推断更长窗口表现。",
+            "factIds": [],
+            "evidenceIds": [
+              "ev-1baaec99-7e96-4473-8677-dae301ff491c"
+            ],
+            "coverageRefs": [
+              {
+                "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+                "period": "2019-06"
+              },
+              {
+                "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+                "period": "2019-07"
+              }
+            ]
+          }
+        ],
+        "conclusion": {
+          "text": "Android：2019-07相较2019-06，首访后14天的 收入 从3053.34变为2930.46，差额-122.88，变化率-4.02%。",
+          "factIds": [
+            "f-0-0-revenue",
+            "f-0-2-revenue"
+          ]
+        },
+        "keyEvidence": [
+          {
+            "text": "Android：2019-07相较2019-06，首访后14天的 收入 从3053.34变为2930.46，差额-122.88，变化率-4.02%。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-2-revenue"
+            ]
+          },
+          {
+            "text": "iPhone：2019-07相较2019-06，首访后14天的 首次观测用户数 从5584变为5334，差额-250，变化率-4.48%。",
+            "factIds": [
+              "f-0-1-new_users",
+              "f-0-3-new_users"
+            ]
+          },
+          {
+            "text": "Android：2019-07相较2019-06，首访后14天的 首次观测用户数 从3639变为3479，差额-160，变化率-4.40%。",
+            "factIds": [
+              "f-0-0-new_users",
+              "f-0-2-new_users"
+            ]
+          }
+        ],
+        "followups": [
+          {
+            "id": "purchase-composition",
+            "label": "拆分首次与后续购买收入",
+            "message": "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；设备=iPhone/Android。",
+            "reason": "尚未在当前范围完成首次与后续购买收入的拆分。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [],
+                "devices": [
+                  "iPhone",
+                  "Android"
+                ],
+                "regions": []
+              },
+              "groupBy": [
+                "device"
+              ],
+              "metrics": [
+                "first_purchase_revenue",
+                "repeat_purchase_revenue",
+                "revenue",
+                "repeat_payer_rate",
+                "new_users",
+                "payers",
+                "payer_rate",
+                "users"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "46c0d435-e688-4efa-94f2-2ce2300725b5",
+              "investigationId": "de094eb1-da67-4045-a4d6-b6e5a42e4de6",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-1baaec99-7e96-4473-8677-dae301ff491c"
+            ]
+          },
+          {
+            "id": "payer-performance",
+            "label": "核查付费比例与每位购买用户收入",
+            "message": "比较购买用户比例和每位购买用户收入的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；设备=iPhone/Android。",
+            "reason": "补充付费比例及每位购买用户收入，核查收入变化发生在哪一环。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [],
+                "devices": [
+                  "iPhone",
+                  "Android"
+                ],
+                "regions": []
+              },
+              "groupBy": [
+                "device"
+              ],
+              "metrics": [
+                "users",
+                "payers",
+                "payer_rate",
+                "revenue",
+                "revenue_per_payer",
+                "new_users"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "46c0d435-e688-4efa-94f2-2ce2300725b5",
+              "investigationId": "de094eb1-da67-4045-a4d6-b6e5a42e4de6",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-1baaec99-7e96-4473-8677-dae301ff491c"
+            ]
+          },
+          {
+            "id": "compare-window",
+            "label": "改用首访后 7 天核查",
+            "message": "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户；设备=iPhone/Android。",
+            "reason": "用另一种完整观察窗口检验结论是否依赖观察时长。",
+            "taskKind": "followup",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-06",
+                  "start": "2019-06-01",
+                  "end": "2019-07-01"
+                },
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                }
+              ],
+              "windowDays": 7,
+              "audience": "paid",
+              "filters": {
+                "channels": [],
+                "devices": [
+                  "iPhone",
+                  "Android"
+                ],
+                "regions": []
+              },
+              "groupBy": [
+                "device"
+              ],
+              "metrics": [
+                "new_users",
+                "payers",
+                "payer_rate",
+                "revenue",
+                "users"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "46c0d435-e688-4efa-94f2-2ce2300725b5",
+              "investigationId": "de094eb1-da67-4045-a4d6-b6e5a42e4de6",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-1baaec99-7e96-4473-8677-dae301ff491c"
+            ]
+          }
+        ],
+        "facts": [
+          {
+            "id": "f-0-0-new_users",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 0,
+            "metric": "new_users",
+            "value": 3639,
+            "label": "2019-06 / Android / 14天 / 首次观测用户数"
+          },
+          {
+            "id": "f-0-0-payers",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 0,
+            "metric": "payers",
+            "value": 272,
+            "label": "2019-06 / Android / 14天 / 购买用户数"
+          },
+          {
+            "id": "f-0-0-payer_rate",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 0,
+            "metric": "payer_rate",
+            "value": 0.074746,
+            "label": "2019-06 / Android / 14天 / 购买用户比例"
+          },
+          {
+            "id": "f-0-0-revenue",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 0,
+            "metric": "revenue",
+            "value": 3053.34,
+            "label": "2019-06 / Android / 14天 / 收入"
+          },
+          {
+            "id": "f-0-0-users",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 0,
+            "metric": "users",
+            "value": 3639,
+            "label": "2019-06 / Android / 14天 / 用户数"
+          },
+          {
+            "id": "f-0-1-new_users",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 1,
+            "metric": "new_users",
+            "value": 5584,
+            "label": "2019-06 / iPhone / 14天 / 首次观测用户数"
+          },
+          {
+            "id": "f-0-1-payers",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 1,
+            "metric": "payers",
+            "value": 475,
+            "label": "2019-06 / iPhone / 14天 / 购买用户数"
+          },
+          {
+            "id": "f-0-1-payer_rate",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 1,
+            "metric": "payer_rate",
+            "value": 0.085064,
+            "label": "2019-06 / iPhone / 14天 / 购买用户比例"
+          },
+          {
+            "id": "f-0-1-revenue",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 1,
+            "metric": "revenue",
+            "value": 5188.42,
+            "label": "2019-06 / iPhone / 14天 / 收入"
+          },
+          {
+            "id": "f-0-1-users",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 1,
+            "metric": "users",
+            "value": 5584,
+            "label": "2019-06 / iPhone / 14天 / 用户数"
+          },
+          {
+            "id": "f-0-2-new_users",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 2,
+            "metric": "new_users",
+            "value": 3479,
+            "label": "2019-07 / Android / 14天 / 首次观测用户数"
+          },
+          {
+            "id": "f-0-2-payers",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 2,
+            "metric": "payers",
+            "value": 268,
+            "label": "2019-07 / Android / 14天 / 购买用户数"
+          },
+          {
+            "id": "f-0-2-payer_rate",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 2,
+            "metric": "payer_rate",
+            "value": 0.077034,
+            "label": "2019-07 / Android / 14天 / 购买用户比例"
+          },
+          {
+            "id": "f-0-2-revenue",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 2,
+            "metric": "revenue",
+            "value": 2930.46,
+            "label": "2019-07 / Android / 14天 / 收入"
+          },
+          {
+            "id": "f-0-2-users",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 2,
+            "metric": "users",
+            "value": 3479,
+            "label": "2019-07 / Android / 14天 / 用户数"
+          },
+          {
+            "id": "f-0-3-new_users",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 3,
+            "metric": "new_users",
+            "value": 5334,
+            "label": "2019-07 / iPhone / 14天 / 首次观测用户数"
+          },
+          {
+            "id": "f-0-3-payers",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 3,
+            "metric": "payers",
+            "value": 464,
+            "label": "2019-07 / iPhone / 14天 / 购买用户数"
+          },
+          {
+            "id": "f-0-3-payer_rate",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 3,
+            "metric": "payer_rate",
+            "value": 0.086989,
+            "label": "2019-07 / iPhone / 14天 / 购买用户比例"
+          },
+          {
+            "id": "f-0-3-revenue",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 3,
+            "metric": "revenue",
+            "value": 5143.76,
+            "label": "2019-07 / iPhone / 14天 / 收入"
+          },
+          {
+            "id": "f-0-3-users",
+            "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+            "rowIndex": 3,
+            "metric": "users",
+            "value": 5334,
+            "label": "2019-07 / iPhone / 14天 / 用户数"
+          }
+        ],
+        "findings": [
+          {
+            "text": "iPhone：2019-07相较2019-06，首访后14天的 首次观测用户数 从5584变为5334，差额-250，变化率-4.48%。",
+            "factIds": [
+              "f-0-1-new_users",
+              "f-0-3-new_users"
+            ]
+          },
+          {
+            "text": "Android：2019-07相较2019-06，首访后14天的 首次观测用户数 从3639变为3479，差额-160，变化率-4.40%。",
+            "factIds": [
+              "f-0-0-new_users",
+              "f-0-2-new_users"
+            ]
+          },
+          {
+            "text": "iPhone：2019-07相较2019-06，首访后14天的 购买用户数 从475变为464，差额-11，变化率-2.32%。",
+            "factIds": [
+              "f-0-1-payers",
+              "f-0-3-payers"
+            ]
+          },
+          {
+            "text": "Android：2019-07相较2019-06，首访后14天的 购买用户数 从272变为268，差额-4，变化率-1.47%。",
+            "factIds": [
+              "f-0-0-payers",
+              "f-0-2-payers"
+            ]
+          },
+          {
+            "text": "Android：2019-07相较2019-06，首访后14天的 购买用户比例 从7.47%变为7.7%，增加0.23个百分点。",
+            "factIds": [
+              "f-0-0-payer_rate",
+              "f-0-2-payer_rate"
+            ]
+          },
+          {
+            "text": "iPhone：2019-07相较2019-06，首访后14天的 购买用户比例 从8.51%变为8.7%，增加0.19个百分点。",
+            "factIds": [
+              "f-0-1-payer_rate",
+              "f-0-3-payer_rate"
+            ]
+          }
+        ],
+        "checkedExplanations": [
+          "首访后14天，按设备已核查：首次观测用户数、购买用户数、购买用户比例、收入、用户数。"
+        ],
+        "limitations": [
+          "尚未检查：每位购买用户收入与总收入同向变化；首次与后续购买收入能拆解已观测收入变化；费用增加且收入增长未跟上费用增长；所列渠道的收入变化存在差异。这些解释尚未排除。",
+          "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
+          "金额币种与时区未注明，沿用原始时间与样例金额单位",
+          "没有广告曝光、点击、预算、素材或真实广告增量",
+          "没有商品、结账步骤、退款或利润",
+          "费用只有渠道和日期粒度；无法计算设备或国家广告费用",
+          "订单没有 session ID；渠道、设备、国家使用首次观测访问归属",
+          "organic 未提供费用，费用缺失不补零"
+        ],
+        "nextSteps": [
+          "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；设备=iPhone/Android。",
+          "比较购买用户比例和每位购买用户收入的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；设备=iPhone/Android。",
+          "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户；设备=iPhone/Android。"
+        ],
+        "chartNotes": []
+      },
+      "evidence": [
+        {
+          "id": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+          "datasetVersion": "4c26d29934370408",
+          "metricVersion": "procrastinate-v1",
+          "spec": {
+            "timeGrain": null,
+            "mode": "cohort",
+            "periods": [
+              {
+                "label": "2019-06",
+                "start": "2019-06-01",
+                "end": "2019-07-01"
+              },
+              {
+                "label": "2019-07",
+                "start": "2019-07-01",
+                "end": "2019-08-01"
+              }
+            ],
+            "windowDays": 14,
+            "audience": "paid",
+            "filters": {
+              "channels": [],
+              "devices": [
+                "iPhone",
+                "Android"
+              ],
+              "regions": []
+            },
+            "groupBy": [
+              "device"
+            ],
+            "metrics": [
+              "new_users",
+              "payers",
+              "payer_rate",
+              "revenue",
+              "users"
+            ]
+          },
+          "queryIds": [
+            "c52b7a65-5d5b-43b5-9e5c-fd1fb2baf5aa",
+            "42a83780-e902-4a8e-9a9e-366edb12a7cb"
+          ],
+          "comparisons": [
+            {
+              "dimensions": {
+                "device": "Android"
+              },
+              "metric": "new_users",
+              "baseline": 3639,
+              "current": 3479,
+              "delta": -160,
+              "relativeChange": -0.043968
+            },
+            {
+              "dimensions": {
+                "device": "Android"
+              },
+              "metric": "payers",
+              "baseline": 272,
+              "current": 268,
+              "delta": -4,
+              "relativeChange": -0.014706
+            },
+            {
+              "dimensions": {
+                "device": "Android"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.074746,
+              "current": 0.077034,
+              "delta": 0.002288,
+              "relativeChange": 0.03061
+            },
+            {
+              "dimensions": {
+                "device": "Android"
+              },
+              "metric": "revenue",
+              "baseline": 3053.34,
+              "current": 2930.46,
+              "delta": -122.88,
+              "relativeChange": -0.040244
+            },
+            {
+              "dimensions": {
+                "device": "Android"
+              },
+              "metric": "users",
+              "baseline": 3639,
+              "current": 3479,
+              "delta": -160,
+              "relativeChange": -0.043968
+            },
+            {
+              "dimensions": {
+                "device": "iPhone"
+              },
+              "metric": "new_users",
+              "baseline": 5584,
+              "current": 5334,
+              "delta": -250,
+              "relativeChange": -0.044771
+            },
+            {
+              "dimensions": {
+                "device": "iPhone"
+              },
+              "metric": "payers",
+              "baseline": 475,
+              "current": 464,
+              "delta": -11,
+              "relativeChange": -0.023158
+            },
+            {
+              "dimensions": {
+                "device": "iPhone"
+              },
+              "metric": "payer_rate",
+              "baseline": 0.085064,
+              "current": 0.086989,
+              "delta": 0.001925,
+              "relativeChange": 0.02263
+            },
+            {
+              "dimensions": {
+                "device": "iPhone"
+              },
+              "metric": "revenue",
+              "baseline": 5188.42,
+              "current": 5143.76,
+              "delta": -44.66,
+              "relativeChange": -0.008608
+            },
+            {
+              "dimensions": {
+                "device": "iPhone"
+              },
+              "metric": "users",
+              "baseline": 5584,
+              "current": 5334,
+              "delta": -250,
+              "relativeChange": -0.044771
+            }
+          ],
+          "backend": "zetaris",
+          "rows": [
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "device": "Android"
+              },
+              "values": {
+                "new_users": 3639,
+                "payers": 272,
+                "payer_rate": 0.074746,
+                "revenue": 3053.34,
+                "users": 3639
+              }
+            },
+            {
+              "period": "2019-06",
+              "dimensions": {
+                "device": "iPhone"
+              },
+              "values": {
+                "new_users": 5584,
+                "payers": 475,
+                "payer_rate": 0.085064,
+                "revenue": 5188.42,
+                "users": 5584
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "device": "Android"
+              },
+              "values": {
+                "new_users": 3479,
+                "payers": 268,
+                "payer_rate": 0.077034,
+                "revenue": 2930.46,
+                "users": 3479
+              }
+            },
+            {
+              "period": "2019-07",
+              "dimensions": {
+                "device": "iPhone"
+              },
+              "values": {
+                "new_users": 5334,
+                "payers": 464,
+                "payer_rate": 0.086989,
+                "revenue": 5143.76,
+                "users": 5334
+              }
+            }
+          ],
+          "coverage": [
+            {
+              "period": "2019-06",
+              "requestedStart": "2019-06-01",
+              "requestedEnd": "2019-07-01",
+              "effectiveEnd": "2019-07-01",
+              "excludedUsers": 0,
+              "days": 30
+            },
+            {
+              "period": "2019-07",
+              "requestedStart": "2019-07-01",
+              "requestedEnd": "2019-08-01",
+              "effectiveEnd": "2019-08-01",
+              "excludedUsers": 0,
+              "days": 31
+            }
+          ],
+          "definitions": {
+            "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
+            "payers": "时期或观察窗口内至少购买一次的不同用户数",
+            "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
+            "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
+            "users": "自然时期内有访问或购买的用户数；批次模式为首次出现且具有完整观察期的用户数"
+          },
+          "notes": [
+            "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
+            "时间为源数据原始时间，金额单位未标注。",
+            "spec:22a72ead52f95efd210051ffea1d3f0c01bc95ae5f0d9ae5d4c0a8a25068b3c7"
+          ],
+          "createdAt": "2026-10-25T22:54:04.805Z",
+          "durationMs": 10778,
+          "truncated": false
+        }
+      ],
+      "reviews": [
+        {
+          "seq": 5,
+          "type": "hypothesis",
+          "at": "2026-10-25T22:54:07.386Z",
+          "message": "已形成待审查的解释",
+          "data": {
+            "selectedObservations": [
+              {
+                "id": "o-0",
+                "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+                "kind": "comparison",
+                "text": "iPhone：2019-07相较2019-06，首访后14天的 首次观测用户数 从5584变为5334，差额-250，变化率-4.48%。",
+                "factIds": [
+                  "f-0-1-new_users",
+                  "f-0-3-new_users"
+                ],
+                "metrics": [
+                  "new_users"
+                ],
+                "focus": {
+                  "device": "iPhone"
+                }
+              },
+              {
+                "id": "o-1",
+                "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+                "kind": "comparison",
+                "text": "Android：2019-07相较2019-06，首访后14天的 首次观测用户数 从3639变为3479，差额-160，变化率-4.40%。",
+                "factIds": [
+                  "f-0-0-new_users",
+                  "f-0-2-new_users"
+                ],
+                "metrics": [
+                  "new_users"
+                ],
+                "focus": {
+                  "device": "Android"
+                }
+              },
+              {
+                "id": "o-2",
+                "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+                "kind": "comparison",
+                "text": "iPhone：2019-07相较2019-06，首访后14天的 购买用户数 从475变为464，差额-11，变化率-2.32%。",
+                "factIds": [
+                  "f-0-1-payers",
+                  "f-0-3-payers"
+                ],
+                "metrics": [
+                  "payers"
+                ],
+                "focus": {
+                  "device": "iPhone"
+                }
+              },
+              {
+                "id": "o-3",
+                "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+                "kind": "comparison",
+                "text": "Android：2019-07相较2019-06，首访后14天的 购买用户数 从272变为268，差额-4，变化率-1.47%。",
+                "factIds": [
+                  "f-0-0-payers",
+                  "f-0-2-payers"
+                ],
+                "metrics": [
+                  "payers"
+                ],
+                "focus": {
+                  "device": "Android"
+                }
+              },
+              {
+                "id": "o-4",
+                "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+                "kind": "comparison",
+                "text": "Android：2019-07相较2019-06，首访后14天的 购买用户比例 从7.47%变为7.7%，增加0.23个百分点。",
+                "factIds": [
+                  "f-0-0-payer_rate",
+                  "f-0-2-payer_rate"
+                ],
+                "metrics": [
+                  "payer_rate"
+                ],
+                "focus": {
+                  "device": "Android"
+                }
+              },
+              {
+                "id": "o-5",
+                "evidenceId": "ev-1baaec99-7e96-4473-8677-dae301ff491c",
+                "kind": "comparison",
+                "text": "iPhone：2019-07相较2019-06，首访后14天的 购买用户比例 从8.51%变为8.7%，增加0.19个百分点。",
+                "factIds": [
+                  "f-0-1-payer_rate",
+                  "f-0-3-payer_rate"
+                ],
+                "metrics": [
+                  "payer_rate"
+                ],
+                "focus": {
+                  "device": "iPhone"
+                }
+              }
+            ],
+            "hypothesis": "conversion",
+            "suggestedQuery": null
+          }
+        },
+        {
+          "seq": 6,
+          "type": "review_completed",
+          "at": "2026-10-25T22:54:10.319Z",
+          "message": "证据审查完成",
+          "data": {
+            "reason": "已有完整的 cohort 对比数据：2019-06 与 2019-07 两个完整随访批次，按 device(iPhone/Android) 拆分，包含 new_users、payers、payer_rate、revenue。观测显示：iPhone 新用户 -4.48%、付费用户 -2.32%、付费率 +0.19pp、收入 -0.86%；Android 新用户 -4.40%、付费用户 -1.47%、付费率 +0.23pp、收入 -4.02%。收入变化差异可由“新用户量下降幅度相近 × 付费率微升幅度不同”共同解释，无需再查费用或其他指标。",
+            "decision": "ready",
+            "issues": [],
+            "query": null
+          }
+        }
+      ],
+      "queryCount": 1,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2465,
+          "receiptId": "rcpt_req_r0o96fxv"
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1161,
+          "receiptId": "rcpt_req_nttc3oqt"
+        },
+        {
+          "role": "investigator.explain:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1414,
+          "receiptId": "rcpt_req_2icdwswv"
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2932,
+          "receiptId": "rcpt_req_s3xohvh8"
+        }
+      ],
+      "durationMs": 18790
+    },
+    {
+      "id": "w7-region",
+      "question": "只看首次国家United States，为什么2019年8月相较7月新用户两周收入有变化？核查用户规模与购买用户比例，不涉及广告费用。",
+      "expected": {
+        "mode": "cohort",
+        "windowDays": 14,
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          },
+          {
+            "label": "2019-08",
+            "start": "2019-08-01",
+            "end": "2019-09-01"
+          }
+        ],
+        "filters": {
+          "regions": [
+            "United States"
+          ]
+        },
+        "audience": "paid"
+      },
+      "requiredMetrics": [
+        "revenue",
+        "payer_rate"
+      ],
+      "pass": true,
+      "errors": [],
+      "qualityGaps": [],
+      "status": "completed",
+      "runId": "f3ec7398-23f9-4308-a3b9-6bfc3098b410",
+      "context": {
+        "conversationId": "5549e1fb-be4b-4420-8027-da89cc930dac",
+        "investigationId": "c2c7c4cb-2d5a-407b-979b-2d58e56538e4",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 1,
+        "spec": {
+          "timeGrain": null,
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            },
+            {
+              "label": "2019-08",
+              "start": "2019-08-01",
+              "end": "2019-09-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": [
+              "United States"
+            ]
+          },
+          "groupBy": [],
+          "metrics": [
+            "new_users",
+            "payers",
+            "revenue",
+            "payer_rate",
+            "revenue_per_payer",
+            "users"
+          ]
+        },
+        "evidenceIds": [
+          "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a"
+        ],
+        "lastQuestion": "只看首次国家United States，为什么2019年8月相较7月新用户两周收入有变化？核查用户规模与购买用户比例，不涉及广告费用。",
+        "taskKind": "why",
+        "objective": "只看首次国家United States，为什么2019年8月相较7月新用户两周收入有变化？核查用户规模与购买用户比例，不涉及广告费用。"
+      },
+      "answer": {
+        "summary": "United States：2019-08相较2019-07，首访后14天的 收入 从10256.41变为11436.59，差额1180.18，变化率11.51%。",
+        "explanations": [
+          {
+            "id": "traffic",
+            "kind": "traffic",
+            "claim": "用户规模与收入同向变化",
+            "status": "supported",
+            "text": "United States：2019-08相较2019-07，首访后14天的 收入 从10256.41变为11436.59，差额1180.18，变化率11.51%。 United States：2019-08相较2019-07，首访后14天的 用户数 从9777变为11416，差额1639，变化率16.76%。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue",
+              "f-0-0-users",
+              "f-0-1-users"
+            ],
+            "evidenceIds": [
+              "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a"
+            ],
+            "coverageRefs": []
+          },
+          {
+            "id": "conversion",
+            "kind": "conversion",
+            "claim": "购买用户比例与收入同向变化",
+            "status": "contradicted",
+            "text": "United States：2019-08相较2019-07，首访后14天的 收入 从10256.41变为11436.59，差额1180.18，变化率11.51%。 United States：2019-08相较2019-07，首访后14天的 购买用户比例 从9.8%变为9.72%，减少0.08个百分点。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue",
+              "f-0-0-payer_rate",
+              "f-0-1-payer_rate"
+            ],
+            "evidenceIds": [
+              "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a"
+            ],
+            "coverageRefs": []
+          },
+          {
+            "id": "purchase_value",
+            "kind": "purchase_value",
+            "claim": "每位购买用户收入与总收入同向变化",
+            "status": "contradicted",
+            "text": "United States：2019-08相较2019-07，首访后14天的 收入 从10256.41变为11436.59，差额1180.18，变化率11.51%。 United States：2019-08相较2019-07，首访后14天的 每位购买用户收入 从10.706065变为10.303234，差额-0.402831，变化率-3.76%。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue",
+              "f-0-0-revenue_per_payer",
+              "f-0-1-revenue_per_payer"
+            ],
+            "evidenceIds": [
+              "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a"
+            ],
+            "coverageRefs": []
+          },
+          {
+            "id": "repeat",
+            "kind": "repeat",
+            "claim": "首次与后续购买收入能拆解已观测收入变化",
+            "status": "not_checked",
+            "text": "尚未执行所需指标与拆分，不能支持或排除该解释。",
+            "factIds": [],
+            "evidenceIds": [],
+            "coverageRefs": []
+          },
+          {
+            "id": "spend_efficiency",
+            "kind": "spend_efficiency",
+            "claim": "费用增加且收入增长未跟上费用增长",
+            "status": "not_checked",
+            "text": "尚未执行所需指标与拆分，不能支持或排除该解释。",
+            "factIds": [],
+            "evidenceIds": [],
+            "coverageRefs": []
+          },
+          {
+            "id": "channel_mix",
+            "kind": "channel_mix",
+            "claim": "所列渠道的收入变化存在差异",
+            "status": "not_checked",
+            "text": "尚未完成多个渠道同口径收入变化的拆分，不能支持或排除渠道构成解释。",
+            "factIds": [],
+            "evidenceIds": [],
+            "coverageRefs": []
+          },
+          {
+            "id": "maturity",
+            "kind": "maturity",
+            "claim": "请求范围内所有用户均有完整随访",
+            "status": "supported",
+            "text": "当前获客批次已保留完整观察窗口；不能把剩余批次的变化归咎于随访不足，也不能推断更长窗口表现。",
+            "factIds": [],
+            "evidenceIds": [
+              "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a"
+            ],
+            "coverageRefs": [
+              {
+                "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+                "period": "2019-07"
+              },
+              {
+                "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+                "period": "2019-08"
+              }
+            ]
+          }
+        ],
+        "conclusion": {
+          "text": "United States：2019-08相较2019-07，首访后14天的 收入 从10256.41变为11436.59，差额1180.18，变化率11.51%。",
+          "factIds": [
+            "f-0-0-revenue",
+            "f-0-1-revenue"
+          ]
+        },
+        "keyEvidence": [
+          {
+            "text": "United States：2019-08相较2019-07，首访后14天的 收入 从10256.41变为11436.59，差额1180.18，变化率11.51%。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue"
+            ]
+          },
+          {
+            "text": "United States：2019-08相较2019-07，首访后14天的 首次观测用户数 从9777变为11416，差额1639，变化率16.76%。",
+            "factIds": [
+              "f-0-0-new_users",
+              "f-0-1-new_users"
+            ]
+          },
+          {
+            "text": "United States：2019-08相较2019-07，首访后14天的 购买用户数 从958变为1110，差额152，变化率15.87%。",
+            "factIds": [
+              "f-0-0-payers",
+              "f-0-1-payers"
+            ]
+          }
+        ],
+        "followups": [
+          {
+            "id": "purchase-composition",
+            "label": "拆分首次与后续购买收入",
+            "message": "比较收入变化来自首次购买还是后续购买？时期：2019-07-01至2019-08-01（结束日不含）与2019-08-01至2019-09-01（结束日不含）；首访后14天；付费渠道用户；国家=United States。",
+            "reason": "尚未在当前范围完成首次与后续购买收入的拆分。",
+            "taskKind": "query",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                },
+                {
+                  "label": "2019-08",
+                  "start": "2019-08-01",
+                  "end": "2019-09-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": [
+                  "United States"
+                ]
+              },
+              "groupBy": [],
+              "metrics": [
+                "first_purchase_revenue",
+                "repeat_purchase_revenue",
+                "revenue",
+                "repeat_payer_rate",
+                "new_users",
+                "payers",
+                "payer_rate",
+                "revenue_per_payer",
+                "users"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "5549e1fb-be4b-4420-8027-da89cc930dac",
+              "investigationId": "c2c7c4cb-2d5a-407b-979b-2d58e56538e4",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a"
+            ]
+          },
+          {
+            "id": "channel-breakdown",
+            "label": "按渠道拆分变化",
+            "message": "按首次观测渠道比较这些指标的变化？时期：2019-07-01至2019-08-01（结束日不含）与2019-08-01至2019-09-01（结束日不含）；首访后14天；付费渠道用户；国家=United States。",
+            "reason": "当前范围仍可按渠道定位具体变化。",
+            "taskKind": "followup",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                },
+                {
+                  "label": "2019-08",
+                  "start": "2019-08-01",
+                  "end": "2019-09-01"
+                }
+              ],
+              "windowDays": 14,
+              "audience": "paid",
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": [
+                  "United States"
+                ]
+              },
+              "groupBy": [
+                "channel"
+              ],
+              "metrics": [
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "users"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "5549e1fb-be4b-4420-8027-da89cc930dac",
+              "investigationId": "c2c7c4cb-2d5a-407b-979b-2d58e56538e4",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a"
+            ]
+          },
+          {
+            "id": "compare-window",
+            "label": "改用首访后 7 天核查",
+            "message": "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-07-01至2019-08-01（结束日不含）与2019-08-01至2019-09-01（结束日不含）；首访后7天；付费渠道用户；国家=United States。",
+            "reason": "用另一种完整观察窗口检验结论是否依赖观察时长。",
+            "taskKind": "followup",
+            "patch": {
+              "timeGrain": null,
+              "mode": "cohort",
+              "periods": [
+                {
+                  "label": "2019-07",
+                  "start": "2019-07-01",
+                  "end": "2019-08-01"
+                },
+                {
+                  "label": "2019-08",
+                  "start": "2019-08-01",
+                  "end": "2019-09-01"
+                }
+              ],
+              "windowDays": 7,
+              "audience": "paid",
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": [
+                  "United States"
+                ]
+              },
+              "groupBy": [],
+              "metrics": [
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "users"
+              ]
+            },
+            "basedOn": {
+              "conversationId": "5549e1fb-be4b-4420-8027-da89cc930dac",
+              "investigationId": "c2c7c4cb-2d5a-407b-979b-2d58e56538e4",
+              "datasetVersion": "4c26d29934370408",
+              "metricVersion": "procrastinate-v1",
+              "revision": 1
+            },
+            "evidenceIds": [
+              "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a"
+            ]
+          }
+        ],
+        "facts": [
+          {
+            "id": "f-0-0-new_users",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 0,
+            "metric": "new_users",
+            "value": 9777,
+            "label": "2019-07 / United States / 14天 / 首次观测用户数"
+          },
+          {
+            "id": "f-0-0-payers",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 0,
+            "metric": "payers",
+            "value": 958,
+            "label": "2019-07 / United States / 14天 / 购买用户数"
+          },
+          {
+            "id": "f-0-0-revenue",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 0,
+            "metric": "revenue",
+            "value": 10256.41,
+            "label": "2019-07 / United States / 14天 / 收入"
+          },
+          {
+            "id": "f-0-0-payer_rate",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 0,
+            "metric": "payer_rate",
+            "value": 0.097985,
+            "label": "2019-07 / United States / 14天 / 购买用户比例"
+          },
+          {
+            "id": "f-0-0-revenue_per_payer",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 0,
+            "metric": "revenue_per_payer",
+            "value": 10.706065,
+            "label": "2019-07 / United States / 14天 / 每位购买用户收入"
+          },
+          {
+            "id": "f-0-0-users",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 0,
+            "metric": "users",
+            "value": 9777,
+            "label": "2019-07 / United States / 14天 / 用户数"
+          },
+          {
+            "id": "f-0-1-new_users",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 1,
+            "metric": "new_users",
+            "value": 11416,
+            "label": "2019-08 / United States / 14天 / 首次观测用户数"
+          },
+          {
+            "id": "f-0-1-payers",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 1,
+            "metric": "payers",
+            "value": 1110,
+            "label": "2019-08 / United States / 14天 / 购买用户数"
+          },
+          {
+            "id": "f-0-1-revenue",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 1,
+            "metric": "revenue",
+            "value": 11436.59,
+            "label": "2019-08 / United States / 14天 / 收入"
+          },
+          {
+            "id": "f-0-1-payer_rate",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 1,
+            "metric": "payer_rate",
+            "value": 0.097232,
+            "label": "2019-08 / United States / 14天 / 购买用户比例"
+          },
+          {
+            "id": "f-0-1-revenue_per_payer",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 1,
+            "metric": "revenue_per_payer",
+            "value": 10.303234,
+            "label": "2019-08 / United States / 14天 / 每位购买用户收入"
+          },
+          {
+            "id": "f-0-1-users",
+            "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+            "rowIndex": 1,
+            "metric": "users",
+            "value": 11416,
+            "label": "2019-08 / United States / 14天 / 用户数"
+          }
+        ],
+        "findings": [
+          {
+            "text": "United States：2019-08相较2019-07，首访后14天的 首次观测用户数 从9777变为11416，差额1639，变化率16.76%。",
+            "factIds": [
+              "f-0-0-new_users",
+              "f-0-1-new_users"
+            ]
+          },
+          {
+            "text": "United States：2019-08相较2019-07，首访后14天的 购买用户数 从958变为1110，差额152，变化率15.87%。",
+            "factIds": [
+              "f-0-0-payers",
+              "f-0-1-payers"
+            ]
+          },
+          {
+            "text": "United States：2019-08相较2019-07，首访后14天的 收入 从10256.41变为11436.59，差额1180.18，变化率11.51%。",
+            "factIds": [
+              "f-0-0-revenue",
+              "f-0-1-revenue"
+            ]
+          },
+          {
+            "text": "United States：2019-08相较2019-07，首访后14天的 购买用户比例 从9.8%变为9.72%，减少0.08个百分点。",
+            "factIds": [
+              "f-0-0-payer_rate",
+              "f-0-1-payer_rate"
+            ]
+          },
+          {
+            "text": "United States：2019-08相较2019-07，首访后14天的 每位购买用户收入 从10.706065变为10.303234，差额-0.402831，变化率-3.76%。",
+            "factIds": [
+              "f-0-0-revenue_per_payer",
+              "f-0-1-revenue_per_payer"
+            ]
+          }
+        ],
+        "checkedExplanations": [
+          "首访后14天，整体已核查：首次观测用户数、购买用户数、收入、购买用户比例、每位购买用户收入、用户数。"
+        ],
+        "limitations": [
+          "尚未检查：首次与后续购买收入能拆解已观测收入变化；费用增加且收入增长未跟上费用增长；所列渠道的收入变化存在差异。这些解释尚未排除。",
+          "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
+          "金额币种与时区未注明，沿用原始时间与样例金额单位",
+          "没有广告曝光、点击、预算、素材或真实广告增量",
+          "没有商品、结账步骤、退款或利润",
+          "费用只有渠道和日期粒度；无法计算设备或国家广告费用",
+          "订单没有 session ID；渠道、设备、国家使用首次观测访问归属",
+          "organic 未提供费用，费用缺失不补零"
+        ],
+        "nextSteps": [
+          "比较收入变化来自首次购买还是后续购买？时期：2019-07-01至2019-08-01（结束日不含）与2019-08-01至2019-09-01（结束日不含）；首访后14天；付费渠道用户；国家=United States。",
+          "按首次观测渠道比较这些指标的变化？时期：2019-07-01至2019-08-01（结束日不含）与2019-08-01至2019-09-01（结束日不含）；首访后14天；付费渠道用户；国家=United States。",
+          "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-07-01至2019-08-01（结束日不含）与2019-08-01至2019-09-01（结束日不含）；首访后7天；付费渠道用户；国家=United States。"
+        ],
+        "chartNotes": []
+      },
+      "evidence": [
+        {
+          "id": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+          "datasetVersion": "4c26d29934370408",
+          "metricVersion": "procrastinate-v1",
+          "spec": {
+            "timeGrain": null,
+            "mode": "cohort",
+            "periods": [
+              {
+                "label": "2019-07",
+                "start": "2019-07-01",
+                "end": "2019-08-01"
+              },
+              {
+                "label": "2019-08",
+                "start": "2019-08-01",
+                "end": "2019-09-01"
+              }
+            ],
+            "windowDays": 14,
+            "audience": "paid",
+            "filters": {
+              "channels": [],
+              "devices": [],
+              "regions": [
+                "United States"
+              ]
+            },
+            "groupBy": [],
+            "metrics": [
+              "new_users",
+              "payers",
+              "revenue",
+              "payer_rate",
+              "revenue_per_payer",
+              "users"
+            ]
+          },
+          "queryIds": [
+            "acef5876-7824-4ba7-b0e0-fdc721cd7f15",
+            "dc689190-289c-49d0-9d78-8e5185f57d02"
+          ],
+          "comparisons": [
+            {
+              "dimensions": {},
+              "metric": "new_users",
+              "baseline": 9777,
+              "current": 11416,
+              "delta": 1639,
+              "relativeChange": 0.167638
+            },
+            {
+              "dimensions": {},
+              "metric": "payers",
+              "baseline": 958,
+              "current": 1110,
+              "delta": 152,
+              "relativeChange": 0.158664
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue",
+              "baseline": 10256.41,
+              "current": 11436.59,
+              "delta": 1180.18,
+              "relativeChange": 0.115068
+            },
+            {
+              "dimensions": {},
+              "metric": "payer_rate",
+              "baseline": 0.097985,
+              "current": 0.097232,
+              "delta": -0.000753,
+              "relativeChange": -0.007685
+            },
+            {
+              "dimensions": {},
+              "metric": "revenue_per_payer",
+              "baseline": 10.706065,
+              "current": 10.303234,
+              "delta": -0.402831,
+              "relativeChange": -0.037626
+            },
+            {
+              "dimensions": {},
+              "metric": "users",
+              "baseline": 9777,
+              "current": 11416,
+              "delta": 1639,
+              "relativeChange": 0.167638
+            }
+          ],
+          "backend": "zetaris",
+          "rows": [
+            {
+              "period": "2019-07",
+              "dimensions": {},
+              "values": {
+                "new_users": 9777,
+                "payers": 958,
+                "revenue": 10256.41,
+                "payer_rate": 0.097985,
+                "revenue_per_payer": 10.706065,
+                "users": 9777
+              }
+            },
+            {
+              "period": "2019-08",
+              "dimensions": {},
+              "values": {
+                "new_users": 11416,
+                "payers": 1110,
+                "revenue": 11436.59,
+                "payer_rate": 0.097232,
+                "revenue_per_payer": 10.303234,
+                "users": 11416
+              }
+            }
+          ],
+          "coverage": [
+            {
+              "period": "2019-07",
+              "requestedStart": "2019-07-01",
+              "requestedEnd": "2019-08-01",
+              "effectiveEnd": "2019-08-01",
+              "excludedUsers": 0,
+              "days": 31
+            },
+            {
+              "period": "2019-08",
+              "requestedStart": "2019-08-01",
+              "requestedEnd": "2019-09-01",
+              "effectiveEnd": "2019-09-01",
+              "excludedUsers": 0,
+              "days": 31
+            }
+          ],
+          "definitions": {
+            "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
+            "payers": "时期或观察窗口内至少购买一次的不同用户数",
+            "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
+            "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
+            "revenue_per_payer": "收入 / 购买用户数",
+            "users": "自然时期内有访问或购买的用户数；批次模式为首次出现且具有完整观察期的用户数"
+          },
+          "notes": [
+            "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
+            "时间为源数据原始时间，金额单位未标注。",
+            "spec:f9e02aec336f2e66f82c6bbeb00f80d5bbbf98f9d6d3ecb487d923a62babbf7d"
+          ],
+          "createdAt": "2026-10-25T22:54:25.248Z",
+          "durationMs": 12729,
+          "truncated": false
+        }
+      ],
+      "reviews": [
+        {
+          "seq": 5,
+          "type": "hypothesis",
+          "at": "2026-10-25T22:54:27.320Z",
+          "message": "已形成待审查的解释",
+          "data": {
+            "selectedObservations": [
+              {
+                "id": "o-0",
+                "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+                "kind": "comparison",
+                "text": "United States：2019-08相较2019-07，首访后14天的 首次观测用户数 从9777变为11416，差额1639，变化率16.76%。",
+                "factIds": [
+                  "f-0-0-new_users",
+                  "f-0-1-new_users"
+                ],
+                "metrics": [
+                  "new_users"
+                ],
+                "focus": {}
+              },
+              {
+                "id": "o-1",
+                "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+                "kind": "comparison",
+                "text": "United States：2019-08相较2019-07，首访后14天的 购买用户数 从958变为1110，差额152，变化率15.87%。",
+                "factIds": [
+                  "f-0-0-payers",
+                  "f-0-1-payers"
+                ],
+                "metrics": [
+                  "payers"
+                ],
+                "focus": {}
+              },
+              {
+                "id": "o-2",
+                "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+                "kind": "comparison",
+                "text": "United States：2019-08相较2019-07，首访后14天的 收入 从10256.41变为11436.59，差额1180.18，变化率11.51%。",
+                "factIds": [
+                  "f-0-0-revenue",
+                  "f-0-1-revenue"
+                ],
+                "metrics": [
+                  "revenue"
+                ],
+                "focus": {}
+              },
+              {
+                "id": "o-3",
+                "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+                "kind": "comparison",
+                "text": "United States：2019-08相较2019-07，首访后14天的 购买用户比例 从9.8%变为9.72%，减少0.08个百分点。",
+                "factIds": [
+                  "f-0-0-payer_rate",
+                  "f-0-1-payer_rate"
+                ],
+                "metrics": [
+                  "payer_rate"
+                ],
+                "focus": {}
+              },
+              {
+                "id": "o-4",
+                "evidenceId": "ev-a42c79fb-c045-4aae-85cf-f1b97f5c9e6a",
+                "kind": "comparison",
+                "text": "United States：2019-08相较2019-07，首访后14天的 每位购买用户收入 从10.706065变为10.303234，差额-0.402831，变化率-3.76%。",
+                "factIds": [
+                  "f-0-0-revenue_per_payer",
+                  "f-0-1-revenue_per_payer"
+                ],
+                "metrics": [
+                  "revenue_per_payer"
+                ],
+                "focus": {}
+              }
+            ],
+            "hypothesis": "conversion",
+            "suggestedQuery": {
+              "metrics": [
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer"
+              ],
+              "groupBy": [
+                "channel",
+                "device"
+              ],
+              "filters": {
+                "regions": [
+                  "United States"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "seq": 6,
+          "type": "review_completed",
+          "at": "2026-10-25T22:55:06.169Z",
+          "message": "证据审查完成",
+          "data": {
+            "reason": "已有美国地区两个月 cohort 14 天窗口的完整对比：新用户 +16.8%，购买用户 +15.9%，购买用户比例从 9.80% 降至 9.72%（-0.08pp），每位购买用户收入 -3.8%。收入仅增 11.5% 主要由用户规模增长驱动，付费率与客单价双双下降抵消了部分增量。availableAnalyses 仅含无 groupBy 的汇总查询，但问题仅问“为什么收入不同”并要求核查用户规模与购买用户比例，整体指标已足以解释。无需再查。",
+            "decision": "ready",
+            "issues": [
+              "仅有渠道汇总，无法定位具体渠道/设备结构变化",
+              "7天观测窗口可能未完全捕获首购周期更长的用户后续付费",
+              "cohort 模式下 revenue 仅含首访后 14 天内收入，不代表完整 LTV",
+              "费用与收入币种单位未标注，无法进行绝对金额业务判断"
+            ],
+            "query": null
+          }
+        }
+      ],
+      "queryCount": 1,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2174,
+          "receiptId": "rcpt_req_0j1hytyk"
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2066,
+          "receiptId": "rcpt_req_9y7b80vp"
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 38845,
+          "receiptId": "rcpt_req_tw7y46xr"
+        }
+      ],
+      "durationMs": 55879
+    }
+  ]
+}

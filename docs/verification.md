@@ -58,3 +58,31 @@ API 1.2.0 已实现具体结论、关键证据与可执行追问；接入见 [�
 - [开发记录](../evidence/answer-quality-development.json) 保留筛选摘要写“整体”、Why 误分类和推荐沿用错误目标的问题。修复后重新验收，未将这些问题混为解释质量通过。
 - 主会话完成 correctness review，核对主结论 ID 必须在已选观测内、事实引用、渠道增减相加、比例单位、scope 继承和新问题目标切换，未启动 subagent workflow。
 - 此次评测通过隔离 3122 服务执行；记录中的 ID 属于该服务。React 浏览器验收、更广的阶段 2 问题覆盖与性能优化仍待后续执行。
+
+## 2026-10-25 Why 扩展评测与可靠性（阶段 2）
+
+范围：8 个新 Why，覆盖 5/6、6/7、7/8、8/9、9/10 月，渠道、设备、国家、首次/后续购买及成熟度；2 个前提错误/缺数据反例；两组各 3 轮追问。问题只存在于评测脚本，未加入 Agent 提示或渠道路由。
+
+先记录 7ac88cc 的基线，再修复：6 轮出现范围/指标/目标错误，15 个有回答的轮次缺少结构化解释状态。基线的 1/16 是按新增验收标准得到，不能解释为旧版只有一项统计正确。基线反例已能指出 FaceBoom 费用减少、收入增加，缺少点击数据也已返回 unsupported。
+
+实际修复：纯时期追问保留原 Why 目标和 Reviewer；自然月对比不误设趋势；十月请求保留完整月份，成熟度裁剪仅在 coverage 中；明确收入指标不会因模型遗漏而消失；比例/收入构成问题直接给对应结论；覆盖警告不能代替数字结论。费用与收入反向时先纠正前提。Reviewer 区分 calendar/cohort、首次/后续购买与新/老用户；ready 还需至少一项已执行的非随访解释检查。
+
+API 1.3.0 可选 explanations 的状态由实际聚合证据生成。supported/contradicted 针对 claim 代表的观测检查，不是因果归因；not_checked 不能当排除。随访使用 coverageRefs。旧字段、图表和追问执行接口保留，UI 接入见 [回答契约](answer-contract.md)。
+
+验证命令：
+
+```bash
+npm run eval:why -- --output=evidence/why-reliability-final.json
+npx tsx scripts/audit-why.ts evidence/why-reliability-final.json
+python3 scripts/verify-why-reference.py evidence/why-reliability-final.json
+npm run eval:live -- --output=evidence/why-reliability-regression.json
+npm test
+npm run lint
+npm run typecheck
+npm run build
+npm run test:live
+```
+
+最终工程验收为 111/111 tests、16/16 新集及确定性审计（13 completed、2 limited、1 unsupported）、旧 Live 44/44、HTTP 6/6，lint/typecheck/build 与 14 条真实指标 SQL 通过。重复评测另识别并修复默认人群漂移；最终四轮比例复测修复了小渠道上涨掩盖汇总下降的首句。逐题审阅和来源见 [阶段 2 记录](why-reliability-review.md)，外部人工业务验收未执行。本阶段未实现阶段 3 性能优化；开发轮自然月案例曾耗时约 192 秒，模型延迟和补查长尾仍需单独优化。没有把第一次/后续购买直接改称新客/老客，没有广告因果实验或点击/曝光数据，也没有宣称穷尽所有解释。
+
+最终独立 CSV 核算：1,084 项核对通过，覆盖 18 种实际执行规格，并包含完整渠道金额汇总的派生比值。所有改动仅在本地；GitHub push 由用户另行明确授权。

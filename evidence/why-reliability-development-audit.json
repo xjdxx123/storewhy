@@ -1,0 +1,107 @@
+{
+  "at": "2026-10-25T22:56:15.706Z",
+  "source": "why-reliability-development.json",
+  "method": "Deterministic checks of direct answers, explanation status versus paired facts/coverage, and recommendation constraints. Independent CSV verification is recorded separately; human review is still required.",
+  "total": 16,
+  "passed": 15,
+  "records": [
+    {
+      "id": "w1-channel-efficiency",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "f1-channel",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "f1-window",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "f1-clear",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "w2-revenue-factors",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "w3-purchase-composition",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "f2-period",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "f2-region",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "f2-clear",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "w4-conversion",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "w5-maturity",
+      "status": "limited",
+      "pass": false,
+      "errors": [
+        "income question not directly answered"
+      ]
+    },
+    {
+      "id": "w6-device",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "w7-region",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "w8-repeat-channels",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "n1-false-premise",
+      "status": "limited",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "n2-missing-clicks",
+      "status": "unsupported",
+      "pass": true,
+      "errors": []
+    }
+  ]
+}

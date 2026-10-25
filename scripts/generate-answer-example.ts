@@ -25,6 +25,8 @@ try {
     "self-authored-fixture-v1",
   );
   context.revision = 1;
+  context.taskKind = "why";
+  context.objective = "为什么新用户收入与费用变化不同？";
   context.evidenceIds = evidence.map((e) => e.id);
   const answer = presentAnswer({
     context,

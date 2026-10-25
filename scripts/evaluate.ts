@@ -480,11 +480,12 @@ try {
   };
   await fs.mkdir("evidence", { recursive: true });
   await fs.writeFile(
-    process.argv.includes("--followups-only")
-      ? "evidence/followup-evaluation.json"
-      : process.argv.includes("--smoke")
-        ? "evidence/agent-smoke.json"
-        : "evidence/agent-evaluation.json",
+    process.argv.find((arg) => arg.startsWith("--output="))?.slice(9) ??
+      (process.argv.includes("--followups-only")
+        ? "evidence/followup-evaluation.json"
+        : process.argv.includes("--smoke")
+          ? "evidence/agent-smoke.json"
+          : "evidence/agent-evaluation.json"),
     JSON.stringify(report, null, 2),
   );
   await server.app.close();

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CONTRACT_VERSION = "1.2.0";
+export const CONTRACT_VERSION = "1.3.0";
 export const METRIC_VERSION = "procrastinate-v1";
 export const metricSchema = z.enum([
   "spend",
@@ -265,7 +265,36 @@ export interface Finding {
   text: string;
   factIds: string[];
 }
+export const explanationSchema = z
+  .object({
+    id: z.string().min(1),
+    kind: z.enum([
+      "traffic",
+      "conversion",
+      "purchase_value",
+      "repeat",
+      "spend_efficiency",
+      "channel_mix",
+      "maturity",
+    ]),
+    claim: z.string().min(1),
+    status: z.enum([
+      "supported",
+      "contradicted",
+      "missing_data",
+      "not_checked",
+    ]),
+    text: z.string().min(1),
+    factIds: z.array(z.string()),
+    evidenceIds: z.array(z.string()),
+    coverageRefs: z.array(
+      z.object({ evidenceId: z.string(), period: z.string() }).strict(),
+    ),
+  })
+  .strict();
+export type Explanation = z.infer<typeof explanationSchema>;
 export interface Answer {
+  explanations?: Explanation[];
   conclusion?: Finding;
   keyEvidence?: Finding[];
   followups?: FollowupAction[];

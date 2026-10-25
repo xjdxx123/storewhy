@@ -14,6 +14,9 @@ const health = await (await fetch(url + "/healthz")).json();
 assert.equal(health.apiVersion, CONTRACT_VERSION);
 assert.equal(health.dataMode, "zetaris");
 const records: unknown[] = [];
+const output =
+  process.argv.find((arg) => arg.startsWith("--output="))?.slice(9) ??
+  "evidence/answer-quality-evaluation.json";
 async function check(
   name: string,
   queued: Run,
@@ -120,7 +123,7 @@ async function check(
     }),
   );
   await fs.writeFile(
-    "evidence/answer-quality-evaluation.json",
+    output,
     JSON.stringify(
       {
         at: new Date().toISOString(),

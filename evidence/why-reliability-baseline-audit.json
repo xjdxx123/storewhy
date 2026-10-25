@@ -1,0 +1,161 @@
+{
+  "at": "2026-10-25T22:48:04.624Z",
+  "source": "why-reliability-baseline.json",
+  "method": "Deterministic checks of direct answers, explanation status versus paired facts/coverage, and recommendation constraints. Independent CSV verification is recorded separately; human review is still required.",
+  "total": 16,
+  "passed": 1,
+  "records": [
+    {
+      "id": "w1-channel-efficiency",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "no structured explanation coverage",
+        "ratio question not directly answered"
+      ]
+    },
+    {
+      "id": "f1-channel",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "no structured explanation coverage",
+        "ratio question not directly answered"
+      ]
+    },
+    {
+      "id": "f1-window",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "no structured explanation coverage",
+        "ratio question not directly answered"
+      ]
+    },
+    {
+      "id": "f1-clear",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "no structured explanation coverage",
+        "ratio question not directly answered"
+      ]
+    },
+    {
+      "id": "w2-revenue-factors",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "no structured explanation coverage",
+        "income question not directly answered"
+      ]
+    },
+    {
+      "id": "w3-purchase-composition",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "no structured explanation coverage",
+        "purchase composition not directly answered",
+        "comparison incorrectly became a trend"
+      ]
+    },
+    {
+      "id": "f2-period",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "lost Why task",
+        "no Reviewer",
+        "lost objective",
+        "no structured explanation coverage",
+        "purchase composition not directly answered",
+        "comparison incorrectly became a trend"
+      ]
+    },
+    {
+      "id": "f2-region",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "lost Why task",
+        "no Reviewer",
+        "no structured explanation coverage",
+        "purchase composition not directly answered",
+        "comparison incorrectly became a trend"
+      ]
+    },
+    {
+      "id": "f2-clear",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "lost Why task",
+        "no Reviewer",
+        "no structured explanation coverage",
+        "purchase composition not directly answered",
+        "comparison incorrectly became a trend"
+      ]
+    },
+    {
+      "id": "w4-conversion",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "no structured explanation coverage"
+      ]
+    },
+    {
+      "id": "w5-maturity",
+      "status": "limited",
+      "pass": false,
+      "errors": [
+        "scope mismatch",
+        "no structured explanation coverage",
+        "maturity clipping not disclosed",
+        "income question not directly answered"
+      ]
+    },
+    {
+      "id": "w6-device",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "missing required metrics",
+        "no structured explanation coverage",
+        "income question not directly answered"
+      ]
+    },
+    {
+      "id": "w7-region",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "no structured explanation coverage"
+      ]
+    },
+    {
+      "id": "w8-repeat-channels",
+      "status": "completed",
+      "pass": false,
+      "errors": [
+        "missing required metrics",
+        "no structured explanation coverage"
+      ]
+    },
+    {
+      "id": "n1-false-premise",
+      "status": "limited",
+      "pass": false,
+      "errors": [
+        "no structured explanation coverage"
+      ]
+    },
+    {
+      "id": "n2-missing-clicks",
+      "status": "unsupported",
+      "pass": true,
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "method": "Independent Python CSV loops and Decimal; verifies all executed aggregate cells and maturity coverage without TS/SQL",
+  "report": "why-ratio-recheck.json",
+  "cellsChecked": 400,
+  "uniqueSpecs": 4,
+  "pass": true,
+  "errors": []
+}

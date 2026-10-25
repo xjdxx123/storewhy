@@ -131,3 +131,9 @@ SSE type：run_started、scope_updated、hypothesis、query_started、query_comp
 | GET    | /openapi.json                                | OpenAPI 3.1                                |
 
 本机未配置模型时可先用 `/demo` 开发结果展示，再用 `/analytics/query` 开发图表。需要动态自然语言和 Why 调查时配置 Nightshift。`GET /healthz` 的 dataMode 区分 fixture/zetaris；不要把自制样例称作真实在线调查。
+
+### Why 解释状态（API 1.3.0）
+
+可选 `answer.explanations` 提供支持、反驳、数据不足、未检查四种状态。请显示 claim、status 和 text，并用 factIds 展开数字来源；随访检查通过 coverageRefs 展开 Evidence.coverage。完整字段和标签含义见 [回答契约](answer-contract.md#why-解释检查api-130)。
+
+即使 completed 也展示 limitations，尤其是十月批次裁剪。unsupported 本轮显示 run.message，不复用上一轮结果。只改时期或筛选的追问继承 Why 目标，修改后使用最新回答里的推荐。

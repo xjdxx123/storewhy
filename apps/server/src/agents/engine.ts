@@ -28,6 +28,7 @@ import {
   observationsFor,
   validateSelection,
 } from "../analytics/observations.ts";
+import { explanationsFor } from "../analytics/explanations.ts";
 import { presentAnswer } from "../analytics/report.ts";
 import { chartsFor } from "../analytics/charts.ts";
 import {
@@ -253,7 +254,7 @@ export class Engine {
             signal,
           );
       if (
-        intent.kind === "query" &&
+        (intent.kind === "query" || intent.kind === "why") &&
         !input.taskKind &&
         c.context.lastQuestion &&
         isScopeOnly(input.message) &&
@@ -494,7 +495,7 @@ export class Engine {
               {
                 role: "system",
                 content:
-                  "你是独立 Reviewer，检查证据是否足以解释问题、金额/分母/窗口是否一致、是否有无证据断言。需要数据才能支持的未查解释不能当事实。若涉及整体渠道费用/增长且只有整体数据，要求按渠道拆分；若已有拆分不要重复。发现具体缺口才 needs_query，给出 query patch；不能扩大用户筛选。数据缺失或无法由观测记录证明的原因应 limited，不要索取无效查询。充分时 ready。 query 仅 metrics/groupBy/filters。请首先检查 availableAnalyses，里面列出的拆分和指标已经真实执行，不能再次要求同一数据。不要相信草稿中与实际证据矛盾的限制。用中文简洁说明理由。cohort只比较该批新获客用户，不需要混入自然月老用户；完整随访的批次不能再说随访不足；金额单位未标注不妨碍同单位内比较。",
+                  "你是独立 Reviewer，检查证据是否回答问题，金额、分母、时期是否一致。先看 scope.mode：calendar 按自然时期活动统计，windowDays 无效；cohort 按首访批次观察完整H天，不能混入老用户自然月收入。首次/后续购买不是新客/老客。完整随访不能称为随访不足；未标币种不妨碍同单位比较。只看真实 evidence、observations 和 availableAnalyses，不相信草稿的无证据限制。整体渠道费用或增长仅有汇总时要求渠道拆分；已查过的指标和拆分不能重复。发现可补的具体缺口才 needs_query，query 只改 metrics/groupBy/filters，不能扩大用户筛选。数据缺失或因果原因无法由记录证明时 limited。充分时 ready；不必穷尽所有分组。中文简述理由。",
               },
               {
                 role: "user",
@@ -533,7 +534,11 @@ export class Engine {
             },
           );
           if (review.decision === "ready") {
-            ready = true;
+            ready = explanationsFor(evidence, facts).some(
+              (check) =>
+                check.kind !== "maturity" &&
+                ["supported", "contradicted"].includes(check.status),
+            );
             break;
           }
           if (review.decision === "limited") break;

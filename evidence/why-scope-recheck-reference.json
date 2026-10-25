@@ -1,0 +1,8 @@
+{
+  "method": "Independent Python CSV loops and Decimal; verifies all executed aggregate cells and maturity coverage without TS/SQL",
+  "report": "why-scope-recheck.json",
+  "cellsChecked": 32,
+  "uniqueSpecs": 2,
+  "pass": true,
+  "errors": []
+}

@@ -29,7 +29,8 @@
     "test:charts": "tsx scripts/smoke-charts.ts",
     "docs:charts": "tsx scripts/generate-chart-examples.ts",
     "eval:answers": "tsx scripts/evaluate-answers.ts",
-    "docs:answer": "tsx scripts/generate-answer-example.ts"
+    "docs:answer": "tsx scripts/generate-answer-example.ts",
+    "eval:why": "tsx scripts/evaluate-why.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.16",

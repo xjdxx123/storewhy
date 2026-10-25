@@ -7,6 +7,7 @@ import {
   chartResponseSchema,
   followupActionSchema,
   expectedContextSchema,
+  explanationSchema,
 } from "@storewhy/contracts";
 import { settings } from "./config.ts";
 export function openapi() {
@@ -168,6 +169,7 @@ export function openapi() {
         ChartResponse: z.toJSONSchema(chartResponseSchema),
         FollowupAction: z.toJSONSchema(followupActionSchema),
         ExpectedContext: z.toJSONSchema(expectedContextSchema),
+        Explanation: z.toJSONSchema(explanationSchema),
         Error: {
           type: "object",
           properties: {

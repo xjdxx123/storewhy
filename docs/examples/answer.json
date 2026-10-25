@@ -3,7 +3,7 @@
   "status": "limited",
   "context": {
     "conversationId": "fixture-conversation",
-    "investigationId": "6f5a9aa0-aa42-41c5-a705-947b8b3b873d",
+    "investigationId": "19c4ee82-8ac7-4e02-8dcf-9e5faf8c3b06",
     "datasetVersion": "self-authored-fixture-v1",
     "metricVersion": "procrastinate-v1",
     "revision": 1,
@@ -41,15 +41,142 @@
       ]
     },
     "evidenceIds": [
-      "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
-      "ev-09696462-c312-4d91-bfa9-efd55cfb6a51"
+      "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+      "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
     ],
     "lastQuestion": "",
-    "taskKind": "query",
-    "objective": ""
+    "taskKind": "why",
+    "objective": "为什么新用户收入与费用变化不同？"
   },
   "answer": {
     "summary": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加24，收入不变0。费用增加没有伴随同口径收入增加。进一步解释仍有证据缺口。",
+    "explanations": [
+      {
+        "id": "traffic",
+        "kind": "traffic",
+        "claim": "用户规模与收入同向变化",
+        "status": "contradicted",
+        "text": "整体：2019-07相较2019-06，首访后14天的 首次观测用户数 从8变为8，差额0，变化率0.00%。 整体：2019-07相较2019-06，首访后14天的 收入 从90变为90，差额0，变化率0.00%。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+        "factIds": [
+          "f-0-0-new_users",
+          "f-0-1-new_users",
+          "f-0-0-revenue",
+          "f-0-1-revenue"
+        ],
+        "evidenceIds": [
+          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b"
+        ],
+        "coverageRefs": []
+      },
+      {
+        "id": "conversion",
+        "kind": "conversion",
+        "claim": "购买用户比例与收入同向变化",
+        "status": "contradicted",
+        "text": "整体：2019-07相较2019-06，首访后14天的 收入 从90变为90，差额0，变化率0.00%。 整体：2019-07相较2019-06，首访后14天的 购买用户比例 从87.5%变为87.5%，不变0个百分点。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+        "factIds": [
+          "f-0-0-revenue",
+          "f-0-1-revenue",
+          "f-0-0-payer_rate",
+          "f-0-1-payer_rate"
+        ],
+        "evidenceIds": [
+          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b"
+        ],
+        "coverageRefs": []
+      },
+      {
+        "id": "purchase_value",
+        "kind": "purchase_value",
+        "claim": "每位购买用户收入与总收入同向变化",
+        "status": "contradicted",
+        "text": "整体：2019-07相较2019-06，首访后14天的 收入 从90变为90，差额0，变化率0.00%。 整体：2019-07相较2019-06，首访后14天的 每位购买用户收入 从12.857143变为12.857143，差额0，变化率0.00%。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+        "factIds": [
+          "f-0-0-revenue",
+          "f-0-1-revenue",
+          "f-0-0-revenue_per_payer",
+          "f-0-1-revenue_per_payer"
+        ],
+        "evidenceIds": [
+          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b"
+        ],
+        "coverageRefs": []
+      },
+      {
+        "id": "repeat",
+        "kind": "repeat",
+        "claim": "首次与后续购买收入能拆解已观测收入变化",
+        "status": "not_checked",
+        "text": "尚未执行所需指标与拆分，不能支持或排除该解释。",
+        "factIds": [],
+        "evidenceIds": [],
+        "coverageRefs": []
+      },
+      {
+        "id": "spend_efficiency",
+        "kind": "spend_efficiency",
+        "claim": "费用增加且收入增长未跟上费用增长",
+        "status": "supported",
+        "text": "整体：2019-07对比2019-06，首访后14天口径下，费用增加36，收入不变0。费用增加没有伴随同口径收入增加。该判断只核查费用与收入的观测前提。",
+        "factIds": [
+          "f-0-0-spend",
+          "f-0-1-spend",
+          "f-0-0-revenue",
+          "f-0-1-revenue"
+        ],
+        "evidenceIds": [
+          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b"
+        ],
+        "coverageRefs": []
+      },
+      {
+        "id": "channel_mix",
+        "kind": "channel_mix",
+        "claim": "所列渠道的收入变化存在差异",
+        "status": "contradicted",
+        "text": "2019-07对比2019-06，首访后14天的收入：FaceBoom不变0，其余所列渠道合计不变0，所列渠道合计不变0。",
+        "factIds": [
+          "f-1-0-revenue",
+          "f-1-1-revenue",
+          "f-1-2-revenue",
+          "f-1-3-revenue"
+        ],
+        "evidenceIds": [
+          "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
+        ],
+        "coverageRefs": []
+      },
+      {
+        "id": "maturity",
+        "kind": "maturity",
+        "claim": "请求范围内所有用户均有完整随访",
+        "status": "supported",
+        "text": "当前获客批次已保留完整观察窗口；不能把剩余批次的变化归咎于随访不足，也不能推断更长窗口表现。",
+        "factIds": [],
+        "evidenceIds": [
+          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+          "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
+        ],
+        "coverageRefs": [
+          {
+            "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+            "period": "2019-06"
+          },
+          {
+            "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+            "period": "2019-07"
+          },
+          {
+            "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+            "period": "2019-06"
+          },
+          {
+            "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+            "period": "2019-07"
+          }
+        ]
+      }
+    ],
     "conclusion": {
       "text": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加24，收入不变0。费用增加没有伴随同口径收入增加。进一步解释仍有证据缺口。",
       "factIds": [
@@ -133,14 +260,14 @@
         },
         "basedOn": {
           "conversationId": "fixture-conversation",
-          "investigationId": "6f5a9aa0-aa42-41c5-a705-947b8b3b873d",
+          "investigationId": "19c4ee82-8ac7-4e02-8dcf-9e5faf8c3b06",
           "datasetVersion": "self-authored-fixture-v1",
           "metricVersion": "procrastinate-v1",
           "revision": 1
         },
         "evidenceIds": [
-          "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
-          "ev-09696462-c312-4d91-bfa9-efd55cfb6a51"
+          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+          "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
         ]
       },
       {
@@ -187,14 +314,14 @@
         },
         "basedOn": {
           "conversationId": "fixture-conversation",
-          "investigationId": "6f5a9aa0-aa42-41c5-a705-947b8b3b873d",
+          "investigationId": "19c4ee82-8ac7-4e02-8dcf-9e5faf8c3b06",
           "datasetVersion": "self-authored-fixture-v1",
           "metricVersion": "procrastinate-v1",
           "revision": 1
         },
         "evidenceIds": [
-          "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
-          "ev-09696462-c312-4d91-bfa9-efd55cfb6a51"
+          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+          "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
         ]
       },
       {
@@ -238,21 +365,21 @@
         },
         "basedOn": {
           "conversationId": "fixture-conversation",
-          "investigationId": "6f5a9aa0-aa42-41c5-a705-947b8b3b873d",
+          "investigationId": "19c4ee82-8ac7-4e02-8dcf-9e5faf8c3b06",
           "datasetVersion": "self-authored-fixture-v1",
           "metricVersion": "procrastinate-v1",
           "revision": 1
         },
         "evidenceIds": [
-          "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
-          "ev-09696462-c312-4d91-bfa9-efd55cfb6a51"
+          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+          "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
         ]
       }
     ],
     "facts": [
       {
         "id": "f-0-0-spend",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 0,
         "metric": "spend",
         "value": 576,
@@ -260,7 +387,7 @@
       },
       {
         "id": "f-0-0-new_users",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 0,
         "metric": "new_users",
         "value": 8,
@@ -268,7 +395,7 @@
       },
       {
         "id": "f-0-0-payers",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 0,
         "metric": "payers",
         "value": 7,
@@ -276,7 +403,7 @@
       },
       {
         "id": "f-0-0-revenue",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 0,
         "metric": "revenue",
         "value": 90,
@@ -284,7 +411,7 @@
       },
       {
         "id": "f-0-0-payer_rate",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 0,
         "metric": "payer_rate",
         "value": 0.875,
@@ -292,7 +419,7 @@
       },
       {
         "id": "f-0-0-revenue_per_payer",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 0,
         "metric": "revenue_per_payer",
         "value": 12.857143,
@@ -300,7 +427,7 @@
       },
       {
         "id": "f-0-0-cost_per_new_user",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 0,
         "metric": "cost_per_new_user",
         "value": 72,
@@ -308,7 +435,7 @@
       },
       {
         "id": "f-0-0-revenue_to_spend",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 0,
         "metric": "revenue_to_spend",
         "value": 0.15625,
@@ -316,7 +443,7 @@
       },
       {
         "id": "f-0-1-spend",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 1,
         "metric": "spend",
         "value": 612,
@@ -324,7 +451,7 @@
       },
       {
         "id": "f-0-1-new_users",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 1,
         "metric": "new_users",
         "value": 8,
@@ -332,7 +459,7 @@
       },
       {
         "id": "f-0-1-payers",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 1,
         "metric": "payers",
         "value": 7,
@@ -340,7 +467,7 @@
       },
       {
         "id": "f-0-1-revenue",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 1,
         "metric": "revenue",
         "value": 90,
@@ -348,7 +475,7 @@
       },
       {
         "id": "f-0-1-payer_rate",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 1,
         "metric": "payer_rate",
         "value": 0.875,
@@ -356,7 +483,7 @@
       },
       {
         "id": "f-0-1-revenue_per_payer",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 1,
         "metric": "revenue_per_payer",
         "value": 12.857143,
@@ -364,7 +491,7 @@
       },
       {
         "id": "f-0-1-cost_per_new_user",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 1,
         "metric": "cost_per_new_user",
         "value": 76.5,
@@ -372,7 +499,7 @@
       },
       {
         "id": "f-0-1-revenue_to_spend",
-        "evidenceId": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
         "rowIndex": 1,
         "metric": "revenue_to_spend",
         "value": 0.147059,
@@ -380,7 +507,7 @@
       },
       {
         "id": "f-1-0-spend",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 0,
         "metric": "spend",
         "value": 192,
@@ -388,7 +515,7 @@
       },
       {
         "id": "f-1-0-new_users",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 0,
         "metric": "new_users",
         "value": 4,
@@ -396,7 +523,7 @@
       },
       {
         "id": "f-1-0-payers",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 0,
         "metric": "payers",
         "value": 4,
@@ -404,7 +531,7 @@
       },
       {
         "id": "f-1-0-revenue",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 0,
         "metric": "revenue",
         "value": 37.5,
@@ -412,7 +539,7 @@
       },
       {
         "id": "f-1-0-payer_rate",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 0,
         "metric": "payer_rate",
         "value": 1,
@@ -420,7 +547,7 @@
       },
       {
         "id": "f-1-0-revenue_per_payer",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 0,
         "metric": "revenue_per_payer",
         "value": 9.375,
@@ -428,7 +555,7 @@
       },
       {
         "id": "f-1-0-cost_per_new_user",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 0,
         "metric": "cost_per_new_user",
         "value": 48,
@@ -436,7 +563,7 @@
       },
       {
         "id": "f-1-0-revenue_to_spend",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 0,
         "metric": "revenue_to_spend",
         "value": 0.195313,
@@ -444,7 +571,7 @@
       },
       {
         "id": "f-1-1-spend",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 1,
         "metric": "spend",
         "value": 384,
@@ -452,7 +579,7 @@
       },
       {
         "id": "f-1-1-new_users",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 1,
         "metric": "new_users",
         "value": 4,
@@ -460,7 +587,7 @@
       },
       {
         "id": "f-1-1-payers",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 1,
         "metric": "payers",
         "value": 3,
@@ -468,7 +595,7 @@
       },
       {
         "id": "f-1-1-revenue",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 1,
         "metric": "revenue",
         "value": 52.5,
@@ -476,7 +603,7 @@
       },
       {
         "id": "f-1-1-payer_rate",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 1,
         "metric": "payer_rate",
         "value": 0.75,
@@ -484,7 +611,7 @@
       },
       {
         "id": "f-1-1-revenue_per_payer",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 1,
         "metric": "revenue_per_payer",
         "value": 17.5,
@@ -492,7 +619,7 @@
       },
       {
         "id": "f-1-1-cost_per_new_user",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 1,
         "metric": "cost_per_new_user",
         "value": 96,
@@ -500,7 +627,7 @@
       },
       {
         "id": "f-1-1-revenue_to_spend",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 1,
         "metric": "revenue_to_spend",
         "value": 0.136719,
@@ -508,7 +635,7 @@
       },
       {
         "id": "f-1-2-spend",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 2,
         "metric": "spend",
         "value": 204,
@@ -516,7 +643,7 @@
       },
       {
         "id": "f-1-2-new_users",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 2,
         "metric": "new_users",
         "value": 4,
@@ -524,7 +651,7 @@
       },
       {
         "id": "f-1-2-payers",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 2,
         "metric": "payers",
         "value": 4,
@@ -532,7 +659,7 @@
       },
       {
         "id": "f-1-2-revenue",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 2,
         "metric": "revenue",
         "value": 37.5,
@@ -540,7 +667,7 @@
       },
       {
         "id": "f-1-2-payer_rate",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 2,
         "metric": "payer_rate",
         "value": 1,
@@ -548,7 +675,7 @@
       },
       {
         "id": "f-1-2-revenue_per_payer",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 2,
         "metric": "revenue_per_payer",
         "value": 9.375,
@@ -556,7 +683,7 @@
       },
       {
         "id": "f-1-2-cost_per_new_user",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 2,
         "metric": "cost_per_new_user",
         "value": 51,
@@ -564,7 +691,7 @@
       },
       {
         "id": "f-1-2-revenue_to_spend",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 2,
         "metric": "revenue_to_spend",
         "value": 0.183824,
@@ -572,7 +699,7 @@
       },
       {
         "id": "f-1-3-spend",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 3,
         "metric": "spend",
         "value": 408,
@@ -580,7 +707,7 @@
       },
       {
         "id": "f-1-3-new_users",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 3,
         "metric": "new_users",
         "value": 4,
@@ -588,7 +715,7 @@
       },
       {
         "id": "f-1-3-payers",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 3,
         "metric": "payers",
         "value": 3,
@@ -596,7 +723,7 @@
       },
       {
         "id": "f-1-3-revenue",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 3,
         "metric": "revenue",
         "value": 52.5,
@@ -604,7 +731,7 @@
       },
       {
         "id": "f-1-3-payer_rate",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 3,
         "metric": "payer_rate",
         "value": 0.75,
@@ -612,7 +739,7 @@
       },
       {
         "id": "f-1-3-revenue_per_payer",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 3,
         "metric": "revenue_per_payer",
         "value": 17.5,
@@ -620,7 +747,7 @@
       },
       {
         "id": "f-1-3-cost_per_new_user",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 3,
         "metric": "cost_per_new_user",
         "value": 102,
@@ -628,7 +755,7 @@
       },
       {
         "id": "f-1-3-revenue_to_spend",
-        "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
         "rowIndex": 3,
         "metric": "revenue_to_spend",
         "value": 0.128676,
@@ -670,6 +797,7 @@
     ],
     "limitations": [
       "进一步解释尚未完全通过审查，当前只确认已查询到的观测变化。",
+      "尚未检查：首次与后续购买收入能拆解已观测收入变化。这些解释尚未排除。",
       "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
       "金额币种与时区未注明，沿用原始时间与样例金额单位",
       "没有广告曝光、点击、预算、素材或真实广告增量",
@@ -685,7 +813,7 @@
     ],
     "charts": [
       {
-        "id": "chart-ev-09696462-c312-4d91-bfa9-efd55cfb6a51-bar-spend",
+        "id": "chart-ev-8d01fca2-18fd-4d07-86c3-4008161be038-bar-spend",
         "version": "1.0.0",
         "type": "bar",
         "title": "首访后14天 · 记录渠道费用",
@@ -700,11 +828,11 @@
         },
         "missingValues": "gap",
         "source": {
-          "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+          "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
           "datasetVersion": "self-authored-fixture-v1",
           "metricVersion": "procrastinate-v1",
           "backend": "fixture",
-          "createdAt": "2026-10-25T22:06:06.584Z",
+          "createdAt": "2026-10-25T22:44:31.837Z",
           "spec": {
             "mode": "cohort",
             "periods": [
@@ -785,7 +913,7 @@
                 },
                 "value": 192,
                 "source": {
-                  "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
                   "rowIndex": 0,
                   "metric": "spend"
                 }
@@ -799,7 +927,7 @@
                 },
                 "value": 384,
                 "source": {
-                  "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
                   "rowIndex": 1,
                   "metric": "spend"
                 }
@@ -821,7 +949,7 @@
                 },
                 "value": 204,
                 "source": {
-                  "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
                   "rowIndex": 2,
                   "metric": "spend"
                 }
@@ -835,7 +963,7 @@
                 },
                 "value": 408,
                 "source": {
-                  "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
                   "rowIndex": 3,
                   "metric": "spend"
                 }
@@ -851,7 +979,7 @@
         ]
       },
       {
-        "id": "chart-ev-09696462-c312-4d91-bfa9-efd55cfb6a51-bar-revenue",
+        "id": "chart-ev-8d01fca2-18fd-4d07-86c3-4008161be038-bar-revenue",
         "version": "1.0.0",
         "type": "bar",
         "title": "首访后14天 · 收入",
@@ -866,11 +994,11 @@
         },
         "missingValues": "gap",
         "source": {
-          "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+          "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
           "datasetVersion": "self-authored-fixture-v1",
           "metricVersion": "procrastinate-v1",
           "backend": "fixture",
-          "createdAt": "2026-10-25T22:06:06.584Z",
+          "createdAt": "2026-10-25T22:44:31.837Z",
           "spec": {
             "mode": "cohort",
             "periods": [
@@ -951,7 +1079,7 @@
                 },
                 "value": 37.5,
                 "source": {
-                  "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
                   "rowIndex": 0,
                   "metric": "revenue"
                 }
@@ -965,7 +1093,7 @@
                 },
                 "value": 52.5,
                 "source": {
-                  "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
                   "rowIndex": 1,
                   "metric": "revenue"
                 }
@@ -987,7 +1115,7 @@
                 },
                 "value": 37.5,
                 "source": {
-                  "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
                   "rowIndex": 2,
                   "metric": "revenue"
                 }
@@ -1001,7 +1129,7 @@
                 },
                 "value": 52.5,
                 "source": {
-                  "evidenceId": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
                   "rowIndex": 3,
                   "metric": "revenue"
                 }
@@ -1021,7 +1149,7 @@
   },
   "evidence": [
     {
-      "id": "ev-92cad227-73cc-4176-98ec-a9beedfe37ae",
+      "id": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
       "datasetVersion": "self-authored-fixture-v1",
       "metricVersion": "procrastinate-v1",
       "spec": {
@@ -1062,8 +1190,8 @@
         "WITH population AS (SELECT u.* FROM public.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN public.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN public.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM public.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201"
       ],
       "queryIds": [
-        "fixture-ab6660bf-e9ac-40ca-9df0-ccf157e2e4c4",
-        "fixture-9f0a7b1b-6773-4fd1-8c70-91dd1d688c58"
+        "fixture-c7eecec2-d451-4a59-bc4e-4a0ab29de3cd",
+        "fixture-c93266e0-d787-4b68-be36-398022958101"
       ],
       "comparisons": [
         {
@@ -1195,12 +1323,12 @@
         "时间为源数据原始时间，金额单位未标注。",
         "spec:747c144ebed5ae2c69637bbd25e2603238b3c609872cab7ab1a4ad9455adf14a"
       ],
-      "createdAt": "2026-10-25T22:06:06.580Z",
-      "durationMs": 8,
+      "createdAt": "2026-10-25T22:44:31.833Z",
+      "durationMs": 9,
       "truncated": false
     },
     {
-      "id": "ev-09696462-c312-4d91-bfa9-efd55cfb6a51",
+      "id": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
       "datasetVersion": "self-authored-fixture-v1",
       "metricVersion": "procrastinate-v1",
       "spec": {
@@ -1243,8 +1371,8 @@
         "WITH population AS (SELECT u.* FROM public.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,u.channel AS channel, '__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN public.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen,u.channel),\nuser_agg AS (SELECT channel, segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY channel, segment),\nsession_agg AS (SELECT u.channel AS channel, '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN public.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.channel),\ncost_agg AS (SELECT c.channel,'__all' AS segment,SUM(c.amount) AS spend_amount FROM public.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) GROUP BY c.channel),\nkeys AS (SELECT channel, segment FROM user_agg UNION SELECT channel, segment FROM session_agg UNION SELECT channel, segment FROM cost_agg) SELECT k.channel, k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.channel=u.channel AND k.segment=u.segment LEFT JOIN session_agg s ON k.channel=s.channel AND k.segment=s.segment LEFT JOIN cost_agg c ON k.channel=c.channel AND k.segment=c.segment ORDER BY k.channel, k.segment LIMIT 201"
       ],
       "queryIds": [
-        "fixture-067dfce1-9632-433a-94f3-3b5b3a1038b0",
-        "fixture-25bcd787-4bc3-46b3-91d9-816dda368529"
+        "fixture-93856029-282e-46be-89c2-63bee5047ca1",
+        "fixture-e4a114f9-c42c-4e9c-9027-afff9ed842a6"
       ],
       "comparisons": [
         {
@@ -1508,7 +1636,7 @@
         "时间为源数据原始时间，金额单位未标注。",
         "spec:f18ac8b5992b58d88e7418b2b4d38906cd24b6928968f51df7804acdec874c89"
       ],
-      "createdAt": "2026-10-25T22:06:06.584Z",
+      "createdAt": "2026-10-25T22:44:31.837Z",
       "durationMs": 4,
       "truncated": false
     }

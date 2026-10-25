@@ -40,6 +40,50 @@ export function explicitConstraints(
   const ranges = [
     ...text.matchAll(/(?:(20\d{2})年)?(1[0-2]|[1-9])月(上旬|中旬|下旬)/g),
   ];
+  // Preserve the requested whole month; maturity clipping belongs in coverage, not intent dates.
+  if (!ranges.length && !/月\s*\d+\s*(?:日|号)/.test(text)) {
+    const monthNames: Record<string, number> = {
+      一: 1,
+      二: 2,
+      三: 3,
+      四: 4,
+      五: 5,
+      六: 6,
+      七: 7,
+      八: 8,
+      九: 9,
+      十: 10,
+      十一: 11,
+      十二: 12,
+    };
+    const months = [
+      ...text.matchAll(
+        /(?:(20\d{2})年)?(1[0-2]|[1-9]|十一|十二|[一二三四五六七八九十])月/g,
+      ),
+    ];
+    if (months.length && months.length <= 2 && next.periods) {
+      const requested = months.map((match) => {
+        const year = Number(match[1] ?? "2019"),
+          month = monthNames[match[2]] ?? Number(match[2]);
+        return {
+          start: new Date(Date.UTC(year, month - 1, 1))
+            .toISOString()
+            .slice(0, 10),
+          end: new Date(Date.UTC(year, month, 1)).toISOString().slice(0, 10),
+        };
+      });
+      next.periods = next.periods.map((period) => {
+        const whole = requested.find(
+          (p) =>
+            p.start === period.start ||
+            p.start.slice(0, 7) === period.start.slice(0, 7),
+        );
+        return whole && period.end <= whole.end
+          ? { ...period, ...whole }
+          : period;
+      });
+    }
+  }
   if (ranges.length && ranges.length <= 2)
     next.periods = ranges.map((match) => {
       const year = match[1] ?? "2019",
@@ -89,9 +133,13 @@ export function explicitConstraints(
         : [],
     };
   }
-  if (/趋势|走势|逐日|每日|daily|weekly|monthly|按天|按周|按月/i.test(text)) {
+  if (
+    /趋势|走势|逐日|逐天|逐周|逐月|每日|每天|每周|每月|daily|weekly|monthly|按天|按周|按月/i.test(
+      text,
+    )
+  ) {
     next.mode = "calendar";
-    next.timeGrain = /逐日|每日|daily|按天|每天/i.test(text)
+    next.timeGrain = /逐日|逐天|每日|daily|按天|每天/i.test(text)
       ? "day"
       : /逐周|每周|weekly|按周/i.test(text)
         ? "week"
@@ -116,11 +164,26 @@ export function explicitConstraints(
     }
   }
   if (
+    next.timeGrain &&
+    !/趋势|走势|逐日|逐天|逐周|逐月|每日|每天|每周|每月|daily|weekly|monthly|按天|按周|按月/i.test(
+      text,
+    )
+  )
+    next.timeGrain = null;
+  if (
     /付费比例|购买用户比例|付费表现|付费情况|payer rate/i.test(text) &&
     next.metrics &&
     !next.metrics.includes("payer_rate")
   )
     next.metrics.push("payer_rate");
+  if (
+    next.audience &&
+    next.mode !== "calendar" &&
+    !/自然月|自然时期|calendar|organic|自然流量|付费渠道|paid channels|全部用户|所有用户|all users|不限.*渠道|所有渠道|全部渠道/i.test(
+      text,
+    )
+  )
+    delete next.audience;
   if (/所有付费渠道|全部付费渠道|all paid channels/i.test(text)) {
     next.audience = "paid";
     next.filters = { ...next.filters, channels: [] };
@@ -152,6 +215,12 @@ export function explicitConstraints(
   if (next.filters?.regions)
     next.filters.regions = next.filters.regions.map((v) => aliases[v] ?? v);
   if (next.metrics) {
+    if (
+      /收入|revenue/i.test(text) &&
+      !/不(?:看|查|分析|统计)[^，。；]*收入/.test(text) &&
+      !next.metrics.includes("revenue")
+    )
+      next.metrics.push("revenue");
     const deps: Record<string, string[]> = {
       payer_rate: ["users", "payers"],
       revenue_per_user: ["revenue", "users"],
@@ -170,7 +239,7 @@ export function explicitConstraints(
 
 export function isScopeOnly(text: string) {
   return (
-    /^(只看|只保留|仅看|仅保留|清除|去掉|观察窗口|窗口|改成|改为|刚才|更正|纠正|only\b|clear\b|change (?:the )?(?:window|period|channel))/i.test(
+    /^(只看|只保留|仅看|仅保留|清除|去掉|观察窗口|窗口|时期|月份|日期|改成|改为|刚才|更正|纠正|only\b|clear\b|change (?:the )?(?:window|period|channel))/i.test(
       text.trim(),
     ) && !/多少|为什么|查询|统计|计算|how|why|what/i.test(text)
   );

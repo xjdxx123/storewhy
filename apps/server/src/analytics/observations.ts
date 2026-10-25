@@ -11,7 +11,14 @@ import { AppError } from "../config.ts";
 export interface Observation extends Finding {
   id: string;
   evidenceId: string;
-  kind: "comparison" | "joint" | "contribution" | "coverage" | "snapshot";
+  kind:
+    | "comparison"
+    | "joint"
+    | "contribution"
+    | "composition"
+    | "ratio"
+    | "coverage"
+    | "snapshot";
   metrics: Metric[];
   focus?: Partial<Record<Dimension, string>>;
 }
@@ -71,6 +78,48 @@ export function observationsFor(
     const mode =
       e.spec.mode === "cohort" ? `首访后${e.spec.windowDays}天` : "自然时期";
     if (e.comparisons.length) {
+      if (
+        !options.query &&
+        ["revenue", "first_purchase_revenue", "repeat_purchase_revenue"].every(
+          (m) => e.spec.metrics.includes(m as Metric),
+        )
+      ) {
+        for (const r of e.comparisons
+          .filter((c) => c.metric === "revenue" && c.delta !== null)
+          .sort((a, b) => Math.abs(b.delta!) - Math.abs(a.delta!))
+          .slice(0, 4)) {
+          const parts = [
+            "first_purchase_revenue",
+            "repeat_purchase_revenue",
+          ].map((metric) =>
+            e.comparisons.find(
+              (c) =>
+                c.metric === metric &&
+                JSON.stringify(c.dimensions) === JSON.stringify(r.dimensions),
+            ),
+          );
+          if (parts.some((c) => !c || c.delta === null)) continue;
+          const [first, repeat] = parts;
+          if (
+            new Decimal(first!.delta!)
+              .plus(repeat!.delta!)
+              .minus(r.delta!)
+              .abs()
+              .greaterThan(0.02)
+          )
+            continue;
+          add(
+            e,
+            "composition",
+            `${segment(r.dimensions)}：${e.spec.periods[1].label}对比${e.spec.periods[0].label}，${mode}收入${sign(r.delta!)}${Math.abs(r.delta!)}；首次购买收入${sign(first!.delta!)}${Math.abs(first!.delta!)}，后续购买收入${sign(repeat!.delta!)}${Math.abs(repeat!.delta!)}。首次与后续是收入构成，不等同于新客与老客。`,
+            [
+              ...bound("revenue", r.dimensions),
+              ...bound("first_purchase_revenue", r.dimensions),
+              ...bound("repeat_purchase_revenue", r.dimensions),
+            ],
+          );
+        }
+      }
       // Joint spend/income observations make the arithmetic explicit without claiming causality.
       const spend = e.comparisons
         .filter((c) => c.metric === "spend" && c.delta !== null)
@@ -102,6 +151,65 @@ export function observationsFor(
           `${segment(c.dimensions)}：${e.spec.periods[1].label}对比${e.spec.periods[0].label}，${mode}口径下，费用${sign(c.delta!)}${Math.abs(c.delta!)}，收入${sign(r.delta!)}${Math.abs(r.delta!)}。${mismatch}`,
           [...bound("spend", c.dimensions), ...bound("revenue", c.dimensions)],
         );
+      }
+      // Ratios of complete channel totals must use amounts, never an average of channel ratios.
+      if (
+        !options.query &&
+        !e.truncated &&
+        e.spec.groupBy.length === 1 &&
+        e.spec.groupBy[0] === "channel" &&
+        e.spec.periods.length === 2
+      ) {
+        const [before, after] = e.spec.periods.map((p) =>
+          e.rows.filter((row) => row.period === p.label),
+        );
+        const complete =
+          before.length > 1 &&
+          before.length === after.length &&
+          before.every((row) =>
+            after.some(
+              (other) => other.dimensions.channel === row.dimensions.channel,
+            ),
+          ) &&
+          [...before, ...after].every(
+            (row) =>
+              row.values.spend !== null &&
+              row.values.spend !== undefined &&
+              row.values.revenue !== null &&
+              row.values.revenue !== undefined,
+          );
+        if (complete) {
+          const totals = [before, after].map((rows) => ({
+            spend: rows.reduce(
+              (s, r) => s.plus(r.values.spend!),
+              new Decimal(0),
+            ),
+            revenue: rows.reduce(
+              (s, r) => s.plus(r.values.revenue!),
+              new Decimal(0),
+            ),
+          }));
+          if (totals.every((t) => t.spend.greaterThan(0))) {
+            const [base, current] = totals.map((t) =>
+              t.revenue.div(t.spend).toDecimalPlaces(6),
+            );
+            const costDelta = totals[1].spend.minus(totals[0].spend).toNumber(),
+              revenueDelta = totals[1].revenue
+                .minus(totals[0].revenue)
+                .toNumber();
+            add(
+              e,
+              "ratio",
+              `所列渠道合计：${e.spec.periods[1].label}对比${e.spec.periods[0].label}，${mode}的收入与记录费用比从${base}变为${current}；费用${sign(costDelta)}${Math.abs(costDelta)}，收入${sign(revenueDelta)}${Math.abs(revenueDelta)}。比值由渠道金额合计计算，不是渠道比值平均，也不代表广告因果增量。`,
+              facts.filter(
+                (f) =>
+                  f.evidenceId === e.id &&
+                  (f.metric === "spend" || f.metric === "revenue"),
+              ),
+              {},
+            );
+          }
+        }
       }
       // Add only complete, additive channel amounts. Rates and cross factors are never summed.
       if (

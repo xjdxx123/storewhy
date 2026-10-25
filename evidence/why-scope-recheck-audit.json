@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-25T22:55:24.718Z",
+  "source": "why-scope-recheck.json",
+  "method": "Deterministic checks of direct answers, explanation status versus paired facts/coverage, and recommendation constraints. Independent CSV verification is recorded separately; human review is still required.",
+  "total": 2,
+  "passed": 2,
+  "records": [
+    {
+      "id": "w6-device",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "w7-region",
+      "status": "completed",
+      "pass": true,
+      "errors": []
+    }
+  ]
+}

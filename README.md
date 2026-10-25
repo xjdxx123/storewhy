@@ -95,3 +95,5 @@ H-MEM 复制自 Meterless 的 Apache-2.0 参考模块，版本与修改见 [UPST
 ## Grounded answers and followups
 
 API 1.2.0 新增 `answer.conclusion/keyEvidence/followups`：具体结论、可展开的关键证据，以及带完整范围和上下文版本的可执行推荐。`client.followup(action)` 沿用 messages API；过期动作返回 409 STALE_CONTEXT。接入见 [回答契约](docs/answer-contract.md)，离线 payload 见 [Answer mock](docs/examples/answer.json)。`npm run docs:answer` 生成样例，`npm run eval:answers` 在运行中的 Live 服务验证真实模型回答与连续追问。
+
+API 1.3.0 增加 Why 的 `answer.explanations`：用实际证据区分观测支持、观测反驳、数据不足与尚未检查。自然月对比、完整月份请求、默认人群与多轮时期修改有范围保护。`npm run eval:why` 保存扩展 Why 与多轮追问结果；`scripts/verify-why-reference.py` 独立核对全部聚合单元格和成熟度。字段与状态含义见 [回答契约](docs/answer-contract.md)。

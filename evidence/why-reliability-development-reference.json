@@ -1,0 +1,8 @@
+{
+  "method": "Independent Python CSV loops and Decimal; verifies all executed aggregate cells and maturity coverage without TS/SQL",
+  "report": "why-reliability-development.json",
+  "cellsChecked": 1080,
+  "uniqueSpecs": 18,
+  "pass": true,
+  "errors": []
+}
