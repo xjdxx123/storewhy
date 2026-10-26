@@ -1,0 +1,7 @@
+# Local laptop profile: bound glibc arena proliferation across Docker vCPUs.
+# This is a mitigation verified by a finite soak, not a proof of root cause.
+services:
+  driver:
+    environment:
+      MALLOC_ARENA_MAX: "2"
+      ZSPARK_DRIVER_MEM: "1g"

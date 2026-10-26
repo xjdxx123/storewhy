@@ -8,6 +8,7 @@ import {
   followupActionSchema,
   expectedContextSchema,
   explanationSchema,
+  runProgressSchema,
 } from "@storewhy/contracts";
 import { settings } from "./config.ts";
 export function openapi() {
@@ -170,6 +171,7 @@ export function openapi() {
         FollowupAction: z.toJSONSchema(followupActionSchema),
         ExpectedContext: z.toJSONSchema(expectedContextSchema),
         Explanation: z.toJSONSchema(explanationSchema),
+        RunProgress: z.toJSONSchema(runProgressSchema),
         Error: {
           type: "object",
           properties: {
@@ -178,6 +180,7 @@ export function openapi() {
               properties: {
                 code: { type: "string" },
                 message: { type: "string" },
+                retryable: { type: "boolean" },
               },
             },
           },

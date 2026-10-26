@@ -1,0 +1,69 @@
+{
+  "at": "2026-10-26T01:57:32.178Z",
+  "reason": "Repeated driver OOM and measured native/thread footprint exceeded the 8 GiB stack headroom",
+  "hostMemoryBytes": 19327352832,
+  "beforeMemoryMiB": 8092,
+  "targetMemoryMiB": 10240,
+  "previousRunningContainers": [
+    "zetaris-driver-1",
+    "storewhy-data",
+    "zetaris-ui-1",
+    "zetaris-api-1",
+    "zetaris-postgres-1",
+    "open-webui"
+  ],
+  "backupCreated": true,
+  "status": "restarted_previous_containers_restored",
+  "actualDockerMemoryBytes": 10416513024,
+  "finalCheckedAt": "2026-10-26T02:14:11.738535+00:00",
+  "finalContainers": [
+    {
+      "name": "zetaris-driver-1",
+      "running": true,
+      "health": "healthy",
+      "startedAt": "2026-10-26T01:57:49.707630125Z",
+      "restartCount": 0,
+      "oomKilled": false
+    },
+    {
+      "name": "storewhy-data",
+      "running": true,
+      "health": "healthy",
+      "startedAt": "2026-10-26T01:57:50.585402542Z",
+      "restartCount": 0,
+      "oomKilled": false
+    },
+    {
+      "name": "zetaris-ui-1",
+      "running": true,
+      "health": "healthy",
+      "startedAt": "2026-10-26T01:57:49.65792775Z",
+      "restartCount": 0,
+      "oomKilled": false
+    },
+    {
+      "name": "zetaris-api-1",
+      "running": true,
+      "health": "healthy",
+      "startedAt": "2026-10-26T01:57:49.664552292Z",
+      "restartCount": 0,
+      "oomKilled": false
+    },
+    {
+      "name": "zetaris-postgres-1",
+      "running": true,
+      "health": "healthy",
+      "startedAt": "2026-10-26T01:57:49.653570791Z",
+      "restartCount": 0,
+      "oomKilled": false
+    },
+    {
+      "name": "open-webui",
+      "running": true,
+      "health": "healthy",
+      "startedAt": "2026-10-26T01:57:49.667509792Z",
+      "restartCount": 0,
+      "oomKilled": false
+    }
+  ]
+}

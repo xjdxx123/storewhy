@@ -1,0 +1,54 @@
+{
+  "method": "Static heuristic only; grounded candidate cap is now 12, presentation remains 6 findings/3 key evidence; live quality gate required",
+  "before": {
+    "token_count": 90,
+    "estimated_cost": null,
+    "model": "default",
+    "clarity_score": 85,
+    "structure_score": 50,
+    "issues": [],
+    "suggestions": [
+      "Add explicit output format: \"Respond in JSON with keys: ...\"",
+      "Consider adding 2-3 few-shot examples for consistent outputs",
+      "Consider adding role context: \"You are an expert...\"",
+      "Add explicit output format specification (e.g., \"Respond in JSON with keys: ...\")"
+    ],
+    "sections": [
+      {
+        "name": "Introduction",
+        "lines": "1-1"
+      }
+    ],
+    "has_examples": false,
+    "example_count": 0,
+    "has_output_format": false,
+    "word_count": 11,
+    "line_count": 1
+  },
+  "after": {
+    "token_count": 97,
+    "estimated_cost": null,
+    "model": "default",
+    "clarity_score": 85,
+    "structure_score": 50,
+    "issues": [],
+    "suggestions": [
+      "Add explicit output format: \"Respond in JSON with keys: ...\"",
+      "Consider adding 2-3 few-shot examples for consistent outputs",
+      "Consider adding role context: \"You are an expert...\"",
+      "Add explicit output format specification (e.g., \"Respond in JSON with keys: ...\")"
+    ],
+    "sections": [
+      {
+        "name": "Introduction",
+        "lines": "1-1"
+      }
+    ],
+    "has_examples": false,
+    "example_count": 0,
+    "has_output_format": false,
+    "word_count": 12,
+    "line_count": 1
+  },
+  "pass": true
+}

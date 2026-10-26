@@ -221,6 +221,13 @@ export function explicitConstraints(
       !next.metrics.includes("revenue")
     )
       next.metrics.push("revenue");
+    if (
+      /(?:^|[，。；、和与及\s])(?:用户数|人数|users)(?:$|[，。；、的和与及\s])|总用户数|总人数|用户总数|number of users/i.test(
+        text,
+      ) &&
+      !next.metrics.includes("users")
+    )
+      next.metrics.push("users");
     const deps: Record<string, string[]> = {
       payer_rate: ["users", "payers"],
       revenue_per_user: ["revenue", "users"],
@@ -324,4 +331,16 @@ export function protectScopePatch(
 
 export function isWhyQuestion(text: string) {
   return /为什么|为何|怎么会|\bwhy\b/i.test(text);
+}
+
+export function isDirectDataRequest(text: string) {
+  if (
+    /为什么|为何|怎么会|原因|解释|导致|归因|影响|因素|根源|成因|\b(?:why|explain|cause|reason|factor|impact)\b/i.test(
+      text,
+    )
+  )
+    return false;
+  return /查询|列出|只列|汇总|分别|多少|\b(?:show|list)\b|how (?:much|many)/i.test(
+    text,
+  );
 }

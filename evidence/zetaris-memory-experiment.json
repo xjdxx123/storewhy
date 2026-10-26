@@ -1,0 +1,55 @@
+{
+  "kind": "sequential_local_resource_mitigation_not_root_cause_proof",
+  "rootCauseProven": false,
+  "before": {
+    "dockerVcpus": 11,
+    "dockerMemoryBytes": 8214716416,
+    "driverHeap": "2g",
+    "MALLOC_ARENA_MAX": "unset",
+    "secondOom": {
+      "time": "2026-10-26T01:20:55Z",
+      "exitCode": 137
+    }
+  },
+  "change": {
+    "MALLOC_ARENA_MAX": "2"
+  },
+  "source": "https://sourceware.org/glibc/manual/latest/html_node/Malloc-Tunable-Parameters.html",
+  "baseline": "runtime-pre-memory-development.json",
+  "validation": {
+    "pass": true,
+    "at": "2026-10-26T02:15:03.279468+00:00",
+    "analyses": 60,
+    "sqlCount": 124,
+    "matchedVerifiedReference": true,
+    "sameContainerStart": true,
+    "maxSampledDriverPercent": 58.89,
+    "source": "zetaris-memory-soak.json",
+    "subsequentChecks": [
+      "14 live metric SQL",
+      "full live browser sequence",
+      "5 fresh live Why runs",
+      "6 demo preflight checks"
+    ],
+    "endDriverMemory": "6.61GiB / 9.701GiB (68.14%)",
+    "allSixContainersHealthy": true,
+    "limit": "Finite observed workload only; native/thread growth and long-term OOM risk are not proven resolved."
+  },
+  "arenaOnlyResult": {
+    "firstSoak": "zetaris-memory-soak-first.json",
+    "largerSoak": "zetaris-arena-only-development.json",
+    "conclusion": "Arena limit alone did not meet the extended load check; failure preserved."
+  },
+  "secondChange": {
+    "ZSPARK_DRIVER_MEM": "2g -> 1g"
+  },
+  "heapOnlyAt8GiBResult": {
+    "source": "zetaris-1g-8gb-development.json",
+    "all124SqlResultsMatched": true,
+    "budgetPass": false
+  },
+  "thirdChange": {
+    "dockerMemoryMiB": "8092 -> 10240",
+    "source": "docker-memory-adjustment.json"
+  }
+}

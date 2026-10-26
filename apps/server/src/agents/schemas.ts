@@ -15,6 +15,7 @@ export const intentSchema = z
       "reset",
     ]),
     patch: contextPatchSchema,
+    initialGroupBy: z.array(dimensionSchema).max(2).nullable().optional(),
     message: z.string().optional(),
   })
   .strict();
@@ -34,7 +35,7 @@ export const toolPatchSchema = z
   .strict();
 export const draftSchema = z
   .object({
-    observationIds: z.array(z.string()).min(1).max(6),
+    observationIds: z.array(z.string()).min(1).max(12),
     headlineObservationId: z.string().optional(),
     hypothesis: z.enum([
       "traffic",

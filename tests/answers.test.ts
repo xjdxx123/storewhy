@@ -517,3 +517,20 @@ it("honors a recommended new metric query even when its message begins with only
   expect(next.answer?.summary).toContain("购买用户比例");
   expect(next.answer?.summary).toContain("%");
 });
+
+it("promotes a queried channel when a general spend/revenue Why headline only repeats the overall comparison", () => {
+  const i = input(),
+    whole = i.observations.find(
+      (o) => o.kind === "joint" && !Object.keys(o.focus ?? {}).length,
+    )!;
+  i.context.taskKind = "why";
+  i.context.objective = "为什么费用与收入变化不同";
+  const a = presentAnswer({
+    ...i,
+    selected: [whole, i.lead],
+    headlineObservationId: whole.id,
+    ready: true,
+  });
+  expect(a.summary).toContain("TipTop");
+  expect(a.conclusion?.factIds).toEqual(i.lead.factIds);
+});

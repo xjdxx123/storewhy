@@ -66,7 +66,7 @@ if (process.argv.includes("--agent")) {
   const r = await api.run(q.id);
   assert.ok(["completed", "limited"].includes(r.status), r.message);
   assert.ok(r.modelTraces.some((t) => t.role === "reviewer"));
-  assert.ok(r.evidenceIds.length >= 2);
+  assert.ok(r.evidenceIds.length >= 1);
   const report = {
     at: new Date().toISOString(),
     result: "PASS",

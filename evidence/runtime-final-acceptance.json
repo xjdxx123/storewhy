@@ -1,0 +1,128 @@
+{
+  "at": "2026-10-26T02:15:03.279468+00:00",
+  "apiVersion": "1.4.0",
+  "pass": true,
+  "scope": "Backend, shared SDK, test-only browser harness and handoff; teammate React UI and team demo remain external acceptance.",
+  "checks": {
+    "unit": {
+      "passed": 150,
+      "files": 15,
+      "source": "runtime-unit-report.json"
+    },
+    "static": {
+      "typecheck": "pass",
+      "lint": "pass",
+      "build": "pass",
+      "diffCheck": "pass"
+    },
+    "why": {
+      "passed": 16,
+      "completed": 14,
+      "limited": 1,
+      "unsupported": 1,
+      "auditPassed": 16,
+      "referenceCells": 1054,
+      "uniqueSpecs": 15,
+      "source": "runtime-why-regression.json"
+    },
+    "legacy": {
+      "coveragePassed": 44,
+      "kind": "composed_coverage_not_a_single_fresh_44_case_run",
+      "firstPassPassed": 43,
+      "firstPassTotal": 44,
+      "firstPassFailure": "MODEL_TIMEOUT on calendar-revenue; successful targeted rerun retained",
+      "targetedPassed": 28,
+      "targetedTotal": 28,
+      "source": "runtime-legacy-coverage.json"
+    },
+    "liveSql": {
+      "count": 14,
+      "pass": true,
+      "source": "live-metrics.json"
+    },
+    "http": {
+      "passed": 6,
+      "completed": 5,
+      "limited": 1,
+      "source": "runtime-http.json"
+    },
+    "browser": {
+      "livePass": true,
+      "fixturePass": true,
+      "livePointsVerified": 60,
+      "allNonNullPointsRendered": true,
+      "reviewerExecutedQuery": true,
+      "consoleErrors": 0,
+      "source": "browser-live.json"
+    },
+    "finiteSoak": {
+      "analyses": 60,
+      "sqlCount": 124,
+      "sameContainerStart": true,
+      "maxSampledDriverPercent": 58.89,
+      "source": "zetaris-memory-soak.json"
+    },
+    "benchmark": {
+      "samples": 5,
+      "medianMs": 24933,
+      "maxMs": 59708,
+      "modelCalls": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "sqlCount": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "repairCalls": 0,
+      "firstEventMs": [
+        9,
+        7,
+        7,
+        8,
+        6
+      ],
+      "sameUserConditions": true,
+      "samePostIntentSpec": false,
+      "platformChangesConfoundTiming": true,
+      "source": "runtime-comparison.json"
+    },
+    "preflight": {
+      "passed": 6,
+      "source": "demo-preflight.json"
+    },
+    "localContainers": {
+      "healthy": 6,
+      "source": "docker-memory-adjustment.json"
+    }
+  },
+  "review": {
+    "method": "Primary-session code and evidence review; no subagent workflow.",
+    "focus": [
+      "Cancellation and late completion isolation",
+      "SSE cursor and reconnect deduplication",
+      "Current followup scope versus historical objective",
+      "Grounded facts and all chart point sources",
+      "Transport failures, JSON validation and bounded retries",
+      "Shared SQL concurrency and finite local resource validation"
+    ],
+    "unresolvedBlockersWithinBackendMvp": []
+  },
+  "notCompleted": [
+    "Teammate React UI route acceptance",
+    "Team three-minute rehearsal and external business acceptance",
+    "Recording, slides and hackathon submission"
+  ],
+  "limits": [
+    "Composed legacy coverage is not a fresh 44/44 first pass.",
+    "Finite memory validation does not establish a root cause or unlimited OOM-free operation.",
+    "Timing is n=5 and includes resource/lifecycle changes, grouping choices and provider variability.",
+    "Remaining optimization commit is local only; initial Why reliability commit 4d55f98 was pushed as requested."
+  ]
+}

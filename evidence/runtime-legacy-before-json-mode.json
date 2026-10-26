@@ -1,0 +1,2990 @@
+{
+  "at": "2026-10-26T00:40:25.044Z",
+  "dataBackend": "zetaris",
+  "model": "Nightshift",
+  "modelId": "nvidia/nemotron-3-ultra-550b-a55b",
+  "datasetVersion": "4c26d29934370408",
+  "stateDir": "/var/folders/6f/1bk6420x15567_wyjvlz1j880000gn/T/storewhy-live-eval-isD7qU",
+  "total": 44,
+  "passed": 39,
+  "records": [
+    {
+      "group": "fixed",
+      "name": "why-spend",
+      "question": "为什么样例中2019年7月比6月费用更多，获客后14天收入却没有相应增长？",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [
+        {
+          "reason": "已有完整的 14 天 cohort 数据（ev-7bd960c0），覆盖 2019-06 与 2019-07 两个完整批次。证据显示：整体费用 +8.99%（+1357.01），收入仅 +0.31%（+42.53），revenue_to_spend 从 0.904 降至 0.832（-7.96%）。渠道层面 TipTop 费用 +25.98%（+1734.6）但收入 -11.70%（-600.84），付费用户 -10.74%，单位新用户成本 +27.57%，是主要拖累项；FaceBoom 费用微降但收入 +14.08%，部分抵消；其余渠道变化较小。数据已足以解释“费用增、收入未增”的结构性原因，无需再查。",
+          "decision": "ready",
+          "issues": [],
+          "query": null
+        }
+      ],
+      "durationMs": 17381,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3254,
+          "inputChars": 6391,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_9rd7s9o0",
+          "outputChars": 403
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1329,
+          "inputChars": 15396,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_gsouqpqu",
+          "outputChars": 172
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3722,
+          "inputChars": 15536,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_i7xv2eiy",
+          "outputChars": 380
+        }
+      ],
+      "runId": "18b22ba3-a4a2-4769-8206-928e13029bc5"
+    },
+    {
+      "group": "fixed",
+      "name": "calendar-revenue",
+      "question": "查询2019年7月所有用户自然月购买收入，不限付费渠道，只要收入汇总。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 9116,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2779,
+          "inputChars": 6389,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_3gm37ysu",
+          "outputChars": 237
+        }
+      ],
+      "runId": "e57b2dfa-4b69-404c-a3d3-54819d570f4d"
+    },
+    {
+      "group": "fixed",
+      "name": "channel-contribution",
+      "question": "比较2019年6月和7月各渠道的新用户14天收入，哪些渠道增加最多？",
+      "pass": false,
+      "errors": [
+        "status:failed:模型返回内容未通过校验，本轮未生成可靠回答。可以重试。",
+        "scope mismatch: {\"mode\":\"cohort\",\"periods\":[{\"label\":\"2019-06\",\"start\":\"2019-06-01\",\"end\":\"2019-07-01\"},{\"label\":\"2019-07\",\"start\":\"2019-07-01\",\"end\":\"2019-08-01\"}],\"windowDays\":14,\"audience\":\"paid\",\"filters\":{\"channels\":[],\"devices\":[],\"regions\":[]},\"groupBy\":[],\"metrics\":[\"spend\",\"new_users\",\"payers\",\"revenue\",\"payer_rate\",\"revenue_per_payer\",\"cost_per_new_user\",\"revenue_to_spend\"]}"
+      ],
+      "status": "failed",
+      "message": "模型返回内容未通过校验，本轮未生成可靠回答。可以重试。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 8211,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 4198,
+          "inputChars": 6388,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_hov67wme",
+          "outputChars": 919
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3922,
+          "inputChars": 7821,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_po2tnm1v",
+          "outputChars": 919
+        }
+      ],
+      "runId": "2f7e9feb-0a27-49bc-86eb-72f1241e40a4"
+    },
+    {
+      "group": "fixed",
+      "name": "first-repeat",
+      "question": "2019年7月自然月收入，首次购买和后续购买分别多少？包含organic。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 7450,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1746,
+          "inputChars": 6391,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_w6wvfexe",
+          "outputChars": 291
+        }
+      ],
+      "runId": "9cd5f55b-c29e-4f63-bc31-1092ef807a86"
+    },
+    {
+      "group": "fixed",
+      "name": "cohort-delay",
+      "question": "查询2019年7月付费渠道新用户，首访后7天的购买用户比例和首次购买平均等待小时。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "payers",
+          "payer_rate",
+          "avg_first_purchase_hours",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 5929,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1272,
+          "inputChars": 6395,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_v1zzw4qc",
+          "outputChars": 285
+        }
+      ],
+      "runId": "76ea6454-9b2c-477e-a5e8-6d78912f7f73"
+    },
+    {
+      "group": "fixed",
+      "name": "device",
+      "question": "2019年7月付费渠道新用户14天内，按首次设备比较iPhone和Android的付费比例与收入，不看广告费用。",
+      "pass": true,
+      "errors": [],
+      "status": "limited",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [
+            "iPhone",
+            "Android"
+          ],
+          "regions": []
+        },
+        "groupBy": [
+          "device"
+        ],
+        "metrics": [
+          "new_users",
+          "payers",
+          "payer_rate",
+          "revenue_per_payer",
+          "revenue",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [
+        {
+          "reason": "证据已完整覆盖问题所需：2019-07 付费渠道新用户 14 天 cohort，按 device(iPhone/Android) 拆分，包含 new_users、payers、payer_rate、revenue_per_payer、revenue。观测显示 iPhone 新用户 5334、付费用户 464、付费率 8.7%、客单价 11.09、收入 5143.76；Android 新用户 3479、付费用户 268、付费率 7.7%、客单价 10.93、收入 2930.46。两设备维度的付费比例与收入均已直接可比，无需再查其他指标或拆分。",
+          "decision": "ready",
+          "issues": [],
+          "query": null
+        }
+      ],
+      "durationMs": 14154,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2400,
+          "inputChars": 6410,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_mm6lfr6q",
+          "outputChars": 388
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 6303,
+          "inputChars": 5173,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_dkcdugru",
+          "outputChars": 157
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2715,
+          "inputChars": 5286,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_adbv4idq",
+          "outputChars": 347
+        }
+      ],
+      "runId": "a7d1f89d-9ca7-41e2-acfd-ef3bc9ba8862"
+    },
+    {
+      "group": "fixed",
+      "name": "monthly-trend",
+      "question": "查询2019年5月至7月所有用户按自然月的收入趋势，包含organic。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": "month",
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-05-06–2019-07",
+            "start": "2019-05-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 15213,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2717,
+          "inputChars": 6390,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_fl2vuu8q",
+          "outputChars": 360,
+          "validationIssues": [
+            {
+              "path": "patch.periods",
+              "code": "too_big"
+            }
+          ]
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1362,
+          "inputChars": 7353,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_n3vumyby",
+          "outputChars": 303
+        }
+      ],
+      "runId": "6ab710a4-9d09-4abf-9237-ca03fd349b9b"
+    },
+    {
+      "group": "fixed",
+      "name": "immature",
+      "question": "只查询2019年10月25日至27日新用户的完整14天收入。",
+      "pass": true,
+      "errors": [],
+      "status": "unsupported",
+      "message": "该时期还没有完整的 14 天随访，请选择更早获客日期或较短窗口",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-10-25_to_27",
+            "start": "2019-10-25",
+            "end": "2019-10-28"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "users"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 1521,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1377,
+          "inputChars": 6384,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_xl5emqm0",
+          "outputChars": 348
+        }
+      ],
+      "runId": "7ca7c337-7494-4163-ab67-f6fa2af7e510"
+    },
+    {
+      "group": "fixed",
+      "name": "clicks",
+      "question": "2019年7月FaceBoom的CTR和CPC分别是多少？",
+      "pass": true,
+      "errors": [],
+      "status": "unsupported",
+      "message": "当前数据不足以回答，请明确时期、指标或可用范围。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 4872,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1628,
+          "inputChars": 6383,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_onqw1l0j",
+          "outputChars": 81,
+          "validationIssues": [
+            {
+              "path": "patch",
+              "code": "unrecognized_keys"
+            }
+          ]
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3087,
+          "inputChars": 6958,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_33dunyoc",
+          "outputChars": 33
+        }
+      ],
+      "runId": "e407a97a-aa0b-41b8-8438-06be37e5f46a"
+    },
+    {
+      "group": "fixed",
+      "name": "device-cost",
+      "question": "计算2019年7月iPhone人群的广告获客费用。",
+      "pass": true,
+      "errors": [],
+      "status": "unsupported",
+      "message": "费用只有渠道×日期粒度，无法按设备或国家计算。可以改为比较付费比例或用户收入。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 13095,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 10266,
+          "inputChars": 6379,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_im47b6pz",
+          "outputChars": 1256
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2684,
+          "inputChars": 8115,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_up4higrv",
+          "outputChars": 332
+        }
+      ],
+      "runId": "dbea932d-57c7-4e16-bbce-dbfe59277b0d"
+    },
+    {
+      "group": "fixed",
+      "name": "real-time",
+      "question": "查询今年这个月的总收入。",
+      "pass": true,
+      "errors": [],
+      "status": "needs_clarification",
+      "message": "当前数据仅覆盖二零一九年五月至十月。请明确样例中的日期，不能将现实的相对日期替换成样例月份。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 156,
+      "models": [],
+      "runId": "9b1f5f1b-79a6-4604-9567-2cb35a239044"
+    },
+    {
+      "group": "fixed",
+      "name": "organic-cost",
+      "question": "organic渠道2019年7月花了多少广告费用？",
+      "pass": true,
+      "errors": [],
+      "status": "unsupported",
+      "message": "organic 未提供费用，不能计算它的广告费用或回报比。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 1978,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1964,
+          "inputChars": 6379,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_bc625amu",
+          "outputChars": 288
+        }
+      ],
+      "runId": "7470d403-ac59-465d-9c36-677f2b51a64a"
+    },
+    {
+      "group": "heldout",
+      "name": "h1",
+      "question": "把样本里二零一九年七月份的账面收入按获客来源列一下，要自然月、全部用户。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 14457,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 6790,
+          "inputChars": 6390,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_mz3wnwei",
+          "outputChars": 249
+        }
+      ],
+      "runId": "a49b23d9-0c0e-46c4-b030-5e1d17d05097"
+    },
+    {
+      "group": "heldout",
+      "name": "h2",
+      "question": "只要FaceBoom，比较六月与七月拉来的用户首周收入与获客人数。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "new_users",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users",
+          "payers",
+          "spend"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 15351,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 4429,
+          "inputChars": 6387,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_4wfixctu",
+          "outputChars": 1019
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2835,
+          "inputChars": 7932,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_vbn4tf63",
+          "outputChars": 448
+        }
+      ],
+      "runId": "df5c8226-c18b-4eda-9af8-519422d84011"
+    },
+    {
+      "group": "heldout",
+      "name": "h3",
+      "question": "2019年七月份UK和France的用户付费情况有什么差别？按首访国家、完整14天，仅行为指标。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": [
+            "UK",
+            "France"
+          ]
+        },
+        "groupBy": [
+          "region"
+        ],
+        "metrics": [
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 5937,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1612,
+          "inputChars": 6402,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_mb9zijyq",
+          "outputChars": 333
+        }
+      ],
+      "runId": "6dee73a3-e816-49ca-98f4-42bf1eb6b1ca"
+    },
+    {
+      "group": "heldout",
+      "name": "h4",
+      "question": "样例2019年七月，在付费用户中，有多少人买过不止一次？给复购比例，用新获客后两周口径。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "payers",
+          "repeat_payer_rate"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 6536,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1580,
+          "inputChars": 6398,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_nanwkti2",
+          "outputChars": 266
+        }
+      ],
+      "runId": "63268217-74e7-4f75-beae-0db9b22f55d4"
+    },
+    {
+      "group": "heldout",
+      "name": "h5",
+      "question": "Can you show daily revenue in July 2019 for all users, including organic?",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": "day",
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 11105,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2978,
+          "inputChars": 6427,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_44ihd14f",
+          "outputChars": 238
+        }
+      ],
+      "runId": "14e4ce8c-0798-49d2-acd3-5ace41d2dbe1"
+    },
+    {
+      "group": "heldout",
+      "name": "h6",
+      "question": "2019年8月TipTop拉来的用户，两周内有多少新用户、多少购买用户、产生多少收入？",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-08",
+            "start": "2019-08-01",
+            "end": "2019-09-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "TipTop"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "payers",
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 7605,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 4002,
+          "inputChars": 6397,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_p7sppnfl",
+          "outputChars": 264
+        }
+      ],
+      "runId": "b992fab5-0eef-49aa-9fdc-716cbffdf15f"
+    },
+    {
+      "group": "heldout",
+      "name": "h7",
+      "question": "样例六月对比七月，为什么收入对广告费的比值下降？请核查渠道结构，只谈观测数据。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [
+        {
+          "reason": "已有完整的 14 天 cohort 数据（ev-742cd3d8），覆盖 2019-06 与 2019-07 两个完整批次，按渠道拆分了 spend、new_users、payers、revenue、payer_rate、revenue_per_payer、cost_per_new_user、revenue_to_spend 等核心指标。证据显示：整体 revenue_to_spend 从 0.904 降至 0.832（-7.96%），费用 +1357.01（+8.99%）而收入仅 +42.53（+0.31%）。渠道层面 TipTop 费用 +25.98%（+1734.6）但收入 -11.70%（-600.84），付费用户 -10.74%，单位新用户成本 +27.57%，是主要拖累项；FaceBoom 费用微降但收入 +14.08%，部分抵消；其余渠道变化较小。数据已足以解释“费用增、收入未增”导致比值下降的结构性原因，无需再查。",
+          "decision": "ready",
+          "issues": [],
+          "query": null
+        }
+      ],
+      "durationMs": 18273,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2756,
+          "inputChars": 6393,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_pxwwkv2k",
+          "outputChars": 534
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2609,
+          "inputChars": 15398,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_0q2callc",
+          "outputChars": 187
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 4489,
+          "inputChars": 15572,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_lw8un7xn",
+          "outputChars": 495
+        }
+      ],
+      "runId": "58525ef7-48ad-45a1-94d9-0c6a5c0d87a9"
+    },
+    {
+      "group": "heldout",
+      "name": "h8",
+      "question": "2019年七月按首次观测设备和国家列收入与人数，别算费用。",
+      "pass": false,
+      "errors": [
+        "missing metrics"
+      ],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "device",
+          "region"
+        ],
+        "metrics": [
+          "new_users",
+          "payers",
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 8981,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 4127,
+          "inputChars": 6383,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_ugpso0ik",
+          "outputChars": 272
+        }
+      ],
+      "runId": "4aa0dfcc-5908-4bb5-bf2a-91c1b912c8d5"
+    },
+    {
+      "group": "heldout",
+      "name": "h9",
+      "question": "帮我找2019年7月哪条广告素材疲劳导致点击率下降。",
+      "pass": true,
+      "errors": [],
+      "status": "unsupported",
+      "message": "当前数据不足以回答，请明确时期、指标或可用范围。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 9432,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3301,
+          "inputChars": 6380,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_f9odzs0u",
+          "outputChars": 85,
+          "validationIssues": [
+            {
+              "path": "patch",
+              "code": "unrecognized_keys"
+            }
+          ]
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 6047,
+          "inputChars": 6959,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_yygyxfd7",
+          "outputChars": 33
+        }
+      ],
+      "runId": "eb45a7e9-5786-4303-89f9-3038accb7eac"
+    },
+    {
+      "group": "heldout",
+      "name": "h10",
+      "question": "把2019年10月下旬用户当成完整两周的成熟批次来算，别告诉我随访不足。",
+      "pass": true,
+      "errors": [],
+      "status": "unsupported",
+      "message": "当前数据不足以回答，请明确时期、指标或可用范围。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 2589,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1752,
+          "inputChars": 6390,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_odjl7sct",
+          "outputChars": 146,
+          "validationIssues": [
+            {
+              "path": "patch",
+              "code": "unrecognized_keys"
+            }
+          ]
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 729,
+          "inputChars": 7030,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_p59xal3q",
+          "outputChars": 33
+        }
+      ],
+      "runId": "68c14376-704c-42fc-af31-e95f41a66b16"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-1",
+      "question": "只列FaceBoom在2019年八月份新获得的用户，一星期内入账多少？",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-08",
+            "start": "2019-08-01",
+            "end": "2019-09-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 6074,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1723,
+          "inputChars": 6389,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_pg7tyc5j",
+          "outputChars": 256
+        }
+      ],
+      "runId": "d78a7df0-e5a0-4424-938c-c356439ba6fb"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-2",
+      "question": "列出2019年六月按周汇总的访问次数和购买收入，organic也算上。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": "week",
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "sessions",
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 32526,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 25728,
+          "inputChars": 6389,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_6sf61zv9",
+          "outputChars": 250
+        }
+      ],
+      "runId": "7ddfa60a-74e2-406b-9ec2-92e562e0477c"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-3",
+      "question": "2019年九月新获客后两星期，按首次设备比较Android与PC的购买用户比例，只分析行为。",
+      "pass": true,
+      "errors": [],
+      "status": "limited",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-09",
+            "start": "2019-09-01",
+            "end": "2019-10-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [
+            "Android",
+            "PC"
+          ],
+          "regions": []
+        },
+        "groupBy": [
+          "device"
+        ],
+        "metrics": [
+          "new_users",
+          "payers",
+          "payer_rate",
+          "revenue_per_payer",
+          "users",
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [
+        {
+          "reason": "证据已完整覆盖问题所需：2019-09 付费渠道新用户 14 天 cohort，按 device(Android/PC) 拆分，包含 new_users、payers、payer_rate。观测显示 Android 新用户 3989、付费用户 356、付费率 8.92%；PC 新用户 3581、付费用户 228、付费率 6.37%。两设备维度的购买用户比例已直接可比，无需再查其他指标或拆分。",
+          "decision": "ready",
+          "issues": [],
+          "query": null
+        }
+      ],
+      "durationMs": 12153,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2830,
+          "inputChars": 6400,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_eo5etkan",
+          "outputChars": 375
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1526,
+          "inputChars": 5126,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_uhqypbgl",
+          "outputChars": 157
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1895,
+          "inputChars": 5239,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_ewzebnfi",
+          "outputChars": 271
+        }
+      ],
+      "runId": "959efdf3-8c95-4487-b9cc-2cc4d2d0254f"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-4",
+      "question": "以2019-06-01到2019-07-01首次出现为批次，只看UK的用户，观察七日内收入，不计算成本。",
+      "pass": true,
+      "errors": [],
+      "status": "limited",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": [
+            "UK"
+          ]
+        },
+        "groupBy": [
+          "region"
+        ],
+        "metrics": [
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [
+        {
+          "reason": "证据已完整覆盖问题所需：2019-06 付费渠道新用户 7 天 cohort，仅 UK 地区，包含 new_users(1844)、payers(87)、revenue(879.37)、payer_rate(4.72%)、revenue_per_payer(10.11)。观测 o-0/o-1/o-2 直接给出三个核心指标，无需再查其他指标或拆分。",
+          "decision": "ready",
+          "issues": [],
+          "query": null
+        }
+      ],
+      "durationMs": 11842,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2265,
+          "inputChars": 6406,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_xvdpt1gb",
+          "outputChars": 375
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2014,
+          "inputChars": 4329,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_c037xd4y",
+          "outputChars": 136
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1973,
+          "inputChars": 4394,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_f6cxp343",
+          "outputChars": 248
+        }
+      ],
+      "runId": "d136ae5e-0b2f-4aa4-9a58-05624888233a"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-5",
+      "question": "2019年八月全部用户自然月有多少购买事件？把首笔和非首笔购买产生的收入拆开。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-08",
+            "start": "2019-08-01",
+            "end": "2019-09-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "purchases",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 20671,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 14335,
+          "inputChars": 6393,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_13slftdb",
+          "outputChars": 290
+        }
+      ],
+      "runId": "aa6ca9c3-a788-4fed-8e54-d87aeb5352f7"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-6",
+      "question": "二零一九年七月，RocketSuperAds与YRabbit获得的新客，两周内收入和新客数分别是多少？",
+      "pass": false,
+      "errors": [
+        "status:failed:模型返回内容未通过校验，本轮未生成可靠回答。可以重试。",
+        "scope mismatch: {\"mode\":\"cohort\",\"periods\":[{\"label\":\"2019-06\",\"start\":\"2019-06-01\",\"end\":\"2019-07-01\"},{\"label\":\"2019-07\",\"start\":\"2019-07-01\",\"end\":\"2019-08-01\"}],\"windowDays\":14,\"audience\":\"paid\",\"filters\":{\"channels\":[],\"devices\":[],\"regions\":[]},\"groupBy\":[],\"metrics\":[\"spend\",\"new_users\",\"payers\",\"revenue\",\"payer_rate\",\"revenue_per_payer\",\"cost_per_new_user\",\"revenue_to_spend\"]}"
+      ],
+      "status": "failed",
+      "message": "模型返回内容未通过校验，本轮未生成可靠回答。可以重试。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 9285,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 7049,
+          "inputChars": 6405,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_hl3uqs0e",
+          "outputChars": 772
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2133,
+          "inputChars": 7669,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_666o8l18",
+          "outputChars": 385,
+          "validationIssues": [
+            {
+              "path": "patch",
+              "code": "unrecognized_keys"
+            }
+          ]
+        }
+      ],
+      "runId": "da05edfc-ed59-42d4-9257-c8f371f8bb32"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-7",
+      "question": "2019年七月份首次访问的用户，十四天内哪个首次国家的用户收入最高？按国家列出。",
+      "pass": true,
+      "errors": [],
+      "status": "limited",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "region"
+        ],
+        "metrics": [
+          "new_users",
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [
+        {
+          "reason": "已有 2019-07 cohort（首访后 14 天）按 region 拆分的完整 revenue 与 new_users 数据：United States 10,256.41、UK 1,257.95、France 1,239.62、Germany 934.14。证据直接回答“哪个首次国家的用户收入最高”，无需再查。",
+          "decision": "ready",
+          "issues": [
+            "金额单位未标注，仅可做相对比较"
+          ],
+          "query": null
+        }
+      ],
+      "durationMs": 20224,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 5173,
+          "inputChars": 6394,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_28ddg2eu",
+          "outputChars": 355,
+          "validationIssues": [
+            {
+              "path": "patch",
+              "code": "unrecognized_keys"
+            }
+          ]
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3116,
+          "inputChars": 7341,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_wzetow4c",
+          "outputChars": 252
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1530,
+          "inputChars": 5357,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_v87ffghg",
+          "outputChars": 123
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 4082,
+          "inputChars": 5438,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_b7kuunsx",
+          "outputChars": 233
+        }
+      ],
+      "runId": "ea6b0def-85d7-432f-9808-4d5274340b9a"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-8",
+      "question": "查看样本2019年六月到八月每月收入的走势，把自然流量也包括在内。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": "month",
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-06–2019-08",
+            "start": "2019-06-01",
+            "end": "2019-09-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 14600,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1563,
+          "inputChars": 6387,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_5jjvsxdz",
+          "outputChars": 360,
+          "validationIssues": [
+            {
+              "path": "patch.periods",
+              "code": "too_big"
+            }
+          ]
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3634,
+          "inputChars": 7350,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_xk0dnjf9",
+          "outputChars": 300
+        }
+      ],
+      "runId": "a50d7663-f20c-4f9f-a691-a4d5cbb0071c"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-9",
+      "question": "请证明这个平台多投广告一定会带来增量销售。",
+      "pass": true,
+      "errors": [],
+      "status": "unsupported",
+      "message": "当前数据不足以回答，请明确时期、指标或可用范围。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 4274,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2332,
+          "inputChars": 6375,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_gm1c6ksp",
+          "outputChars": 145,
+          "validationIssues": [
+            {
+              "path": "patch",
+              "code": "unrecognized_keys"
+            }
+          ]
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1806,
+          "inputChars": 7014,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_szgbjpfl",
+          "outputChars": 33
+        }
+      ],
+      "runId": "b478eea6-31aa-4eb1-b8f7-20dd7f8a3dcd"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-10",
+      "question": "估算2019年八月iPhone用户对应的广告投放支出。",
+      "pass": false,
+      "errors": [
+        "status:failed:模型响应超时，本轮未生成新的回答。可以稍后重试。"
+      ],
+      "status": "failed",
+      "message": "模型响应超时，本轮未生成新的回答。可以稍后重试。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 31177,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1141,
+          "inputChars": 6381,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_qzlhsupu",
+          "outputChars": 109,
+          "validationIssues": [
+            {
+              "path": "patch",
+              "code": "unrecognized_keys"
+            }
+          ]
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "unresolved",
+          "durationMs": 30005,
+          "inputChars": 6984,
+          "attempt": 1,
+          "status": "timeout"
+        }
+      ],
+      "runId": "a7d7eb4e-8398-42ba-ac45-8d2ad4ef7a9b"
+    },
+    {
+      "group": "followup-0",
+      "name": "why-spend",
+      "question": "为什么样例中2019年7月比6月费用更多，获客后14天收入却没有相应增长？",
+      "pass": false,
+      "errors": [
+        "status:failed:模型返回内容未通过校验，本轮未生成可靠回答。可以重试。"
+      ],
+      "status": "failed",
+      "message": "模型返回内容未通过校验，本轮未生成可靠回答。可以重试。",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend"
+        ]
+      },
+      "evidenceCount": 0,
+      "queryCount": 0,
+      "reviewDecisions": [],
+      "durationMs": 20543,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 13969,
+          "inputChars": 6391,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_eayluxnv",
+          "outputChars": 1365
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 6568,
+          "inputChars": 8291,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_4akvqrl3",
+          "outputChars": 667
+        }
+      ],
+      "runId": "08fc0d76-2abe-4fe2-891c-fff01815f2da"
+    },
+    {
+      "group": "followup-0",
+      "name": "a-channel",
+      "question": "只看FaceBoom。",
+      "pass": true,
+      "errors": [],
+      "status": "limited",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [
+        {
+          "reason": "用户提问前提与实际数据矛盾：证据显示2019-07费用5294.3低于2019-06的5501.1（-3.76%），收入却从3830.09增至4369.51（+14.08%），即费用下降而收入上升。问题问“费用更多、收入未增”不成立。已有FaceBoom整体汇总数据（availableAnalyses含groupBy:[]），无渠道/设备/地区拆分，但因前提错误，追加拆分也无法回答原问题。",
+          "decision": "limited",
+          "issues": [
+            "提问前提与观测事实矛盾：7月费用较6月减少，收入反而增加",
+            "仅有FaceBoom整体汇总，无子维度拆分，但因前提错误不需补充查询",
+            "金额单位未标注，无法做绝对金额业务判断",
+            "14天窗口可能未完全捕获7月新用户后续付费（如首购周期更长）"
+          ],
+          "query": null
+        }
+      ],
+      "durationMs": 34966,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 15370,
+          "inputChars": 6365,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_z7w9loy1",
+          "outputChars": 1037
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 6956,
+          "inputChars": 7928,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_o86md92d",
+          "outputChars": 517
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1522,
+          "inputChars": 6536,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_c9aw6w2j",
+          "outputChars": 438
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2192,
+          "inputChars": 6932,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_0btnxkfa",
+          "outputChars": 417
+        }
+      ],
+      "runId": "0039ebea-f8cd-47c5-ac9a-4c9013b42f4a"
+    },
+    {
+      "group": "followup-0",
+      "name": "a-window",
+      "question": "观察窗口改成7天，其他不变。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [
+        {
+          "reason": "证据已完整回答问题：在FaceBoom渠道、cohort模式、7天观察窗口下，2019-07对比2019-06，费用从5501.1降至5294.3（-3.76%），收入从3560.53增至4116.01（+15.60%），新用户数微降（-3.49%），付费用户数微增（+1.45%），付费率、客单价、ROI均显著改善。availableAnalyses仅含整体汇总，但问题仅要求看FaceBoom整体，无需渠道/设备/地区拆分。",
+          "decision": "ready",
+          "issues": [
+            "金额单位未标注，无法做绝对金额业务判断",
+            "7天窗口可能未完全捕获7月新用户后续付费（如首购周期更长）",
+            "仅为观测比较，非广告因果增量或利润分析"
+          ],
+          "query": null
+        }
+      ],
+      "durationMs": 14458,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 869,
+          "inputChars": 6429,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_j2l0jai5",
+          "outputChars": 41
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3637,
+          "inputChars": 6563,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_4vukacp1",
+          "outputChars": 438
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3105,
+          "inputChars": 6959,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_f021l05i",
+          "outputChars": 381
+        }
+      ],
+      "runId": "7fa38b39-1c08-4e1f-9768-bc33034c52f7"
+    },
+    {
+      "group": "followup-0",
+      "name": "a-clear",
+      "question": "清除渠道限制，看全部付费渠道，窗口不变。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "evidenceCount": 2,
+      "queryCount": 2,
+      "reviewDecisions": [
+        {
+          "reason": "现有证据仅为整体汇总数据（availableAnalyses 仅含无 groupBy 的整体查询），无法定位费用上涨与收入未增的具体渠道原因。草稿中的 nextSteps 明确要求按渠道拆解对比 spend、new_users、cost_per_new_user、payer_rate、revenue_per_payer、revenue_to_spend，而当前未执行过渠道拆分。需补充渠道维度查询以识别效率下降的主要渠道。",
+          "decision": "needs_query",
+          "issues": [
+            "仅有汇总层面数据，无法判断具体渠道、设备或地区的结构变化",
+            "14天窗口可能未完全捕获7月新用户的后续付费（如首购周期更长）",
+            "未区分新老用户贡献，cohort模式下revenue仅含首访后14天内收入",
+            "费用与收入币种单位未标注，无法进行绝对金额业务判断"
+          ],
+          "query": {
+            "metrics": [
+              "spend",
+              "new_users",
+              "payers",
+              "revenue",
+              "payer_rate",
+              "revenue_per_payer",
+              "cost_per_new_user",
+              "revenue_to_spend"
+            ],
+            "groupBy": [
+              "channel"
+            ],
+            "filters": {
+              "channels": [],
+              "devices": [],
+              "regions": []
+            }
+          }
+        },
+        {
+          "reason": "已有按渠道拆分的完整观测（availableAnalyses 含 groupBy=[channel]），覆盖 spend/new_users/payers/revenue/payer_rate/revenue_per_payer/cost_per_new_user/revenue_to_spend。证据显示：FaceBoom 2019-07 对比 2019-06，spend -3.76%（-206.8），new_users -3.49%（-172），payers +1.45%（+8），revenue +15.60%（+555.48），payer_rate 从 11.19% 升至 11.76%，revenue_per_payer 从 6.46 降至 7.36，cost_per_new_user 基本持平，revenue_to_spend 从 0.647 升至 0.777。整体付费渠道合计 spend +8.99%，revenue +4.48%，revenue_to_spend 下降 4.14%，主要受 TipTop 拖累。FaceBoom 表现优于整体，费用下降而收入显著上升，效率指标改善。证据充分，无需再查询。",
+          "decision": "ready",
+          "issues": [],
+          "query": null
+        }
+      ],
+      "durationMs": 27698,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 686,
+          "inputChars": 6437,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_29znl0xb",
+          "outputChars": 52
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1781,
+          "inputChars": 6504,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_lqtn819n",
+          "outputChars": 502
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3216,
+          "inputChars": 6841,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_ttc5tjsy",
+          "outputChars": 764
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2813,
+          "inputChars": 18556,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_ytjap732",
+          "outputChars": 153
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3027,
+          "inputChars": 18314,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_gg611g3l",
+          "outputChars": 570
+        }
+      ],
+      "runId": "bc9748ed-804d-4bda-ba1b-e1923426afb0"
+    },
+    {
+      "group": "followup-1",
+      "name": "calendar-revenue",
+      "question": "查询2019年7月所有用户自然月购买收入，不限付费渠道，只要收入汇总。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 18996,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 12983,
+          "inputChars": 6389,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_8w1x0ljh",
+          "outputChars": 237
+        }
+      ],
+      "runId": "06d27d56-d8cb-4104-a641-10b904a08e79"
+    },
+    {
+      "group": "followup-1",
+      "name": "b-period",
+      "question": "只保留2019年6月，自然月。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 8213,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2364,
+          "inputChars": 6272,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_mqlzc8y9",
+          "outputChars": 298
+        }
+      ],
+      "runId": "19d57062-3a96-4c46-bcea-86f826a98c96"
+    },
+    {
+      "group": "followup-1",
+      "name": "b-country",
+      "question": "只看首次观测国家是France的用户，其他不变。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": [
+            "France"
+          ]
+        },
+        "groupBy": [],
+        "metrics": [
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 5630,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1398,
+          "inputChars": 6261,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_qdewic63",
+          "outputChars": 282
+        }
+      ],
+      "runId": "a465901d-3c0b-45a2-b9e2-75f9de41d61b"
+    },
+    {
+      "group": "followup-1",
+      "name": "b-clear",
+      "question": "清除国家筛选。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "calendar",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "all",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "revenue"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 8509,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3703,
+          "inputChars": 6263,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_7icv2ddj",
+          "outputChars": 306
+        }
+      ],
+      "runId": "b3d851ed-3c75-4027-bf35-7549342a56ca"
+    },
+    {
+      "group": "followup-2",
+      "name": "c-start",
+      "question": "查询2019年6月付费渠道新用户完整14天收入。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 7170,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2538,
+          "inputChars": 6378,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_tiq23kvq",
+          "outputChars": 340
+        }
+      ],
+      "runId": "b52fa31b-7b8d-47b4-92bb-5f3544f91912"
+    },
+    {
+      "group": "followup-2",
+      "name": "c-channel",
+      "question": "只保留TipTop。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "TipTop"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 5321,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1894,
+          "inputChars": 6371,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_if16boj9",
+          "outputChars": 356
+        }
+      ],
+      "runId": "ad9d4075-90f2-4b54-8f79-96ddeccb35aa"
+    },
+    {
+      "group": "followup-2",
+      "name": "c-correct",
+      "question": "刚才月份写错了，改成2019年7月，渠道和窗口都保持。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "TipTop"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 5324,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1562,
+          "inputChars": 6384,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_q2v02d7v",
+          "outputChars": 356
+        }
+      ],
+      "runId": "bb42be3d-a5c6-4bc7-abcc-87811b3f08a9"
+    },
+    {
+      "group": "followup-2",
+      "name": "c-reset",
+      "question": "开始新分析：查询2019年8月所有付费渠道的新用户14天收入。",
+      "pass": true,
+      "errors": [],
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-08",
+            "start": "2019-08-01",
+            "end": "2019-09-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "users"
+        ]
+      },
+      "evidenceCount": 1,
+      "queryCount": 1,
+      "reviewDecisions": [],
+      "durationMs": 6534,
+      "models": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1605,
+          "inputChars": 6385,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_emtgw92e",
+          "outputChars": 340
+        }
+      ],
+      "runId": "34d0783f-85f0-4017-9b35-cb23a346f181"
+    }
+  ]
+}

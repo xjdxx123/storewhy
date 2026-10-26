@@ -84,6 +84,9 @@ async function check(
     durationMs: Date.now() - start,
     question: run.question,
     context: run.context,
+    progress: run.progress,
+    timing: run.timing,
+    error: run.error,
     answer: {
       ...a,
       facts: a.facts.filter((f) => referenced.has(f.id)),

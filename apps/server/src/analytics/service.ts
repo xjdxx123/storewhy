@@ -74,9 +74,32 @@ export class Analytics {
     const sql: string[] = [];
     const queryIds: string[] = [];
     const coverage: Evidence["coverage"] = [];
-    for (const period of spec.periods) {
-      const compiled = compilePeriod(spec, period, this.prefix);
-      const result = await this.backend.execute(compiled.sql, signal);
+    signal?.throwIfAborted();
+    // The two periods are independent. Compile all scopes before dispatch and merge in request order.
+    const planned = spec.periods.map((period) => ({
+      period,
+      compiled: compilePeriod(spec, period, this.prefix),
+    }));
+    const controller = new AbortController();
+    const querySignal = signal
+      ? AbortSignal.any([signal, controller.signal])
+      : controller.signal;
+    const results = await Promise.all(
+      planned.map(async ({ period, compiled }) => {
+        try {
+          const result = await this.backend.execute(compiled.sql, querySignal);
+          const excluded = compiled.excludedSql
+            ? await this.backend.execute(compiled.excludedSql, querySignal)
+            : undefined;
+          return { period, compiled, result, excluded };
+        } catch (error) {
+          controller.abort(error);
+          throw error;
+        }
+      }),
+    );
+    signal?.throwIfAborted();
+    for (const { period, compiled, result, excluded } of results) {
       sql.push(compiled.sql);
       queryIds.push(result.queryId);
       if (result.truncated || result.rows.length >= 201)
@@ -123,7 +146,7 @@ export class Analytics {
         );
       let excludedUsers = 0;
       if (compiled.excludedSql) {
-        const ex = await this.backend.execute(compiled.excludedSql, signal);
+        const ex = excluded!;
         sql.push(compiled.excludedSql);
         queryIds.push(ex.queryId);
         if (

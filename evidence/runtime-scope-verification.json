@@ -1,0 +1,234 @@
+{
+  "kind": "saved_real_followup_review_comparison_not_model_self_grading",
+  "before": "runtime-scope-prompt-development.json",
+  "after": "runtime-why-regression.json",
+  "pass": true,
+  "records": [
+    {
+      "id": "f1-window",
+      "sameHistoricalObjective": true,
+      "currentWindowDays": 7,
+      "before": {
+        "runId": "983b1e34-8b55-4faa-a662-633042ea03f1",
+        "status": "limited",
+        "reviews": [
+          {
+            "reason": "问题要求对比首访后14天窗口下的revenue_to_spend变化并检验渠道构成，但当前证据仅覆盖7天观测窗口（windowDays=7），且availableAnalyses仅含7天数据。缺少14天窗口下的同指标、同渠道汇总，无法回答14天口径的变化原因。",
+            "decision": "needs_query",
+            "issues": [
+              "现有证据仅为7天窗口，问题要求14天窗口对比",
+              "缺少14天窗口下的spend、revenue、payer_rate、revenue_per_payer等关键指标",
+              "无法在14天口径下验证渠道构成变化对revenue_to_spend的影响"
+            ],
+            "query": {
+              "metrics": [
+                "spend",
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend"
+              ],
+              "groupBy": [
+                "channel"
+              ],
+              "filters": {
+                "channels": [
+                  "TipTop"
+                ],
+                "devices": [],
+                "regions": []
+              }
+            }
+          },
+          {
+            "reason": "问题要求对比首访后14天窗口下的revenue_to_spend变化并检验渠道构成，但当前证据仅覆盖7天观测窗口（windowDays=7），且availableAnalyses仅含7天数据。缺少14天窗口下的同指标、同渠道汇总，无法回答14天口径的变化原因。",
+            "decision": "needs_query",
+            "issues": [
+              "现有证据仅为7天窗口，问题要求14天窗口对比",
+              "缺少14天窗口下的spend、revenue、payer_rate、revenue_per_payer等关键指标",
+              "无法在14天口径下验证渠道构成变化对revenue_to_spend的影响"
+            ],
+            "query": {
+              "metrics": [
+                "spend",
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend"
+              ],
+              "groupBy": [
+                "channel"
+              ],
+              "filters": {
+                "channels": [
+                  "TipTop"
+                ],
+                "devices": [],
+                "regions": []
+              }
+            }
+          },
+          {
+            "reason": "问题要求对比首访后14天窗口下的revenue_to_spend变化并检验渠道构成，但当前证据仅覆盖7天观测窗口（windowDays=7），且availableAnalyses仅含7天数据。缺少14天窗口下的同指标、同渠道汇总，无法回答14天口径的变化原因。",
+            "decision": "needs_query",
+            "issues": [
+              "现有证据仅为7天窗口，问题要求14天窗口对比",
+              "缺少14天窗口下的spend、revenue、payer_rate、revenue_per_payer等关键指标",
+              "无法在14天口径下验证渠道构成变化对revenue_to_spend的影响"
+            ],
+            "query": {
+              "metrics": [
+                "spend",
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend"
+              ],
+              "groupBy": [
+                "channel"
+              ],
+              "filters": {
+                "channels": [
+                  "TipTop"
+                ],
+                "devices": [],
+                "regions": []
+              }
+            }
+          }
+        ]
+      },
+      "after": {
+        "runId": "73c72460-c9eb-4ff6-aaf6-176c040bf6aa",
+        "status": "completed",
+        "reviews": [
+          {
+            "reason": "证据 ev-55325e53-6068-4df0-a132-039e32ef89b5 已完整覆盖 scope：cohort 模式、paid 受众、windowDays=7、渠道 TipTop、两个月份（2019-05 与 2019-06），并提供了全部所需指标（spend、new_users、payers、revenue、first_purchase_revenue、repeat_purchase_revenue、payer_rate、revenue_per_payer、cost_per_new_user、revenue_to_spend）且按 channel 分组。观测 o-0 至 o-11 已给出收入构成、费用/收入变化率、新用户/付费用户/付费率/客单价/获客成本/ROI 等关键对比，足以解释 revenue_to_spend 下降 32.15% 的原因：费用增速（+123.9%）远超收入增速（+51.9%），主要受 cost_per_new_user 上升 53.1% 与 revenue_per_payer 下降 7.0% 共同驱动；渠道构成固定为单一 TipTop，无需进一步拆分。",
+            "decision": "ready",
+            "issues": [],
+            "query": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "f1-clear",
+      "sameHistoricalObjective": true,
+      "currentWindowDays": 7,
+      "before": {
+        "runId": "80c36e1c-e0aa-4bb7-a68c-072a2e115d5c",
+        "status": "limited",
+        "reviews": [
+          {
+            "reason": "用户询问的是首访后14天窗口（windowDays=14）的收入与广告费用比变化及渠道构成检验，但现有证据仅覆盖7天窗口（windowDays=7）。虽然availableAnalyses已包含按channel分组的完整指标集，但窗口不匹配，无法直接回答14天口径的问题。需发起新查询，将windowDays从7改为14，其余参数（cohort模式、2019-05/2019-06期间、paid受众、无渠道筛选、按channel分组）保持一致。",
+            "decision": "needs_query",
+            "issues": [
+              "现有证据窗口为7天，用户问题要求14天窗口，窗口不匹配",
+              "需重新查询14天窗口数据以验证渠道构成变化对收入费用比的影响"
+            ],
+            "query": {
+              "metrics": [
+                "spend",
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend",
+                "users"
+              ],
+              "groupBy": [
+                "channel"
+              ],
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": []
+              }
+            }
+          },
+          {
+            "reason": "用户询问的是首访后14天窗口（windowDays=14）的收入与广告费用比变化及渠道构成检验，但现有证据仅覆盖7天窗口（windowDays=7）。虽然availableAnalyses已包含按channel分组的完整指标集，但窗口不匹配，无法直接回答14天口径的问题。需发起新查询，将windowDays从7改为14，其余参数（cohort模式、2019-05/2019-06期间、paid受众、无渠道筛选、按channel分组）保持一致。",
+            "decision": "needs_query",
+            "issues": [
+              "现有证据窗口为7天，用户问题要求14天窗口，窗口不匹配",
+              "需重新查询14天窗口数据以验证渠道构成变化对收入费用比的影响"
+            ],
+            "query": {
+              "metrics": [
+                "spend",
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend",
+                "users"
+              ],
+              "groupBy": [
+                "channel"
+              ],
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": []
+              }
+            }
+          },
+          {
+            "reason": "用户询问的是首访后14天窗口（windowDays=14）的收入与广告费用比变化及渠道构成检验，但现有证据仅覆盖7天窗口（windowDays=7）。虽然availableAnalyses已包含按channel分组的完整指标集，但窗口不匹配，无法直接回答14天口径的问题。需发起新查询，将windowDays从7改为14，其余参数（cohort模式、2019-05/2019-06期间、paid受众、无渠道筛选、按channel分组）保持一致。",
+            "decision": "needs_query",
+            "issues": [
+              "现有证据窗口为7天，用户问题要求14天窗口，窗口不匹配",
+              "需重新查询14天窗口数据以验证渠道构成变化对收入费用比的影响"
+            ],
+            "query": {
+              "metrics": [
+                "spend",
+                "new_users",
+                "payers",
+                "revenue",
+                "payer_rate",
+                "revenue_per_payer",
+                "cost_per_new_user",
+                "revenue_to_spend",
+                "users"
+              ],
+              "groupBy": [
+                "channel"
+              ],
+              "filters": {
+                "channels": [],
+                "devices": [],
+                "regions": []
+              }
+            }
+          }
+        ]
+      },
+      "after": {
+        "runId": "01e73f43-6cdd-441e-a967-f97b5581c54b",
+        "status": "completed",
+        "reviews": [
+          {
+            "reason": "证据 ev-a2922113-43b3-4510-b4ac-54dce254ed45 完全覆盖问题范围：cohort 模式、2019-05/2019-06 两个首访批次、windowDays=7、paid 受众、无渠道筛选、按 channel 分组、包含全部所需指标。观测 o-8 给出全渠道合计 revenue_to_spend 从 0.85787 降至 0.678527，费用增 5111.48、收入增 1678.69；o-9/o-10 量化渠道费用/收入贡献，TipTop 费用增 3694.6（占 72%），FaceBoom 收入增 1226.93（占 73%）；o-11/o-12/o-13/o-14/o-27 显示 TipTop 费用增 124%、新用户仅增 46%、单位新用户成本增 53%，FaceBoom 费用增 56%、新用户增 55%、单位成本基本持平；o-15/o-16/o-17/o-18/o-19/o-20/o-21 给出付费用户与首次/后续收入明细。以上证据已足以解释比值下降的主因：渠道构成向低 ROI 的 TipTop 倾斜，且 TipTop 单位获客成本大幅上升。无需补查。",
+            "decision": "ready",
+            "issues": [],
+            "query": null
+          }
+        ]
+      }
+    }
+  ]
+}

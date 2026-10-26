@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CONTRACT_VERSION = "1.3.0";
+export const CONTRACT_VERSION = "1.4.0";
 export const METRIC_VERSION = "procrastinate-v1";
 export const metricSchema = z.enum([
   "spend",
@@ -319,9 +319,47 @@ export interface InvestigationContext {
   taskKind?: "query" | "why";
   objective?: string;
 }
+export const runProgressSchema = z
+  .object({
+    phase: z.enum([
+      "understanding",
+      "querying",
+      "explaining",
+      "reviewing",
+      "presenting",
+      "cancelling",
+      "complete",
+      "needs_input",
+      "failed",
+      "cancelled",
+    ]),
+    label: z.string().min(1),
+    round: z.number().int().positive().optional(),
+    updatedAt: z.string(),
+  })
+  .strict();
+export type RunProgress = z.infer<typeof runProgressSchema>;
+export interface TimingStep {
+  phase: "intent" | "query" | "explain" | "review" | "presentation";
+  durationMs: number;
+  outcome: "ok" | "error" | "cancelled";
+  round?: number;
+}
+export interface RunTiming {
+  totalMs: number;
+  modelCalls: number;
+  repairCalls: number;
+  sqlCount: number;
+  steps: TimingStep[];
+}
+export interface RunFailure {
+  code: string;
+  retryable: boolean;
+}
 export interface RunEvent {
   seq: number;
   type:
+    | "progress"
     | "run_started"
     | "scope_updated"
     | "hypothesis"
@@ -336,6 +374,7 @@ export interface RunEvent {
   at: string;
   message: string;
   data?: unknown;
+  progress?: RunProgress;
 }
 export interface ModelTrace {
   role: string;
@@ -343,8 +382,19 @@ export interface ModelTrace {
   provider: string;
   durationMs: number;
   receiptId?: string;
+  status?: "ok" | "invalid_json" | "timeout" | "error" | "cancelled";
+  inputChars?: number;
+  outputChars?: number;
+  responseFormat?: "json_object";
+  attempt?: number;
+  validationIssues?: { path: string; code: string }[];
 }
 export interface Run {
+  progress?: RunProgress;
+  timing?: RunTiming;
+  error?: RunFailure;
+  warnings?: string[];
+  cancellationRequested?: boolean;
   id: string;
   conversationId: string;
   investigationId: string;

@@ -97,3 +97,16 @@ H-MEM 复制自 Meterless 的 Apache-2.0 参考模块，版本与修改见 [UPST
 API 1.2.0 新增 `answer.conclusion/keyEvidence/followups`：具体结论、可展开的关键证据，以及带完整范围和上下文版本的可执行推荐。`client.followup(action)` 沿用 messages API；过期动作返回 409 STALE_CONTEXT。接入见 [回答契约](docs/answer-contract.md)，离线 payload 见 [Answer mock](docs/examples/answer.json)。`npm run docs:answer` 生成样例，`npm run eval:answers` 在运行中的 Live 服务验证真实模型回答与连续追问。
 
 API 1.3.0 增加 Why 的 `answer.explanations`：用实际证据区分观测支持、观测反驳、数据不足与尚未检查。自然月对比、完整月份请求、默认人群与多轮时期修改有范围保护。`npm run eval:why` 保存扩展 Why 与多轮追问结果；`scripts/verify-why-reference.py` 独立核对全部聚合单元格和成熟度。字段与状态含义见 [回答契约](docs/answer-contract.md)。
+
+## Runtime progress and recovery
+
+API 1.4.0 为 Run 增加可选的 `progress/timing/error/warnings`，SSE 提供真实调查阶段。共享 client 支持 `resume`、事件序号去重和 `waitForRun`；刷新不重新提交，取消等待与取消调查分别处理。模型、数据或后端失联时返回明确错误，不显示旧答案或回退为样例。具体接法见 [前端接入](docs/frontend-integration.md)。
+
+```sh
+npm run bench:runtime -- --runs=5 --label=local --output=evidence/runtime-local.json
+npm run test:browser           # 自制样例 + 脚本模型，明确标注
+npm run test:browser:live      # 真实 Zetaris / Nightshift / NVIDIA
+npm run demo:check             # 当前服务的只读 Demo 预检
+```
+
+浏览器命令使用本机 Chrome，必要时设置 `STOREWHY_CHROME`。这是独立的 SDK/API 联调工具，React 页面仍由队友实现。Live 评测与性能测试逐项运行，避免共享本地 Spark driver 上多套测试争用资源；连接状态健康不保证长时间高负载不会耗尽 Docker 内存。本机 Zetaris 的 heap/内存配置见 [本地运行配置](docs/local-runtime-profile.md)。最新前后对照、故障记录和验收边界见 [运行优化验证](docs/runtime-verification.md)。

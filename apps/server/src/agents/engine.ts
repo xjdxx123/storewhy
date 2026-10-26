@@ -9,6 +9,7 @@ import {
   type ContextPatch,
   type InvestigationContext,
   type ExpectedContext,
+  type RunProgress,
 } from "@storewhy/contracts";
 import { type ModelGateway } from "../integrations/nightshift.ts";
 import { Analytics, specKey } from "../analytics/service.ts";
@@ -37,7 +38,17 @@ import {
   protectScopePatch,
   needsDateClarification,
   isWhyQuestion,
+  isDirectDataRequest,
 } from "../context/constraints.ts";
+import { effectiveObjective } from "./objective.ts";
+import {
+  measure,
+  progress,
+  queryLabel,
+  updateTiming,
+  terminalProgress,
+  failureFor,
+} from "./runtime.ts";
 const terminal = (s: Run["status"]) => s !== "queued" && s !== "running";
 export function factsFor(evidence: Evidence[]): Fact[] {
   return evidence.flatMap((e, ei) =>
@@ -72,6 +83,7 @@ function restrictPatch(
 export class Engine {
   readonly events = new EventEmitter();
   private active = new Set<string>();
+  private liveRuns = new Map<string, Run>();
   private controllers = new Map<string, AbortController>();
   private tasks = new Set<Promise<void>>();
   constructor(
@@ -79,6 +91,7 @@ export class Engine {
     readonly model: ModelGateway,
     readonly store: DiskStore,
     readonly memory: MemoryManager,
+    readonly options: { runTimeoutMs?: number } = {},
   ) {}
   createRun(
     conversationId: string,
@@ -97,7 +110,12 @@ export class Engine {
         409,
       );
     if (this.active.size >= 2)
-      throw new AppError("CAPACITY", "当前已有两个调查运行，请稍后重试", 429);
+      throw new AppError(
+        "CAPACITY",
+        "当前已有两个调查运行，请稍后重试",
+        429,
+        true,
+      );
     const c = this.store.get<Conversation>("conversations", conversationId);
     if (input.expectedContext) {
       const expected = input.expectedContext;
@@ -126,21 +144,34 @@ export class Engine {
       evidenceIds: [],
       modelTraces: [],
       createdAt: new Date().toISOString(),
+      progress: progress("understanding", "已收到问题，准备开始调查"),
+      timing: {
+        totalMs: 0,
+        modelCalls: 0,
+        repairCalls: 0,
+        sqlCount: 0,
+        steps: [],
+      },
     };
     this.store.put("runs", id, run);
     c.runIds.push(id);
     this.store.put("conversations", conversationId, c);
     this.active.add(conversationId);
+    this.liveRuns.set(id, run);
     const controller = new AbortController();
     this.controllers.set(id, controller);
     queueMicrotask(() => {
       const task = this.perform(
         run,
         input,
-        AbortSignal.any([controller.signal, AbortSignal.timeout(360000)]),
+        AbortSignal.any([
+          controller.signal,
+          AbortSignal.timeout(this.options.runTimeoutMs ?? 360000),
+        ]),
       ).finally(() => {
         this.active.delete(conversationId);
         this.controllers.delete(id);
+        this.liveRuns.delete(id);
         this.tasks.delete(task);
       });
       this.tasks.add(task);
@@ -153,6 +184,8 @@ export class Engine {
         run.status = "failed";
         run.finishedAt = new Date().toISOString();
         run.message = "服务重启中断了上轮调查，请重新提问。";
+        run.answer = undefined;
+        run.error = { code: "SERVER_RESTARTED", retryable: true };
         this.event(run, "error", run.message, { code: "SERVER_RESTARTED" });
       }
   }
@@ -169,22 +202,39 @@ export class Engine {
     message: string,
     data?: unknown,
   ) {
+    if (terminal(run.status)) {
+      run.finishedAt ??= new Date().toISOString();
+      run.progress = terminalProgress(run);
+    }
+    updateTiming(run);
     const e: RunEvent = {
       seq: run.events.length + 1,
       type,
       at: new Date().toISOString(),
       message,
+      ...(run.progress ? { progress: run.progress } : {}),
       ...(data !== undefined ? { data } : {}),
     };
     run.events.push(e);
     this.save(run);
     this.events.emit(run.id, e);
   }
+  private emitProgress(
+    run: Run,
+    phase: RunProgress["phase"],
+    label: string,
+    round?: number,
+  ) {
+    run.progress = progress(phase, label, round);
+    this.event(run, "progress", label);
+  }
   cancel(id: string) {
-    const run = this.store.get<Run>("runs", id);
+    const run = this.liveRuns.get(id) ?? this.store.get<Run>("runs", id);
     if (terminal(run.status)) return run;
+    run.cancellationRequested = true;
+    this.emitProgress(run, "cancelling", "正在停止本轮调查");
     this.controllers.get(id)?.abort();
-    return { ...run, cancellationRequested: true };
+    return structuredClone(run);
   }
   private async perform(
     run: Run,
@@ -198,6 +248,7 @@ export class Engine {
     signal: AbortSignal,
   ) {
     try {
+      signal.throwIfAborted();
       run.status = "running";
       this.event(run, "run_started", "开始检查问题与数据范围");
       const c = this.store.get<Conversation>(
@@ -232,25 +283,38 @@ export class Engine {
         this.event(run, "clarification", run.message);
         return;
       }
+      if (!input.patch)
+        this.emitProgress(run, "understanding", "正在理解问题与分析条件");
       const intent = input.patch
         ? { kind: input.taskKind ?? ("followup" as const), patch: input.patch }
-        : await this.model.structured(
-            "investigator.intent",
-            intentSchema,
-            [
-              {
-                role: "system",
-                content: `你是增长运营调查员。只提取用户明确改变的条件，未提及字段不要放进 patch。followup 继承当前目标，只有新的明确查询才选 query。why 是解释问题。支持 calendar/cohort，归属为首次观测。趋势用 mode:calendar、timeGrain:day/week/month，统计汇总用 timeGrain:null。月份收入趋势用 calendar all。只有用户明确要求趋势或按时间分桶才设 timeGrain；自然月单期汇总应设 timeGrain:null。一次最多两个期间，结果最多两百行；全渠道每日趋势需要缩小范围。日期 end 是不包含的结束日。用户说七月指样例年份须在有明确样例上下文时使用二零一九年。现实今年/本月超出范围必须 clarify。全部用户或包含organic表示 audience:all，不是 channels:[organic]；只有“仅organic”才筛选该渠道。地区只能使用catalog的UK等原值。首周为七天，两周为十四天。日期连续范围要覆盖中间所有日期，不要只比较范围端点。人群付费表现至少查payer_rate。reset 只用于要求清空分析。没有曝光/点击/预算/素材/商品/结账/退款/利润/因果增量，相关请求返回 unsupported。设备/国家没有费用；设备用户行为可查。收入与费用比较优先 cohort paid；整体购买月收入用 calendar all。清除筛选写空数组。普通自然语言描述不能改变不相关条件。未修改的 optional patch 字段直接省略，不要填 null；windowDays 只能是 7 或 14，即使 calendar 也不能填 null。\nCATALOG:${JSON.stringify(catalog(this.analytics.datasetVersion, this.analytics.backend.kind))}`,
-              },
-              {
-                role: "user",
-                content: JSON.stringify({
-                  currentContext: c.context,
-                  currentQuestion: input.message,
-                }),
-              },
-            ],
-            run.modelTraces,
+        : await measure(
+            run,
+            "intent",
+            () =>
+              this.model.structured(
+                "investigator.intent",
+                intentSchema,
+                [
+                  {
+                    role: "system",
+                    content: `你是增长运营调查员。只提取用户明确改变的条件，未提及字段不要放进 patch。Why 可用 initialGroupBy 规划首次查询拆分；多渠道费用与收入比较优先 channel，单渠道无需按渠道拆分。followup 继承当前目标，只有新的明确查询才选 query。why 是解释问题。支持 calendar/cohort，归属为首次观测。趋势用 mode:calendar、timeGrain:day/week/month，统计汇总用 timeGrain:null。月份收入趋势用 calendar all。只有用户明确要求趋势或按时间分桶才设 timeGrain；自然月单期汇总应设 timeGrain:null。一次最多两个期间，结果最多两百行；全渠道每日趋势需要缩小范围。日期 end 是不包含的结束日。用户说七月指样例年份须在有明确样例上下文时使用二零一九年。现实今年/本月超出范围必须 clarify。全部用户或包含organic表示 audience:all，不是 channels:[organic]；只有“仅organic”才筛选该渠道。地区只能使用catalog的UK等原值。首周为七天，两周为十四天。日期连续范围要覆盖中间所有日期，不要只比较范围端点。人群付费表现至少查payer_rate。reset 只用于要求清空分析。没有曝光/点击/预算/素材/商品/结账/退款/利润/因果增量，相关请求返回 unsupported。设备/国家没有费用；设备用户行为可查。收入与费用比较优先 cohort paid；整体购买月收入用 calendar all。清除筛选写空数组。普通自然语言描述不能改变不相关条件。未修改的 optional patch 字段直接省略，不要填 null；windowDays 只能是 7 或 14，即使 calendar 也不能填 null。\nCATALOG:${JSON.stringify(catalog(this.analytics.datasetVersion, this.analytics.backend.kind))}`,
+                  },
+                  {
+                    role: "user",
+                    content: JSON.stringify({
+                      currentContext: {
+                        spec: c.context.spec,
+                        lastQuestion: c.context.lastQuestion,
+                        taskKind: c.context.taskKind,
+                        objective: c.context.objective,
+                      },
+                      currentQuestion: input.message,
+                    }),
+                  },
+                ],
+                run.modelTraces,
+                signal,
+              ),
             signal,
           );
       if (
@@ -280,6 +344,12 @@ export class Engine {
         this.event(run, "clarification", run.message);
         return;
       }
+      if (
+        !input.patch &&
+        intent.kind === "why" &&
+        isDirectDataRequest(input.message)
+      )
+        intent.kind = "query";
       if (intent.kind === "clarify" || intent.kind === "unsupported") {
         run.status =
           intent.kind === "clarify" ? "needs_clarification" : "unsupported";
@@ -326,6 +396,7 @@ export class Engine {
       const seen = new Set<string>();
       let queries = 0;
       const execute = async (patch: ContextPatch) => {
+        signal.throwIfAborted();
         restrictPatch(spec, patch);
         const next = validateSpec(patchSpec(spec, patch));
         const key = specKey(next);
@@ -343,20 +414,22 @@ export class Engine {
           return false;
         const estimated = next.periods.length * 2;
         if (queries + estimated > 8) return false;
-        this.event(
+        this.emitProgress(run, "querying", queryLabel(next));
+        this.event(run, "query_started", queryLabel(next), { spec: next });
+        const e = await measure(
           run,
-          "query_started",
-          "正在通过 " + this.analytics.backend.kind + " 查询",
-          { spec: next },
+          "query",
+          () => this.analytics.query(next, signal),
+          signal,
         );
-        const e = await this.analytics.query(next, signal);
+        run.timing!.sqlCount += e.queryIds.length;
         queries += e.queryIds.length;
         seen.add(key);
         evidence.push(e);
         run.evidenceIds.push(e.id);
         run.context.evidenceIds.push(e.id);
         this.store.put("evidence", e.id, e);
-        this.event(run, "query_completed", "查询完成", {
+        this.event(run, "query_completed", "所选数据已核查", {
           evidenceId: e.id,
           rows: e.rows.length,
           durationMs: e.durationMs,
@@ -364,7 +437,22 @@ export class Engine {
         });
         return true;
       };
-      await execute({});
+      let initialQuery: ContextPatch = {};
+      if (
+        taskKind === "why" &&
+        !spec.groupBy.length &&
+        "initialGroupBy" in intent &&
+        intent.initialGroupBy?.length
+      ) {
+        try {
+          validateSpec(patchSpec(spec, { groupBy: intent.initialGroupBy }));
+          initialQuery = { groupBy: intent.initialGroupBy };
+        } catch (error) {
+          if (!(error instanceof AppError) || error.statusCode >= 500)
+            throw error;
+        }
+      }
+      await execute(initialQuery);
       const observed = evidence[0]?.rows.some((r) =>
         Object.values(r.values).some((v) => v !== null && v !== 0),
       );
@@ -386,13 +474,20 @@ export class Engine {
         .flatMap((prior) => prior.evidenceIds)
         .map((id) => this.store.get<Evidence>("evidence", id));
       if (taskKind === "query") {
-        run.answer = presentAnswer({
-          context: run.context,
-          evidence,
-          facts: factsFor(evidence),
-          ready: true,
-          history,
-        });
+        this.emitProgress(run, "presenting", "正在整理结论、证据与下一步");
+        run.answer = await measure(
+          run,
+          "presentation",
+          async () =>
+            presentAnswer({
+              context: run.context,
+              evidence,
+              facts: factsFor(evidence),
+              ready: true,
+              history,
+            }),
+          signal,
+        );
         run.status = "completed";
       } else {
         let lastDraft: z.infer<typeof draftSchema> | undefined;
@@ -411,37 +506,63 @@ export class Engine {
             scope: e.spec,
             coverage: e.coverage,
             rows: e.rows,
-            notes: e.notes,
+            notes: e.notes.filter((note) => !note.startsWith("spec:")),
           }));
+          // Select on grounded text and focus; fact IDs and raw metrics remain in the backend.
+          const modelObservations = observations.map(
+            ({ id, evidenceId, kind, text, focus }) => ({
+              id,
+              evidenceId,
+              kind,
+              text,
+              focus,
+            }),
+          );
           const availableAnalyses = evidence.map((e) => ({
             groupBy: e.spec.groupBy,
             metrics: e.spec.metrics,
             filters: e.spec.filters,
           }));
-          const draft = await this.model.structured(
-            "investigator.explain",
-            draftSchema,
-            [
-              {
-                role: "system",
-                content:
-                  "你是 Investigator。从 observations 选择最能解释用户问题的观测ID，并选择待检验的 hypothesis。headlineObservationId 必须是 observationIds 内最直接回答问题的一条，优先选择具体渠道或人群的关键变化；不要用审查状态充当结论。数字与事实句由系统按所选证据生成，你不能重写数字或发明证据。如果已执行补查，必须选取最新补查中的相关观测，优先展示新增拆分的费用/收入关联，不能只重复最初的整体结果。若现有证据不能区分解释，提出 suggestedQuery，只能改metrics/groupBy/filters，不能扩大用户筛选。已有渠道拆分不能重复。收入与费用的变化只能解释观测构成，不能证明广告因果增量。根据 reviewFeedback 改选证据或补查。",
-              },
-              {
-                role: "user",
-                content: JSON.stringify({
-                  question: c.context.objective,
-                  scope: spec,
-                  followupQuestion: input.message,
-                  availableAnalyses,
-                  observations,
-                  evidence: evidenceBrief,
-                  reviewFeedback: feedback,
-                }),
-              },
-            ],
-            run.modelTraces,
+          this.emitProgress(
+            run,
+            "explaining",
+            "正在整理已查询到的变化",
+            round + 1,
+          );
+          const draft = await measure(
+            run,
+            "explain",
+            () =>
+              this.model.structured(
+                "investigator.explain",
+                draftSchema,
+                [
+                  {
+                    role: "system",
+                    content:
+                      "你是 Investigator，以 scope 为有效口径，追问覆盖旧条件。observationIds 选1至12个不同ID，优先3至6个。从 observations 选择最能解释用户问题的观测ID，并选择待检验的 hypothesis。headlineObservationId 必须是 observationIds 内最直接回答问题的一条，优先选择具体渠道或人群的关键变化；不要用审查状态充当结论。数字与事实句由系统按所选证据生成，你不能重写数字或发明证据。如果已执行补查，必须选取最新补查中的相关观测，优先展示补查的关键变化，不能只重复最初的整体结果。若现有证据不能区分解释，提出 suggestedQuery，只能改metrics/groupBy/filters，不能扩大用户筛选。已有渠道拆分不能重复。收入与费用的变化只能解释观测构成，不能证明广告因果增量。根据 reviewFeedback 改选证据或补查。",
+                  },
+                  {
+                    role: "user",
+                    content: JSON.stringify({
+                      question: effectiveObjective(c.context),
+                      scope: spec,
+                      followupQuestion:
+                        input.message === c.context.objective
+                          ? undefined
+                          : input.message,
+                      availableAnalyses,
+                      observations: modelObservations,
+                      evidence: evidenceBrief,
+                      reviewFeedback: feedback,
+                    }),
+                  },
+                ],
+                run.modelTraces,
+                signal,
+              ),
             signal,
+            round + 1,
           );
           try {
             validateSelection(draft.observationIds, observations);
@@ -488,34 +609,47 @@ export class Engine {
             hypothesis: draft.hypothesis,
             suggestedQuery: draft.suggestedQuery,
           });
-          const review = await this.model.structured(
-            "reviewer",
-            reviewSchema,
-            [
-              {
-                role: "system",
-                content:
-                  "你是独立 Reviewer，检查证据是否回答问题，金额、分母、时期是否一致。先看 scope.mode：calendar 按自然时期活动统计，windowDays 无效；cohort 按首访批次观察完整H天，不能混入老用户自然月收入。首次/后续购买不是新客/老客。完整随访不能称为随访不足；未标币种不妨碍同单位比较。只看真实 evidence、observations 和 availableAnalyses，不相信草稿的无证据限制。整体渠道费用或增长仅有汇总时要求渠道拆分；已查过的指标和拆分不能重复。发现可补的具体缺口才 needs_query，query 只改 metrics/groupBy/filters，不能扩大用户筛选。数据缺失或因果原因无法由记录证明时 limited。充分时 ready；不必穷尽所有分组。中文简述理由。",
-              },
-              {
-                role: "user",
-                content: JSON.stringify({
-                  question: c.context.objective,
-                  scope: spec,
-                  followupQuestion: input.message,
-                  draft,
-                  selectedObservations: validateSelection(
-                    draft.observationIds,
-                    observations,
-                  ),
-                  availableAnalyses,
-                  observations,
-                  evidence: evidenceBrief,
-                }),
-              },
-            ],
-            run.modelTraces,
+          this.emitProgress(
+            run,
+            "reviewing",
+            "正在核查解释与证据是否充分",
+            round + 1,
+          );
+          const review = await measure(
+            run,
+            "review",
+            () =>
+              this.model.structured(
+                "reviewer",
+                reviewSchema,
+                [
+                  {
+                    role: "system",
+                    content:
+                      "你是独立 Reviewer。以 scope 为有效口径，追问覆盖旧问题的窗口/时期/筛选。核查证据与金额、分母；scope.mode：calendar 按自然时期活动统计，windowDays 无效；cohort 按首访批次观察完整H天，不能混入老用户自然月收入。首次/后续购买不是新客/老客。完整随访不能称为随访不足；未标币种不妨碍同单位比较。只看真实 evidence、observations 和 availableAnalyses，不相信草稿的无证据限制。整体渠道费用或增长仅有汇总时要求渠道拆分；已查过的指标和拆分不能重复。发现可补的具体缺口才 needs_query，query 只改 metrics/groupBy/filters，不能扩大用户筛选。数据缺失或因果原因无法由记录证明时 limited。充分时 ready；不必穷尽所有分组。中文简述理由。",
+                  },
+                  {
+                    role: "user",
+                    content: JSON.stringify({
+                      question: effectiveObjective(c.context),
+                      scope: spec,
+                      followupQuestion:
+                        input.message === c.context.objective
+                          ? undefined
+                          : input.message,
+                      draft,
+                      selectedObservationIds: draft.observationIds,
+                      availableAnalyses,
+                      observations: modelObservations,
+                      evidence: evidenceBrief,
+                    }),
+                  },
+                ],
+                run.modelTraces,
+                signal,
+              ),
             signal,
+            round + 1,
           );
           feedback = review.reason + " " + review.issues.join(" ");
           this.event(
@@ -524,7 +658,7 @@ export class Engine {
             review.decision === "ready"
               ? "证据审查完成"
               : review.decision === "needs_query"
-                ? "审查发现证据缺口，准备补查"
+                ? "审查发现需要补充的证据"
                 : "当前证据仍有无法验证的解释",
             {
               reason: review.reason,
@@ -568,15 +702,22 @@ export class Engine {
           lastDraft.observationIds,
           observationsFor(evidence, allFacts),
         );
-        run.answer = presentAnswer({
-          context: run.context,
-          evidence,
-          facts: allFacts,
-          selected,
-          headlineObservationId: lastDraft.headlineObservationId,
-          history,
-          ready,
-        });
+        this.emitProgress(run, "presenting", "正在整理结论、证据与下一步");
+        run.answer = await measure(
+          run,
+          "presentation",
+          async () =>
+            presentAnswer({
+              context: run.context,
+              evidence,
+              facts: allFacts,
+              selected,
+              headlineObservationId: lastDraft.headlineObservationId,
+              history,
+              ready,
+            }),
+          signal,
+        );
         run.status = ready ? "completed" : "limited";
       }
       if (run.answer) {
@@ -586,23 +727,27 @@ export class Engine {
       }
       c.context.evidenceIds = [...run.evidenceIds];
       this.store.put("conversations", c.id, c);
+      try {
+        this.memory.summarize(run);
+      } catch {
+        run.warnings = [
+          ...(run.warnings ?? []),
+          "分析已完成，但本轮记忆暂未保存。",
+        ];
+      }
       run.finishedAt = new Date().toISOString();
-      this.save(run);
-      this.memory.summarize(run);
       this.event(run, "answer_ready", "本轮调查完成", { status: run.status });
     } catch (error) {
       const own = this.controllers.get(run.id)?.signal.aborted;
-      run.status = own
-        ? "cancelled"
-        : error instanceof AppError && error.statusCode < 500
-          ? "unsupported"
-          : "failed";
-      run.message = cleanError(error);
-      this.event(run, own ? "cancelled" : "error", run.message, {
-        code: error instanceof AppError ? error.code : "RUNTIME_ERROR",
-      });
+      const failure = failureFor(error, signal, own);
+      run.status = failure.status;
+      run.message = failure.message;
+      run.error = failure.error;
+      run.answer = undefined;
+      this.event(run, own ? "cancelled" : "error", run.message, failure.error);
     } finally {
       run.finishedAt ??= new Date().toISOString();
+      updateTiming(run);
       this.save(run);
     }
   }

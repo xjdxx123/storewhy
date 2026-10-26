@@ -338,6 +338,8 @@ async function turn(
     errors,
     status: run.status,
     message: run.message,
+    error: run.error,
+    expected: test.expected,
     spec: run.context.spec,
     evidenceCount: run.evidenceIds.length,
     queryCount: run.events.filter((e) => e.type === "query_started").length,
@@ -362,18 +364,31 @@ async function turn(
 }
 try {
   const followupsOnly = process.argv.includes("--followups-only");
-  const all = followupsOnly
-    ? []
-    : process.argv.includes("--smoke")
-      ? fixed.slice(0, 2)
-      : fixed;
+  const only = process.argv
+    .find((a) => a.startsWith("--cases="))
+    ?.slice(8)
+    .split(",");
+  const focused = only
+    ? [...fixed, ...held, ...fresh].filter((t) => only.includes(t.name))
+    : [];
+  if (only && only.some((name) => !focused.some((t) => t.name === name)))
+    throw new Error(
+      "--cases accepts standalone case names; use --followups-only for full context sequences",
+    );
+  const all = only
+    ? focused
+    : followupsOnly
+      ? []
+      : process.argv.includes("--smoke")
+        ? fixed.slice(0, 2)
+        : fixed;
   for (const test of all)
     await turn(
       createConversation(server.disk, server.analytics.datasetVersion),
       test,
-      "fixed",
+      only ? "focused" : "fixed",
     );
-  if (!process.argv.includes("--smoke")) {
+  if (!only && !process.argv.includes("--smoke")) {
     for (const test of followupsOnly ? [] : held)
       await turn(
         createConversation(server.disk, server.analytics.datasetVersion),

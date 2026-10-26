@@ -4,6 +4,7 @@ import {
   isScopeOnly,
   protectScopePatch,
   needsDateClarification,
+  isDirectDataRequest,
 } from "../apps/server/src/context/constraints.ts";
 it("asks for sample dates instead of silently substituting current dates", () => {
   expect(needsDateClarification("今年收入")).toBe(true);
@@ -88,4 +89,32 @@ it("only applies named scope changes and protects conditions explicitly kept unc
   ).toEqual({
     periods: [{ label: "July", start: "2019-07-01", end: "2019-08-01" }],
   });
+});
+
+it("keeps an explicitly requested population count alongside revenue without inventing payer or new-user counts", () => {
+  expect(
+    explicitConstraints("按设备比较收入与人数，其他不变。", {
+      metrics: ["revenue"],
+    }).metrics,
+  ).toEqual(["revenue", "users"]);
+  expect(
+    explicitConstraints("只列新用户数和收入", {
+      metrics: ["new_users", "revenue"],
+    }).metrics,
+  ).toEqual(["new_users", "revenue"]);
+  expect(
+    explicitConstraints("比较购买用户数和收入", {
+      metrics: ["payers", "revenue"],
+    }).metrics,
+  ).toEqual(["payers", "revenue"]);
+});
+
+it("distinguishes explicit value requests from requests for explanations", () => {
+  expect(isDirectDataRequest("这两个渠道的新用户收入和人数分别是多少？")).toBe(
+    true,
+  );
+  expect(isDirectDataRequest("Can you show revenue in July 2019?")).toBe(true);
+  expect(isDirectDataRequest("为什么收入变化，分别差多少？")).toBe(false);
+  expect(isDirectDataRequest("请解释这些因素分别造成多少差异")).toBe(false);
+  expect(isDirectDataRequest("只看FaceBoom，其他不变")).toBe(false);
 });

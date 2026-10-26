@@ -1,0 +1,89 @@
+{
+  "at": "2026-10-26T00:34:03.396Z",
+  "kind": "intent_only_probe_no_sql_not_complete_regression",
+  "records": [
+    {
+      "pass": true,
+      "intent": {
+        "kind": "query",
+        "patch": {
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [
+            "channel"
+          ],
+          "metrics": [
+            "new_users",
+            "revenue",
+            "first_purchase_revenue",
+            "repeat_purchase_revenue",
+            "payer_rate",
+            "revenue_per_payer",
+            "cost_per_new_user",
+            "revenue_to_spend"
+          ]
+        }
+      },
+      "traces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2960,
+          "inputChars": 6388,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_s14vmv34",
+          "outputChars": 439
+        }
+      ]
+    },
+    {
+      "pass": false,
+      "code": "MODEL_INVALID_JSON",
+      "message": "模型指令校验失败：Unexpected non-whitespace character after JSON at position 566 (line 1 column 567)",
+      "traces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 4941,
+          "inputChars": 6388,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_w8fw8s9m",
+          "outputChars": 1008
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 8792,
+          "inputChars": 7918,
+          "attempt": 1,
+          "status": "invalid_json",
+          "receiptId": "rcpt_req_sw2mtbgg",
+          "outputChars": 1007
+        }
+      ]
+    }
+  ]
+}

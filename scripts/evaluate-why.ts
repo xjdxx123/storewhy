@@ -336,6 +336,26 @@ async function turn(conversationId: string, test: Case, previous?: Run) {
       (!a.summary.includes("费用减少") || !a.summary.includes("收入增加"))
     )
       errors.push("false premise repeated");
+    if (test.id.startsWith("f1-") && run.context.spec.windowDays === 7) {
+      for (const event of run.events.filter(
+        (e) => e.type === "review_completed",
+      )) {
+        const review = event.data as {
+          decision: string;
+          reason: string;
+          issues: string[];
+        };
+        if (
+          review.decision !== "ready" &&
+          /(?:要求|缺少|需[^。]*查询)[^。]*14\s*天/.test(
+            review.reason + " " + review.issues.join(" "),
+          )
+        )
+          qualityGaps.push(
+            "Reviewer incorrectly requires the superseded 14-day horizon",
+          );
+      }
+    }
   } else if (!test.statuses) errors.push("missing answer");
   if (test.statuses && run.evidenceIds.length)
     errors.push("unsupported request queried unrelated data");

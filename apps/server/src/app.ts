@@ -36,6 +36,7 @@ export async function buildApp(
     gateway?: ModelGateway;
     stateDir?: string;
     datasetVersion?: string;
+    runTimeoutMs?: number;
   } = {},
 ) {
   let backend = options.backend;
@@ -65,7 +66,9 @@ export async function buildApp(
   const disk = new DiskStore(options.stateDir);
   const memory = new MemoryManager(disk.dir, version!);
   const gateway = options.gateway ?? new Nightshift();
-  const engine = new Engine(analytics, gateway, disk, memory);
+  const engine = new Engine(analytics, gateway, disk, memory, {
+    runTimeoutMs: options.runTimeoutMs,
+  });
   engine.recoverInterrupted();
   const app = Fastify({ logger: false, bodyLimit: 20000 });
   await app.register(cors, {
@@ -77,6 +80,11 @@ export async function buildApp(
     const e = error as Error & { statusCode?: number };
     reply.code(validation ? 400 : (e.statusCode ?? 500)).send({
       error: {
+        retryable: validation
+          ? false
+          : error instanceof AppError
+            ? error.retryable
+            : (e.statusCode ?? 500) >= 500,
         code: validation
           ? "INVALID_REQUEST"
           : error instanceof AppError
@@ -182,9 +190,17 @@ export async function buildApp(
   app.get(API_PREFIX + "/runs/:id/events", (req, reply) => {
     const id = params(req.params).id;
     const run = disk.get<Run>("runs", id);
-    const rawAfter =
-      (req.query as any)?.after ?? req.headers["last-event-id"] ?? 0;
-    let seen = z.coerce.number().int().min(0).parse(rawAfter);
+    const sequence = z.coerce.number().int().min(0);
+    const queryAfter = sequence.parse((req.query as any)?.after ?? 0);
+    const headerAfter = sequence.parse(req.headers["last-event-id"] ?? 0);
+    let seen = Math.max(queryAfter, headerAfter);
+    if (seen > (run.events.at(-1)?.seq ?? 0))
+      throw new AppError(
+        "CURSOR_AHEAD",
+        "进度序号超出当前 Run，请重新读取运行状态。",
+        400,
+        false,
+      );
     reply.hijack();
     const headers: Record<string, string | string[]> = {};
     for (const [key, value] of Object.entries(reply.getHeaders()))

@@ -1,6 +1,7 @@
 import { validateSelection } from "../apps/server/src/analytics/observations.ts";
 import { it, expect, afterEach, vi } from "vitest";
 import { z } from "zod";
+import { ZetarisBackend } from "../apps/server/src/integrations/zetaris.ts";
 import { Nightshift } from "../apps/server/src/integrations/nightshift.ts";
 import { settings, AppError } from "../apps/server/src/config.ts";
 import { Engine } from "../apps/server/src/agents/engine.ts";
@@ -17,9 +18,11 @@ import path from "node:path";
 import { randomUUID } from "node:crypto";
 import type { ModelTrace, Run } from "@storewhy/contracts";
 const token = settings.nightshiftToken;
+const zetarisKey = settings.zetarisKey;
 afterEach(() => {
   vi.unstubAllGlobals();
   settings.nightshiftToken = token;
+  settings.zetarisKey = zetarisKey;
 });
 it("repairs malformed JSON once using the live transport contract", async () => {
   settings.nightshiftToken = "test-only";
@@ -57,6 +60,7 @@ it("repairs malformed JSON once using the live transport contract", async () => 
   ).toEqual({ ok: true });
   expect(calls).toBe(2);
   expect(traces[1].role).toBe("test:repair");
+  expect(traces.every((t) => t.responseFormat === "json_object")).toBe(true);
 });
 it("does not retry authentication failures", async () => {
   settings.nightshiftToken = "test-only";
@@ -151,4 +155,55 @@ it("cancels an active model call", async () => {
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
+});
+
+it("rejects a null Zetaris payload with an explicit data error", async () => {
+  settings.zetarisKey = "test-only";
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async () => new Response("null")),
+  );
+  await expect(new ZetarisBackend().execute("SELECT 1")).rejects.toMatchObject({
+    code: "ZETARIS_RESULT",
+    retryable: true,
+  });
+});
+it("preserves the Zetaris HTTP failure when its error body is unreadable", async () => {
+  settings.zetarisKey = "test-only";
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async () => ({
+      ok: false,
+      status: 503,
+      text: async () => {
+        throw new TypeError("broken stream");
+      },
+    })),
+  );
+  await expect(new ZetarisBackend().execute("SELECT 1")).rejects.toMatchObject({
+    code: "ZETARIS_ERROR",
+    retryable: true,
+  });
+});
+
+it("can explicitly disable JSON object requests without accepting multiple JSON alternatives", async () => {
+  settings.nightshiftToken = "test-only";
+  const fetcher = vi.fn(async (_url, options) => {
+    expect(JSON.parse(options.body).response_format).toBeUndefined();
+    return new Response(
+      JSON.stringify({
+        choices: [{ message: { content: '{"ok":true} {"ok":false}' } }],
+      }),
+    );
+  });
+  vi.stubGlobal("fetch", fetcher);
+  await expect(
+    new Nightshift({ jsonMode: false }).structured(
+      "test",
+      z.object({ ok: z.boolean() }),
+      [],
+      [],
+    ),
+  ).rejects.toMatchObject({ code: "MODEL_INVALID_JSON" });
+  expect(fetcher).toHaveBeenCalledTimes(2);
 });

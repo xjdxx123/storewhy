@@ -1,0 +1,163 @@
+{
+  "at": "2026-10-26T00:34:41.986Z",
+  "kind": "exact_problem_native_json_mode_probe_no_sql_not_schema_guarantee",
+  "records": [
+    {
+      "pass": true,
+      "intent": {
+        "kind": "why",
+        "patch": {
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [
+            "channel"
+          ],
+          "metrics": [
+            "new_users",
+            "payers",
+            "revenue",
+            "payer_rate",
+            "revenue_per_payer"
+          ]
+        },
+        "message": "对比 2019-06 与 2019-07 两个获客批次在首访后 14 天内，按渠道拆解的新用户数、购买用户数、总收入、购买用户比例、每位购买用户收入，识别新用户 14 天收入增加最多的渠道。"
+      },
+      "traces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2199,
+          "inputChars": 6429,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_s04ovcr2",
+          "outputChars": 464
+        }
+      ]
+    },
+    {
+      "pass": true,
+      "intent": {
+        "kind": "why",
+        "patch": {
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [
+            "channel"
+          ],
+          "metrics": [
+            "new_users",
+            "payers",
+            "revenue",
+            "payer_rate",
+            "revenue_per_payer"
+          ]
+        },
+        "message": "对比 2019-06 与 2019-07 两个获客批次在首访后 14 天内，按渠道拆解的新用户数、购买用户数、总收入、购买用户比例、每位购买用户收入，识别新用户 14 天收入增加最多的渠道。"
+      },
+      "traces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2210,
+          "inputChars": 6429,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_t52xhh8x",
+          "outputChars": 464
+        }
+      ]
+    },
+    {
+      "pass": true,
+      "intent": {
+        "kind": "why",
+        "patch": {
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [
+            "channel"
+          ],
+          "metrics": [
+            "new_users",
+            "payers",
+            "revenue",
+            "payer_rate",
+            "revenue_per_payer"
+          ]
+        },
+        "message": "对比 2019-06 与 2019-07 两个获客批次在首访后 14 天内，按渠道拆解的新用户数、购买用户数、总收入、购买用户比例、每位购买用户收入，识别新用户 14 天收入增加最多的渠道。"
+      },
+      "traces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2519,
+          "inputChars": 6429,
+          "attempt": 1,
+          "status": "ok",
+          "receiptId": "rcpt_req_mjlly1o8",
+          "outputChars": 464
+        }
+      ]
+    }
+  ],
+  "pass": true
+}

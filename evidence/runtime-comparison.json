@@ -1,0 +1,248 @@
+{
+  "at": "2026-10-26T02:13:53.935Z",
+  "pass": true,
+  "kind": "five_fresh_live_runs_before_after_no_cross_request_cache",
+  "sameUserConditions": true,
+  "samePostIntentSpec": false,
+  "sameModel": true,
+  "sameDataset": true,
+  "before": {
+    "samples": 5,
+    "statuses": [
+      "completed",
+      "completed",
+      "completed",
+      "completed",
+      "completed"
+    ],
+    "durationsMs": [
+      35332,
+      38043,
+      40537,
+      88929,
+      33806
+    ],
+    "medianMs": 38043,
+    "maxMs": 88929,
+    "firstEventMs": [
+      12,
+      6,
+      5,
+      5,
+      10
+    ],
+    "modelCalls": [
+      7,
+      7,
+      7,
+      6,
+      7
+    ],
+    "repairCalls": 9,
+    "sqlCount": [
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "selectedGroupings": [
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "selectedMetrics": [
+      [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend"
+      ],
+      [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend"
+      ],
+      [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend"
+      ],
+      [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend"
+      ],
+      [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend"
+      ]
+    ],
+    "medianQueryPathMs": 13336,
+    "medianInputChars": 55389
+  },
+  "after": {
+    "samples": 5,
+    "statuses": [
+      "completed",
+      "completed",
+      "completed",
+      "completed",
+      "completed"
+    ],
+    "durationsMs": [
+      19604,
+      27424,
+      59708,
+      13965,
+      24933
+    ],
+    "medianMs": 24933,
+    "maxMs": 59708,
+    "firstEventMs": [
+      9,
+      7,
+      7,
+      8,
+      6
+    ],
+    "modelCalls": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "repairCalls": 0,
+    "sqlCount": [
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "selectedGroupings": [
+      [
+        "channel"
+      ],
+      [
+        "channel"
+      ],
+      [
+        "channel"
+      ],
+      [
+        "channel"
+      ],
+      [
+        "channel"
+      ]
+    ],
+    "selectedMetrics": [
+      [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "first_purchase_revenue",
+        "repeat_purchase_revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend",
+        "users"
+      ],
+      [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "first_purchase_revenue",
+        "repeat_purchase_revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend",
+        "users"
+      ],
+      [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "first_purchase_revenue",
+        "repeat_purchase_revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend",
+        "users"
+      ],
+      [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "first_purchase_revenue",
+        "repeat_purchase_revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend",
+        "users"
+      ],
+      [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "first_purchase_revenue",
+        "repeat_purchase_revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend",
+        "users"
+      ]
+    ],
+    "medianQueryPathMs": 7117,
+    "medianInputChars": 34478
+  },
+  "medianChangePct": -34.46,
+  "inputCharsChangePct": -37.75,
+  "limits": [
+    "n=5 per implementation; sequential repeated fresh conversations, no other Live evaluation during benchmark. Provider latency and local SQL scheduling remain variable; this is not a statistical speed guarantee.",
+    "Input character comparison counts business messages, excluding the generated JSON schema and transport serialization. It is not a token or cost estimate.",
+    "Comparison fixes the question, dates, mode, audience, window and filters, and requires spend/revenue. Grouping and additional measures are endogenous Agent choices, recorded explicitly; identical SQL or post-intent specs are not assumed. All business numbers remain actual Zetaris results.",
+    "Internal grounded candidate selection cap is 12; final presentation remains 6 findings / 3 key evidence. All selected IDs are checked, and Why still executes Reviewer.",
+    "The final route requests JSON object. Acceptance is not a JSON Schema guarantee: local Zod validation, bounded repair and Why review remain mandatory.",
+    "The driver experienced OOM and controlled restarts, and its heap was reduced from 2g to 1g while the local Docker budget increased from about 8 GiB to 10 GiB, between the initial baseline and final sampling. Timing is descriptive and confounded by the platform lifecycle; the pre-restart intermediate five-run comparison is retained separately."
+  ]
+}

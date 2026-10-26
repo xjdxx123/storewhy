@@ -1,0 +1,422 @@
+{
+  "at": "2026-10-26T01:14:35.962Z",
+  "kind": "composed_coverage_not_a_single_fresh_44_case_run",
+  "method": "Retain the 44-case first pass, rerun all 16 standalone inputs eligible for the final value-query guard and all 12 context sequences. Unchanged input paths retain their first-pass evidence. Failures and retries are never relabeled as first-pass successes.",
+  "firstPass": {
+    "total": 44,
+    "passed": 43,
+    "failures": [
+      {
+        "group": "fixed",
+        "name": "calendar-revenue",
+        "status": "failed",
+        "message": "模型响应超时，本轮未生成新的回答。可以稍后重试。"
+      }
+    ]
+  },
+  "targetedRerun": {
+    "total": 28,
+    "passed": 28
+  },
+  "total": 44,
+  "passed": 44,
+  "pass": true,
+  "records": [
+    {
+      "group": "fixed",
+      "name": "why-spend",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "7d2fdc91-3269-4161-b0ed-03f78483b4d2"
+    },
+    {
+      "group": "fixed",
+      "name": "calendar-revenue",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "fa4d2229-dd43-4f4a-9d9b-c1ebafe7c687"
+    },
+    {
+      "group": "fixed",
+      "name": "channel-contribution",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "3c433475-6142-41c2-8871-285c7db30768"
+    },
+    {
+      "group": "fixed",
+      "name": "first-repeat",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "c553028f-b592-4403-9e2a-77a0941c885e"
+    },
+    {
+      "group": "fixed",
+      "name": "cohort-delay",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "4e1aabf7-16dd-4af2-a4bf-3e7a5fddf1e5"
+    },
+    {
+      "group": "fixed",
+      "name": "device",
+      "pass": true,
+      "status": "limited",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "4c80306b-3a1c-4fd8-a8de-d3bc83b34ba3"
+    },
+    {
+      "group": "fixed",
+      "name": "monthly-trend",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "0a8d20b9-f439-44e5-85d1-749d1848b79c"
+    },
+    {
+      "group": "fixed",
+      "name": "immature",
+      "pass": true,
+      "status": "unsupported",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "0791fc02-a3aa-4547-b2bc-9c8532f1f53e"
+    },
+    {
+      "group": "fixed",
+      "name": "clicks",
+      "pass": true,
+      "status": "unsupported",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "df33fc0b-8889-4a2a-8e5f-e0555de9c6e8"
+    },
+    {
+      "group": "fixed",
+      "name": "device-cost",
+      "pass": true,
+      "status": "unsupported",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "59937ac7-6ae1-4867-b5a2-6fd9421b325e"
+    },
+    {
+      "group": "fixed",
+      "name": "real-time",
+      "pass": true,
+      "status": "needs_clarification",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "fb2d7472-257d-4c48-8981-c4a214c98399"
+    },
+    {
+      "group": "fixed",
+      "name": "organic-cost",
+      "pass": true,
+      "status": "unsupported",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "3876783d-0074-4bf3-95e3-567bbc05bac0"
+    },
+    {
+      "group": "heldout",
+      "name": "h1",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "453edf8f-d069-4125-a670-d3e58e22567b"
+    },
+    {
+      "group": "heldout",
+      "name": "h2",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "32bcac28-e9c1-4fb8-aed4-28d97236fbc1"
+    },
+    {
+      "group": "heldout",
+      "name": "h3",
+      "pass": true,
+      "status": "limited",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "e80f6ec3-dc31-4082-917a-aea70a468392"
+    },
+    {
+      "group": "heldout",
+      "name": "h4",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "aa8977e1-e3f4-4c66-ace4-0d2bc3862a22"
+    },
+    {
+      "group": "heldout",
+      "name": "h5",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "68f12e43-8c9e-4b48-b660-8df990340f0f"
+    },
+    {
+      "group": "heldout",
+      "name": "h6",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "9dccced5-01d3-402e-8a05-cf021f1a7224"
+    },
+    {
+      "group": "heldout",
+      "name": "h7",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "c8208f53-d67d-4a65-90d2-d4ee59c8c00d"
+    },
+    {
+      "group": "heldout",
+      "name": "h8",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "60a2f96e-7d19-414b-866b-5e2224063031"
+    },
+    {
+      "group": "heldout",
+      "name": "h9",
+      "pass": true,
+      "status": "unsupported",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "69db720c-3096-4b6b-9a44-09e7bdc8f928"
+    },
+    {
+      "group": "heldout",
+      "name": "h10",
+      "pass": true,
+      "status": "unsupported",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "7c503fe4-bf95-425d-8c76-feff2510cb39"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-1",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "11ca4eaa-bfaf-4a77-aa8a-bd08c60f31b5"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-2",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "4eafe059-e125-4d88-b54f-e4073fd43767"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-3",
+      "pass": true,
+      "status": "limited",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "0cb21a50-0bef-421a-81b9-9114ebf2d2bc"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-4",
+      "pass": true,
+      "status": "limited",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "3ac02bb0-290f-4fbc-b370-ee7e40908d1b"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-5",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "163fbaaf-fc87-4bf3-b9b4-9ca48e36ac40"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-6",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "85131e97-df86-4f1b-83c2-4fa6f1768f0d"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-7",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-query-routing-regression.json",
+      "runId": "35e83fe9-981c-4b8e-93a0-b0c2ea980f2c"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-8",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "a0c4e159-36f3-4d95-b354-0ecb65eb65ce"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-9",
+      "pass": true,
+      "status": "unsupported",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "520e6bb7-5905-4e97-8e4e-53bc3d88c0c5"
+    },
+    {
+      "group": "heldout-v2",
+      "name": "v2-10",
+      "pass": true,
+      "status": "unsupported",
+      "errors": [],
+      "source": "runtime-legacy-before-query-routing.json",
+      "runId": "2ae6ee67-5420-4b0d-96fe-6d52a400d0e3"
+    },
+    {
+      "group": "followup-0",
+      "name": "why-spend",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "df12031c-1205-4da4-a8d7-33eba868e528"
+    },
+    {
+      "group": "followup-0",
+      "name": "a-channel",
+      "pass": true,
+      "status": "limited",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "b277438d-1e94-4c6c-af08-4bbc5029222e"
+    },
+    {
+      "group": "followup-0",
+      "name": "a-window",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "0772a45d-c0b2-4f06-8486-95d095a3b222"
+    },
+    {
+      "group": "followup-0",
+      "name": "a-clear",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "9a197175-e8fe-4007-86c0-2b9f8de45266"
+    },
+    {
+      "group": "followup-1",
+      "name": "calendar-revenue",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "4f26b0b2-9424-47f0-a17c-471d6c1a86cb"
+    },
+    {
+      "group": "followup-1",
+      "name": "b-period",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "a7acafb2-d797-47a1-bef6-b737cc4d76ca"
+    },
+    {
+      "group": "followup-1",
+      "name": "b-country",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "0072fbaf-603c-4003-b29a-cf6891f58f29"
+    },
+    {
+      "group": "followup-1",
+      "name": "b-clear",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "ca945db1-ae51-4659-bf16-aadf5add20c2"
+    },
+    {
+      "group": "followup-2",
+      "name": "c-start",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "21ca683b-cf84-4ac7-8173-4b82468a1985"
+    },
+    {
+      "group": "followup-2",
+      "name": "c-channel",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "3544cf0a-1849-4577-8f1e-64326ea22376"
+    },
+    {
+      "group": "followup-2",
+      "name": "c-correct",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "2d383370-5fd2-4ce1-85d0-560343082193"
+    },
+    {
+      "group": "followup-2",
+      "name": "c-reset",
+      "pass": true,
+      "status": "completed",
+      "errors": [],
+      "source": "runtime-followup-regression.json",
+      "runId": "ba7cda15-64eb-4508-b9cb-9fc5ea4db4a6"
+    }
+  ]
+}

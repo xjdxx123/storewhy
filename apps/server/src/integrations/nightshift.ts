@@ -55,6 +55,13 @@ export class Nightshift implements ModelGateway {
       "meterless-scope": "user",
     };
   }
+  constructor(
+    readonly options: {
+      timeoutMs?: number;
+      intentTimeoutMs?: number;
+      jsonMode?: boolean;
+    } = {},
+  ) {}
   async structured<T>(
     role: string,
     schema: z.ZodType<T>,
@@ -67,6 +74,7 @@ export class Nightshift implements ModelGateway {
         "MODEL_UNAUTHORIZED",
         "请在本机配置 Nightshift Runtime token",
         503,
+        false,
       );
     const system: ChatMessage = {
       role: "system",
@@ -76,62 +84,109 @@ export class Nightshift implements ModelGateway {
     };
     const history = [system, ...messages];
     for (let attempt = 0; attempt < 2; attempt++) {
-      const start = Date.now();
-      let response: Response | undefined;
+      let body: any;
+      let trace!: ModelTrace;
       for (let retry = 0; retry < 2; retry++) {
+        signal?.throwIfAborted();
+        const start = Date.now();
+        const payload = JSON.stringify({
+          model: settings.model,
+          messages: history,
+          max_tokens: 1900,
+          temperature: 0.1,
+          stream: false,
+          reasoning_effort: "none",
+          ...(this.options.jsonMode !== false
+            ? { response_format: { type: "json_object" } }
+            : {}),
+        });
+        trace = {
+          role: role + (attempt ? ":repair" : ""),
+          model: settings.model,
+          provider: "unresolved",
+          durationMs: 0,
+          inputChars: payload.length,
+          attempt: retry + 1,
+          status: "error",
+          ...(this.options.jsonMode !== false
+            ? { responseFormat: "json_object" as const }
+            : {}),
+        };
         try {
-          response = await fetch(settings.nightshiftUrl + "/chat/completions", {
-            method: "POST",
-            headers: this.headers(),
-            body: JSON.stringify({
-              model: settings.model,
-              messages: history,
-              max_tokens: 1900,
-              temperature: 0.1,
-              stream: false,
-              reasoning_effort: "none",
-            }),
-            signal: signal
-              ? AbortSignal.any([
-                  signal,
-                  AbortSignal.timeout(
-                    role === "investigator.intent" ? 30000 : 90000,
+          const response = await fetch(
+            settings.nightshiftUrl + "/chat/completions",
+            {
+              method: "POST",
+              headers: this.headers(),
+              body: payload,
+              signal: signal
+                ? AbortSignal.any([
+                    signal,
+                    AbortSignal.timeout(
+                      role === "investigator.intent"
+                        ? (this.options.intentTimeoutMs ?? 30000)
+                        : (this.options.timeoutMs ?? 90000),
+                    ),
+                  ])
+                : AbortSignal.timeout(
+                    role === "investigator.intent"
+                      ? (this.options.intentTimeoutMs ?? 30000)
+                      : (this.options.timeoutMs ?? 90000),
                   ),
-                ])
-              : AbortSignal.timeout(
-                  role === "investigator.intent" ? 30000 : 90000,
-                ),
-          });
-          if (response.status >= 500 && retry === 0) continue;
+            },
+          );
+          if (response.status >= 500 && retry === 0) {
+            await response.body?.cancel();
+            continue;
+          }
+          if (!response.ok)
+            throw new AppError(
+              response.status === 401 || response.status === 403
+                ? "MODEL_UNAUTHORIZED"
+                : "MODEL_ERROR",
+              "Nightshift HTTP " + response.status,
+              503,
+              response.status !== 401 && response.status !== 403,
+            );
+          body = await response.json();
+          const route = body.meterless?.winning_route ?? {};
+          trace.model = route.model ?? body.model ?? settings.model;
+          trace.provider = route.provider ?? "unknown";
+          if (body.meterless?.receipt_id)
+            trace.receiptId = body.meterless.receipt_id;
+          trace.status = "ok";
           break;
         } catch (error) {
-          if (retry === 1 || signal?.aborted) throw error;
+          if (signal?.aborted) {
+            trace.status =
+              signal.reason?.name === "TimeoutError" ? "timeout" : "cancelled";
+            throw error;
+          }
+          if (
+            error instanceof Error &&
+            (error.name === "TimeoutError" || error.name === "AbortError")
+          ) {
+            trace.status = "timeout";
+            throw new AppError(
+              "MODEL_TIMEOUT",
+              "Nightshift response timed out",
+              504,
+            );
+          }
+          if (error instanceof AppError) throw error;
+          if (error instanceof TypeError && retry === 0) continue;
+          throw new AppError("MODEL_OFFLINE", "Nightshift 未返回有效响应", 503);
+        } finally {
+          trace.durationMs = Date.now() - start;
+          traces.push(trace);
         }
       }
-      if (!response)
-        throw new AppError("MODEL_OFFLINE", "Nightshift 没有返回响应", 503);
-      if (!response.ok)
-        throw new AppError(
-          response.status === 401 || response.status === 403
-            ? "MODEL_UNAUTHORIZED"
-            : "MODEL_ERROR",
-          "Nightshift HTTP " + response.status,
-          503,
-        );
-      const b: any = await response.json();
-      const route = b.meterless?.winning_route ?? {};
-      traces.push({
-        role: role + (attempt ? ":repair" : ""),
-        model: route.model ?? b.model ?? "unknown",
-        provider: route.provider ?? "unknown",
-        durationMs: Date.now() - start,
-        ...(b.meterless?.receipt_id
-          ? { receiptId: b.meterless.receipt_id }
-          : {}),
-      });
-      const content = b.choices?.[0]?.message?.content;
-      if (typeof content !== "string" || !content.trim())
+      const content = body?.choices?.[0]?.message?.content;
+      if (typeof content !== "string" || !content.trim()) {
+        trace.status = "error";
         throw new AppError("MODEL_EMPTY", "模型未返回文本内容", 503);
+      }
+      trace.outputChars = content.length;
       try {
         const parsed = parseJson(content);
         if (
@@ -156,6 +211,11 @@ export class Nightshift implements ModelGateway {
         }
         return schema.parse(parsed);
       } catch (error) {
+        trace.status = "invalid_json";
+        if (error instanceof z.ZodError)
+          trace.validationIssues = error.issues
+            .slice(0, 6)
+            .map((issue) => ({ path: issue.path.join("."), code: issue.code }));
         if (attempt === 1)
           throw new AppError(
             "MODEL_INVALID_JSON",

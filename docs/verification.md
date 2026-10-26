@@ -86,3 +86,14 @@ npm run test:live
 最终工程验收为 111/111 tests、16/16 新集及确定性审计（13 completed、2 limited、1 unsupported）、旧 Live 44/44、HTTP 6/6，lint/typecheck/build 与 14 条真实指标 SQL 通过。重复评测另识别并修复默认人群漂移；最终四轮比例复测修复了小渠道上涨掩盖汇总下降的首句。逐题审阅和来源见 [阶段 2 记录](why-reliability-review.md)，外部人工业务验收未执行。本阶段未实现阶段 3 性能优化；开发轮自然月案例曾耗时约 192 秒，模型延迟和补查长尾仍需单独优化。没有把第一次/后续购买直接改称新客/老客，没有广告因果实验或点击/曝光数据，也没有宣称穷尽所有解释。
 
 最终独立 CSV 核算：1,084 项核对通过，覆盖 18 种实际执行规格，并包含完整渠道金额汇总的派生比值。所有改动仅在本地；GitHub push 由用户另行明确授权。
+
+## 2026-10-25 Runtime 与接入增量验收（API 1.4.0）
+
+阶段 2 的 Why 可靠性优化、评测与接入材料已按授权 push，远程 main 为 4d55f98。后续本轮实现与本地验收详见 [Runtime 完整记录](runtime-verification.md) 与 [机器可读汇总](../evidence/runtime-final-acceptance.json)。
+
+- 最终 150/150 自动化测试、lint/typecheck/build 通过；Why 16/16（14 completed、1 limited、1 unsupported），独立 CSV 核算 1,054 项/15 种规格，真实指标 SQL 14 条，HTTP 6/6。
+- 旧集首轮 43/44，一项真实模型超时；受修改影响的 16 题与全部 12 轮追问复测 28/28，组合覆盖 44/44，未将首轮失败改记成功。
+- 五轮真实主调查均 completed，中位 24.9 秒、最长 59.7 秒；每轮 3 次模型调用、2 条 SQL、零 JSON 修复，首事件 6–9 ms。保留 n=5、Agent 查询选择、模型波动与本机资源调整的限制。
+- 真实浏览器联调覆盖恢复、追问、窗口、记忆、取消、Reviewer 实际补查和缺数据停止；全部 60 个非空图表点与 Evidence 一致，无 console error。这是 test-only 工具，尚未验收队友 React 页面。
+- 本机 Docker 资源预算从 8092 调为 10240 MiB，driver 使用 arena=2/heap=1g，原六个容器恢复并 healthy；最终连续 60 次分析/124 条 SQL 数值与参考一致、无 driver 重启。历史 OOM 和失败负载保留，有限通过不保证长期不会 OOM。[本机配置与复现](local-runtime-profile.md)。
+- 主会话完成代码与验收材料 review，后续优化验证后本地合并；未继续 push。实际 React UI、团队预演与外部业务验收仍待团队完成。

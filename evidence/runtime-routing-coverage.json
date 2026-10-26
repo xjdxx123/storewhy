@@ -1,0 +1,71 @@
+{
+  "kind": "deterministic_branch_coverage_for_final_query_guard",
+  "source": "runtime-why-regression.json",
+  "records": [
+    {
+      "id": "w1-channel-efficiency",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "f1-channel",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "f1-window",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "f1-clear",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "w2-revenue-factors",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "w3-purchase-composition",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "f2-period",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "f2-region",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "f2-clear",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "w4-conversion",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "w5-maturity",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "w6-device",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "w7-region",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "w8-repeat-channels",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "n1-false-premise",
+      "directQueryGuardApplies": false
+    },
+    {
+      "id": "n2-missing-clicks",
+      "directQueryGuardApplies": false
+    }
+  ],
+  "pass": true
+}

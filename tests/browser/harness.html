@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh">
+  <meta charset="utf-8" />
+  <link rel="icon" href="data:," /><title>StoreWhy 契约联调</title>
+  <style>
+    body {
+      font: 16px system-ui;
+      background: #faf9f6;
+      color: #222;
+      margin: 28px auto;
+      max-width: 1050px;
+      padding: 0 24px;
+    }
+    h1 {
+      font-size: 28px;
+    }
+    button,
+    input {
+      font: inherit;
+      padding: 9px;
+      margin: 5px 5px 5px 0;
+    }
+    input {
+      width: 95%;
+    }
+    pre {
+      white-space: pre-wrap;
+      background: #eee;
+      padding: 12px;
+      max-height: 200px;
+      overflow: auto;
+    }
+    section {
+      border-top: 1px solid #ccc;
+      margin-top: 20px;
+      padding-top: 12px;
+    }
+    .notice {
+      color: #704e20;
+    }
+    #summary {
+      font-size: 20px;
+      line-height: 1.7;
+    }
+    .evidence {
+      display: block;
+      margin: 10px 0;
+    }
+    svg {
+      border: 1px solid #ccc;
+      margin: 10px;
+      max-width: 95%;
+    }
+    #status {
+      font-weight: 600;
+    }
+    button:disabled {
+      opacity: 0.4;
+    }
+  </style>
+  <h1>StoreWhy 后端契约联调</h1>
+  <p class="notice">
+    开发验证工具；不是队友 React 产品页面。模型、数据及回放状态按实际连接显示。
+  </p>
+  <p id="mode">正在检查服务</p>
+  <form id="form">
+    <input
+      id="question"
+      aria-label="问题"
+      value="为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？"
+    /><button id="send">提交问题</button>
+  </form>
+  <div>
+    <button id="channel">只看 FaceBoom</button
+    ><button id="window">改为 7 天</button><button id="missing">检查 CTR</button
+    ><button id="cancel" disabled>取消</button
+    ><button id="remember">保存 7 天偏好</button
+    ><button id="reset">开始新分析</button>
+  </div>
+  <p><span id="status">初始化</span> · <span id="progress"></span></p>
+  <p id="connection"></p>
+  <p id="memory"></p>
+  <p id="error" role="alert"></p>
+  <section>
+    <h2>本轮条件</h2>
+    <p id="scope-label"></p>
+    <pre id="scope"></pre>
+  </section>
+  <section>
+    <h2>结论与限制</h2>
+    <p id="summary"></p>
+    <ul id="limitations"></ul>
+    <div id="followups"></div>
+  </section>
+  <section>
+    <h2>图表（已有证据）</h2>
+    <div id="charts"></div>
+  </section>
+  <section>
+    <h2>关键证据</h2>
+    <div id="evidence"></div>
+    <pre id="sql"></pre>
+  </section>
+  <script type="module" src="/__test__/harness.js"></script>
+</html>

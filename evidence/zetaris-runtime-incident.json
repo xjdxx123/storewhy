@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-26T00:23:07.037Z",
+  "kind": "platform_oom_recovery_probes_not_why_quality",
+  "event": {
+    "time": "2026-10-26T00:21:33Z",
+    "container": "zetaris-driver-1",
+    "action": "oom",
+    "exitCode": 137,
+    "automaticRestart": true
+  },
+  "causeLimit": "Docker proves OOM termination, not which workload caused memory exhaustion.",
+  "records": [
+    {
+      "name": "serial-readiness",
+      "pass": true,
+      "durationMs": 673
+    },
+    {
+      "name": "parallel-readiness-b",
+      "pass": true,
+      "durationMs": 123
+    },
+    {
+      "name": "parallel-readiness-a",
+      "pass": true,
+      "durationMs": 128
+    }
+  ],
+  "pass": true,
+  "controlledMaintenance": {
+    "observedAt": "2026-10-26T00:48:14.631495+00:00",
+    "state": {
+      "startedAt": "2026-10-26T00:40:51.756790883Z",
+      "health": "healthy",
+      "automaticRestartCount": 0
+    },
+    "reason": "Controlled driver restart before final evaluation after extended test memory growth; primary Runs checked idle."
+  }
+}

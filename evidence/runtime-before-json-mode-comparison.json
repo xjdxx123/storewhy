@@ -1,0 +1,103 @@
+{
+  "at": "2026-10-26T00:26:17.419Z",
+  "pass": true,
+  "kind": "five_fresh_live_runs_before_after_no_cross_request_cache",
+  "sameScope": true,
+  "sameModel": true,
+  "sameDataset": true,
+  "before": {
+    "samples": 5,
+    "statuses": [
+      "completed",
+      "completed",
+      "completed",
+      "completed",
+      "completed"
+    ],
+    "durationsMs": [
+      35332,
+      38043,
+      40537,
+      88929,
+      33806
+    ],
+    "medianMs": 38043,
+    "maxMs": 88929,
+    "firstEventMs": [
+      12,
+      6,
+      5,
+      5,
+      10
+    ],
+    "modelCalls": [
+      7,
+      7,
+      7,
+      6,
+      7
+    ],
+    "repairCalls": 9,
+    "sqlCount": [
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "medianQueryPathMs": 13336,
+    "medianInputChars": 55389
+  },
+  "after": {
+    "samples": 5,
+    "statuses": [
+      "completed",
+      "completed",
+      "completed",
+      "completed",
+      "completed"
+    ],
+    "durationsMs": [
+      36065,
+      30327,
+      35693,
+      31169,
+      52188
+    ],
+    "medianMs": 35693,
+    "maxMs": 52188,
+    "firstEventMs": [
+      9,
+      5,
+      5,
+      3,
+      7
+    ],
+    "modelCalls": [
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "repairCalls": 0,
+    "sqlCount": [
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "medianQueryPathMs": 12503,
+    "medianInputChars": 41430
+  },
+  "medianChangePct": -6.18,
+  "inputCharsChangePct": -25.2,
+  "limits": [
+    "n=5 per implementation; sequential repeated fresh conversations, no other Live evaluation during benchmark. Provider latency and local SQL scheduling remain variable; this is not a statistical speed guarantee.",
+    "Input character comparison counts business messages, excluding the generated JSON schema and transport serialization. It is not a token or cost estimate.",
+    "SQL count is unchanged. Per-period requests execute concurrently and merge in requested order; all business numbers remain actual Zetaris results.",
+    "Internal grounded candidate selection cap is 12; final presentation remains 6 findings / 3 key evidence. All selected IDs are checked, and Why still executes Reviewer.",
+    "JSON object mode was only capability-probed and is disabled in production; accepted format is not a schema guarantee."
+  ]
+}

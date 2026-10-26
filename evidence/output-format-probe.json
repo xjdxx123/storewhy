@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-25T23:58:46.730Z",
+  "kind": "capability_probe_not_schema_guarantee",
+  "accepted": true,
+  "value": {
+    "observationIds": [
+      "a",
+      "b"
+    ]
+  },
+  "traces": [
+    {
+      "role": "output-format-probe",
+      "model": "nvidia/nemotron-3-ultra-550b-a55b",
+      "provider": "nvidia",
+      "durationMs": 580,
+      "inputChars": 771,
+      "attempt": 1,
+      "status": "ok",
+      "receiptId": "rcpt_req_ijufo7fw",
+      "outputChars": 28
+    }
+  ]
+}

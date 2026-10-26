@@ -1,0 +1,278 @@
+{
+  "at": "2026-10-26T00:23:41.544948+00:00",
+  "kind": "interrupted_legacy_evaluation_during_platform_oom",
+  "stateDir": "/var/folders/6f/1bk6420x15567_wyjvlz1j880000gn/T/storewhy-live-eval-1zND0F",
+  "completedSuite": false,
+  "records": [
+    {
+      "id": "5f2b1c50-17aa-4253-9309-1ea12452845f",
+      "status": "completed",
+      "context": {
+        "conversationId": "a99a8693-c53b-4bea-a98d-adb59f29f361",
+        "investigationId": "0cb305db-2927-4acc-869c-cfd02b5a08c9",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 1,
+        "spec": {
+          "timeGrain": null,
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [
+            "channel"
+          ],
+          "metrics": [
+            "new_users",
+            "revenue",
+            "revenue_per_payer",
+            "payer_rate",
+            "payers",
+            "users"
+          ]
+        },
+        "evidenceIds": [
+          "ev-7e04851a-045c-43fb-a240-9b56cee6b855"
+        ],
+        "lastQuestion": "比较2019年6月和7月各渠道的新用户14天收入，哪些渠道增加最多？",
+        "taskKind": "query",
+        "objective": "比较2019年6月和7月各渠道的新用户14天收入，哪些渠道增加最多？"
+      },
+      "timing": {
+        "totalMs": 25796,
+        "modelCalls": 1,
+        "repairCalls": 0,
+        "sqlCount": 2,
+        "steps": [
+          {
+            "phase": "intent",
+            "durationMs": 1599,
+            "outcome": "ok"
+          },
+          {
+            "phase": "query",
+            "durationMs": 24171,
+            "outcome": "ok"
+          },
+          {
+            "phase": "presentation",
+            "durationMs": 8,
+            "outcome": "ok"
+          }
+        ]
+      },
+      "createdAt": "2026-10-26T00:23:06.555Z",
+      "finishedAt": "2026-10-26T00:23:32.351Z"
+    },
+    {
+      "id": "d5695a12-cb3f-4fca-a6b9-287143fa0674",
+      "status": "failed",
+      "message": "Zetaris 查询失败 HTTP 400: {\"msg\":\"org.apache.thrift.transport.TTransportException\"}",
+      "context": {
+        "conversationId": "538b4297-ed0c-4540-ae76-df00fd170b24",
+        "investigationId": "c0b839ea-6c70-4fd7-ac42-def5e1c00651",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 1,
+        "spec": {
+          "timeGrain": null,
+          "mode": "cohort",
+          "periods": [
+            {
+              "label": "2019-06",
+              "start": "2019-06-01",
+              "end": "2019-07-01"
+            },
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "paid",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [
+            "channel"
+          ],
+          "metrics": [
+            "spend",
+            "new_users",
+            "payers",
+            "revenue",
+            "payer_rate",
+            "revenue_per_payer",
+            "cost_per_new_user",
+            "revenue_to_spend",
+            "users"
+          ]
+        },
+        "evidenceIds": [],
+        "lastQuestion": "为什么样例中2019年7月比6月费用更多，获客后14天收入却没有相应增长？",
+        "taskKind": "why",
+        "objective": "为什么样例中2019年7月比6月费用更多，获客后14天收入却没有相应增长？"
+      },
+      "timing": {
+        "totalMs": 23983,
+        "modelCalls": 1,
+        "repairCalls": 0,
+        "sqlCount": 0,
+        "steps": [
+          {
+            "phase": "intent",
+            "durationMs": 3443,
+            "outcome": "ok"
+          },
+          {
+            "phase": "query",
+            "durationMs": 20531,
+            "outcome": "error"
+          }
+        ]
+      },
+      "error": {
+        "code": "ZETARIS_ERROR",
+        "retryable": true
+      },
+      "createdAt": "2026-10-26T00:21:11.394Z",
+      "finishedAt": "2026-10-26T00:21:35.377Z"
+    },
+    {
+      "id": "b6b08137-a8ab-4b7b-bc15-dbda6ba90848",
+      "status": "running",
+      "context": {
+        "conversationId": "aaac6d55-a4e5-403e-8416-3524d004a9d4",
+        "investigationId": "82db9f7f-9aec-4328-971a-db179b15590a",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 1,
+        "spec": {
+          "timeGrain": null,
+          "mode": "calendar",
+          "periods": [
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "all",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [],
+          "metrics": [
+            "revenue",
+            "first_purchase_revenue",
+            "repeat_purchase_revenue"
+          ]
+        },
+        "evidenceIds": [],
+        "lastQuestion": "2019年7月自然月收入，首次购买和后续购买分别多少？包含organic。",
+        "taskKind": "query",
+        "objective": "2019年7月自然月收入，首次购买和后续购买分别多少？包含organic。"
+      },
+      "timing": {
+        "totalMs": 3173,
+        "modelCalls": 1,
+        "repairCalls": 0,
+        "sqlCount": 0,
+        "steps": [
+          {
+            "phase": "intent",
+            "durationMs": 3168,
+            "outcome": "ok"
+          }
+        ]
+      },
+      "createdAt": "2026-10-26T00:23:32.408Z"
+    },
+    {
+      "id": "63cf23ba-8daa-4a0a-aeba-dcaa03bb6cd6",
+      "status": "completed",
+      "context": {
+        "conversationId": "5ed0d70e-3f5a-4488-87f3-40a2dc31ae8a",
+        "investigationId": "80e70401-d6de-4ba5-b96a-c80f007fbb1c",
+        "datasetVersion": "4c26d29934370408",
+        "metricVersion": "procrastinate-v1",
+        "revision": 1,
+        "spec": {
+          "timeGrain": null,
+          "mode": "calendar",
+          "periods": [
+            {
+              "label": "2019-07",
+              "start": "2019-07-01",
+              "end": "2019-08-01"
+            }
+          ],
+          "windowDays": 14,
+          "audience": "all",
+          "filters": {
+            "channels": [],
+            "devices": [],
+            "regions": []
+          },
+          "groupBy": [],
+          "metrics": [
+            "revenue"
+          ]
+        },
+        "evidenceIds": [
+          "ev-254df596-567e-422e-8ca2-460c2c9962c5"
+        ],
+        "lastQuestion": "查询2019年7月所有用户自然月购买收入，不限付费渠道，只要收入汇总。",
+        "taskKind": "query",
+        "objective": "查询2019年7月所有用户自然月购买收入，不限付费渠道，只要收入汇总。"
+      },
+      "timing": {
+        "totalMs": 91169,
+        "modelCalls": 1,
+        "repairCalls": 0,
+        "sqlCount": 1,
+        "steps": [
+          {
+            "phase": "intent",
+            "durationMs": 1850,
+            "outcome": "ok"
+          },
+          {
+            "phase": "query",
+            "durationMs": 89294,
+            "outcome": "ok"
+          },
+          {
+            "phase": "presentation",
+            "durationMs": 6,
+            "outcome": "ok"
+          }
+        ]
+      },
+      "createdAt": "2026-10-26T00:21:35.384Z",
+      "finishedAt": "2026-10-26T00:23:06.553Z"
+    }
+  ]
+}

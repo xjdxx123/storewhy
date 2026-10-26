@@ -79,9 +79,22 @@ export function presentAnswer(input: {
   const headline = selected.find(
     (o) => o.id === input.headlineObservationId && o.kind !== "coverage",
   );
+  const focusedFallback =
+    headline?.kind === "joint" &&
+    !Object.keys(headline.focus ?? {}).length &&
+    revenueQuestion &&
+    context.spec.metrics.includes("spend")
+      ? (selected.find(
+          (o) => o.kind === "joint" && Object.keys(o.focus ?? {}).length,
+        ) ??
+        observations.find(
+          (o) => o.kind === "joint" && Object.keys(o.focus ?? {}).length,
+        ))
+      : undefined;
   const lead =
     reversedPremise ??
     relevant ??
+    focusedFallback ??
     headline ??
     selected.find(
       (o) => o.kind === "joint" && Object.keys(o.focus ?? {}).length > 0,

@@ -54,7 +54,7 @@ await api.rememberWindow(id, 7);
 - `run.answer.facts[]`：数字卡，含 `evidenceId`、`rowIndex`、`metric`、`value`；finding.factIds 对应这些卡。fact.id 在单个 Run 内使用；跨轮缓存请用 run.id 加 fact.id，避免引用旧轮次。
 - `api.evidence(id)`：真实 SQL、queryIds、结果、定义、数据版本、观察期排除人数；`comparisons` 含两时期差额和相对变化。
 - `evidence.rows[].bucket`：趋势桶起点；无 bucket 时用 period。相对变化/比例使用小数，显示百分比时乘百。金额不添加美元符号；`null` 显示“不可计算/数据缺失”。
-- `modelTraces`：真实 provider/model，可在详情中显示；普通用户不必看技术信息。
+- `modelTraces`：真实 provider/model，可在详情中显示；responseFormat 记录是否请求 JSON object，仍需本地校验，不表示 schema 保证。普通用户不必看技术信息。
 
 ## 具体结论与推荐追问（API 1.2.0 新增）
 
@@ -105,9 +105,9 @@ const response = chartResponseSchema.parse(
 | failed              | 展示 message，允许重试；Live 错误不会回退样例 |
 | cancelled           | 显示已取消，可继续提问                        |
 
-HTTP 校验错误统一 `{error:{code,message}}`，400 为参数，404 为记录不存在，409 为会话忙或推荐上下文已过期，429 为容量限制，503 为外部服务不可用。最多两个会话同时运行。运行中发生的错误写入 Run 和 SSE，消息接口本身仍已返回 202。
+HTTP 校验错误统一 `{error:{code,message,retryable}}`，400 为参数，404 为记录不存在，409 为会话忙或推荐上下文已过期，429 为容量限制，503 为外部服务不可用。最多两个会话同时运行。运行中发生的错误写入 Run 和 SSE，消息接口本身仍已返回 202。
 
-SSE type：run_started、scope_updated、hypothesis、query_started、query_completed、review_completed、memory_recalled、answer_ready、clarification、error、cancelled。使用 seq 去重。error 也可能是 EventSource 连接错误，仅在事件带 data 时解析 JSON。
+SSE type：progress、run_started、scope_updated、hypothesis、query_started、query_completed、review_completed、memory_recalled、answer_ready、clarification、error、cancelled。使用 seq 去重。error 也可能是 EventSource 连接错误，仅在事件带 data 时解析 JSON。
 
 ## 接口表
 
@@ -136,4 +136,57 @@ SSE type：run_started、scope_updated、hypothesis、query_started、query_comp
 
 可选 `answer.explanations` 提供支持、反驳、数据不足、未检查四种状态。请显示 claim、status 和 text，并用 factIds 展开数字来源；随访检查通过 coverageRefs 展开 Evidence.coverage。完整字段和标签含义见 [回答契约](answer-contract.md#why-解释检查api-130)。
 
-即使 completed 也展示 limitations，尤其是十月批次裁剪。unsupported 本轮显示 run.message，不复用上一轮结果。只改时期或筛选的追问继承 Why 目标，修改后使用最新回答里的推荐。
+即使 completed 也展示 limitations，尤其是十月批次裁剪。unsupported 本轮显示 run.message，不复用上一轮结果。只改时期或筛选的追问继承 Why 目标，修改后使用最新回答里的推荐。Context.objective 保留最初问题的历史文字；当前窗口、日期和筛选以 run.context.spec 为准，不要用历史文字中的旧窗口代替本轮条件。
+
+## 运行进度、错误与恢复（API 1.4.0）
+
+新增字段全部可选，兼容旧 Run：
+
+- `run.progress: {phase,label,round?,updatedAt}` 是当前真实阶段；SSE 的每个事件可带 `progress`，并新增 `progress` type。普通用户显示 label，不展示模型自由推理或伪百分比。
+- `run.timing` 包含 totalMs、分段 steps（intent/query/explain/review/presentation）、modelCalls、repairCalls、sqlCount。sqlCount 为成功返回的 Evidence 中的实际 SQL 条数；失败的完整尝试可从 timing/trace outcome 看出。普通用户无需显示这些工程细节。
+- `run.error: {code,retryable}` 与现有 message 配合展示。failed/cancelled/unsupported 本轮不要复用上次 Answer。`warnings` 是非阻断提示，例如分析完成但可选记忆暂未保存。
+
+phase：understanding、querying、explaining、reviewing、presenting、cancelling、complete、needs_input、failed、cancelled。查询分组变化会报告“正在检查渠道差异”等真实进度；Reviewer 发现缺口不代表补查必然执行，只有查询实际开始才报告查询阶段。
+
+刷新后的推荐恢复方式：
+
+```ts
+const { conversation, run, after } = await api.resume(savedConversationId);
+if (run) {
+  showRun(run); // 先恢复 scope 和 run.progress
+  if (run.status === "queued" || run.status === "running") {
+    const stop = api.subscribe(
+      run.id,
+      appendProgress,
+      async () => {
+        showRun(await api.run(run.id));
+      },
+      {
+        after,
+        onConnectionChange: (state) => showConnection(state),
+        onError: (error) => showConnectionNotice(error.message),
+      },
+    );
+    // 页面卸载时 stop()。断开 SSE 不取消后台调查。
+  }
+}
+```
+
+SDK 对事件按 seq 去重。连接状态由 onConnectionChange 提供 connecting/open/reconnecting/closed；native EventSource 永久关闭时报告 closed，不会宣称仍在重连，可改用下面的状态轮询。后端取 query.after 与 Last-Event-ID 的较大值；超过当前 Run 序号返回 400 CURSOR_AHEAD，此时重新读取 Run 恢复。不要把其他 Run 的 cursor 用到本轮。
+
+SSE 暂时不可用时，可 `await api.waitForRun(runId,{signal,pollIntervalMs:1000,timeoutMs:370000})` 轮询至终态。等待超时返回 WAIT_TIMEOUT，后台任务仍可恢复；取消等待用 AbortSignal，取消调查用 api.cancel，两者不同。实际 React 组件应在卸载时 abort 并关闭订阅，且应用结果前核对当前 run.id，避免旧请求覆盖新页面。
+
+`StoreWhyClientError` 提供 code/status/retryable。消息 POST 从不自动重试；网络中断后先 resume，确认是否已创建 Run，再决定新提交。同会话运行中重复提交返回 CONVERSATION_BUSY，容量限制为 CAPACITY。retryable 只用于提示用户可以重试，不代表立即自动再发问题。
+
+| code                                      | 展示/处理                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------ |
+| ZETARIS_ERROR / MODEL_ERROR               | 服务返回错误，显示 message；按 retryable 提示恢复或重试，不显示旧 Answer |
+| MODEL_TIMEOUT / RUN_TIMEOUT               | 本轮超时，无新 Answer；允许用户重试或缩小范围                            |
+| ZETARIS_OFFLINE / ZETARIS_TIMEOUT         | 数据不可用，保留当前条件；绝不冒充 fixture 成功                          |
+| MODEL_UNAUTHORIZED / ZETARIS_UNAUTHORIZED | 检查本机连接授权，不自动重试                                             |
+| SERVER_RESTARTED                          | 旧调查中断，可重新提问；原 Run 可读取终态                                |
+| CANCELLED                                 | 显示取消，允许开始新问题                                                 |
+| BACKEND_OFFLINE / REQUEST_TIMEOUT         | 前端连接失败，优先 resume 检查原 Run                                     |
+| INVALID_RESPONSE / WAIT_TIMEOUT           | 提示读取/等待失败；保留 conversationId/runId 以恢复                      |
+
+独立浏览器联调工具位于 `tests/browser`，`npm run test:browser` 使用明确标注的自制样例；`npm run test:browser:live` 使用实际 Zetaris/Nightshift。它验证刷新、图表逐点来源、追问、取消与有来源的偏好恢复，不替代队友 React 页面验收，不发布网站。默认使用 macOS Chrome，可用 STOREWHY_CHROME 指向本机 Chrome/Chromium 可执行文件。

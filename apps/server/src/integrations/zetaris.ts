@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { settings, AppError, cleanError } from "../config.ts";
+import { zetarisQueries } from "./query-gate.ts";
 export interface SqlResult {
   rows: Record<string, unknown>[];
   queryId: string;
@@ -12,36 +13,103 @@ export interface SqlBackend {
 export class ZetarisBackend implements SqlBackend {
   readonly kind = "zetaris" as const;
   async execute(sql: string, signal?: AbortSignal): Promise<SqlResult> {
-    return this.request(sql, signal);
+    const deadline = AbortSignal.timeout(90000);
+    const querySignal = signal ? AbortSignal.any([signal, deadline]) : deadline;
+    try {
+      return await zetarisQueries.run(
+        () => this.request(sql, querySignal),
+        querySignal,
+      );
+    } catch (error) {
+      if (signal?.aborted) throw error;
+      if (deadline.aborted)
+        throw new AppError(
+          "ZETARIS_TIMEOUT",
+          "Zetaris query deadline exceeded while waiting or executing",
+          504,
+        );
+      throw error;
+    }
   }
   async request(sql: string, signal?: AbortSignal): Promise<SqlResult> {
     if (!settings.zetarisKey)
-      throw new AppError("ZETARIS_UNAUTHORIZED", "未配置 Zetaris token", 503);
+      throw new AppError(
+        "ZETARIS_UNAUTHORIZED",
+        "未配置 Zetaris token",
+        503,
+        false,
+      );
     const queryId = randomUUID();
-    const response = await fetch(settings.zetarisUrl + "/sql-editor/sqls/run", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + settings.zetarisKey,
-        "X-Org-ID": settings.orgId,
-        "X-Request-ID": queryId,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ queryId, sql, source: "SqlEditor", limit: 201 }),
-      signal: signal
-        ? AbortSignal.any([signal, AbortSignal.timeout(90000)])
-        : AbortSignal.timeout(90000),
-    });
+    const requestSignal = signal
+      ? AbortSignal.any([signal, AbortSignal.timeout(90000)])
+      : AbortSignal.timeout(90000);
+    let response: Response;
+    try {
+      response = await fetch(settings.zetarisUrl + "/sql-editor/sqls/run", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + settings.zetarisKey,
+          "X-Org-ID": settings.orgId,
+          "X-Request-ID": queryId,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ queryId, sql, source: "SqlEditor", limit: 201 }),
+        signal: requestSignal,
+      });
+    } catch (error) {
+      if (signal?.aborted) throw error;
+      if (
+        error instanceof Error &&
+        (error.name === "TimeoutError" || error.name === "AbortError")
+      )
+        throw new AppError(
+          "ZETARIS_TIMEOUT",
+          "Zetaris response timed out",
+          504,
+        );
+      throw new AppError("ZETARIS_OFFLINE", "无法连接 Zetaris", 503);
+    }
     if (!response.ok) {
-      const detail = cleanError(await response.text());
+      const detail = cleanError(
+        await response.text().catch((error: unknown) => {
+          if (signal?.aborted) throw error;
+          if (requestSignal.aborted)
+            throw new AppError(
+              "ZETARIS_TIMEOUT",
+              "Zetaris response body timed out",
+              504,
+            );
+          return "响应内容无法读取";
+        }),
+      );
       throw new AppError(
         response.status === 401 || response.status === 403
           ? "ZETARIS_UNAUTHORIZED"
           : "ZETARIS_ERROR",
         "Zetaris 查询失败 HTTP " + response.status + ": " + detail,
         503,
+        response.status !== 401 && response.status !== 403,
       );
     }
-    const body: any = await response.json();
+    let body: any;
+    try {
+      body = await response.json();
+    } catch (error) {
+      if (signal?.aborted) throw error;
+      if (requestSignal.aborted)
+        throw new AppError(
+          "ZETARIS_TIMEOUT",
+          "Zetaris response body timed out",
+          504,
+        );
+      throw new AppError("ZETARIS_RESULT", "Zetaris 返回了不可读取的响应", 503);
+    }
+    if (!body || typeof body !== "object" || Array.isArray(body))
+      throw new AppError(
+        "ZETARIS_RESULT",
+        "Zetaris 返回了不符合接口约定的响应",
+        503,
+      );
     if (body.error || body.errorMessage || body.status === "FAILED")
       throw new AppError(
         "ZETARIS_QUERY_FAILED",

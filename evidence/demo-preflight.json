@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-26T02:13:54.994Z",
+  "kind": "read_only_demo_preflight_no_agent_or_publication",
+  "root": "http://127.0.0.1:3100",
+  "pass": true,
+  "checks": [
+    {
+      "name": "runtime-version",
+      "pass": true,
+      "detail": {
+        "status": "ok",
+        "apiVersion": "1.4.0",
+        "dataMode": "zetaris",
+        "datasetVersion": "4c26d29934370408"
+      }
+    },
+    {
+      "name": "live-data",
+      "pass": true,
+      "detail": {
+        "status": "online",
+        "backend": "zetaris"
+      }
+    },
+    {
+      "name": "live-model",
+      "pass": true,
+      "detail": {
+        "status": "online",
+        "model": "nvidia/nemotron-3-ultra-550b-a55b"
+      }
+    },
+    {
+      "name": "teaching-sample-disclosure",
+      "pass": true,
+      "detail": {
+        "kind": "public_teaching_sample",
+        "start": "2019-05-01",
+        "end": "2019-11-01"
+      }
+    },
+    {
+      "name": "ui-contract",
+      "pass": true,
+      "detail": {
+        "version": "1.4.0"
+      }
+    },
+    {
+      "name": "vite-origin",
+      "pass": true,
+      "detail": {
+        "status": 204
+      }
+    }
+  ]
+}

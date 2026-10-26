@@ -26,6 +26,7 @@ export class AppError extends Error {
     public code: string,
     message: string,
     public statusCode = 400,
+    public retryable = statusCode >= 500,
   ) {
     super(message);
   }
