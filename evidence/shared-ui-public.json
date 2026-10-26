@@ -1,0 +1,54 @@
+{
+  "at": "2026-10-26T21:28:43.594Z",
+  "pass": true,
+  "transport": "actual_public_https_tunnel",
+  "publicTunnelVerified": true,
+  "records": [
+    {
+      "name": "no-key-and-wrong-key-denied",
+      "pass": true
+    },
+    {
+      "name": "missing-config",
+      "pass": true
+    },
+    {
+      "name": "expired-config",
+      "pass": true
+    },
+    {
+      "name": "wrong-key",
+      "pass": true
+    },
+    {
+      "name": "ui-only-without-vendor-config-and-secret-free-bundle",
+      "pass": true,
+      "health": {
+        "status": "ok",
+        "apiVersion": "1.4.0",
+        "dataMode": "zetaris",
+        "datasetVersion": "4c26d29934370408"
+      }
+    },
+    {
+      "name": "live-why-refresh-and-evidence-bound-charts",
+      "pass": true,
+      "runId": "c93c01a0-b19c-4713-a79e-e1e14724b701",
+      "status": "completed",
+      "summary": "所列渠道合计：2019-07对比2019-06，首访后14天的收入与记录费用比从0.904277变为0.832253；费用增加1357.01，收入增加42.53。比值由渠道金额合计计算，不是渠道比值平均，也不代表广告因果增量。",
+      "chartPoints": 60
+    },
+    {
+      "name": "followup-poll-only-and-server-side-token",
+      "pass": true,
+      "runId": "b398121d-322b-4f83-902d-df3e01d0d49c",
+      "runReads": 26,
+      "sseRequests": 0,
+      "browserErrors": []
+    },
+    {
+      "name": "ui-shutdown-preserves-shared-backend",
+      "pass": true
+    }
+  ]
+}

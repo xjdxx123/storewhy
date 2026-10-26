@@ -141,9 +141,11 @@ try {
       );
     });
   });
-  console.log("[3/3] 正在从 HTTPS 地址验证访问口令…");
+  console.log(
+    "[3/3] 正在从 HTTPS 地址验证访问口令（新域名解析最多等待 3 分钟）…",
+  );
   let ready = false;
-  const deadline = Date.now() + 90000;
+  const deadline = Date.now() + 180000;
   while (Date.now() < deadline) {
     if (child.exitCode !== null || child.signalCode !== null)
       throw new Error("临时隧道已退出，请检查 .state/share/cloudflared.log。");
