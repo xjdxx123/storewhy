@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-26T07:58:21.527Z",
+  "pass": true,
+  "kind": "built_production_bundle_with_local_api_proxy",
+  "liveBackendModeVisible": true,
+  "realModelCalled": false,
+  "fixtureReplayExplicit": true,
+  "fixtureReplayReadOnly": true,
+  "consoleErrors": []
+}

@@ -97,3 +97,9 @@ npm run test:live
 - 真实浏览器联调覆盖恢复、追问、窗口、记忆、取消、Reviewer 实际补查和缺数据停止；全部 60 个非空图表点与 Evidence 一致，无 console error。这是 test-only 工具，尚未验收队友 React 页面。
 - 本机 Docker 资源预算从 8092 调为 10240 MiB，driver 使用 arena=2/heap=1g，原六个容器恢复并 healthy；最终连续 60 次分析/124 条 SQL 数值与参考一致、无 driver 重启。历史 OOM 和失败负载保留，有限通过不保证长期不会 OOM。[本机配置与复现](local-runtime-profile.md)。
 - 主会话完成代码与验收材料 review，后续优化验证后本地合并；未继续 push。实际 React UI、团队预演与外部业务验收仍待团队完成。
+
+## 2026-10-26 轻量备用 React UI
+
+独立应用位于 apps/fallback-web，使用现有 SDK/API。150 项既有测试与 lint/typecheck/build 通过；实际 React 页面完成 10 轮 fixture 和 8 轮 Live 流程，Live 60 个图表点逐项核对来源；移动端 390px 无页面横向溢出，无浏览器 console error。生产构建也通过本机预览/代理与明确只读样例检查。
+
+Review 复现并修正折线跨缺失时间桶连线，按日/周/月（含跨年）断线；null/负值/堆叠为另外标注的自制渲染边界检查，不计作 Live 数值核算。保留开发失败记录。代码与证据由主会话 review，验证后本地合并，不 push；未修改 Agent/SQL，未重新执行整套指标或 Why 评测。[启动与边界](fallback-ui.md)、[机器可读结果](../evidence/fallback-ui-verification.json)。

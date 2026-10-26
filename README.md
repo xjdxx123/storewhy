@@ -109,4 +109,10 @@ npm run test:browser:live      # 真实 Zetaris / Nightshift / NVIDIA
 npm run demo:check             # 当前服务的只读 Demo 预检
 ```
 
-浏览器命令使用本机 Chrome，必要时设置 `STOREWHY_CHROME`。这是独立的 SDK/API 联调工具，React 页面仍由队友实现。Live 评测与性能测试逐项运行，避免共享本地 Spark driver 上多套测试争用资源；连接状态健康不保证长时间高负载不会耗尽 Docker 内存。本机 Zetaris 的 heap/内存配置见 [本地运行配置](docs/local-runtime-profile.md)。最新前后对照、故障记录和验收边界见 [运行优化验证](docs/runtime-verification.md)。
+浏览器命令使用本机 Chrome，必要时设置 `STOREWHY_CHROME`。这些 test:browser 命令是独立的 SDK/API 联调工具。实际备用 React 页面见下节；队友页面仍可独立实现。Live 评测与性能测试逐项运行，避免共享本地 Spark driver 上多套测试争用资源；连接状态健康不保证长时间高负载不会耗尽 Docker 内存。本机 Zetaris 的 heap/内存配置见 [本地运行配置](docs/local-runtime-profile.md)。最新前后对照、故障记录和验收边界见 [运行优化验证](docs/runtime-verification.md)。
+
+## 轻量备用 UI
+
+React + TypeScript 单页位于 `apps/fallback-web`，与队友 `apps/web` 分开。后端运行后，在另一 Terminal 执行 `npm run dev:ui`，打开 **http://127.0.0.1:5173/**。支持自由提问、连续追问、真实进度、取消、刷新恢复、图表与逐点 Evidence/SQL。
+
+`npm run build` 同时构建后端与备用 UI；`npm run test:ui` / `npm run test:ui:live` 验证实际 React 页面。启动、代理、样例标识和边界见 [备用 UI](docs/fallback-ui.md)。

@@ -1,6 +1,6 @@
 # React / TypeScript 接入
 
-后端默认 `http://127.0.0.1:3100`，UI 由队友构建。共享包 `@storewhy/contracts` 同时提供 TS types、Zod schema 和浏览器客户端。包使用 TS 源码导出，Vite 可直接处理。新建 UI 时放到 `apps/web`，并在其 package.json 声明 `"@storewhy/contracts":"*"`，在根目录执行 `npm install`。
+后端默认 `http://127.0.0.1:3100`。已另建 [轻量备用 UI](fallback-ui.md)，放在 `apps/fallback-web`；队友可继续在 `apps/web` 独立构建。共享包 `@storewhy/contracts` 同时提供 TS types、Zod schema 和浏览器客户端。包使用 TS 源码导出，Vite 可直接处理。新建 UI 时放到 `apps/web`，并在其 package.json 声明 `"@storewhy/contracts":"*"`，在根目录执行 `npm install`。
 
 ## 最小交互
 

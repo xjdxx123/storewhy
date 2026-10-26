@@ -1,0 +1,80 @@
+{
+  "at": "2026-10-26T08:02:33.687Z",
+  "pass": true,
+  "application": "apps/fallback-web",
+  "kind": "actual_react_ui_not_the_prior_contract_harness",
+  "static": {
+    "testsPassed": 150,
+    "testsFailed": 0,
+    "lint": "pass",
+    "typecheck": "pass",
+    "build": "pass",
+    "dependencyVulnerabilities": 0
+  },
+  "fixture": {
+    "source": "fallback-ui-fixture.json",
+    "runs": 10,
+    "checks": {
+      "reactPageLoaded": true,
+      "refreshWithoutDuplicatePost": true,
+      "allChartPointsBound": 8,
+      "evidenceSqlAndEscape": true,
+      "savedDefaultRestored": true,
+      "recommendationExecuted": true,
+      "cancelDoesNotLeaveOldReport": true,
+      "unsupportedDoesNotLeaveOldReport": true,
+      "pollingCompletesWithoutSse": true,
+      "failedDoesNotLeaveOldReport": true,
+      "ambiguousPostRequiresRestoreWithoutResubmit": true,
+      "explicitFixtureReplay": true,
+      "lineNullBreaksAndNegativePoints": true,
+      "stackedBarRendered": true,
+      "missingDayWeekMonthBucketsBreakLines": true,
+      "syntheticRendererChecksSeparateFromSourceBinding": true,
+      "mobileNoDocumentOverflow": true
+    }
+  },
+  "live": {
+    "source": "fallback-ui-live.json",
+    "runs": 8,
+    "checks": {
+      "reactPageLoaded": true,
+      "refreshWithoutDuplicatePost": true,
+      "allChartPointsBound": 60,
+      "evidenceSqlAndEscape": true,
+      "savedDefaultRestored": true,
+      "recommendationExecuted": true,
+      "cancelDoesNotLeaveOldReport": true,
+      "unsupportedDoesNotLeaveOldReport": true,
+      "mobileNoDocumentOverflow": true
+    }
+  },
+  "production": {
+    "source": "fallback-ui-production.json",
+    "pass": true
+  },
+  "review": {
+    "method": "Primary-session correctness and browser review; no subagents.",
+    "fixed": [
+      "Missing time buckets were initially connected; now day/week/month gaps break paths and bucket keys are sorted.",
+      "Read-only replay cannot submit against a different live scope.",
+      "Late preference/cancel responses cannot overwrite a newer session."
+    ],
+    "blockers": []
+  },
+  "limits": [
+    "Live timing is not benchmarked here.",
+    "Null/negative/stacked and missing-bucket renderer edge cases use separate synthetic payloads and are not counted as real source verification.",
+    "No change to Agent/SQL; full business evaluation suite not rerun.",
+    "No teammate UI changes, publication, recording or event submission."
+  ],
+  "delivery": {
+    "url": "http://127.0.0.1:5173/",
+    "localOnly": true,
+    "pushed": false
+  },
+  "secretScan": {
+    "pass": true,
+    "source": "fallback-ui-secret-scan.json"
+  }
+}

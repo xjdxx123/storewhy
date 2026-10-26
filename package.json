@@ -8,14 +8,14 @@
     "apps/*"
   ],
   "engines": {
-    "node": ">=22"
+    "node": ">=22.12.0"
   },
   "scripts": {
     "dev": "tsx watch apps/server/src/index.ts",
     "start": "node dist/server.js",
-    "build": "esbuild apps/server/src/index.ts --bundle --platform=node --target=node22 --format=esm --packages=external --outfile=dist/server.js --alias:@storewhy/hmem=./packages/hmem/src/index.ts --alias:@storewhy/contracts=./packages/contracts/src/index.ts",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint apps/server packages/contracts scripts tests",
+    "build": "npm run build:server && npm run build:ui",
+    "typecheck": "tsc --noEmit && npm run typecheck -w @storewhy/fallback-web",
+    "lint": "eslint apps/server apps/fallback-web packages/contracts scripts tests",
     "test": "vitest run",
     "test:live": "tsx scripts/verify-live.ts",
     "data:prepare": "tsx scripts/prepare-data.ts",
@@ -23,7 +23,7 @@
     "data:register": "tsx scripts/register-data.ts",
     "eval:live": "tsx scripts/evaluate.ts",
     "dev:live": "STOREWHY_MODE=live tsx watch apps/server/src/index.ts",
-    "format": "prettier --write apps/server/src packages/contracts/src scripts tests docs README.md package.json tsconfig.json vitest.config.ts eslint.config.js",
+    "format": "prettier --write apps/server/src apps/fallback-web packages/contracts/src scripts tests docs README.md package.json tsconfig.json vitest.config.ts eslint.config.js",
     "pretest:live": "python3 scripts/reference-metrics.py",
     "test:http": "tsx scripts/smoke-http.ts",
     "test:charts": "tsx scripts/smoke-charts.ts",
@@ -34,7 +34,13 @@
     "bench:runtime": "tsx scripts/benchmark-runtime.ts",
     "test:browser": "tsx scripts/browser-verify.ts",
     "test:browser:live": "tsx scripts/browser-verify.ts --live",
-    "demo:check": "tsx scripts/demo-preflight.ts"
+    "demo:check": "tsx scripts/demo-preflight.ts",
+    "build:server": "esbuild apps/server/src/index.ts --bundle --platform=node --target=node22 --format=esm --packages=external --outfile=dist/server.js --alias:@storewhy/hmem=./packages/hmem/src/index.ts --alias:@storewhy/contracts=./packages/contracts/src/index.ts",
+    "build:ui": "npm run build -w @storewhy/fallback-web",
+    "dev:ui": "npm run dev -w @storewhy/fallback-web",
+    "preview:ui": "npm run preview -w @storewhy/fallback-web",
+    "test:ui": "tsx scripts/verify-fallback-ui.ts",
+    "test:ui:live": "tsx scripts/verify-fallback-ui.ts --live"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.16",

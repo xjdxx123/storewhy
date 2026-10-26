@@ -1,9 +1,22 @@
 import js from "@eslint/js";
 import ts from "typescript-eslint";
 export default ts.config(
-  { ignores: ["packages/hmem/**", "dist/**", "apps/web/**"] },
+  { ignores: ["packages/hmem/**", "**/dist/**", "apps/web/**"] },
   js.configs.recommended,
   ...ts.configs.recommended,
+  {
+    files: ["apps/fallback-web/src/**/*.{ts,tsx}"],
+    languageOptions: {
+      globals: {
+        location: "readonly",
+        localStorage: "readonly",
+        document: "readonly",
+        setInterval: "readonly",
+        clearInterval: "readonly",
+        HTMLDialogElement: "readonly",
+      },
+    },
+  },
   {
     languageOptions: {
       globals: {

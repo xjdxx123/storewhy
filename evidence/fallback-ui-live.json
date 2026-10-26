@@ -1,0 +1,347 @@
+{
+  "at": "2026-10-26T07:50:59.318Z",
+  "kind": "actual_react_fallback_ui",
+  "mode": "live_zetaris_nightshift_nvidia",
+  "pass": true,
+  "checks": {
+    "reactPageLoaded": true,
+    "refreshWithoutDuplicatePost": true,
+    "allChartPointsBound": 60,
+    "evidenceSqlAndEscape": true,
+    "savedDefaultRestored": true,
+    "recommendationExecuted": true,
+    "cancelDoesNotLeaveOldReport": true,
+    "unsupportedDoesNotLeaveOldReport": true,
+    "mobileNoDocumentOverflow": true
+  },
+  "consoleErrors": [],
+  "records": [
+    {
+      "name": "main-after-refresh",
+      "runId": "576b5278-42ce-4317-a71b-42d0986f955c",
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "summary": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加1734.6，收入减少600.84。费用增加没有伴随同口径收入增加。"
+    },
+    {
+      "name": "channel-followup",
+      "runId": "593c2a23-2ded-4880-b218-8cc6dc015f9f",
+      "status": "limited",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "summary": "FaceBoom：2019-07对比2019-06，首访后14天口径下，费用减少206.8，收入增加539.42。进一步解释仍有证据缺口。"
+    },
+    {
+      "name": "seven-day-followup",
+      "runId": "a62dc0de-f63a-43a7-8006-8e16a8d486bb",
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "summary": "FaceBoom：2019-07对比2019-06，首访后7天口径下，费用减少206.8，收入增加555.48。"
+    },
+    {
+      "name": "temporary-fourteen-day",
+      "runId": "e8508893-bf5e-4e63-9b06-bfc25b58cd7a",
+      "status": "limited",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "summary": "FaceBoom：2019-07对比2019-06，首访后14天口径下，费用减少206.8，收入增加539.42。进一步解释仍有证据缺口。"
+    },
+    {
+      "name": "source-backed-memory-default",
+      "runId": "f3c61880-672f-44a0-855d-85fb9282e6fd",
+      "status": "completed",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "revenue"
+        ]
+      },
+      "summary": "整体：2019-07相较2019-06，首访后7天的 首次观测用户数 从15315变为14941，差额-374，变化率-2.44%。"
+    },
+    {
+      "name": "recommended-followup",
+      "runId": "b563cfd1-d379-4a4e-a452-71d8795c5d14",
+      "status": "completed",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue",
+          "repeat_payer_rate",
+          "new_users"
+        ]
+      },
+      "summary": "整体：2019-07相较2019-06，首访后7天的 首次购买收入 从6363.36变为6538.59，差额175.23，变化率2.75%。 整体：2019-07相较2019-06，首访后7天的 后续购买收入 从3875.65变为4159.26，差额283.61，变化率7.32%。"
+    },
+    {
+      "name": "cancelled-run",
+      "runId": "cd2b4098-1543-44a3-b923-419f90b726e1",
+      "status": "cancelled",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue",
+          "repeat_payer_rate",
+          "new_users"
+        ]
+      },
+      "summary": "本轮调查已取消，可以调整条件后重新提问。"
+    },
+    {
+      "name": "missing-click-data",
+      "runId": "1bb1635b-48d0-4aa1-a7c7-764b5f996c54",
+      "status": "unsupported",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue",
+          "repeat_payer_rate",
+          "new_users"
+        ]
+      },
+      "summary": "当前数据不足以回答，请明确时期、指标或可用范围。"
+    }
+  ]
+}

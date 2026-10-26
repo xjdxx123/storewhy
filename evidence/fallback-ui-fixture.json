@@ -1,0 +1,383 @@
+{
+  "at": "2026-10-26T08:01:42.937Z",
+  "kind": "actual_react_fallback_ui",
+  "mode": "self_authored_fixture_and_scripted_model",
+  "pass": true,
+  "checks": {
+    "reactPageLoaded": true,
+    "refreshWithoutDuplicatePost": true,
+    "allChartPointsBound": 8,
+    "evidenceSqlAndEscape": true,
+    "savedDefaultRestored": true,
+    "recommendationExecuted": true,
+    "cancelDoesNotLeaveOldReport": true,
+    "unsupportedDoesNotLeaveOldReport": true,
+    "pollingCompletesWithoutSse": true,
+    "failedDoesNotLeaveOldReport": true,
+    "ambiguousPostRequiresRestoreWithoutResubmit": true,
+    "explicitFixtureReplay": true,
+    "lineNullBreaksAndNegativePoints": true,
+    "stackedBarRendered": true,
+    "missingDayWeekMonthBucketsBreakLines": true,
+    "syntheticRendererChecksSeparateFromSourceBinding": true,
+    "mobileNoDocumentOverflow": true
+  },
+  "consoleErrors": [],
+  "records": [
+    {
+      "name": "main-after-refresh",
+      "runId": "3c22ee7e-8559-4c0d-a315-0f0496caf59a",
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "revenue"
+        ]
+      },
+      "summary": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加24，收入不变0。费用增加没有伴随同口径收入增加。"
+    },
+    {
+      "name": "channel-followup",
+      "runId": "a42b8244-8fe4-4557-847e-45f5e5eeab5e",
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "revenue"
+        ]
+      },
+      "summary": "FaceBoom：2019-07对比2019-06，首访后14天口径下，费用增加12，收入不变0。费用增加没有伴随同口径收入增加。"
+    },
+    {
+      "name": "seven-day-followup",
+      "runId": "8b91a687-9528-4c03-b68d-a33187643e4e",
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "revenue"
+        ]
+      },
+      "summary": "FaceBoom：2019-07对比2019-06，首访后7天口径下，费用增加12，收入不变0。费用增加没有伴随同口径收入增加。"
+    },
+    {
+      "name": "temporary-fourteen-day",
+      "runId": "aa3090fb-8c3c-4284-8276-1dc79111f136",
+      "status": "completed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "revenue"
+        ]
+      },
+      "summary": "FaceBoom：2019-07对比2019-06，首访后14天口径下，费用增加12，收入不变0。费用增加没有伴随同口径收入增加。"
+    },
+    {
+      "name": "source-backed-memory-default",
+      "runId": "28edb31e-3e8f-44b9-8d44-cff25b18a2dd",
+      "status": "completed",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "new_users",
+          "revenue"
+        ]
+      },
+      "summary": "整体：2019-07相较2019-06，首访后7天的 首次观测用户数 从8变为8，差额0，变化率0.00%。"
+    },
+    {
+      "name": "recommended-followup",
+      "runId": "e93f93e7-8717-4e84-aeba-978e2ee0aa9d",
+      "status": "completed",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue",
+          "repeat_payer_rate",
+          "new_users"
+        ]
+      },
+      "summary": "整体：2019-07相较2019-06，首访后7天的 首次购买收入 从82.5变为82.5，差额0，变化率0.00%。 整体：2019-07相较2019-06，首访后7天的 后续购买收入 从7.5变为7.5，差额0，变化率0.00%。"
+    },
+    {
+      "name": "cancelled-run",
+      "runId": "b33c7db8-fcfe-4411-84fc-0fb21292fe1f",
+      "status": "cancelled",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue",
+          "repeat_payer_rate",
+          "new_users"
+        ]
+      },
+      "summary": "本轮调查已取消，可以调整条件后重新提问。"
+    },
+    {
+      "name": "missing-click-data",
+      "runId": "329f095c-9f44-4fd3-96fa-1ab14c4a62f0",
+      "status": "unsupported",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue",
+          "repeat_payer_rate",
+          "new_users"
+        ]
+      },
+      "summary": "当前自制样例没有曝光与点击数据，无法检查 CTR。"
+    },
+    {
+      "name": "polling-without-sse",
+      "runId": "f8db2378-b08e-494a-b604-c9b0890d1fc4",
+      "status": "completed",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "revenue"
+        ]
+      },
+      "summary": "整体：2019-07相较2019-06，首访后7天的 记录渠道费用 从576变为612，差额36，变化率6.25%。"
+    },
+    {
+      "name": "injected-model-offline",
+      "runId": "8f88567b-304a-4d15-8d0e-fee03da86fe6",
+      "status": "failed",
+      "spec": {
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [],
+        "metrics": [
+          "spend",
+          "new_users",
+          "revenue"
+        ]
+      },
+      "summary": "暂时无法连接模型服务，本轮未完成。请恢复连接后重试。"
+    }
+  ]
+}
