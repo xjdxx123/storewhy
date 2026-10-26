@@ -8,6 +8,8 @@ StoreWhy 帮助运营人员检查“为什么费用增加，用户收入却没�
 
 ## 录屏启动
 
+队友只录屏时，可连接维护者已经配置好的后端：维护者运行 **`npm run share:backend`**，队友收到私有连接文件保存为 `.env.remote.local`，执行 **`npm run demo:ui`**，打开 **http://127.0.0.1:5173/**。队友无需安装 Docker、Zetaris/Nightshift 或导入数据。首次需 `npm ci`；跨网络连接经过 Cloudflare，启用前确认允许分析请求/结果经该服务传输。操作与期限见 [共享后端录屏](docs/shared-backend.md)。
+
 已完成本机 Zetaris、Nightshift/NVIDIA 与数据配置后，执行 **`npm run demo`**，同时启动 Live API 与备用 UI，打开 **http://127.0.0.1:5173/**。Ctrl+C 同时关闭两个应用服务。新电脑须先完成一次环境准备，见 [队友录屏指南](docs/recording.md)；Git 不包含原电脑的密钥、平台容器与数据。
 
 ## 本地快速启动

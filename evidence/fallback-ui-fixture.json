@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-26T08:01:42.937Z",
+  "at": "2026-10-26T21:23:40.934Z",
   "kind": "actual_react_fallback_ui",
   "mode": "self_authored_fixture_and_scripted_model",
   "pass": true,
@@ -26,7 +26,7 @@
   "records": [
     {
       "name": "main-after-refresh",
-      "runId": "3c22ee7e-8559-4c0d-a315-0f0496caf59a",
+      "runId": "dcbae2a4-6d67-48f9-875f-4829cd06f147",
       "status": "completed",
       "spec": {
         "timeGrain": null,
@@ -61,7 +61,7 @@
     },
     {
       "name": "channel-followup",
-      "runId": "a42b8244-8fe4-4557-847e-45f5e5eeab5e",
+      "runId": "f0db8645-bfa1-46f7-92ef-349b0010c93c",
       "status": "completed",
       "spec": {
         "timeGrain": null,
@@ -98,7 +98,7 @@
     },
     {
       "name": "seven-day-followup",
-      "runId": "8b91a687-9528-4c03-b68d-a33187643e4e",
+      "runId": "9947163c-1ffe-47ae-ad3b-49dfe7283fdb",
       "status": "completed",
       "spec": {
         "timeGrain": null,
@@ -135,7 +135,7 @@
     },
     {
       "name": "temporary-fourteen-day",
-      "runId": "aa3090fb-8c3c-4284-8276-1dc79111f136",
+      "runId": "55293ba0-0aac-4dcd-9a4a-cb5e3c711861",
       "status": "completed",
       "spec": {
         "timeGrain": null,
@@ -172,7 +172,7 @@
     },
     {
       "name": "source-backed-memory-default",
-      "runId": "28edb31e-3e8f-44b9-8d44-cff25b18a2dd",
+      "runId": "8dd3aedc-99ac-49f3-919d-424e61f386df",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -205,7 +205,7 @@
     },
     {
       "name": "recommended-followup",
-      "runId": "e93f93e7-8717-4e84-aeba-978e2ee0aa9d",
+      "runId": "af92093b-59da-4ae9-b9d9-9c34f578c390",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -241,7 +241,7 @@
     },
     {
       "name": "cancelled-run",
-      "runId": "b33c7db8-fcfe-4411-84fc-0fb21292fe1f",
+      "runId": "1767a282-ad94-40f9-82ef-1117ac349cb8",
       "status": "cancelled",
       "spec": {
         "mode": "cohort",
@@ -277,7 +277,7 @@
     },
     {
       "name": "missing-click-data",
-      "runId": "329f095c-9f44-4fd3-96fa-1ab14c4a62f0",
+      "runId": "96632041-21c1-433d-8e92-adb30f3239c5",
       "status": "unsupported",
       "spec": {
         "mode": "cohort",
@@ -313,7 +313,7 @@
     },
     {
       "name": "polling-without-sse",
-      "runId": "f8db2378-b08e-494a-b604-c9b0890d1fc4",
+      "runId": "1ed656e3-0f3f-4c1f-9f59-19475ecf8f53",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -347,7 +347,7 @@
     },
     {
       "name": "injected-model-offline",
-      "runId": "8f88567b-304a-4d15-8d0e-fee03da86fe6",
+      "runId": "7f5f12bd-c8e7-4ac0-bd71-8d1524d31d9a",
       "status": "failed",
       "spec": {
         "mode": "cohort",

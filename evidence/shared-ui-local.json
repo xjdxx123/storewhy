@@ -1,0 +1,54 @@
+{
+  "at": "2026-10-26T21:23:14.761Z",
+  "pass": true,
+  "transport": "loopback_protected_relay_only",
+  "publicTunnelVerified": false,
+  "records": [
+    {
+      "name": "no-key-and-wrong-key-denied",
+      "pass": true
+    },
+    {
+      "name": "missing-config",
+      "pass": true
+    },
+    {
+      "name": "expired-config",
+      "pass": true
+    },
+    {
+      "name": "wrong-key",
+      "pass": true
+    },
+    {
+      "name": "ui-only-without-vendor-config-and-secret-free-bundle",
+      "pass": true,
+      "health": {
+        "status": "ok",
+        "apiVersion": "1.4.0",
+        "dataMode": "zetaris",
+        "datasetVersion": "4c26d29934370408"
+      }
+    },
+    {
+      "name": "live-why-refresh-and-evidence-bound-charts",
+      "pass": true,
+      "runId": "a8004aaf-e444-4d5d-8f0c-c6e89add860c",
+      "status": "completed",
+      "summary": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加1734.6，收入减少600.84。费用增加没有伴随同口径收入增加。",
+      "chartPoints": 60
+    },
+    {
+      "name": "followup-poll-only-and-server-side-token",
+      "pass": true,
+      "runId": "cc569912-8893-41c0-b212-682a3627253f",
+      "runReads": 25,
+      "sseRequests": 0,
+      "browserErrors": []
+    },
+    {
+      "name": "ui-shutdown-preserves-shared-backend",
+      "pass": true
+    }
+  ]
+}

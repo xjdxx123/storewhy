@@ -1,6 +1,6 @@
 # Demo 脚本与提交材料草稿
 
-录屏环境启动与队友新电脑首次配置见 [录屏指南](recording.md)。配置完成后使用 `npm run demo`，一条命令启动 API 与备用 React UI。
+队友仅录屏可用 [共享后端](shared-backend.md)，保存私有连接文件后执行 `npm run demo:ui`。自己运行整套服务时先按 [录屏指南](recording.md) 配置，再用 `npm run demo` 同时启动 API 与备用 React UI。
 
 ## 三分钟演示
 

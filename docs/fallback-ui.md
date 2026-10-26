@@ -6,7 +6,9 @@
 
 在仓库根目录执行 `npm install`。Node.js 使用 22.12 或更新版本。
 
-推荐录屏启动：完成 [新电脑首次配置](recording.md) 后执行 `npm run demo`，同时启动 Live 后端和生产构建的备用 UI；Ctrl+C 同时关闭。
+队友只录屏推荐 [连接共享后端](shared-backend.md)：收到私有连接文件后运行 `npm run demo:ui`，本机只启动 UI。此模式使用 Run 轮询，因为临时隧道不支持 SSE。
+
+自己运行整套服务：完成 [新电脑首次配置](recording.md) 后执行 `npm run demo`，同时启动 Live 后端和生产构建的备用 UI；Ctrl+C 同时关闭。
 
 开发时也可使用两个 Terminal 分别运行：
 

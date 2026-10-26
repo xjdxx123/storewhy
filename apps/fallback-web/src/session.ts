@@ -140,29 +140,32 @@ export function useInvestigation() {
           : current,
       );
     };
-    const stop = api.subscribe(
-      id,
-      event,
-      () => {
-        void refresh();
-      },
-      {
-        after: run.events.at(-1)?.seq ?? 0,
-        onConnectionChange: (state) => {
-          if (!disposed)
-            setConnection(
-              state === "open"
-                ? ""
-                : state === "connecting"
-                  ? "正在连接进度"
-                  : "进度连接已中断，正在读取调查状态",
-            );
-        },
-        onError: () => {
-          void refresh();
-        },
-      },
-    );
+    const stop =
+      import.meta.env.VITE_STOREWHY_POLL_ONLY === "true"
+        ? () => {}
+        : api.subscribe(
+            id,
+            event,
+            () => {
+              void refresh();
+            },
+            {
+              after: run.events.at(-1)?.seq ?? 0,
+              onConnectionChange: (state) => {
+                if (!disposed)
+                  setConnection(
+                    state === "open"
+                      ? ""
+                      : state === "connecting"
+                        ? "正在连接进度"
+                        : "进度连接已中断，正在读取调查状态",
+                  );
+              },
+              onError: () => {
+                void refresh();
+              },
+            },
+          );
     const timer = setInterval(() => {
       void refresh();
     }, 2000);

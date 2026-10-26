@@ -1,0 +1,8 @@
+{
+  "version": "2026.10.4",
+  "source": "https://github.com/cloudflare/cloudflared/releases/download/2026.10.4/cloudflared-darwin-arm64.tgz",
+  "archiveSha256": "68b6bc4080ac1330234db2a9002d07f98b000537a1bd531a687b660d4160fa7f",
+  "bytes": 19834425,
+  "checksumVerified": true,
+  "installation": "private ignored .state/bin/cloudflared"
+}
