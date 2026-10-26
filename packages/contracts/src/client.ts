@@ -61,8 +61,8 @@ export class StoreWhyClient {
         (error.name === "TimeoutError" || error.name === "AbortError");
       throw new StoreWhyClientError(
         timed
-          ? "连接后端超时，请稍后重试。"
-          : "暂时无法连接后端，请检查服务状态。",
+          ? "The backend connection timed out. Please try again."
+          : "Cannot reach the backend. Check the service connection.",
         timed ? "REQUEST_TIMEOUT" : "BACKEND_OFFLINE",
         0,
         true,
@@ -75,13 +75,13 @@ export class StoreWhyClient {
       if (signal?.aborted) throw signal.reason;
       if (timeout.aborted)
         throw new StoreWhyClientError(
-          "读取后端响应超时，请稍后重试。",
+          "Reading the backend response timed out. Please try again.",
           "REQUEST_TIMEOUT",
           response.status,
           true,
         );
       throw new StoreWhyClientError(
-        "后端返回了无法读取的响应。",
+        "The backend returned an unreadable response.",
         "INVALID_RESPONSE",
         response.status,
         response.status >= 500,
@@ -89,7 +89,7 @@ export class StoreWhyClient {
     }
     if (!result || typeof result !== "object")
       throw new StoreWhyClientError(
-        "后端返回了不符合接口约定的响应。",
+        "The backend response did not match the API contract.",
         "INVALID_RESPONSE",
         response.status,
         response.status >= 500,
@@ -233,7 +233,7 @@ export class StoreWhyClient {
       if (options.signal?.aborted) throw options.signal.reason;
       if (deadline.aborted)
         throw new StoreWhyClientError(
-          "等待调查结果超时；后台任务可通过会话继续恢复。",
+          "Waiting timed out. Resume the session to check the existing investigation.",
           "WAIT_TIMEOUT",
           0,
           true,
@@ -291,8 +291,8 @@ export class StoreWhyClient {
           options.onError?.(
             new Error(
               stopped
-                ? "进度连接已停止，请读取 Run 状态恢复。"
-                : "进度连接暂时中断，正在重连；调查仍可通过 Run 状态恢复。",
+                ? "Progress updates stopped. Resume the investigation to read its current state."
+                : "Progress updates disconnected. Reconnecting; the existing investigation can still be resumed.",
             ),
           );
           return;
@@ -302,7 +302,9 @@ export class StoreWhyClient {
           data = JSON.parse(String(event.data));
         } catch {
           options.onError?.(
-            new Error("进度消息无法解析，可读取 Run 状态恢复。"),
+            new Error(
+              "A progress update could not be read. Resume the investigation to recover.",
+            ),
           );
           return;
         }
@@ -317,7 +319,11 @@ export class StoreWhyClient {
       try {
         data = JSON.parse((event as MessageEvent).data);
       } catch {
-        options.onError?.(new Error("完成事件无法解析，请重新读取 Run。"));
+        options.onError?.(
+          new Error(
+            "The completion update could not be read. Reload the investigation state.",
+          ),
+        );
         close();
         return;
       }

@@ -5,18 +5,18 @@ export type EvidenceRequest = {
   metric?: string;
 };
 export const unitLabels: Record<ChartUnit, string> = {
-  sample_amount: "样例金额",
-  count: "人数 / 次数",
+  sample_amount: "Sample amount",
+  count: "Users / events",
   proportion: "%",
-  multiple: "倍",
-  hours: "小时",
-  sample_amount_per_user: "样例金额 / 用户",
-  sample_amount_per_payer: "样例金额 / 购买用户",
+  multiple: "×",
+  hours: "Hours",
+  sample_amount_per_user: "Sample amount / user",
+  sample_amount_per_payer: "Sample amount / purchaser",
 };
 export function formatValue(value: number | null, unit?: ChartUnit) {
-  if (value === null) return "不可计算 / 缺失";
+  if (value === null) return "Unavailable / not calculable";
   return (
-    new Intl.NumberFormat("zh-CN", { maximumFractionDigits: 2 }).format(
+    new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(
       unit === "proportion" ? value * 100 : value,
     ) + (unit === "proportion" ? "%" : "")
   );
@@ -118,7 +118,7 @@ export function EvidenceChart({
           viewBox={`0 0 ${width} ${height}`}
           style={{ minWidth: width }}
           role="img"
-          aria-label={`${chart.title}，完整数值和来源可在下方展开`}
+          aria-label={`${chart.title}: expand the table below for all values and sources`}
         >
           {[0, 1, 2, 3].map((i) => {
             const v = low + ((high - low) * i) / 3;
@@ -240,15 +240,15 @@ export function EvidenceChart({
         <p className="caption">{chart.notes.join(" ")}</p>
       )}
       <details>
-        <summary>查看全部数据与来源</summary>
+        <summary>View all data and sources</summary>
         <div className="table-scroll">
           <table>
             <thead>
               <tr>
-                <th>系列</th>
-                <th>范围</th>
-                <th>数值</th>
-                <th>依据</th>
+                <th>Series</th>
+                <th>Scope</th>
+                <th>Value</th>
+                <th>Evidence</th>
               </tr>
             </thead>
             <tbody>
@@ -269,7 +269,7 @@ export function EvidenceChart({
                           })
                         }
                       >
-                        查看来源
+                        View source
                       </button>
                     </td>
                   </tr>

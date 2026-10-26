@@ -13,52 +13,52 @@ import { EvidenceChart, type EvidenceRequest } from "./charts";
 import { EvidenceDialog } from "./evidence";
 import "./style.css";
 const mainQuestion =
-  "为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？";
+  "Why did recorded spend increase in July 2019 versus June, while new users’ revenue within 14 days of first visit failed to keep pace?";
 const statuses: Record<RunStatus, string> = {
-  queued: "等待开始",
-  running: "调查中",
-  completed: "调查完成",
-  limited: "部分解释仍需证据",
-  needs_clarification: "需要补充信息",
-  unsupported: "当前数据无法回答",
-  no_data: "此范围没有数据",
-  failed: "调查未完成",
-  cancelled: "已取消",
+  queued: "Queued",
+  running: "Investigating",
+  completed: "Complete",
+  limited: "Some explanations need evidence",
+  needs_clarification: "Clarification needed",
+  unsupported: "Unsupported by this data",
+  no_data: "No data in this scope",
+  failed: "Investigation failed",
+  cancelled: "Cancelled",
 };
 function Scope({ spec }: { spec?: AnalysisSpec }) {
   return (
-    <section className="scope" aria-label="当前分析条件" data-testid="scope">
-      <p className="eyebrow">当前分析条件</p>
+    <section className="scope" aria-label="Current scope" data-testid="scope">
+      <p className="eyebrow">Current scope</p>
       {!spec ? (
-        <p>连接后读取实际范围</p>
+        <p>The actual scope will appear once connected</p>
       ) : (
         <>
           <div className="scope-items">
             <span>
-              <b>时期</b>
+              <b>Periods</b>
               {spec.periods.map((p) => p.label).join(" → ")}
             </span>
             <span>
-              <b>口径</b>
+              <b>Time basis</b>
               {spec.mode === "cohort"
-                ? `首访后 ${spec.windowDays} 天`
-                : `自然时期${spec.timeGrain ? ` · ${({ day: "按日", week: "按周", month: "按月" } as const)[spec.timeGrain]}` : ""}`}
+                ? `First ${spec.windowDays} days after first visit`
+                : `Calendar period${spec.timeGrain ? ` · ${({ day: "Daily", week: "Weekly", month: "Monthly" } as const)[spec.timeGrain]}` : ""}`}
             </span>
             <span>
-              <b>人群</b>
+              <b>Audience</b>
               {spec.audience === "paid"
-                ? "付费渠道用户"
-                : "全部用户（含 organic）"}
+                ? "Paid-channel users"
+                : "All users (including organic)"}
             </span>
             <span>
-              <b>渠道</b>
-              {spec.filters.channels.join("、") || "全部渠道"}
+              <b>Channels</b>
+              {spec.filters.channels.join(", ") || "All channels"}
             </span>
           </div>
           <p className="caption">
-            {spec.periods.map((p) => `${p.start} 至 ${p.end}`).join("；")}
-            ，结束日不含。设备：{spec.filters.devices.join("、") || "全部"} ·
-            国家：{spec.filters.regions.join("、") || "全部"}
+            {spec.periods.map((p) => `${p.start} to ${p.end}`).join("; ")}; end
+            dates excluded. Devices: {spec.filters.devices.join(", ") || "All"}{" "}
+            · Countries: {spec.filters.regions.join(", ") || "All"}
           </p>
         </>
       )}
@@ -81,14 +81,14 @@ function Report({
   return (
     <div className="report" data-testid="report">
       <section className="conclusion">
-        <p className="eyebrow">调查结论</p>
+        <p className="eyebrow">Conclusion</p>
         <h2>{answer.conclusion?.text ?? answer.summary}</h2>
       </section>
       {(answer.keyEvidence ?? answer.findings).length > 0 && (
         <section>
           <div className="section-heading">
-            <h3>关键证据</h3>
-            <span className="meta">数字来自实际查询</span>
+            <h3>Key evidence</h3>
+            <span className="meta">Figures from executed queries</span>
           </div>
           <div className="key-evidence">
             {(answer.keyEvidence ?? answer.findings).map((finding, i) => (
@@ -109,7 +109,7 @@ function Report({
                           })
                         }
                       >
-                        查看依据 · {f.label}
+                        View source · {f.label}
                       </button>
                     ))}
                   </div>
@@ -131,9 +131,10 @@ function Report({
       ))}
       {(answer.explanations ?? []).length > 0 && (
         <section>
-          <h3>检查了哪些解释</h3>
+          <h3>Explanations checked</h3>
           <p className="caption">
-            支持与反驳描述观测结果，不代表已证明因果关系。
+            Support and contradiction describe observations; they do not
+            establish causality.
           </p>
           <div className="explanations">
             {answer.explanations!.map((e) => (
@@ -142,10 +143,10 @@ function Report({
                   {
                     (
                       {
-                        supported: "观测支持",
-                        contradicted: "观测反驳",
-                        missing_data: "缺少数据",
-                        not_checked: "尚未检查",
+                        supported: "Supported by observations",
+                        contradicted: "Contradicted by observations",
+                        missing_data: "Missing data",
+                        not_checked: "Not checked",
                       } as const
                     )[e.status]
                   }
@@ -160,7 +161,7 @@ function Report({
                         className="text-button"
                         onClick={() => open({ id })}
                       >
-                        查看证据
+                        View evidence
                       </button>
                     ))}
                     {e.coverageRefs.map((c) => (
@@ -169,7 +170,7 @@ function Report({
                         className="text-button"
                         onClick={() => open({ id: c.evidenceId })}
                       >
-                        查看 {c.period} 覆盖
+                        View {c.period} coverage
                       </button>
                     ))}
                   </div>
@@ -181,7 +182,7 @@ function Report({
       )}
       {answer.limitations.length > 0 && (
         <section className="limitations">
-          <h3>仍需注意</h3>
+          <h3>Limitations</h3>
           <ul>
             {answer.limitations.map((item, i) => (
               <li key={i}>{item}</li>
@@ -191,7 +192,7 @@ function Report({
       )}
       {(answer.followups ?? []).length > 0 ? (
         <section>
-          <h3>继续追问</h3>
+          <h3>Follow up</h3>
           <div className="followups">
             {answer.followups!.map((action) => (
               <button
@@ -211,7 +212,7 @@ function Report({
       ) : (
         answer.nextSteps.length > 0 && (
           <section>
-            <h3>可以继续检查</h3>
+            <h3>What to check next</h3>
             <ul>
               {answer.nextSteps.map((step, i) => (
                 <li key={i}>{step}</li>
@@ -258,7 +259,9 @@ function App() {
     try {
       setDemo(await api.demo());
     } catch (e) {
-      setPageError(e instanceof Error ? e.message : "样例暂不可用");
+      setPageError(
+        e instanceof Error ? e.message : "The sample is unavailable",
+      );
     } finally {
       setDemoBusy(false);
     }
@@ -266,20 +269,20 @@ function App() {
   return (
     <>
       <header>
-        <a className="brand" href="/" aria-label="StoreWhy 首页">
+        <a className="brand" href="/" aria-label="StoreWhy home">
           <span className="brand-mark">w</span>
           <span>
-            StoreWhy<small>从变化，找到线索。</small>
+            StoreWhy<small>From changes to evidence.</small>
           </span>
         </a>
         <div className="header-actions">
           <span className="mode">
             <i className={session.dataMode ? "connected" : ""} />
             {session.dataMode === "zetaris"
-              ? "Zetaris 模式 · 公开教学数据"
+              ? "Zetaris · Public teaching data"
               : session.dataMode === "fixture"
-                ? "自制样例数据"
-                : "等待后端连接"}
+                ? "Self-authored sample data"
+                : "Connecting to backend"}
           </span>
           <button
             disabled={busy}
@@ -290,18 +293,21 @@ function App() {
               void session.restore(true);
             }}
           >
-            新会话
+            New session
           </button>
         </div>
       </header>
       <main>
         <section className="intro">
           <div>
-            <p className="eyebrow">GROWTH INVESTIGATION / 运营调查</p>
+            <p className="eyebrow">GROWTH INVESTIGATION</p>
             <h1>
-              把变化，<em>问清楚。</em>
+              Understand <em>the change.</em>
             </h1>
-            <p>从费用、用户到购买收入，用数据检查解释，带着证据继续追问。</p>
+            <p>
+              From spend and users to purchase revenue. Check explanations, then
+              follow the evidence.
+            </p>
           </div>
           <button
             className="text-button"
@@ -310,14 +316,14 @@ function App() {
               void showDemo();
             }}
           >
-            {demoBusy ? "正在读取样例…" : "查看自制样例 ↗"}
+            {demoBusy ? "Loading sample…" : "View sample replay ↗"}
           </button>
         </section>
         <Scope spec={spec} />
         <section className="question-card">
-          <form onSubmit={send} aria-label="调查问题">
+          <form onSubmit={send} aria-label="Investigation question">
             <label htmlFor="question">
-              {run ? "继续这次调查" : "想了解什么变化？"}
+              {run ? "Continue this investigation" : "What changed?"}
             </label>
             <textarea
               id="question"
@@ -326,7 +332,7 @@ function App() {
               disabled={busy}
               maxLength={4000}
               rows={3}
-              placeholder="例如：为什么费用增加了，收入却没有同步增长？"
+              placeholder="For example: Why did spend increase without matching revenue growth?"
               onKeyDown={(e) => {
                 if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
                   e.preventDefault();
@@ -338,10 +344,10 @@ function App() {
             <div className="composer-bottom">
               <span className="caption">
                 {demo
-                  ? "样例为只读回放，返回调查后可继续提问。"
+                  ? "This sample is read-only. Return to the investigation to ask a question."
                   : conversation
-                    ? "可直接问问题，也可以沿用上轮条件追问。"
-                    : "连接本地后端后开始调查。"}
+                    ? "Ask a question or follow up using the current scope."
+                    : "Connect to the backend to start investigating."}
               </span>
               <button
                 className="primary"
@@ -349,42 +355,48 @@ function App() {
                 disabled={disabled || !question.trim()}
               >
                 {session.submitting
-                  ? "正在提交…"
+                  ? "Submitting…"
                   : isRunning(run)
-                    ? "调查进行中"
-                    : "开始调查 →"}
+                    ? "Investigation in progress"
+                    : "Investigate →"}
               </button>
             </div>
           </form>
           <div className="quick-actions">
-            <span>快捷追问</span>
+            <span>Quick follow-ups</span>
             <button
               disabled={disabled || !!demo}
               onClick={() =>
-                patch("只看 FaceBoom", { filters: { channels: ["FaceBoom"] } })
+                patch("Focus on FaceBoom", {
+                  filters: { channels: ["FaceBoom"] },
+                })
               }
             >
-              只看 FaceBoom
+              Focus on FaceBoom
             </button>
             <button
               disabled={disabled || !!demo}
               onClick={() =>
-                patch("清除渠道限制", { filters: { channels: [] } })
+                patch("Clear the channel filter", { filters: { channels: [] } })
               }
             >
-              全部渠道
+              All channels
             </button>
             <button
               disabled={disabled || !!demo || spec?.mode !== "cohort"}
-              onClick={() => patch("窗口改成7天", { windowDays: 7 })}
+              onClick={() =>
+                patch("Change the window to 7 days", { windowDays: 7 })
+              }
             >
-              改为 7 天
+              Use 7 days
             </button>
             <button
               disabled={disabled || !!demo || spec?.mode !== "cohort"}
-              onClick={() => patch("窗口改成14天", { windowDays: 14 })}
+              onClick={() =>
+                patch("Change the window to 14 days", { windowDays: 14 })
+              }
             >
-              改为 14 天
+              Use 14 days
             </button>
           </div>
         </section>
@@ -402,7 +414,7 @@ function App() {
               void session.restore();
             }}
           >
-            {session.loading ? "正在读取会话…" : "恢复会话"}
+            {session.loading ? "Loading session…" : "Resume session"}
           </button>
           {spec?.mode === "cohort" && (
             <button
@@ -412,7 +424,7 @@ function App() {
                 void session.remember(spec);
               }}
             >
-              记住 {spec.windowDays} 天默认窗口
+              Save {spec.windowDays}-day default
             </button>
           )}
           <button
@@ -421,15 +433,19 @@ function App() {
             onClick={() => {
               if (conversation)
                 launch(() =>
-                  api.send(conversation.id, "开始新分析：查询新用户收入", {
-                    newInvestigation: true,
-                    taskKind: "query",
-                    patch: { metrics: ["new_users", "revenue"] },
-                  }),
+                  api.send(
+                    conversation.id,
+                    "Start a new analysis: query new-user revenue",
+                    {
+                      newInvestigation: true,
+                      taskKind: "query",
+                      patch: { metrics: ["new_users", "revenue"] },
+                    },
+                  ),
                 );
             }}
           >
-            按默认条件新分析
+            New analysis with saved defaults
           </button>
           <span className="caption" role="status">
             {session.notice}
@@ -438,9 +454,11 @@ function App() {
         {demo && (
           <div className="notice sample">
             <span>
-              <strong>自制样例回放</strong> · {demo.notice}
+              <strong>Self-authored sample replay</strong> · {demo.notice}
             </span>
-            <button onClick={() => setDemo(undefined)}>返回调查</button>
+            <button onClick={() => setDemo(undefined)}>
+              Return to investigation
+            </button>
           </div>
         )}
         {!demo && (run || session.submitting) && (
@@ -454,12 +472,14 @@ function App() {
             <div className="section-heading">
               <div>
                 <span className={`badge ${run?.status ?? "queued"}`}>
-                  {run ? statuses[run.status] : "提交中"}
+                  {run ? statuses[run.status] : "Submitting"}
                 </span>
                 <p className="progress-label">
                   {session.submitting
-                    ? "正在提交问题"
-                    : (run?.progress?.label ?? run?.message ?? "正在读取状态")}
+                    ? "Submitting your question"
+                    : (run?.progress?.label ??
+                      run?.message ??
+                      "Reading investigation status")}
                 </p>
               </div>
               {isRunning(run) && (
@@ -469,11 +489,13 @@ function App() {
                     void session.cancel();
                   }}
                 >
-                  {run?.cancellationRequested ? "正在取消…" : "取消调查"}
+                  {run?.cancellationRequested
+                    ? "Cancelling…"
+                    : "Cancel investigation"}
                 </button>
               )}
             </div>
-            {run && <p className="caption">本轮问题：{run.question}</p>}
+            {run && <p className="caption">Question: {run.question}</p>}
             {session.connection && isRunning(run) && (
               <p className="caption">{session.connection}</p>
             )}
@@ -486,9 +508,9 @@ function App() {
             {run && (
               <details>
                 <summary>
-                  执行记录
+                  Execution log
                   {run.timing
-                    ? ` · ${(run.timing.totalMs / 1000).toFixed(1)} 秒`
+                    ? ` · ${(run.timing.totalMs / 1000).toFixed(1)} seconds`
                     : ""}
                 </summary>
                 <ol className="event-list">
@@ -503,9 +525,9 @@ function App() {
                 </ol>
                 {run.timing && (
                   <p className="caption">
-                    模型调用 {run.timing.modelCalls} 次 · 实际返回 SQL{" "}
-                    {run.timing.sqlCount} 条 · 格式修复 {run.timing.repairCalls}{" "}
-                    次
+                    Model calls: {run.timing.modelCalls} · Returned SQL queries:{" "}
+                    {run.timing.sqlCount} · Format repairs:{" "}
+                    {run.timing.repairCalls}{" "}
                   </p>
                 )}
               </details>
@@ -514,12 +536,12 @@ function App() {
         )}
         {report && !demo && run && (
           <p className="caption">
-            本轮数据版本：{run.context.datasetVersion} ·{" "}
+            Dataset version: {run.context.datasetVersion} ·{" "}
             {report.charts?.[0]?.source.backend === "fixture"
-              ? "自制样例数据"
+              ? "Self-authored sample data"
               : report.charts?.[0]?.source.backend === "zetaris"
-                ? "Zetaris 查询结果（教学数据）"
-                : "详细来源见分析依据"}
+                ? "Zetaris query results (teaching data)"
+                : "See evidence for source details"}
           </p>
         )}
         {report && (
@@ -533,21 +555,24 @@ function App() {
         {!report && !run && !session.submitting && (
           <section className="empty-state">
             <div>
-              <span className="eyebrow">从一个具体问题开始</span>
+              <span className="eyebrow">START WITH A SPECIFIC QUESTION</span>
               <h2>
-                先看发生了什么，
+                See what changed.
                 <br />
-                再检查可能的解释。
+                Then check why.
               </h2>
             </div>
             <div className="examples">
               {[
-                ["费用与收入", mainQuestion],
+                ["Spend and revenue", mainQuestion],
                 [
-                  "购买用户比例",
-                  "为什么2019年8月比7月新用户首周购买用户比例下降？只检查用户行为，不分析费用。",
+                  "Purchaser rate",
+                  "Why did the first-week purchaser rate for new users decrease in August 2019 versus July? Check user behavior only, without spend analysis.",
                 ],
-                ["数据的边界", "为什么2019年7月FaceBoom的广告CTR下降？"],
+                [
+                  "Data boundaries",
+                  "Why did FaceBoom ad CTR fall in July 2019?",
+                ],
               ].map(([label, text]) => (
                 <button
                   key={label}
@@ -565,16 +590,18 @@ function App() {
           <p>
             Procrastinate Pro+ ·{" "}
             {session.catalog?.dataset.kind === "public_teaching_sample"
-              ? "公开教学数据"
+              ? "Public teaching data"
               : session.catalog?.dataset.kind === "self_authored_fixture"
-                ? "自制测试数据"
-                : "等待数据连接"}
+                ? "Self-authored test data"
+                : "Connecting to data"}
             {session.catalog
-              ? ` · ${session.catalog.dataset.start} 至 ${session.catalog.dataset.observationEndExclusive}（结束日不含）`
+              ? ` · ${session.catalog.dataset.start} to ${session.catalog.dataset.observationEndExclusive} (end exclusive)`
               : ""}
           </p>
           <p>
-            费用仅支持渠道与日期。没有点击、曝光、素材、利润数据；观测诊断不等同于因果证明。
+            Spend is available by channel and date only. Clicks, impressions,
+            creatives and profit are unavailable. Observational diagnosis does
+            not prove causality.
           </p>
         </footer>
       </main>

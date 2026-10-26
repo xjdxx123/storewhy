@@ -59,7 +59,7 @@ export function factsFor(evidence: Evidence[]): Fact[] {
         rowIndex: ri,
         metric: metric as Fact["metric"],
         value: value ?? null,
-        label: `${row.period}${row.bucket ? " / " + row.bucket : ""} / ${segmentLabel(row.dimensions, e.spec.filters)} / ${e.spec.mode === "cohort" ? e.spec.windowDays + "天" : "自然时期"} / ${LABELS[metric as Fact["metric"]]}`,
+        label: `${row.period}${row.bucket ? " / " + row.bucket : ""} / ${segmentLabel(row.dimensions, e.spec.filters)} / ${e.spec.mode === "cohort" ? e.spec.windowDays + " days after first visit" : "Calendar period"} / ${LABELS[metric as Fact["metric"]]}`,
       })),
     ),
   );
@@ -77,7 +77,10 @@ function restrictPatch(
       requested &&
       (!requested.length || requested.some((v) => !constrained.includes(v)))
     )
-      throw new AppError("SCOPE_EXPANSION", "自动调查不能扩大用户明确筛选范围");
+      throw new AppError(
+        "SCOPE_EXPANSION",
+        "Automatic investigation cannot expand the user's explicit filters",
+      );
   }
 }
 export class Engine {
@@ -106,13 +109,13 @@ export class Engine {
     if (this.active.has(conversationId))
       throw new AppError(
         "CONVERSATION_BUSY",
-        "当前会话仍在调查，请等待或取消",
+        "This session has an active investigation. Wait or cancel it.",
         409,
       );
     if (this.active.size >= 2)
       throw new AppError(
         "CAPACITY",
-        "当前已有两个调查运行，请稍后重试",
+        "Two investigations are already running. Please try again later.",
         429,
         true,
       );
@@ -128,7 +131,7 @@ export class Engine {
       )
         throw new AppError(
           "STALE_CONTEXT",
-          "分析条件已更新，请使用最新回答中的推荐追问。",
+          "The analysis scope has changed. Use a recommendation from the latest answer.",
           409,
         );
     }
@@ -144,7 +147,10 @@ export class Engine {
       evidenceIds: [],
       modelTraces: [],
       createdAt: new Date().toISOString(),
-      progress: progress("understanding", "已收到问题，准备开始调查"),
+      progress: progress(
+        "understanding",
+        "Question received; preparing the investigation",
+      ),
       timing: {
         totalMs: 0,
         modelCalls: 0,
@@ -183,7 +189,8 @@ export class Engine {
       if (!terminal(run.status)) {
         run.status = "failed";
         run.finishedAt = new Date().toISOString();
-        run.message = "服务重启中断了上轮调查，请重新提问。";
+        run.message =
+          "A server restart interrupted the investigation. Please ask again.";
         run.answer = undefined;
         run.error = { code: "SERVER_RESTARTED", retryable: true };
         this.event(run, "error", run.message, { code: "SERVER_RESTARTED" });
@@ -232,7 +239,7 @@ export class Engine {
     const run = this.liveRuns.get(id) ?? this.store.get<Run>("runs", id);
     if (terminal(run.status)) return run;
     run.cancellationRequested = true;
-    this.emitProgress(run, "cancelling", "正在停止本轮调查");
+    this.emitProgress(run, "cancelling", "Stopping this investigation");
     this.controllers.get(id)?.abort();
     return structuredClone(run);
   }
@@ -250,7 +257,11 @@ export class Engine {
     try {
       signal.throwIfAborted();
       run.status = "running";
-      this.event(run, "run_started", "开始检查问题与数据范围");
+      this.event(
+        run,
+        "run_started",
+        "Checking the question and available data",
+      );
       const c = this.store.get<Conversation>(
         "conversations",
         run.conversationId,
@@ -260,7 +271,7 @@ export class Engine {
         this.event(
           run,
           "memory_recalled",
-          "已检索有来源的默认口径",
+          "Retrieved source-backed default settings",
           preference,
         );
       if (
@@ -279,12 +290,16 @@ export class Engine {
       if (needsDateClarification(input.message, input.patch)) {
         run.status = "needs_clarification";
         run.message =
-          "当前数据仅覆盖二零一九年五月至十月。请明确样例中的日期，不能将现实的相对日期替换成样例月份。";
+          "The data covers May through October 2019. Specify dates within the sample; current relative dates cannot be substituted with sample months.";
         this.event(run, "clarification", run.message);
         return;
       }
       if (!input.patch)
-        this.emitProgress(run, "understanding", "正在理解问题与分析条件");
+        this.emitProgress(
+          run,
+          "understanding",
+          "Understanding the question and scope",
+        );
       const intent = input.patch
         ? { kind: input.taskKind ?? ("followup" as const), patch: input.patch }
         : await measure(
@@ -340,7 +355,8 @@ export class Engine {
         run.investigationId = c.context.investigationId;
         this.store.put("conversations", c.id, c);
         run.status = "needs_clarification";
-        run.message = "已开始新分析。请告诉我想检查的指标与时期。";
+        run.message =
+          "A new investigation has started. Specify the metrics and dates to check.";
         this.event(run, "clarification", run.message);
         return;
       }
@@ -354,7 +370,8 @@ export class Engine {
         run.status =
           intent.kind === "clarify" ? "needs_clarification" : "unsupported";
         run.message =
-          intent.message ?? "当前数据不足以回答，请明确时期、指标或可用范围。";
+          intent.message ??
+          "The available data is insufficient. Specify the dates, metrics or supported scope.";
         this.event(run, "clarification", run.message);
         return;
       }
@@ -389,9 +406,14 @@ export class Engine {
       run.context = structuredClone(c.context);
       run.investigationId = c.context.investigationId;
       this.store.put("conversations", c.id, c);
-      this.event(run, "scope_updated", "已确定本轮条件，相关数字将重新查询", {
-        context: run.context,
-      });
+      this.event(
+        run,
+        "scope_updated",
+        "Scope confirmed; the figures will be queried again",
+        {
+          context: run.context,
+        },
+      );
       const evidence: Evidence[] = [];
       const seen = new Set<string>();
       let queries = 0;
@@ -429,7 +451,7 @@ export class Engine {
         run.evidenceIds.push(e.id);
         run.context.evidenceIds.push(e.id);
         this.store.put("evidence", e.id, e);
-        this.event(run, "query_completed", "所选数据已核查", {
+        this.event(run, "query_completed", "Selected data checked", {
           evidenceId: e.id,
           rows: e.rows.length,
           durationMs: e.durationMs,
@@ -458,7 +480,8 @@ export class Engine {
       );
       if (!observed) {
         run.status = "no_data";
-        run.message = "在所选数据范围内没有可用记录或可计算指标。";
+        run.message =
+          "No records or calculable metrics are available in the selected scope.";
         this.event(run, "clarification", run.message);
         return;
       }
@@ -474,7 +497,11 @@ export class Engine {
         .flatMap((prior) => prior.evidenceIds)
         .map((id) => this.store.get<Evidence>("evidence", id));
       if (taskKind === "query") {
-        this.emitProgress(run, "presenting", "正在整理结论、证据与下一步");
+        this.emitProgress(
+          run,
+          "presenting",
+          "Preparing the conclusion, evidence and next steps",
+        );
         run.answer = await measure(
           run,
           "presentation",
@@ -526,7 +553,7 @@ export class Engine {
           this.emitProgress(
             run,
             "explaining",
-            "正在整理已查询到的变化",
+            "Examining the observed changes",
             round + 1,
           );
           const draft = await measure(
@@ -572,7 +599,7 @@ export class Engine {
             )
               throw new AppError(
                 "UNBOUND_HEADLINE",
-                "结论必须引用已选择的观测。",
+                "The conclusion must cite a selected observation.",
                 503,
               );
             if (evidence.length > 1) {
@@ -601,7 +628,7 @@ export class Engine {
             continue;
           }
           lastDraft = draft;
-          this.event(run, "hypothesis", "已形成待审查的解释", {
+          this.event(run, "hypothesis", "An explanation is ready for review", {
             selectedObservations: validateSelection(
               draft.observationIds,
               observations,
@@ -612,7 +639,7 @@ export class Engine {
           this.emitProgress(
             run,
             "reviewing",
-            "正在核查解释与证据是否充分",
+            "Reviewing the explanation and supporting evidence",
             round + 1,
           );
           const review = await measure(
@@ -626,7 +653,7 @@ export class Engine {
                   {
                     role: "system",
                     content:
-                      "你是独立 Reviewer。以 scope 为有效口径，追问覆盖旧问题的窗口/时期/筛选。核查证据与金额、分母；scope.mode：calendar 按自然时期活动统计，windowDays 无效；cohort 按首访批次观察完整H天，不能混入老用户自然月收入。首次/后续购买不是新客/老客。完整随访不能称为随访不足；未标币种不妨碍同单位比较。只看真实 evidence、observations 和 availableAnalyses，不相信草稿的无证据限制。整体渠道费用或增长仅有汇总时要求渠道拆分；已查过的指标和拆分不能重复。发现可补的具体缺口才 needs_query，query 只改 metrics/groupBy/filters，不能扩大用户筛选。数据缺失或因果原因无法由记录证明时 limited。充分时 ready；不必穷尽所有分组。中文简述理由。",
+                      "你是独立 Reviewer。以 scope 为有效口径，追问覆盖旧问题的窗口/时期/筛选。核查证据与金额、分母；scope.mode：calendar 按自然时期活动统计，windowDays 无效；cohort 按首访批次观察完整H天，不能混入老用户自然月收入。首次/后续购买不是新客/老客。完整随访不能称为随访不足；未标币种不妨碍同单位比较。只看真实 evidence、observations 和 availableAnalyses，不相信草稿的无证据限制。整体渠道费用或增长仅有汇总时要求渠道拆分；已查过的指标和拆分不能重复。发现可补的具体缺口才 needs_query，query 只改 metrics/groupBy/filters，不能扩大用户筛选。数据缺失或因果原因无法由记录证明时 limited。充分时 ready；不必穷尽所有分组。Briefly explain the review reason in English.",
                   },
                   {
                     role: "user",
@@ -656,10 +683,10 @@ export class Engine {
             run,
             "review_completed",
             review.decision === "ready"
-              ? "证据审查完成"
+              ? "Evidence review complete"
               : review.decision === "needs_query"
-                ? "审查发现需要补充的证据"
-                : "当前证据仍有无法验证的解释",
+                ? "The Reviewer identified an evidence gap"
+                : "Some explanations remain unverified by the current evidence",
             {
               reason: review.reason,
               decision: review.decision,
@@ -682,19 +709,19 @@ export class Engine {
             const accepted = await execute(toolPatchSchema.parse(patch));
             if (!accepted) {
               feedback +=
-                " 本查询已执行或超出预算，请依据 availableAnalyses 中已有证据审查，不要重复索取。";
+                " This query was already executed or exceeds the budget. Review existing availableAnalyses without requesting it again.";
               continue;
             }
           } catch (error) {
             if (!(error instanceof AppError) || error.statusCode >= 500)
               throw error;
-            feedback += " 无法执行该拆分：" + error.message;
+            feedback += " This breakdown cannot be executed: " + error.message;
           }
         }
         if (!lastDraft)
           throw new AppError(
             "UNVALIDATED_ANSWER",
-            "没有通过事实引用校验的解释",
+            "No explanation passed fact-reference validation",
             503,
           );
         const allFacts = factsFor(evidence);
@@ -702,7 +729,11 @@ export class Engine {
           lastDraft.observationIds,
           observationsFor(evidence, allFacts),
         );
-        this.emitProgress(run, "presenting", "正在整理结论、证据与下一步");
+        this.emitProgress(
+          run,
+          "presenting",
+          "Preparing the conclusion, evidence and next steps",
+        );
         run.answer = await measure(
           run,
           "presentation",
@@ -732,11 +763,13 @@ export class Engine {
       } catch {
         run.warnings = [
           ...(run.warnings ?? []),
-          "分析已完成，但本轮记忆暂未保存。",
+          "Analysis is complete, but this run's memory could not be saved.",
         ];
       }
       run.finishedAt = new Date().toISOString();
-      this.event(run, "answer_ready", "本轮调查完成", { status: run.status });
+      this.event(run, "answer_ready", "Investigation complete", {
+        status: run.status,
+      });
     } catch (error) {
       const own = this.controllers.get(run.id)?.signal.aborted;
       const failure = failureFor(error, signal, own);

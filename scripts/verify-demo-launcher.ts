@@ -161,7 +161,9 @@ try {
       !(document.querySelector('button[type="submit"]') as HTMLButtonElement)
         ?.disabled,
   );
-  await page.getByRole("button", { name: "开始调查 →", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Investigate →", exact: true })
+    .click();
   await page.waitForFunction(() =>
     ["completed", "limited", "failed"].includes(
       document.querySelector<HTMLElement>('[data-testid="run-state"]')?.dataset
@@ -214,9 +216,11 @@ try {
   });
   // Keep an SSE connection and real task in flight to verify coordinated shutdown.
   await page
-    .getByRole("button", { name: "只看 FaceBoom", exact: true })
+    .getByRole("button", { name: "Focus on FaceBoom", exact: true })
     .click();
-  await page.getByRole("button", { name: "取消调查", exact: true }).waitFor();
+  await page
+    .getByRole("button", { name: "Cancel investigation", exact: true })
+    .waitFor();
   live.child.kill("SIGINT");
   assert.equal(await live.exited, 0);
   await until(

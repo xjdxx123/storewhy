@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-26T21:28:43.594Z",
+  "at": "2026-10-26T21:52:10.533Z",
   "pass": true,
   "transport": "actual_public_https_tunnel",
   "publicTunnelVerified": true,
@@ -33,16 +33,17 @@
     {
       "name": "live-why-refresh-and-evidence-bound-charts",
       "pass": true,
-      "runId": "c93c01a0-b19c-4713-a79e-e1e14724b701",
+      "runId": "2efa314b-a3fd-4532-a3f7-cf9b73e9af10",
       "status": "completed",
-      "summary": "所列渠道合计：2019-07对比2019-06，首访后14天的收入与记录费用比从0.904277变为0.832253；费用增加1357.01，收入增加42.53。比值由渠道金额合计计算，不是渠道比值平均，也不代表广告因果增量。",
-      "chartPoints": 60
+      "summary": "TipTop: 2019-07 vs 2019-06, within 14 days of first visit, spend increased by 1734.6 and revenue decreased by 600.84. Higher spend was not accompanied by higher revenue on the same basis.",
+      "chartPoints": 60,
+      "englishPresentation": true
     },
     {
       "name": "followup-poll-only-and-server-side-token",
       "pass": true,
-      "runId": "b398121d-322b-4f83-902d-df3e01d0d49c",
-      "runReads": 26,
+      "runId": "2edee857-ee7e-4488-942e-5d48df4319f5",
+      "runReads": 31,
       "sseRequests": 0,
       "browserErrors": []
     },

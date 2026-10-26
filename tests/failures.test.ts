@@ -72,7 +72,9 @@ it("does not retry authentication failures", async () => {
   expect(fetch).toHaveBeenCalledTimes(1);
 });
 it("rejects fabricated observation identifiers", () => {
-  expect(() => validateSelection(["made-up"], [])).toThrow("不存在");
+  expect(() => validateSelection(["made-up"], [])).toThrow(
+    "unknown observation",
+  );
 });
 
 it("marks interrupted runs as failed after restart and does not invent fallback evidence", async () => {

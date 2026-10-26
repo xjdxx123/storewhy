@@ -197,7 +197,7 @@ export async function buildApp(
     if (seen > (run.events.at(-1)?.seq ?? 0))
       throw new AppError(
         "CURSOR_AHEAD",
-        "进度序号超出当前 Run，请重新读取运行状态。",
+        "The progress cursor is ahead of this run. Reload its current state.",
         400,
         false,
       );
@@ -266,8 +266,9 @@ export async function buildApp(
       return {
         kind: "fixture_replay",
         notice:
-          "自制样例演示；没有调用在线 Agent。新的开放式调查需要 Nightshift。",
-        question: "对比样例中两个获客月份的费用与观察期收入",
+          "Self-authored sample replay; no live Agent was called. New open-ended investigations require Nightshift.",
+        question:
+          "Compare spend and observation-window revenue across two sample acquisition months.",
         evidence,
         answer: {
           ...answer,
@@ -275,10 +276,12 @@ export async function buildApp(
           chartNotes: presentation.notes,
           followups: [],
           limitations: [
-            "自制样例；没有调用在线模型或 Reviewer。",
+            "Self-authored sample; no live model or Reviewer was called.",
             ...answer.limitations,
           ],
-          nextSteps: ["创建真实会话并连接 Nightshift 后，可以执行推荐追问。"],
+          nextSteps: [
+            "Start a live session with Nightshift connected to execute recommended follow-ups.",
+          ],
         },
       };
     } finally {

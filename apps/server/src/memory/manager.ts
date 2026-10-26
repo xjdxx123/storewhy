@@ -11,7 +11,7 @@ export class MemoryManager {
   ) {}
   private engine(id: string) {
     if (!/^[a-f0-9-]{36}$/.test(id))
-      throw new AppError("INVALID_ID", "无效会话 ID");
+      throw new AppError("INVALID_ID", "Invalid conversation ID");
     let m = this.engines.get(id);
     if (!m) {
       m = new HMEM({
@@ -67,7 +67,7 @@ export class MemoryManager {
       provenance: {
         origin: "user_correction",
         learnedAt: Date.now(),
-        label: "用户明确保存的观察窗口",
+        label: "Observation window explicitly saved by the user",
       },
       chatId: context.conversationId,
       ...(old.length ? { supersedes: old.at(-1)!.id } : {}),
@@ -90,7 +90,7 @@ export class MemoryManager {
       provenance: {
         origin: "plan_completion",
         learnedAt: Date.now(),
-        label: "仅适用于该调查与快照的审查摘要",
+        label: "Review summary scoped to this investigation and snapshot",
         refs: run.evidenceIds,
       },
     });
@@ -107,7 +107,7 @@ export class MemoryManager {
   ) {
     const engine = this.engine(id);
     if (!engine.store.all().some((m) => m.id === memoryId))
-      throw new AppError("NOT_FOUND", "记忆记录不存在", 404);
+      throw new AppError("NOT_FOUND", "Memory record not found", 404);
     engine.feedback(memoryId, kind);
   }
 }

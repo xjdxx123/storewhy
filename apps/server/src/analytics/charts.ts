@@ -32,13 +32,13 @@ const UNITS: Record<Metric, ChartUnit> = {
   avg_first_purchase_hours: "hours",
 };
 const UNIT_LABELS: Record<ChartUnit, string> = {
-  sample_amount: "样例金额（币种未注明）",
-  count: "数量",
-  proportion: "比例（原值为 0—1）",
-  multiple: "倍数",
-  hours: "小时",
-  sample_amount_per_user: "样例金额 / 用户",
-  sample_amount_per_payer: "样例金额 / 购买用户",
+  sample_amount: "Sample amount (currency unspecified)",
+  count: "Count",
+  proportion: "Proportion (raw value 0–1)",
+  multiple: "Multiple",
+  hours: "Hours",
+  sample_amount_per_user: "Sample amount / user",
+  sample_amount_per_payer: "Sample amount / purchaser",
 };
 const COMPONENTS: Metric[] = [
   "first_purchase_revenue",
@@ -52,7 +52,7 @@ const dimLabel = (row: AnalysisRow) =>
   ["channel", "device", "region"]
     .map((d) => row.dimensions[d as keyof AnalysisRow["dimensions"]])
     .filter(Boolean)
-    .join(" / ") || "整体";
+    .join(" / ") || "Overall";
 function pointKey(type: Chart["type"], row: AnalysisRow) {
   return JSON.stringify(
     type === "line"
@@ -71,17 +71,19 @@ function pointLabel(type: Chart["type"], row: AnalysisRow) {
 }
 function titleFor(e: Evidence, type: Chart["type"], metric: Metric) {
   const mode =
-    e.spec.mode === "cohort" ? `首访后${e.spec.windowDays}天` : "自然时期";
-  return `${mode} · ${type === "stacked_bar" ? "首次与后续购买收入构成" : LABELS[metric]}`;
+    e.spec.mode === "cohort"
+      ? `First ${e.spec.windowDays} days after first visit`
+      : "Calendar period";
+  return `${mode} · ${type === "stacked_bar" ? "First and subsequent purchase revenue" : LABELS[metric]}`;
 }
 function xLabelFor(e: Evidence, type: Chart["type"]) {
   return type === "line"
-    ? "日期（源数据原始时间）"
+    ? "Date (source timestamps)"
     : type === "stacked_bar"
-      ? "时期 / 人群"
+      ? "Period / segment"
       : e.spec.groupBy.length
         ? e.spec.groupBy.join(" / ")
-        : "整体";
+        : "Overall";
 }
 function sourceFor(e: Evidence) {
   return {
@@ -119,7 +121,7 @@ export function validateChart(input: unknown, e: Evidence): Chart {
   const fail = () => {
     throw new AppError(
       "CHART_EVIDENCE_MISMATCH",
-      "图表与原始查询证据不一致",
+      "The chart does not match its source query evidence",
       500,
     );
   };
@@ -276,8 +278,8 @@ function makeChart(e: Evidence, type: Chart["type"], metric: Metric): Chart {
       series,
       notes: [
         ...e.notes.filter((note) => !note.startsWith("spec:")),
-        "图表为查询结果的观测展示，解释与审查状态见本轮回答。",
-        "缺失值不补零；趋势中不连续的时间桶须断线。",
+        "Charts show observed query results. See the answer for explanations and review status.",
+        "Missing values are not filled with zero. Lines break across missing time buckets.",
       ],
     },
     e,
@@ -294,7 +296,7 @@ export function chartsFor(evidence: Evidence[]): ChartResponse {
     seen.add(e.id);
     if (e.truncated || !e.rows.length) {
       notes.push(
-        `${e.id}：${e.truncated ? "查询结果截断，未生成图表；请缩小范围重新查询。" : "无结果，未生成图表。"}`,
+        `${e.id}: ${e.truncated ? "The result was truncated, so no chart was generated. Narrow the scope and query again." : "No results; no chart generated."}`,
       );
       continue;
     }
@@ -312,7 +314,9 @@ export function chartsFor(evidence: Evidence[]): ChartResponse {
       ...new Set<Metric>(["spend", "revenue", ...e.spec.metrics]),
     ].filter(available);
     if (!metrics.length) {
-      notes.push(`${e.id}：没有可绘制的已查询数值，未生成图表。`);
+      notes.push(
+        `${e.id}: No queried values can be plotted; no chart generated.`,
+      );
       continue;
     }
     if (e.spec.timeGrain) {
@@ -324,7 +328,9 @@ export function chartsFor(evidence: Evidence[]): ChartResponse {
         e.rows.some((r) => !r.bucket) ||
         groupCount > 64
       ) {
-        notes.push(`${e.id}：趋势缺少时间桶或系列过多，请缩小范围重新查询。`);
+        notes.push(
+          `${e.id}: Missing time buckets or too many series. Narrow the scope and query again.`,
+        );
         continue;
       }
     } else if (COMPONENTS.every(available)) {

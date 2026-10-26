@@ -1,5 +1,7 @@
 # StoreWhy
 
+**中文** · [English](README.en.md)
+
 **An evidence-backed growth investigation agent.** StoreWhy explains changes in acquisition, purchasing and observed channel returns, then carries the investigation through follow-up questions.
 
 StoreWhy 帮助运营人员检查“为什么费用增加，用户收入却没有同步增长”。它支持指标查询、时期比较、渠道贡献、用户批次、人群比较与解释检查。Investigator 负责调查，Reviewer 独立检查证据并要求补查。数字、SQL、统计口径和查询 ID 可以追溯。模型选择调查路径和经过验证的观测证据，数字及比较语句由后端据此生成。

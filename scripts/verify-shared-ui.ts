@@ -216,24 +216,31 @@ try {
       !(document.querySelector('button[type="submit"]') as HTMLButtonElement)
         ?.disabled,
   );
-  await page.getByRole("button", { name: "开始调查 →", exact: true }).click();
-  await page.getByRole("button", { name: "取消调查", exact: true }).waitFor();
+  await page
+    .getByRole("button", { name: "Investigate →", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Cancel investigation", exact: true })
+    .waitFor();
   await page.reload();
   const main = await finished();
+  assert.equal(await page.locator("html").getAttribute("lang"), "en");
+  assert.doesNotMatch(
+    await page.locator("body").innerText(),
+    /\p{Script=Han}/u,
+  );
   const conversation = await (
     await fetch(`${root}/api/v1/conversations/${main.conversationId}`)
   ).json();
   assert.equal(conversation.runIds.length, 1);
-  const points = await page
-    .locator("svg [data-value]")
-    .evaluateAll((nodes) =>
-      nodes.map((node) => ({
-        evidenceId: node.getAttribute("data-evidence-id")!,
-        rowIndex: Number(node.getAttribute("data-row-index")),
-        metric: node.getAttribute("data-metric")!,
-        value: Number(node.getAttribute("data-value")),
-      })),
-    );
+  const points = await page.locator("svg [data-value]").evaluateAll((nodes) =>
+    nodes.map((node) => ({
+      evidenceId: node.getAttribute("data-evidence-id")!,
+      rowIndex: Number(node.getAttribute("data-row-index")),
+      metric: node.getAttribute("data-metric")!,
+      value: Number(node.getAttribute("data-value")),
+    })),
+  );
   const expected = main.answer!.charts!.flatMap((chart) =>
     chart.series.flatMap((series) =>
       series.points.filter((point) => point.value !== null),
@@ -267,9 +274,10 @@ try {
     status: main.status,
     summary: main.answer?.summary,
     chartPoints: points.length,
+    englishPresentation: true,
   });
   await page
-    .getByRole("button", { name: "只看 FaceBoom", exact: true })
+    .getByRole("button", { name: "Focus on FaceBoom", exact: true })
     .click();
   const followup = await finished();
   assert.deepEqual(followup.context.spec.filters.channels, ["FaceBoom"]);

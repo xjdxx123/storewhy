@@ -34,7 +34,7 @@ export function EvidenceDialog({
       })
       .catch((e: unknown) => {
         if (!disposed)
-          setError(e instanceof Error ? e.message : "无法读取证据");
+          setError(e instanceof Error ? e.message : "Could not load evidence");
       });
     return () => {
       disposed = true;
@@ -50,40 +50,40 @@ export function EvidenceDialog({
       <div className="section-heading">
         <div>
           <p className="eyebrow">EVIDENCE</p>
-          <h2 id="evidence-title">查看分析依据</h2>
+          <h2 id="evidence-title">Inspect evidence</h2>
         </div>
         <button onClick={close} autoFocus>
-          关闭
+          Close
         </button>
       </div>
       {error ? (
         <div role="alert" className="notice error">
           {error}
-          <button onClick={() => setRetry((v) => v + 1)}>重新读取</button>
+          <button onClick={() => setRetry((v) => v + 1)}>Retry</button>
         </div>
       ) : !evidence ? (
-        <p role="status">正在读取证据…</p>
+        <p role="status">Loading evidence…</p>
       ) : (
         <>
           <p className="caption">
             {evidence.backend === "zetaris"
-              ? "Zetaris 查询结果"
-              : "自制样例数据"}{" "}
+              ? "Zetaris query results"
+              : "Self-authored sample data"}{" "}
             · {evidence.datasetVersion}
           </p>
           <p className="mono wrap">{evidence.id}</p>
           {request.rowIndex !== undefined && (
             <section className="source-cell">
-              <h3>此处引用的数值</h3>
+              <h3>Referenced value</h3>
               <p>
-                结果第 {request.rowIndex + 1} 行 · {request.metric}
+                Result row {request.rowIndex + 1} · {request.metric}
               </p>
               <pre>
                 {JSON.stringify(evidence.rows[request.rowIndex], null, 2)}
               </pre>
             </section>
           )}
-          <h3>指标定义</h3>
+          <h3>Metric definitions</h3>
           <dl>
             {Object.entries(evidence.definitions).map(([key, value]) => (
               <div key={key}>
@@ -92,24 +92,24 @@ export function EvidenceDialog({
               </div>
             ))}
           </dl>
-          <h3>实际执行条件</h3>
+          <h3>Executed scope</h3>
           <pre>{JSON.stringify(evidence.spec, null, 2)}</pre>
           {evidence.coverage.length > 0 && (
             <>
-              <h3>观察期覆盖</h3>
+              <h3>Follow-up coverage</h3>
               {evidence.coverage.map((c) => (
                 <p key={c.period}>
-                  {c.period}：实际统计至 {c.effectiveEnd}（不含），排除{" "}
-                  {c.excludedUsers} 位随访未满用户。
+                  {c.period}: included through {c.effectiveEnd} (exclusive);
+                  excluded {c.excludedUsers} users without complete follow-up.
                 </p>
               ))}
             </>
           )}
           {evidence.sql.map((sql, i) => (
             <section key={i}>
-              <h3>查询 {i + 1}</h3>
+              <h3>Query {i + 1}</h3>
               <p className="mono wrap">
-                queryId: {evidence.queryIds[i] ?? "未提供"}
+                queryId: {evidence.queryIds[i] ?? "Not provided"}
               </p>
               <pre>{sql}</pre>
             </section>

@@ -15,8 +15,8 @@ it("renders comparison statements from exact matching source rows rather than mo
     const facts = factsFor([e]),
       obs = observationsFor([e], facts);
     const joint = obs.find((o) => o.kind === "joint")!;
-    expect(joint.text).toContain("费用增加36");
-    expect(joint.text).toContain("收入不变0");
+    expect(joint.text).toContain("spend increased by 36");
+    expect(joint.text).toContain("revenue changed by 0");
     expect(joint.factIds).toHaveLength(4);
     expect(joint.factIds.every((id) => facts.some((f) => f.id === id))).toBe(
       true,

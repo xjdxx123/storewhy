@@ -58,9 +58,9 @@ function question(goal: string, spec: AnalysisSpec) {
     .filter(([, values]) => values.length)
     .map(
       ([key, values]) =>
-        `${{ channels: "渠道", devices: "设备", regions: "国家" }[key]}=${values.join("/")}`,
+        `${{ channels: "channel", devices: "device", regions: "country" }[key]}=${values.join("/")}`,
     );
-  return `${goal}？时期：${spec.periods.map((p) => `${p.start}至${p.end}（结束日不含）`).join("与")}；${spec.mode === "cohort" ? `首访后${spec.windowDays}天` : "自然时期"}；${spec.audience === "paid" ? "付费渠道用户" : "全部用户"}${filters.length ? "；" + filters.join("；") : ""}。`;
+  return `${goal}? Periods: ${spec.periods.map((p) => `${p.start} to ${p.end} (end exclusive)`).join(" and ")}; ${spec.mode === "cohort" ? `within ${spec.windowDays} days of first visit` : "calendar period"}; ${spec.audience === "paid" ? "paid-channel users" : "all users"}${filters.length ? "; " + filters.join("; ") : ""}.`;
 }
 
 /** Recommendations contain validated complete scopes, never model-written SQL or actions. */
@@ -136,9 +136,9 @@ export function followupsFor(
   )
     propose(
       "focus-channel",
-      `核查 ${channel} 的付费表现`,
-      `只看${channel}，进一步比较购买用户比例和每位购买用户收入`,
-      "该渠道出现在结论证据中，可继续核查其付费表现。",
+      `Check purchasing behavior on ${channel}`,
+      `Focus on ${channel} and compare purchaser rate and revenue per purchasing user`,
+      "This channel appears in the conclusion evidence. Check its purchasing behavior next.",
       {
         ...base,
         groupBy: [],
@@ -163,9 +163,9 @@ export function followupsFor(
   )
     propose(
       "purchase-composition",
-      "拆分首次与后续购买收入",
-      "比较收入变化来自首次购买还是后续购买",
-      "尚未在当前范围完成首次与后续购买收入的拆分。",
+      "Split first and subsequent purchase revenue",
+      "Compare whether revenue changes come from first or subsequent purchases",
+      "First and subsequent purchase revenue have not yet been separated in this scope.",
       {
         ...base,
         metrics: withMetrics(
@@ -184,9 +184,9 @@ export function followupsFor(
   )
     propose(
       "payer-performance",
-      "核查付费比例与每位购买用户收入",
-      "比较购买用户比例和每位购买用户收入的变化",
-      "补充付费比例及每位购买用户收入，核查收入变化发生在哪一环。",
+      "Check purchaser rate and revenue per purchaser",
+      "Compare changes in purchaser rate and revenue per purchasing user",
+      "Check purchaser rate and revenue per purchaser to locate the observed revenue change.",
       {
         ...base,
         metrics: withMetrics(
@@ -205,27 +205,27 @@ export function followupsFor(
   )
     propose(
       "channel-breakdown",
-      "按渠道拆分变化",
-      "按首次观测渠道比较这些指标的变化",
-      "当前范围仍可按渠道定位具体变化。",
+      "Break down changes by channel",
+      "Compare these metric changes by first observed channel",
+      "A channel breakdown can locate changes within the current scope.",
       { ...base, groupBy: ["channel"] },
     );
   if (base.mode === "cohort") {
     const windowDays = base.windowDays === 14 ? 7 : 14;
     propose(
       "compare-window",
-      `改用首访后 ${windowDays} 天核查`,
-      `将观察窗口改成首访后${windowDays}天，核查这些指标的变化`,
-      "用另一种完整观察窗口检验结论是否依赖观察时长。",
+      `Check the first ${windowDays} days after first visit`,
+      `Change the observation window to ${windowDays} days after first visit and check these metric changes`,
+      "Use another complete follow-up window to check whether the conclusion depends on observation time.",
       { ...base, windowDays },
     );
   }
   // A monthly, ungrouped view stays within the 200-row bound. It explicitly changes the time basis.
   propose(
     "calendar-trend",
-    "查看自然月收入趋势",
-    "切换为自然时期，不分组查看按月收入趋势",
-    "自然时期趋势回答变化发生在哪个月；口径将明确切换。",
+    "View calendar-month revenue trend",
+    "Switch to calendar mode and inspect monthly revenue without grouping",
+    "Calendar trends locate the change in time. This explicitly switches the time basis.",
     {
       ...base,
       mode: "calendar",

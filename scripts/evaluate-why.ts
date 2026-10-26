@@ -333,7 +333,8 @@ async function turn(conversationId: string, test: Case, previous?: Run) {
       qualityGaps.push("maturity clipping not disclosed");
     if (
       test.id === "n1-false-premise" &&
-      (!a.summary.includes("费用减少") || !a.summary.includes("收入增加"))
+      (!a.summary.includes("spend decreased") ||
+        !a.summary.includes("revenue increased"))
     )
       errors.push("false premise repeated");
     if (test.id.startsWith("f1-") && run.context.spec.windowDays === 7) {

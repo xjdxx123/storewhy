@@ -116,13 +116,13 @@ it("does not use truncated evidence to support an explanation", () => {
 });
 it("leads ratio questions with a ratio rather than spend alone", () => {
   const a = answer([overall, grouped], "为什么收入与广告费用比发生变化？");
-  expect(a.summary).toContain("收入与记录费用比");
+  expect(a.summary).toMatch(/revenue to recorded spend/i);
 });
 it("decomposes first versus subsequent purchase revenue without calling them new versus old customers", () => {
   const a = answer([overall], "为什么收入变化？请区分首次与后续购买收入");
-  expect(a.summary).toContain("首次购买收入");
-  expect(a.summary).toContain("后续购买收入");
-  expect(a.summary).toContain("不等同于新客与老客");
+  expect(a.summary).toMatch(/first purchase revenue/i);
+  expect(a.summary).toMatch(/subsequent purchase revenue/i);
+  expect(a.summary).toContain("not new versus returning customers");
   expect(a.conclusion!.factIds).toHaveLength(6);
 });
 it("discloses maturity clipping even when the Reviewer says ready", () => {
@@ -130,11 +130,15 @@ it("discloses maturity clipping even when the Reviewer says ready", () => {
   e.coverage[1].excludedUsers = 4;
   e.coverage[1].effectiveEnd = "2019-07-18";
   const a = answer([e], "为什么收入变化", true);
-  expect(a.limitations.some((l) => l.includes("已排除随访不足"))).toBe(true);
+  expect(
+    a.limitations.some((l) => l.includes("without complete follow-up")),
+  ).toBe(true);
   const check = a.explanations!.find((c) => c.kind === "maturity")!;
   expect(check.status).toBe("contradicted");
   expect(check.coverageRefs).toHaveLength(2);
-  expect(check.text).toContain("不能证明被排除的新用户表现差");
+  expect(check.text).toContain(
+    "do not show that excluded users perform poorly",
+  );
 });
 it("does not treat natural-month comparisons as requested time buckets", () => {
   expect(
@@ -262,7 +266,7 @@ it("limits a Why that a Reviewer approves without any executed explanatory check
       server.engine.createRun(c.id, { message: "为什么收入有变化" }).id,
     );
     expect(run.status).toBe("limited");
-    expect(run.answer?.limitations.some((l) => l.includes("尚未检查"))).toBe(
+    expect(run.answer?.limitations.some((l) => l.includes("Not checked"))).toBe(
       true,
     );
   } finally {
@@ -291,9 +295,11 @@ it("keeps a numerical conclusion when the selected headline is a coverage warnin
     headlineObservationId: coverage.id,
     ready: false,
   });
-  expect(a.summary).toContain("收入");
-  expect(a.summary).not.toMatch(/^已排除/);
-  expect(a.limitations.some((l) => l.includes("随访不足"))).toBe(true);
+  expect(a.summary).toMatch(/revenue/i);
+  expect(a.summary).not.toMatch(/^Acquisition dates/);
+  expect(a.limitations.some((l) => l.includes("complete follow-up"))).toBe(
+    true,
+  );
 });
 
 it("uses paired new-user evidence even when another supplemental query has unpaired users", () => {
@@ -348,9 +354,9 @@ it("does not let cohort intent silently switch the default paid audience without
 
 it("answers overall ratio questions with complete amount-weighted channel totals", () => {
   const a = answer([grouped], "为什么收入与广告费用比变化");
-  expect(a.summary).toMatch(/^所列渠道合计/);
-  expect(a.summary).toContain("不是渠道比值平均");
-  expect(a.summary).toContain("从0.15625变为0.147059");
+  expect(a.summary).toMatch(/^Listed channel totals/);
+  expect(a.summary).toContain("not an average of channel ratios");
+  expect(a.summary).toContain("from 0.15625 to 0.147059");
   expect(a.conclusion!.factIds.length).toBe(grouped.rows.length * 2);
   const missing = structuredClone(grouped);
   missing.rows[0].values.spend = null;
@@ -359,4 +365,48 @@ it("answers overall ratio questions with complete amount-weighted channel totals
       (o) => o.kind === "ratio",
     ),
   ).toBe(false);
+});
+
+it("renders English evidence-backed answers without changing the source cells", () => {
+  const evidence = [overall, grouped];
+  const a = answer(
+    evidence,
+    "Why did spend increase while new-user revenue failed to keep pace?",
+  );
+  expect(JSON.stringify(a)).not.toMatch(/\p{Script=Han}/u);
+  expect(a.facts.length).toBeGreaterThan(0);
+  for (const fact of a.facts) {
+    const source = evidence.find((e) => e.id === fact.evidenceId)!;
+    expect(fact.value).toBe(source.rows[fact.rowIndex].values[fact.metric]);
+  }
+});
+
+it("corrects an English spend-up revenue-down premise when the executed comparison is reversed", async () => {
+  const local = new FixtureBackend();
+  try {
+    await local.initialize();
+    // Isolate an extra June purchase in this self-authored fixture only.
+    await local.db.exec(
+      "INSERT INTO purchase_facts(purchase_id,user_id,purchased_at,amount,purchase_index) VALUES(9999,'fixture-6-1','2019-06-03',5,2)",
+    );
+    const e = await new Analytics(local, "english-premise-fixture").query({
+      ...DEFAULT_SPEC,
+      periods: [...DEFAULT_SPEC.periods].reverse(),
+      filters: { channels: ["TipTop"], devices: [], regions: [] },
+    });
+    expect(e.comparisons.find((c) => c.metric === "spend")!.delta).toBeLessThan(
+      0,
+    );
+    expect(
+      e.comparisons.find((c) => c.metric === "revenue")!.delta,
+    ).toBeGreaterThan(0);
+    const a = answer([e], "Why did spend increase while revenue fell?");
+    expect(a.summary).toContain(
+      "assumed spend and revenue changes do not match",
+    );
+    expect(a.summary).toContain("spend decreased");
+    expect(a.summary).toContain("revenue increased");
+  } finally {
+    await local.close();
+  }
 });

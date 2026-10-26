@@ -14,17 +14,23 @@ export function validateSpec(input: unknown): AnalysisSpec {
   if (spec.timeGrain && spec.mode !== "calendar")
     throw new AppError(
       "TREND_MODE",
-      "趋势查询使用自然时期 calendar 口径，请先明确时间口径",
+      "Trend queries require calendar mode. Specify the time basis first.",
     );
   if (new Set(spec.groupBy).size !== spec.groupBy.length)
-    throw new AppError("DUPLICATE_DIMENSION", "不能重复拆分维度");
+    throw new AppError(
+      "DUPLICATE_DIMENSION",
+      "Grouping dimensions must not repeat",
+    );
   if (new Set(spec.periods.map((p) => p.label)).size !== spec.periods.length)
-    throw new AppError("DUPLICATE_PERIOD", "比较时期标签必须不同");
+    throw new AppError(
+      "DUPLICATE_PERIOD",
+      "Comparison period labels must differ",
+    );
   for (const p of spec.periods)
     if (p.start < "2019-05-01" || p.end > "2019-11-01")
       throw new AppError(
         "DATE_OUT_OF_RANGE",
-        "样例只覆盖 2019-05-01 至 2019-10-31，请指定该范围内日期",
+        "The sample covers 2019-05-01 through 2019-10-31. Choose dates within this range.",
       );
   for (const [values, allowed] of [
     [spec.filters.channels, CHANNELS],
@@ -33,7 +39,10 @@ export function validateSpec(input: unknown): AnalysisSpec {
   ] as const)
     for (const value of values)
       if (!allowed.includes(value))
-        throw new AppError("UNKNOWN_FILTER", "数据中没有该筛选值：" + value);
+        throw new AppError(
+          "UNKNOWN_FILTER",
+          "This filter value is unavailable: " + value,
+        );
   if (
     spec.metrics.some((m) => COST_METRICS.includes(m)) &&
     (spec.groupBy.some((d) => d === "device" || d === "region") ||
@@ -42,7 +51,7 @@ export function validateSpec(input: unknown): AnalysisSpec {
   )
     throw new AppError(
       "COST_GRAIN_UNAVAILABLE",
-      "费用只有渠道×日期粒度，无法按设备或国家计算。可以改为比较付费比例或用户收入。",
+      "Spend exists only by channel and date. It cannot be calculated by device or country. Compare purchaser rate or user revenue instead.",
     );
   if (
     spec.metrics.some((m) => COST_METRICS.includes(m)) &&
@@ -50,7 +59,7 @@ export function validateSpec(input: unknown): AnalysisSpec {
   )
     throw new AppError(
       "ORGANIC_COST_UNAVAILABLE",
-      "organic 未提供费用，不能计算它的广告费用或回报比。",
+      "Organic spend is unavailable, so its ad spend or return ratio cannot be calculated.",
     );
   return spec;
 }
@@ -83,9 +92,9 @@ export function compilePeriod(
   if (end <= period.start)
     throw new AppError(
       "IMMATURE_COHORT",
-      "该时期还没有完整的 " +
+      "This period does not have a complete " +
         spec.windowDays +
-        " 天随访，请选择更早获客日期或较短窗口",
+        "-day follow-up. Choose earlier acquisition dates or a shorter window.",
     );
   const dims = spec.groupBy;
   const selectDims = (a: string) =>

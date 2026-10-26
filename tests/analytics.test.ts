@@ -102,13 +102,13 @@ describe("independent fixture metric checks", () => {
     expect(e.rows[0].values.revenue_per_payer).toBeNull();
   });
   it("rejects unobservable costs and absent click metrics", () => {
-    expect(() => validateSpec(spec({ groupBy: ["device"] }))).toThrow("费用");
+    expect(() => validateSpec(spec({ groupBy: ["device"] }))).toThrow("Spend");
     expect(() => validateSpec({ ...spec(), metrics: ["ctr"] })).toThrow();
     expect(() =>
       validateSpec(
         spec({ filters: { channels: ["organic"], devices: [], regions: [] } }),
       ),
-    ).toThrow("organic");
+    ).toThrow("Organic");
   });
   it("rejects invalid and out-of-range dates, unknown filters and duplicate dimensions", () => {
     expect(() =>
@@ -222,7 +222,9 @@ it("rejects incomplete result columns instead of turning them into zeros", async
     },
     "test",
   );
-  await expect(a.query(DEFAULT_SPEC)).rejects.toThrow("缺少预期字段");
+  await expect(a.query(DEFAULT_SPEC)).rejects.toThrow(
+    "Expected fields are missing",
+  );
 });
 it("rejects a combined trend result beyond two hundred rows", async () => {
   await backend.db.exec("BEGIN");
@@ -243,7 +245,7 @@ it("rejects a combined trend result beyond two hundred rows", async () => {
           ],
         }),
       ),
-    ).rejects.toThrow("两百行");
+    ).rejects.toThrow("200 rows");
   } finally {
     await backend.db.exec("ROLLBACK");
   }

@@ -125,7 +125,7 @@ it("does not infer a daily trend from two aggregate monthly values", () => {
   bad.spec.timeGrain = "day";
   const response = chartsFor([bad]);
   expect(response.charts).toEqual([]);
-  expect(response.notes.join()).toContain("时间桶");
+  expect(response.notes.join()).toContain("time buckets");
 });
 
 it("stacks only queried first/subsequent revenue cells without counting total revenue twice", async () => {
@@ -152,8 +152,8 @@ it("stacks only queried first/subsequent revenue cells without counting total re
 
 it("omits truncated, empty and entirely null results with an explicit reason", () => {
   for (const [e, reason] of [
-    [{ ...grouped, truncated: true }, "截断"],
-    [{ ...grouped, rows: [] }, "无结果"],
+    [{ ...grouped, truncated: true }, "truncated"],
+    [{ ...grouped, rows: [] }, "No results"],
     [
       {
         ...grouped,
@@ -164,7 +164,7 @@ it("omits truncated, empty and entirely null results with an explicit reason", (
           ),
         })),
       },
-      "没有可绘制",
+      "No queried values",
     ],
   ] satisfies [Evidence, string][]) {
     const response = chartsFor([e]);

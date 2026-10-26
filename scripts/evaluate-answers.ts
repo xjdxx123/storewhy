@@ -168,7 +168,7 @@ const narrowed = await check(
     assert.deepEqual(r.context.spec, focus.patch);
     if (focus.id === "focus-channel") {
       assert.equal(r.context.taskKind, "query");
-      assert.ok(r.answer!.summary.includes("购买用户比例"));
+      assert.ok(r.answer!.summary.includes("Purchaser rate"));
       assert.ok(r.answer!.summary.includes("%"));
     }
   },
@@ -208,8 +208,8 @@ await check(
     assert.deepEqual(r.context.spec.filters.channels, ["FaceBoom"]);
     assert.ok(r.modelTraces.some((t) => t.role === "reviewer"));
     assert.ok(r.answer!.summary.includes("FaceBoom"));
-    assert.ok(r.answer!.summary.includes("费用减少"));
-    assert.ok(r.answer!.summary.includes("收入增加"));
+    assert.ok(r.answer!.summary.includes("spend decreased"));
+    assert.ok(r.answer!.summary.includes("revenue increased"));
   },
 );
 const simple = await api.createConversation();
@@ -221,7 +221,7 @@ await check(
   ),
   (r) => {
     assert.equal(r.context.taskKind, "query");
-    assert.ok(r.answer!.summary.includes("收入"));
+    assert.ok(r.answer!.summary.toLowerCase().includes("revenue"));
   },
 );
 console.log(

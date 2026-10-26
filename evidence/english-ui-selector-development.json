@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-26T21:48:15.569Z",
+  "pass": false,
+  "checks": {
+    "reactPageLoaded": true
+  },
+  "records": [],
+  "consoleErrors": [],
+  "error": "locator.fill: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel(/想了解什么变化|Continue this investigation/)\u001b[22m\n"
+}

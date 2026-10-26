@@ -63,7 +63,7 @@ export function observationsFor(
           : {}),
     });
   const sign = (value: number) =>
-    value > 0 ? "增加" : value < 0 ? "减少" : "不变";
+    value > 0 ? "increased by " : value < 0 ? "decreased by " : "changed by ";
   for (const e of evidence) {
     const segment = (dimensions: Partial<Record<Dimension, string>>) =>
       segmentLabel(dimensions, e.spec.filters);
@@ -76,7 +76,9 @@ export function observationsFor(
             JSON.stringify(dimensions),
       );
     const mode =
-      e.spec.mode === "cohort" ? `首访后${e.spec.windowDays}天` : "自然时期";
+      e.spec.mode === "cohort"
+        ? `within ${e.spec.windowDays} days of first visit`
+        : "in the calendar period";
     if (e.comparisons.length) {
       if (
         !options.query &&
@@ -111,7 +113,7 @@ export function observationsFor(
           add(
             e,
             "composition",
-            `${segment(r.dimensions)}：${e.spec.periods[1].label}对比${e.spec.periods[0].label}，${mode}收入${sign(r.delta!)}${Math.abs(r.delta!)}；首次购买收入${sign(first!.delta!)}${Math.abs(first!.delta!)}，后续购买收入${sign(repeat!.delta!)}${Math.abs(repeat!.delta!)}。首次与后续是收入构成，不等同于新客与老客。`,
+            `${segment(r.dimensions)}: ${e.spec.periods[1].label} vs ${e.spec.periods[0].label}, revenue ${mode} ${sign(r.delta!)}${Math.abs(r.delta!)}; first purchase revenue ${sign(first!.delta!)}${Math.abs(first!.delta!)} and subsequent purchase revenue ${sign(repeat!.delta!)}${Math.abs(repeat!.delta!)}. These are revenue components, not new versus returning customers.`,
             [
               ...bound("revenue", r.dimensions),
               ...bound("first_purchase_revenue", r.dimensions),
@@ -139,16 +141,16 @@ export function observationsFor(
           continue;
         const mismatch =
           c.delta! > 0 && r.delta! <= 0
-            ? "费用增加没有伴随同口径收入增加。"
+            ? "Higher spend was not accompanied by higher revenue on the same basis."
             : c.relativeChange !== null &&
                 r.relativeChange !== null &&
                 c.relativeChange > r.relativeChange
-              ? "收入变化率低于费用变化率。"
+              ? "Revenue growth was below spend growth."
               : "";
         add(
           e,
           "joint",
-          `${segment(c.dimensions)}：${e.spec.periods[1].label}对比${e.spec.periods[0].label}，${mode}口径下，费用${sign(c.delta!)}${Math.abs(c.delta!)}，收入${sign(r.delta!)}${Math.abs(r.delta!)}。${mismatch}`,
+          `${segment(c.dimensions)}: ${e.spec.periods[1].label} vs ${e.spec.periods[0].label}, ${mode}, spend ${sign(c.delta!)}${Math.abs(c.delta!)} and revenue ${sign(r.delta!)}${Math.abs(r.delta!)}. ${mismatch}`,
           [...bound("spend", c.dimensions), ...bound("revenue", c.dimensions)],
         );
       }
@@ -200,7 +202,7 @@ export function observationsFor(
             add(
               e,
               "ratio",
-              `所列渠道合计：${e.spec.periods[1].label}对比${e.spec.periods[0].label}，${mode}的收入与记录费用比从${base}变为${current}；费用${sign(costDelta)}${Math.abs(costDelta)}，收入${sign(revenueDelta)}${Math.abs(revenueDelta)}。比值由渠道金额合计计算，不是渠道比值平均，也不代表广告因果增量。`,
+              `Listed channel totals: ${e.spec.periods[1].label} vs ${e.spec.periods[0].label}, ${mode}, revenue to recorded spend changed from ${base} to ${current}; spend ${sign(costDelta)}${Math.abs(costDelta)} and revenue ${sign(revenueDelta)}${Math.abs(revenueDelta)}. The ratio uses channel amount totals, not an average of channel ratios, and does not measure causal ad incrementality.`,
               facts.filter(
                 (f) =>
                   f.evidenceId === e.id &&
@@ -233,7 +235,7 @@ export function observationsFor(
           add(
             e,
             "contribution",
-            `${e.spec.periods[1].label}对比${e.spec.periods[0].label}，${mode}的${LABELS[metric]}：${segment(lead.dimensions)}${sign(lead.delta!)}${Math.abs(lead.delta!)}，其余所列渠道合计${sign(rest)}${Math.abs(rest)}，所列渠道合计${sign(net.toNumber())}${net.abs().toNumber()}。`,
+            `${e.spec.periods[1].label} vs ${e.spec.periods[0].label}, ${LABELS[metric]} ${mode}: ${segment(lead.dimensions)} ${sign(lead.delta!)}${Math.abs(lead.delta!)}; the other listed channels together ${sign(rest)}${Math.abs(rest)}, and all listed channels together ${sign(net.toNumber())}${net.abs().toNumber()}.`,
             facts.filter((f) => f.evidenceId === e.id && f.metric === metric),
             lead.dimensions,
           );
@@ -255,11 +257,11 @@ export function observationsFor(
           const percent =
             c.relativeChange === null || isProportion(metric)
               ? ""
-              : `，变化率${(c.relativeChange * 100).toFixed(2)}%`;
+              : `, relative change ${(c.relativeChange * 100).toFixed(2)}%`;
           add(
             e,
             "comparison",
-            `${segment(c.dimensions)}：${e.spec.periods[1].label}相较${e.spec.periods[0].label}，${mode}的 ${LABELS[metric]} 从${metricText(metric, c.baseline!)}变为${metricText(metric, c.current!)}，${isProportion(metric) ? `${sign(c.delta!)}${pointDelta(c.delta!)}个百分点` : `差额${c.delta}`}${percent}。`,
+            `${segment(c.dimensions)}: ${e.spec.periods[1].label} vs ${e.spec.periods[0].label}, ${LABELS[metric]} ${mode} changed from ${metricText(metric, c.baseline!)} to ${metricText(metric, c.current!)}; ${isProportion(metric) ? `${sign(c.delta!)}${pointDelta(c.delta!)} percentage points` : `difference ${c.delta}`}${percent}.`,
             bound(metric, c.dimensions),
           );
         }
@@ -278,7 +280,7 @@ export function observationsFor(
           add(
             e,
             "snapshot",
-            `${row.period}${row.bucket ? " / " + row.bucket : ""}，${segment(row.dimensions)}：${mode}的 ${LABELS[metric]} 为${metricText(metric, value)}。`,
+            `${row.period}${row.bucket ? " / " + row.bucket : ""}, ${segment(row.dimensions)}: ${LABELS[metric]} ${mode} is ${metricText(metric, value)}.`,
             facts.filter(
               (f) =>
                 f.evidenceId === e.id &&
@@ -292,7 +294,7 @@ export function observationsFor(
       add(
         e,
         "coverage",
-        "已排除随访不足的获客日期，费用同步裁剪；结论仅适用于剩余完整观察窗口的用户。",
+        "Acquisition dates without complete follow-up and matching spend were excluded. Findings apply only to retained users with a full observation window.",
         facts.filter((f) => f.evidenceId === e.id).slice(0, 1),
       );
   }
@@ -303,7 +305,7 @@ export function validateSelection(ids: string[], observations: Observation[]) {
   if (ids.some((id) => !allowed.has(id)))
     throw new AppError(
       "UNBOUND_OBSERVATION",
-      "调查引用了不存在的观测证据",
+      "The investigation referenced an unknown observation",
       503,
     );
   return [...new Set(ids)].map((id) => observations.find((o) => o.id === id)!);

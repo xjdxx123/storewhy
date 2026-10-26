@@ -22,13 +22,18 @@ const gateway: ModelGateway = {
     if (role === "investigator.intent") {
       const question = JSON.parse(messages.at(-1)!.content)
         .currentQuestion as string;
-      if (question.includes("测试模型离线"))
-        throw new AppError("MODEL_OFFLINE", "测试注入：模型服务不可用", 503);
+      if (question.includes("Test model offline"))
+        throw new AppError(
+          "MODEL_OFFLINE",
+          "Injected test failure: model service unavailable",
+          503,
+        );
       if (question.includes("CTR"))
         return schema.parse({
           kind: "unsupported",
           patch: {},
-          message: "当前自制样例没有曝光与点击数据，无法检查 CTR。",
+          message:
+            "This self-authored sample has no impression or click data, so CTR cannot be checked.",
         });
     }
     return scripted.structured(role, schema, messages, traces, signal);
@@ -108,12 +113,18 @@ async function finished(name: string, expected = ["completed", "limited"]) {
   return run;
 }
 async function send(question: string) {
-  await page.getByLabel(/想了解什么变化|继续这次调查/).fill(question);
-  await page.getByRole("button", { name: "开始调查 →", exact: true }).click();
+  await page
+    .getByLabel(/What changed|Continue this investigation/)
+    .fill(question);
+  await page
+    .getByRole("button", { name: "Investigate →", exact: true })
+    .click();
 }
 try {
   await page.goto(root);
-  await page.getByRole("button", { name: "开始调查 →", exact: true }).waitFor();
+  await page
+    .getByRole("button", { name: "Investigate →", exact: true })
+    .waitFor();
   await page.waitForFunction(
     () =>
       !(document.querySelector('button[type="submit"]') as HTMLButtonElement)
@@ -124,7 +135,7 @@ try {
     path: `evidence/fallback-ui-${mode}-empty.png`,
     fullPage: true,
   });
-  const question = await page.getByLabel("想了解什么变化？").inputValue();
+  const question = await page.getByLabel("What changed?").inputValue();
   await send(question);
   await page.waitForFunction(() =>
     ["queued", "running"].includes(
@@ -142,6 +153,12 @@ try {
   ).json();
   assert.equal(conversation.runIds.length, 1);
   checks.refreshWithoutDuplicatePost = true;
+  assert.equal(await page.locator("html").getAttribute("lang"), "en");
+  assert.doesNotMatch(
+    await page.locator("body").innerText(),
+    /\p{Script=Han}/u,
+  );
+  checks.englishPresentation = true;
   const points = await page.locator("svg [data-value]").evaluateAll((nodes) =>
     nodes.map((node) => ({
       evidenceId: node.getAttribute("data-evidence-id")!,
@@ -176,7 +193,7 @@ try {
   }
   checks.allChartPointsBound = points.length;
   await page
-    .getByRole("button", { name: /^查看依据/ })
+    .getByRole("button", { name: /^View source/ })
     .first()
     .click();
   await page
@@ -186,6 +203,8 @@ try {
     .waitFor();
   const dialogText = await page.getByRole("dialog").textContent();
   assert.ok(dialogText?.includes("SELECT"));
+  assert.doesNotMatch(dialogText ?? "", /\p{Script=Han}/u);
+  checks.englishEvidence = true;
   await page.keyboard.press("Escape");
   assert.equal(await page.getByRole("dialog").count(), 0);
   checks.evidenceSqlAndEscape = true;
@@ -194,28 +213,31 @@ try {
     fullPage: true,
   });
   await page
-    .getByRole("button", { name: "只看 FaceBoom", exact: true })
+    .getByRole("button", { name: "Focus on FaceBoom", exact: true })
     .click();
   const channel = await finished("channel-followup");
   assert.deepEqual(channel.context.spec.filters.channels, ["FaceBoom"]);
-  await page.getByRole("button", { name: "改为 7 天", exact: true }).click();
+  await page.getByRole("button", { name: "Use 7 days", exact: true }).click();
   const seven = await finished("seven-day-followup");
   assert.equal(seven.context.spec.windowDays, 7);
   assert.deepEqual(seven.context.spec.filters.channels, ["FaceBoom"]);
   await page
-    .getByRole("button", { name: "记住 7 天默认窗口", exact: true })
+    .getByRole("button", { name: "Save 7-day default", exact: true })
     .click();
   await page
     .getByRole("status")
-    .getByText(/已保存 7 天默认窗口/)
+    .getByText(/Saved 7-day default window/)
     .waitFor();
-  await page.getByRole("button", { name: "改为 14 天", exact: true }).click();
+  await page.getByRole("button", { name: "Use 14 days", exact: true }).click();
   assert.equal(
     (await finished("temporary-fourteen-day")).context.spec.windowDays,
     14,
   );
   await page
-    .getByRole("button", { name: "按默认条件新分析", exact: true })
+    .getByRole("button", {
+      name: "New analysis with saved defaults",
+      exact: true,
+    })
     .click();
   const restored = await finished("source-backed-memory-default");
   assert.equal(restored.context.spec.windowDays, 7);
@@ -233,12 +255,14 @@ try {
   } else {
     throw new Error("Expected an executable followup recommendation");
   }
-  await send("查询2019年7月新用户收入");
-  await page.getByRole("button", { name: "取消调查", exact: true }).click();
+  await send("Query new-user revenue in July 2019");
+  await page
+    .getByRole("button", { name: "Cancel investigation", exact: true })
+    .click();
   await finished("cancelled-run", ["cancelled"]);
   assert.equal(await page.getByTestId("report").count(), 0);
   checks.cancelDoesNotLeaveOldReport = true;
-  await send("为什么2019年7月FaceBoom的广告CTR下降？");
+  await send("Why did FaceBoom ad CTR fall in July 2019?");
   await finished("missing-click-data", ["unsupported"]);
   assert.equal(await page.getByTestId("report").count(), 0);
   checks.unsupportedDoesNotLeaveOldReport = true;
@@ -250,11 +274,11 @@ try {
         body: ": test transport closed\n\n",
       }),
     );
-    await send("查询2019年7月新用户收入");
+    await send("Query new-user revenue in July 2019");
     await finished("polling-without-sse");
     checks.pollingCompletesWithoutSse = true;
     await page.unroute("**/runs/*/events*");
-    await send("测试模型离线");
+    await send("Test model offline");
     const failed = await finished("injected-model-offline", ["failed"]);
     assert.equal(failed.error?.code, "MODEL_OFFLINE");
     assert.equal(await page.getByTestId("report").count(), 0);
@@ -266,14 +290,14 @@ try {
         body: "unreadable test response",
       }),
     );
-    await send("查询2019年7月收入");
+    await send("Query revenue in July 2019");
     await page
       .getByRole("alert")
-      .getByText(/提交状态尚未确认/)
+      .getByText(/Submission status is uncertain/)
       .waitFor();
     assert.equal(
       await page
-        .getByRole("button", { name: "开始调查 →", exact: true })
+        .getByRole("button", { name: "Investigate →", exact: true })
         .isDisabled(),
       true,
     );
@@ -284,7 +308,9 @@ try {
         `${apiRoot}/api/v1/conversations/${main.conversationId}`,
       )
     ).json();
-    await page.getByRole("button", { name: "恢复会话", exact: true }).click();
+    await page
+      .getByRole("button", { name: "Resume session", exact: true })
+      .click();
     await page.waitForFunction(
       () =>
         !(document.querySelector('button[type="submit"]') as HTMLButtonElement)
@@ -298,9 +324,11 @@ try {
     assert.equal(afterRecovery.runIds.length, beforeRecovery.runIds.length);
     checks.ambiguousPostRequiresRestoreWithoutResubmit = true;
     await page
-      .getByRole("button", { name: "查看自制样例 ↗", exact: true })
+      .getByRole("button", { name: "View sample replay ↗", exact: true })
       .click();
-    await page.getByText("自制样例回放", { exact: true }).waitFor();
+    await page
+      .getByText("Self-authored sample replay", { exact: true })
+      .waitFor();
     await page.getByTestId("report").waitFor();
     checks.explicitFixtureReplay = true;
     // Exercise all three renderers and null/negative semantics using a clearly synthetic payload.
@@ -326,7 +354,9 @@ try {
         };
       }),
     });
-    await page.getByRole("button", { name: "返回调查", exact: true }).click();
+    await page
+      .getByRole("button", { name: "Return to investigation", exact: true })
+      .click();
     await page.route("**/api/v1/demo", (route) =>
       route.fulfill({
         json: {
@@ -339,7 +369,7 @@ try {
       }),
     );
     await page
-      .getByRole("button", { name: "查看自制样例 ↗", exact: true })
+      .getByRole("button", { name: "View sample replay ↗", exact: true })
       .click();
     await page.locator('[data-chart-id="test-line"]').waitFor();
     const line = page.locator('[data-chart-id="test-line"]');
@@ -390,9 +420,11 @@ try {
           json: { ...demo, answer: { ...demo.answer, charts: [gapChart] } },
         }),
       );
-      await page.getByRole("button", { name: "返回调查", exact: true }).click();
       await page
-        .getByRole("button", { name: "查看自制样例 ↗", exact: true })
+        .getByRole("button", { name: "Return to investigation", exact: true })
+        .click();
+      await page
+        .getByRole("button", { name: "View sample replay ↗", exact: true })
         .click();
       const plot = page.locator(`[data-chart-id="test-gap-${grain}"]`);
       await plot.waitFor();
@@ -409,11 +441,15 @@ try {
     }
     checks.missingDayWeekMonthBucketsBreakLines = true;
     checks.syntheticRendererChecksSeparateFromSourceBinding = true;
-    await page.getByRole("button", { name: "返回调查", exact: true }).click();
     await page
-      .getByRole("button", { name: "查看自制样例 ↗", exact: true })
+      .getByRole("button", { name: "Return to investigation", exact: true })
       .click();
-    await page.getByText("自制样例回放", { exact: true }).waitFor();
+    await page
+      .getByRole("button", { name: "View sample replay ↗", exact: true })
+      .click();
+    await page
+      .getByText("Self-authored sample replay", { exact: true })
+      .waitFor();
   }
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(
