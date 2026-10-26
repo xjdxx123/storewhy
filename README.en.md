@@ -46,13 +46,9 @@ The shared UI polls the same investigation every two seconds because [Cloudflare
 
 Pre-run one complete investigation before recording. Start with **New session**, and identify the data as a public teaching snapshot from Procrastinate Pro+.
 
-1. **Main Why:** use the prefilled question: “Why did recorded spend increase in July 2019 versus June, while new users’ revenue within 14 days of first visit failed to keep pace?” Show the paid-channel audience, cohort time basis, real progress, conclusion and channel charts.
-2. **Evidence:** select **View source** and show the underlying value, metric definition, SQL and query ID. Close the dialog.
-3. **Follow-up:** select **Focus on FaceBoom**, then **Use 7 days**. Show the updated scope, recomputed figures and new evidence. Allow time for actual model responses.
-4. **Data boundary:** ask “Why did FaceBoom ad CTR fall in July 2019?” Show that impressions and clicks are unavailable, so the agent cannot substantiate a CTR explanation.
-5. **Architecture:** explain that Zetaris executes the analysis, Meterless Nightshift routes NVIDIA inference, and H-MEM retains explicitly saved, source-backed defaults. If time permits, use **Save 7-day default** and **New analysis with saved defaults**.
+Use [Group A in the verified English question script](docs/recording-questions.md): **main Why → View source → FaceBoom → 7 days → unavailable CTR**. Paste the exact messages in order, waiting for each result. The script includes spoken cues, measured outcomes, optional purchase-revenue composition, and two backup conversations covering May–October, TipTop/RocketSuperAds/FaceBoom and 7/14-day windows.
 
-Keep `limited` results visible: they mean some explanations remain unverified. Do not describe observational checks as proven ad causality. **View sample replay** is explicitly a self-authored, read-only replay and does not call a live Agent.
+Keep `Limited` results visible: some explanations remain unverified. October's 14-day cohort excludes acquisition dates without complete follow-up, with costs clipped to the same eligible dates. Do not describe it as a full October total, or observational checks as proven ad causality. **View sample replay** remains a labelled self-authored, read-only replay. Validation and fixes: [recording polish verification](docs/recording-polish-verification.md).
 
 ## Run the whole application locally
 

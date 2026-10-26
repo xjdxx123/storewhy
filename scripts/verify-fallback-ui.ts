@@ -192,6 +192,24 @@ try {
     );
   }
   checks.allChartPointsBound = points.length;
+  const limits = page.locator(".limitations");
+  assert.equal(
+    await limits.locator("li").count(),
+    main.answer!.limitations.length,
+  );
+  assert.equal(await limits.locator("li").first().isVisible(), false);
+  await limits.getByText("Data limits", { exact: true }).click();
+  assert.equal(await limits.locator("li").first().isVisible(), true);
+  await limits.getByText("Data limits", { exact: true }).click();
+  const explanations = page.locator(".report-details");
+  assert.equal(
+    await explanations.locator(".explanations article").count(),
+    main.answer!.explanations!.length,
+  );
+  await explanations.getByText("Explanation checks", { exact: true }).click();
+  assert.equal(await explanations.locator("article").first().isVisible(), true);
+  await explanations.getByText("Explanation checks", { exact: true }).click();
+  checks.detailsRetainLimitationsAndChecks = true;
   await page
     .getByRole("button", { name: /^View source/ })
     .first()
@@ -203,6 +221,9 @@ try {
     .waitFor();
   const dialogText = await page.getByRole("dialog").textContent();
   assert.ok(dialogText?.includes("SELECT"));
+  const dialogRows = await page.getByRole("dialog").locator("tbody tr").count();
+  assert.ok(dialogRows > 0);
+  checks.consolidatedSourceShowsQueryRows = true;
   assert.doesNotMatch(dialogText ?? "", /\p{Script=Han}/u);
   checks.englishEvidence = true;
   await page.keyboard.press("Escape");
@@ -339,6 +360,19 @@ try {
       ...original,
       id: `test-${type}`,
       type,
+      source: {
+        ...original.source,
+        coverage: [
+          {
+            period: "2019-07",
+            requestedStart: "2019-07-01",
+            requestedEnd: "2019-08-01",
+            effectiveEnd: "2019-07-18",
+            excludedUsers: 2,
+            days: 17,
+          },
+        ],
+      },
       series: [0, 1].map((si) => {
         const s = original.series[si % original.series.length];
         return {
@@ -372,6 +406,15 @@ try {
       .getByRole("button", { name: "View sample replay ↗", exact: true })
       .click();
     await page.locator('[data-chart-id="test-line"]').waitFor();
+    const coverageNote = page
+      .getByTestId("report")
+      .getByText(
+        "2019-07: acquisition dates before 2019-07-18; 2 users and matching spend excluded for incomplete follow-up.",
+        { exact: true },
+      );
+    assert.equal(await coverageNote.count(), 1);
+    assert.equal(await coverageNote.isVisible(), true);
+    checks.clippedCoverageVisibleOnceAcrossCharts = true;
     const line = page.locator('[data-chart-id="test-line"]');
     assert.equal(
       await line

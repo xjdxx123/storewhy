@@ -1,0 +1,184 @@
+{
+  "at": "2026-10-26T22:16:53.011Z",
+  "viaPublicHttps": true,
+  "pass": false,
+  "records": [
+    {
+      "group": "later-months",
+      "id": "tiptop-september-7",
+      "question": "Why did recorded spend and new-user revenue within 7 days of first visit change on TipTop in September 2019 compared with August 2019?",
+      "months": [
+        "2019-08",
+        "2019-09"
+      ],
+      "channel": "TipTop",
+      "days": 7,
+      "pass": true,
+      "runId": "c0ffa7a9-2947-4732-b914-cd7d08ba3b95",
+      "status": "completed",
+      "elapsedMs": 24493,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-08",
+            "start": "2019-08-01",
+            "end": "2019-09-01"
+          },
+          {
+            "label": "2019-09",
+            "start": "2019-09-01",
+            "end": "2019-10-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "TipTop"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "conclusion": "TipTop: 2019-09 vs 2019-08, Recorded channel spend within 7 days of first visit changed from 11202 to 13232.5; difference 2030.5, relative change 18.13%.",
+      "factCount": 22,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-1a72fa97-2943-455c-8874-c95bf5fc95df",
+          "period": "2019-08",
+          "requestedStart": "2019-08-01",
+          "requestedEnd": "2019-09-01",
+          "effectiveEnd": "2019-09-01",
+          "excludedUsers": 0,
+          "days": 31
+        },
+        {
+          "evidenceId": "ev-1a72fa97-2943-455c-8874-c95bf5fc95df",
+          "period": "2019-09",
+          "requestedStart": "2019-09-01",
+          "requestedEnd": "2019-10-01",
+          "effectiveEnd": "2019-10-01",
+          "excludedUsers": 0,
+          "days": 30
+        }
+      ],
+      "queryIds": [
+        "c00f004d-a862-4b99-9c65-2cb07e08d4d6",
+        "a39cae4d-1676-4b60-a73a-1323444ae2bd"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3581,
+          "inputChars": 8246,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_71bbkdca",
+          "outputChars": 834
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2217,
+          "inputChars": 9371,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_7d7fcgwi",
+          "outputChars": 624
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2310,
+          "inputChars": 9839,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_827iq5lo",
+          "outputChars": 580
+        }
+      ]
+    },
+    {
+      "group": "later-months",
+      "id": "rocket-september-7",
+      "question": "Switch to RocketSuperAds. Keep September versus August 2019 and the 7-day window after first visit.",
+      "months": [
+        "2019-08",
+        "2019-09"
+      ],
+      "channel": "RocketSuperAds",
+      "days": 7,
+      "pass": false,
+      "runId": "79dbecfc-c1c0-40ab-a509-dd054ae4324d",
+      "status": "failed",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-08",
+            "start": "2019-08-01",
+            "end": "2019-09-01"
+          },
+          {
+            "label": "2019-09",
+            "start": "2019-09-01",
+            "end": "2019-10-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "RocketSuperAds"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "error": "Zetaris query failed with HTTP 400: {\"msg\":\"org.apache.thrift.transport.TTransportException\"}"
+    }
+  ]
+}

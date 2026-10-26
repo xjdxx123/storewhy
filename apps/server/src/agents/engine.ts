@@ -362,7 +362,7 @@ export class Engine {
       }
       if (
         !input.patch &&
-        intent.kind === "why" &&
+        (intent.kind === "why" || intent.kind === "followup") &&
         isDirectDataRequest(input.message)
       )
         intent.kind = "query";

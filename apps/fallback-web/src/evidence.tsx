@@ -83,6 +83,46 @@ export function EvidenceDialog({
               </pre>
             </section>
           )}
+          {request.rowIndex === undefined && (
+            <section>
+              <h3>Query results</h3>
+              <div className="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Period</th>
+                      <th>Segment</th>
+                      {evidence.spec.metrics.map((metric) => (
+                        <th key={metric}>{metric}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {evidence.rows.map((row, index) => (
+                      <tr key={index}>
+                        <td>
+                          {row.period}
+                          {row.bucket ? ` / ${row.bucket}` : ""}
+                        </td>
+                        <td>
+                          {Object.values(row.dimensions).join(" / ") ||
+                            "Overall"}
+                        </td>
+                        {evidence.spec.metrics.map((metric) => (
+                          <td key={metric}>
+                            {row.values[metric] === null ||
+                            row.values[metric] === undefined
+                              ? "—"
+                              : String(row.values[metric])}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
           <h3>Metric definitions</h3>
           <dl>
             {Object.entries(evidence.definitions).map(([key, value]) => (

@@ -45,7 +45,8 @@
     "test:demo": "tsx scripts/verify-demo-launcher.ts",
     "demo:ui": "tsx scripts/start-remote-ui.ts",
     "share:backend": "tsx scripts/share-backend.ts",
-    "test:shared-ui": "tsx scripts/verify-shared-ui.ts"
+    "test:shared-ui": "tsx scripts/verify-shared-ui.ts",
+    "test:recording": "tsx scripts/verify-recording-scenarios.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.16",

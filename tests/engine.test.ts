@@ -205,3 +205,59 @@ it("preserves the Why objective when a model mislabels a scope-only follow-up as
   expect(next.context.objective).toBe(first.question);
   expect(next.modelTraces.some((t) => t.role === "reviewer")).toBe(true);
 });
+
+it("retains the Why objective when an English window edit is classified as a new investigation", async () => {
+  const c = createConversation(store, "fixture-test");
+  const first = await wait(
+    engine,
+    engine.createRun(c.id, {
+      message:
+        "Why did spend and new-user revenue change in July 2019 versus June 2019?",
+    }).id,
+  );
+  const next = await wait(
+    engine,
+    engine.createRun(c.id, {
+      message: "Use 7 days after first visit instead. Keep the same dates.",
+    }).id,
+  );
+  expect(next.context.spec.windowDays).toBe(7);
+  expect(next.context.spec.periods).toEqual(first.context.spec.periods);
+  expect(next.context.spec.metrics).toEqual(first.context.spec.metrics);
+  expect(next.context.taskKind).toBe("why");
+  expect(next.context.objective).toBe(first.question);
+  expect(next.modelTraces.some((t) => t.role === "reviewer")).toBe(true);
+});
+
+it("replaces the inherited objective for an explicit new metric query even when intent says followup", async () => {
+  const scripted = new ScriptedGateway();
+  const local = new Engine(
+    new Analytics(b, "fixture-test"),
+    {
+      async structured(role, schema, messages, traces, signal) {
+        if (
+          role === "investigator.intent" &&
+          JSON.parse(messages.at(-1)!.content).currentQuestion.startsWith(
+            "Split",
+          )
+        )
+          return schema.parse({ kind: "followup", patch: {} });
+        return scripted.structured(role, schema, messages, traces, signal);
+      },
+    },
+    store,
+    memory,
+  );
+  const c = createConversation(store, "fixture-test");
+  await wait(
+    local,
+    local.createRun(c.id, { message: "Why did spend and revenue change?" }).id,
+  );
+  const message =
+    "Split the revenue change into first and subsequent purchase revenue. Keep the same dates.";
+  const next = await wait(local, local.createRun(c.id, { message }).id);
+  expect(next.context.taskKind).toBe("query");
+  expect(next.context.objective).toBe(message);
+  expect(next.answer?.summary).toContain("first purchase revenue");
+  expect(next.answer?.summary).toContain("subsequent purchase revenue");
+});

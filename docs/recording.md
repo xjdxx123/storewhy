@@ -70,14 +70,9 @@ npm run data:register
 
 ## 三分钟录制顺序
 
-1. 开始前先手动跑通一次主 Why；检查网络、模型响应和界面没有错误。录制时点击“New session”，展示公开教学数据标识及十四天口径。
-2. 发送预填问题：“为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？”展示真实进度、一句结论与渠道图表。
-3. 点击“View source”，展示实际数值、SQL 和 queryId，然后关闭详情。
-4. 点击“Focus on FaceBoom”，再“Use 7 days”，展示筛选、窗口、数字与证据随追问更新。limited 表示解释有缺口，保留该状态。
-5. 输入“为什么2019年7月FaceBoom的广告CTR下降？”，展示缺少点击/曝光数据时停止。
-6. 简短说明：Zetaris 执行统计；Nightshift 路由 NVIDIA 模型；H-MEM 保留有来源的偏好。若时间允许，保存七天默认窗口，再“New analysis with saved defaults”。
+使用已实跑的 [英文录屏问题脚本](recording-questions.md) **A 组第 1–4 轮**：主 Why → View source → FaceBoom → 7 天 → CTR 缺失。按原文逐轮粘贴，等待每轮完成；不依赖推荐按钮当时的排序。完整脚本附有讲解要点、实际结论和等待时间；B/C 组覆盖其他月份与渠道。
 
-具体文案见 [Demo 脚本](demo-script.md)。等待时间取决于当前外部服务；开录前预跑并预留余量。自制样例回放可用于检查页面，但必须按界面标识说明没有运行在线 Agent。
+开录前在录屏电脑预跑一次，再点 **New session**。如实保留 `Limited`，不要把相关变化说成已证明的广告因果。B 组十月有未成熟用户裁剪，不能当完整自然月合计。录制时真实模型可能需要等待；自制样例回放只用于页面检查。Zetaris 执行统计，Nightshift 路由 NVIDIA，H-MEM 保存有来源的默认口径。本次验证与已修复问题见 [验收记录](recording-polish-verification.md)。
 
 ## 常见启动问题
 

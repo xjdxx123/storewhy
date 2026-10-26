@@ -19,11 +19,11 @@ export function explicitConstraints(
   const next = structuredClone(patch);
   if (next.mode === "cohort") next.timeGrain = null;
   const seven =
-    /(?:7|七)\s*天|(?:首访后|窗口|观察)(?:7|七)\s*日|首周|第一周|一周|1\s*周|first week|seven days/i.test(
+    /(?:7|七)\s*天|(?:首访后|窗口|观察)(?:7|七)\s*日|首周|第一周|一周|1\s*周|first week|seven days|\b7[-\s]+days?\b/i.test(
       text,
     );
   const fourteen =
-    /(?:14|十四)\s*天|(?:首访后|窗口|观察)(?:14|十四)\s*日|两周|二周|2\s*周|two weeks|fourteen days/i.test(
+    /(?:14|十四)\s*天|(?:首访后|窗口|观察)(?:14|十四)\s*日|两周|二周|2\s*周|two weeks|fourteen days|\b14[-\s]+days?\b/i.test(
       text,
     );
   if (seven !== fourteen) next.windowDays = seven ? 7 : 14;
@@ -56,15 +56,42 @@ export function explicitConstraints(
       十一: 11,
       十二: 12,
     };
+    const englishMonths: Record<string, number> = {
+      may: 5,
+      june: 6,
+      july: 7,
+      august: 8,
+      september: 9,
+      october: 10,
+    };
+    const englishMonth = "(?:May|June|July|August|September|October)";
+    const hasEnglishSubmonth =
+      new RegExp(
+        `\\b${englishMonth}\\s+\\d{1,2}\\b|\\b\\d{1,2}\\s+${englishMonth}\\b|(?:early|mid|late|half of|first \\d+ days of|last \\d+ days of)\\s+${englishMonth}\\b`,
+        "i",
+      ).test(text) || /\b20\d{2}-\d{2}-\d{2}\b/.test(text);
     const months = [
-      ...text.matchAll(
-        /(?:(20\d{2})年)?(1[0-2]|[1-9]|十一|十二|[一二三四五六七八九十])月/g,
-      ),
+      ...[
+        ...text.matchAll(
+          /(?:(20\d{2})年)?(1[0-2]|[1-9]|十一|十二|[一二三四五六七八九十])月/g,
+        ),
+      ].map((match) => ({
+        year: Number(match[1] ?? "2019"),
+        month: monthNames[match[2]] ?? Number(match[2]),
+      })),
+      ...(!hasEnglishSubmonth
+        ? [
+            ...text.matchAll(
+              /\b(May|June|July|August|September|October)(?:\s+(20\d{2}))?\b/gi,
+            ),
+          ].map((match) => ({
+            year: Number(match[2] ?? "2019"),
+            month: englishMonths[match[1].toLowerCase()],
+          }))
+        : []),
     ];
     if (months.length && months.length <= 2 && next.periods) {
-      const requested = months.map((match) => {
-        const year = Number(match[1] ?? "2019"),
-          month = monthNames[match[2]] ?? Number(match[2]);
+      const requested = months.map(({ year, month }) => {
         return {
           start: new Date(Date.UTC(year, month - 1, 1))
             .toISOString()
@@ -171,7 +198,9 @@ export function explicitConstraints(
   )
     next.timeGrain = null;
   if (
-    /付费比例|购买用户比例|付费表现|付费情况|payer rate/i.test(text) &&
+    /付费比例|购买用户比例|付费表现|付费情况|payer rate|purchaser rate/i.test(
+      text,
+    ) &&
     next.metrics &&
     !next.metrics.includes("payer_rate")
   )
@@ -214,6 +243,20 @@ export function explicitConstraints(
   };
   if (next.filters?.regions)
     next.filters.regions = next.filters.regions.map((v) => aliases[v] ?? v);
+  if (
+    /首次.*(?:后续|复购)|first.*(?:subsequent|repeat).*(?:purchase|revenue)/i.test(
+      text,
+    )
+  ) {
+    next.metrics = [
+      ...new Set([
+        ...(next.metrics ?? []),
+        "first_purchase_revenue",
+        "repeat_purchase_revenue",
+        "revenue",
+      ]),
+    ] as ContextPatch["metrics"];
+  }
   if (next.metrics) {
     if (
       /收入|revenue/i.test(text) &&
@@ -246,7 +289,7 @@ export function explicitConstraints(
 
 export function isScopeOnly(text: string) {
   return (
-    /^(只看|只保留|仅看|仅保留|清除|去掉|观察窗口|窗口|时期|月份|日期|改成|改为|刚才|更正|纠正|only\b|clear\b|change (?:the )?(?:window|period|channel))/i.test(
+    /^(只看|只保留|仅看|仅保留|清除|去掉|观察窗口|窗口|时期|月份|日期|改成|改为|刚才|更正|纠正|only\b|clear\b|focus on\b|switch to\b|use (?:7|14|seven|fourteen)[-\s]+days?\b|(?:now )?compare (?:May|June|July|August|September|October)\b|change (?:the )?(?:window|period|channel))/i.test(
       text.trim(),
     ) && !/多少|为什么|查询|统计|计算|how|why|what/i.test(text)
   );
@@ -257,13 +300,20 @@ export function protectScopePatch(
   patch: ContextPatch,
 ): ContextPatch {
   const allowed: ContextPatch = {};
-  const unchanged = [...text.matchAll(/([^，。；]*)(?:保持|不变|unchanged)/gi)]
-    .map((m) => m[1])
-    .join(" ");
+  const unchanged = [
+    ...[...text.matchAll(/([^，。；]*)(?:保持|不变|unchanged)/gi)].map(
+      (m) => m[1],
+    ),
+    ...[...text.matchAll(/\bkeep\s+([^.!?]+)/gi)].map((m) => m[1]),
+  ].join(" ");
   const fixed = (words: RegExp) => words.test(unchanged);
   if (
-    /年|月|时期|日期|date|period/i.test(text) &&
-    !fixed(/时期|月份|日期|period|date/i) &&
+    /年|月|时期|日期|date|period|May|June|July|August|September|October/i.test(
+      text,
+    ) &&
+    !fixed(
+      /时期|月份|日期|period|date|May|June|July|August|September|October/i,
+    ) &&
     patch.periods
   )
     allowed.periods = patch.periods;
@@ -289,7 +339,7 @@ export function protectScopePatch(
   )
     allowed.audience = patch.audience;
   if (
-    /收入|费用|访问次数|用户数|购买次数|购买用户|复购|付费比例|转化率|revenue|spend|payer|sessions/i.test(
+    /收入|费用|访问次数|用户数|购买次数|购买用户|复购|付费比例|转化率|revenue|spend|payer|purchaser|sessions/i.test(
       text,
     ) &&
     !fixed(/指标|metrics/i) &&
@@ -300,7 +350,12 @@ export function protectScopePatch(
   if (
     (/渠道|来源|channel|source/i.test(text) ||
       CHANNELS.some((v) => text.toLowerCase().includes(v.toLowerCase()))) &&
-    !fixed(/渠道|channel|source/i) &&
+    !(
+      fixed(/渠道|channel|source/i) ||
+      CHANNELS.some((channel) =>
+        unchanged.toLowerCase().includes(channel.toLowerCase()),
+      )
+    ) &&
     patch.filters?.channels !== undefined
   )
     f.channels = patch.filters.channels;
@@ -340,7 +395,7 @@ export function isDirectDataRequest(text: string) {
     )
   )
     return false;
-  return /查询|列出|只列|汇总|分别|多少|\b(?:show|list)\b|how (?:much|many)/i.test(
+  return /查询|列出|只列|汇总|分别|多少|\b(?:show|list)\b|how (?:much|many)|\bsplit\b.*(?:revenue|purchases)/i.test(
     text,
   );
 }

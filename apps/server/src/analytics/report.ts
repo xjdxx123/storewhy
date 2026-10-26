@@ -27,34 +27,42 @@ export function presentAnswer(input: {
   const ratioQuestion = /收入.*(?:费用|广告费).*比|revenue.*spend.*ratio/i.test(
     objective,
   );
-  const compositionQuestion = /首次.*(?:后续|复购)|first.*repeat/i.test(
-    objective,
-  );
+  const compositionQuestion =
+    /首次.*(?:后续|复购)|first.*(?:repeat|subsequent)/i.test(objective);
   const revenueQuestion =
     /收入|revenue/i.test(objective.split(/[？?；;]/)[0]) &&
     !/比例.*收入|比率.*收入/.test(objective);
-  const relevant =
-    input.selected &&
-    (ratioQuestion
-      ? (observations.find(
-          (o) => o.kind === "ratio" && o.evidenceId === evidence[0]?.id,
-        ) ??
-        observations.find(
-          (o) =>
-            o.kind === "comparison" &&
-            o.metrics.includes("revenue_to_spend") &&
-            o.evidenceId === evidence[0]?.id,
-        ))
-      : compositionQuestion
-        ? observations.find((o) => o.kind === "composition")
-        : revenueQuestion && !observations.some((o) => o.kind === "joint")
+  const payerRateQuestion =
+    /购买用户比例|付费比例|purchaser rate|payer rate/i.test(objective);
+  const relevant = ratioQuestion
+    ? (observations.find(
+        (o) => o.kind === "ratio" && o.evidenceId === evidence[0]?.id,
+      ) ??
+      observations.find(
+        (o) =>
+          o.kind === "comparison" &&
+          o.metrics.includes("revenue_to_spend") &&
+          o.evidenceId === evidence[0]?.id,
+      ))
+    : compositionQuestion
+      ? observations.find((o) => o.kind === "composition")
+      : payerRateQuestion
+        ? (selected.find(
+            (o) => o.kind === "comparison" && o.metrics.includes("payer_rate"),
+          ) ??
+          observations.find(
+            (o) => o.kind === "comparison" && o.metrics.includes("payer_rate"),
+          ))
+        : input.selected &&
+            revenueQuestion &&
+            !observations.some((o) => o.kind === "joint")
           ? (selected.find(
               (o) => o.kind === "comparison" && o.metrics.includes("revenue"),
             ) ??
             observations.find(
               (o) => o.kind === "comparison" && o.metrics.includes("revenue"),
             ))
-          : undefined);
+          : undefined;
   const reversedPremise =
     /费用(?:增加|更多|上升)|(?:广告费|费用).*增|spend.*(?:increas|grew|ris|rose)|(?:higher|more).*spend/i.test(
       objective,

@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-26T21:52:10.533Z",
+  "at": "2026-10-26T22:40:44.030Z",
   "pass": true,
   "transport": "actual_public_https_tunnel",
   "publicTunnelVerified": true,
@@ -31,9 +31,14 @@
       }
     },
     {
+      "name": "consolidated-source-retains-all-query-rows-and-sql",
+      "pass": true,
+      "rows": 20
+    },
+    {
       "name": "live-why-refresh-and-evidence-bound-charts",
       "pass": true,
-      "runId": "2efa314b-a3fd-4532-a3f7-cf9b73e9af10",
+      "runId": "1b4d4434-ae79-4bb2-9a82-33f549924ac8",
       "status": "completed",
       "summary": "TipTop: 2019-07 vs 2019-06, within 14 days of first visit, spend increased by 1734.6 and revenue decreased by 600.84. Higher spend was not accompanied by higher revenue on the same basis.",
       "chartPoints": 60,
@@ -42,8 +47,8 @@
     {
       "name": "followup-poll-only-and-server-side-token",
       "pass": true,
-      "runId": "2edee857-ee7e-4488-942e-5d48df4319f5",
-      "runReads": 31,
+      "runId": "e4744564-0b49-4adb-9f5d-53c5a5a4dbdb",
+      "runReads": 20,
       "sseRequests": 0,
       "browserErrors": []
     },

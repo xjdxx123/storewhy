@@ -1,0 +1,1504 @@
+{
+  "at": "2026-10-26T22:39:49.632Z",
+  "viaPublicHttps": true,
+  "pass": true,
+  "records": [
+    {
+      "group": "spend-and-revenue",
+      "id": "paid-14",
+      "question": "Why did recorded spend increase in July 2019 versus June 2019, while new users' revenue within 14 days of first visit failed to keep pace? Use paid acquisition channels.",
+      "months": [
+        "2019-06",
+        "2019-07"
+      ],
+      "days": 14,
+      "pass": true,
+      "runId": "375c599e-3191-47cb-9509-da1ffbc1cdf9",
+      "status": "completed",
+      "elapsedMs": 19833,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did recorded spend increase in July 2019 versus June 2019, while new users' revenue within 14 days of first visit failed to keep pace? Use paid acquisition channels.",
+      "conclusion": "TipTop: 2019-07 vs 2019-06, within 14 days of first visit, spend increased by 1734.6 and revenue decreased by 600.84. Higher spend was not accompanied by higher revenue on the same basis.",
+      "factCount": 220,
+      "chartPoints": 60,
+      "coverage": [
+        {
+          "evidenceId": "ev-cc9a8258-f457-4934-a1de-120b0402c22d",
+          "period": "2019-06",
+          "requestedStart": "2019-06-01",
+          "requestedEnd": "2019-07-01",
+          "effectiveEnd": "2019-07-01",
+          "excludedUsers": 0,
+          "days": 30
+        },
+        {
+          "evidenceId": "ev-cc9a8258-f457-4934-a1de-120b0402c22d",
+          "period": "2019-07",
+          "requestedStart": "2019-07-01",
+          "requestedEnd": "2019-08-01",
+          "effectiveEnd": "2019-08-01",
+          "excludedUsers": 0,
+          "days": 31
+        }
+      ],
+      "queryIds": [
+        "01885568-101b-4366-957e-4b9c89c52348",
+        "1f77c013-2c59-48e6-8d97-e634eac7938c"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2308,
+          "inputChars": 8281,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_34czf4u3",
+          "outputChars": 881
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1991,
+          "inputChars": 22466,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_paaofn1c",
+          "outputChars": 194
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2610,
+          "inputChars": 22623,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_4781ut13",
+          "outputChars": 531
+        }
+      ]
+    },
+    {
+      "group": "spend-and-revenue",
+      "id": "faceboom-14",
+      "question": "Focus on FaceBoom. Keep the same dates and the 14-day window after first visit.",
+      "months": [
+        "2019-06",
+        "2019-07"
+      ],
+      "channel": "FaceBoom",
+      "days": 14,
+      "pass": true,
+      "runId": "3ad8c5ec-7fe2-49aa-8dac-4c6828aebe9f",
+      "status": "limited",
+      "elapsedMs": 19558,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did recorded spend increase in July 2019 versus June 2019, while new users' revenue within 14 days of first visit failed to keep pace? Use paid acquisition channels.",
+      "conclusion": "FaceBoom: 2019-07 vs 2019-06, within 14 days of first visit, spend decreased by 206.8 and revenue increased by 539.42.  Further explanation still has evidence gaps.",
+      "factCount": 22,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-df3b04c9-b8d1-4b60-86bd-88b75068e8cb",
+          "period": "2019-06",
+          "requestedStart": "2019-06-01",
+          "requestedEnd": "2019-07-01",
+          "effectiveEnd": "2019-07-01",
+          "excludedUsers": 0,
+          "days": 30
+        },
+        {
+          "evidenceId": "ev-df3b04c9-b8d1-4b60-86bd-88b75068e8cb",
+          "period": "2019-07",
+          "requestedStart": "2019-07-01",
+          "requestedEnd": "2019-08-01",
+          "effectiveEnd": "2019-08-01",
+          "excludedUsers": 0,
+          "days": 31
+        }
+      ],
+      "queryIds": [
+        "4c2ddd26-49ff-45e1-8a50-62598c938673",
+        "b801ab96-5dfd-4c39-8c31-303f1adc6310"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3983,
+          "inputChars": 8622,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_9rfu9ydn",
+          "outputChars": 553
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1425,
+          "inputChars": 9562,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_okw9rake",
+          "outputChars": 179
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3683,
+          "inputChars": 9756,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_2i79ol8y",
+          "outputChars": 1077
+        }
+      ]
+    },
+    {
+      "group": "spend-and-revenue",
+      "id": "faceboom-7",
+      "question": "Use 7 days after first visit instead. Keep FaceBoom and the same dates.",
+      "months": [
+        "2019-06",
+        "2019-07"
+      ],
+      "channel": "FaceBoom",
+      "days": 7,
+      "pass": true,
+      "runId": "38c5cc4e-df57-4dec-8dfd-9e257f08c17b",
+      "status": "limited",
+      "elapsedMs": 16346,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did recorded spend increase in July 2019 versus June 2019, while new users' revenue within 14 days of first visit failed to keep pace? Use paid acquisition channels.",
+      "conclusion": "FaceBoom: 2019-07 vs 2019-06, within 7 days of first visit, spend decreased by 206.8 and revenue increased by 555.48.  Further explanation still has evidence gaps.",
+      "factCount": 22,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-7d2bce98-c2c6-4331-af7a-6ee6b07e3f1a",
+          "period": "2019-06",
+          "requestedStart": "2019-06-01",
+          "requestedEnd": "2019-07-01",
+          "effectiveEnd": "2019-07-01",
+          "excludedUsers": 0,
+          "days": 30
+        },
+        {
+          "evidenceId": "ev-7d2bce98-c2c6-4331-af7a-6ee6b07e3f1a",
+          "period": "2019-07",
+          "requestedStart": "2019-07-01",
+          "requestedEnd": "2019-08-01",
+          "effectiveEnd": "2019-08-01",
+          "excludedUsers": 0,
+          "days": 31
+        }
+      ],
+      "queryIds": [
+        "543dda9c-8638-4441-b81d-03f2e490a6f3",
+        "80ece51b-efdc-4a26-9089-fe4ff57d1a79"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1130,
+          "inputChars": 8536,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_ge18yrq6",
+          "outputChars": 226
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1582,
+          "inputChars": 9535,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_vj5ungac",
+          "outputChars": 179
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3913,
+          "inputChars": 9729,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_9b97jzui",
+          "outputChars": 1078
+        }
+      ]
+    },
+    {
+      "group": "spend-and-revenue",
+      "id": "missing-ctr-main",
+      "question": "Why did FaceBoom ad CTR fall over that period?",
+      "months": [
+        "2019-06",
+        "2019-07"
+      ],
+      "channel": "FaceBoom",
+      "days": 7,
+      "unsupported": true,
+      "pass": true,
+      "runId": "9986f75b-f40c-4a57-a2ac-bfa6fed397ab",
+      "status": "unsupported",
+      "elapsedMs": 17748,
+      "message": "The available data is insufficient. Specify the dates, metrics or supported scope.",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did recorded spend increase in July 2019 versus June 2019, while new users' revenue within 14 days of first visit failed to keep pace? Use paid acquisition channels."
+    },
+    {
+      "group": "spend-and-revenue",
+      "id": "purchase-composition",
+      "question": "Split the revenue change into first and subsequent purchase revenue. Keep the same channel, dates and 7-day window.",
+      "months": [
+        "2019-06",
+        "2019-07"
+      ],
+      "channel": "FaceBoom",
+      "days": 7,
+      "pass": true,
+      "runId": "dc09b075-09bd-4915-9f44-0602a45970fd",
+      "status": "completed",
+      "elapsedMs": 11594,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "taskKind": "query",
+      "objective": "Split the revenue change into first and subsequent purchase revenue. Keep the same channel, dates and 7-day window.",
+      "conclusion": "FaceBoom: 2019-07 vs 2019-06, revenue within 7 days of first visit increased by 555.48; first purchase revenue increased by 234.92 and subsequent purchase revenue increased by 320.56. These are revenue components, not new versus returning customers.",
+      "factCount": 22,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-61447e4c-6a40-4b02-b9d3-d4950b468097",
+          "period": "2019-06",
+          "requestedStart": "2019-06-01",
+          "requestedEnd": "2019-07-01",
+          "effectiveEnd": "2019-07-01",
+          "excludedUsers": 0,
+          "days": 30
+        },
+        {
+          "evidenceId": "ev-61447e4c-6a40-4b02-b9d3-d4950b468097",
+          "period": "2019-07",
+          "requestedStart": "2019-07-01",
+          "requestedEnd": "2019-08-01",
+          "effectiveEnd": "2019-08-01",
+          "excludedUsers": 0,
+          "days": 31
+        }
+      ],
+      "queryIds": [
+        "b676e47e-6f25-4eac-8b0c-93f2a7791c38",
+        "199ca192-e2ac-4fa2-8121-8fbbc49359e7"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1721,
+          "inputChars": 8571,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_rpxd0qsa",
+          "outputChars": 331
+        }
+      ]
+    },
+    {
+      "group": "later-months",
+      "id": "tiptop-september-7",
+      "question": "Why did recorded spend and new-user revenue within 7 days of first visit change on TipTop in September 2019 compared with August 2019?",
+      "months": [
+        "2019-08",
+        "2019-09"
+      ],
+      "channel": "TipTop",
+      "days": 7,
+      "pass": true,
+      "runId": "483db21b-4bd8-494e-8ba4-18f521dc64c4",
+      "status": "completed",
+      "elapsedMs": 30929,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-08",
+            "start": "2019-08-01",
+            "end": "2019-09-01"
+          },
+          {
+            "label": "2019-09",
+            "start": "2019-09-01",
+            "end": "2019-10-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "TipTop"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did recorded spend and new-user revenue within 7 days of first visit change on TipTop in September 2019 compared with August 2019?",
+      "conclusion": "TipTop: 2019-09 vs 2019-08, Recorded channel spend within 7 days of first visit changed from 11202 to 13232.5; difference 2030.5, relative change 18.13%.",
+      "factCount": 22,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-b770bfca-3562-4220-a3be-c1796ee2b3e3",
+          "period": "2019-08",
+          "requestedStart": "2019-08-01",
+          "requestedEnd": "2019-09-01",
+          "effectiveEnd": "2019-09-01",
+          "excludedUsers": 0,
+          "days": 31
+        },
+        {
+          "evidenceId": "ev-b770bfca-3562-4220-a3be-c1796ee2b3e3",
+          "period": "2019-09",
+          "requestedStart": "2019-09-01",
+          "requestedEnd": "2019-10-01",
+          "effectiveEnd": "2019-10-01",
+          "excludedUsers": 0,
+          "days": 30
+        }
+      ],
+      "queryIds": [
+        "f798eaf0-3ac0-465f-90e8-e2e5e289fd40",
+        "7bac9e81-9d97-48b0-962c-50c21952c2ca"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2438,
+          "inputChars": 8246,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_zzw7q8rz",
+          "outputChars": 834
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 7242,
+          "inputChars": 9371,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_2gnrulan",
+          "outputChars": 225
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 5260,
+          "inputChars": 9572,
+          "attempt": 1,
+          "status": "invalid_json",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_t46ogkvq",
+          "outputChars": 765,
+          "validationIssues": [
+            {
+              "path": "reason",
+              "code": "too_big"
+            }
+          ]
+        },
+        {
+          "role": "reviewer:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 4637,
+          "inputChars": 10874,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_pqgdwn55",
+          "outputChars": 489
+        }
+      ]
+    },
+    {
+      "group": "later-months",
+      "id": "rocket-september-7",
+      "question": "Switch to RocketSuperAds. Keep September versus August 2019 and the 7-day window after first visit.",
+      "months": [
+        "2019-08",
+        "2019-09"
+      ],
+      "channel": "RocketSuperAds",
+      "days": 7,
+      "pass": true,
+      "runId": "59f201bc-e1f0-4f5d-bd2d-35d26f12578e",
+      "status": "completed",
+      "elapsedMs": 16942,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-08",
+            "start": "2019-08-01",
+            "end": "2019-09-01"
+          },
+          {
+            "label": "2019-09",
+            "start": "2019-09-01",
+            "end": "2019-10-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "RocketSuperAds"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did recorded spend and new-user revenue within 7 days of first visit change on TipTop in September 2019 compared with August 2019?",
+      "conclusion": "RocketSuperAds: 2019-09 vs 2019-08, Recorded channel spend within 7 days of first visit changed from 253.11 to 218.4; difference -34.71, relative change -13.71%.",
+      "factCount": 22,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-db7c6da8-f2d5-40e3-93e6-32a37c82be06",
+          "period": "2019-08",
+          "requestedStart": "2019-08-01",
+          "requestedEnd": "2019-09-01",
+          "effectiveEnd": "2019-09-01",
+          "excludedUsers": 0,
+          "days": 31
+        },
+        {
+          "evidenceId": "ev-db7c6da8-f2d5-40e3-93e6-32a37c82be06",
+          "period": "2019-09",
+          "requestedStart": "2019-09-01",
+          "requestedEnd": "2019-10-01",
+          "effectiveEnd": "2019-10-01",
+          "excludedUsers": 0,
+          "days": 30
+        }
+      ],
+      "queryIds": [
+        "1a573c95-d9b6-4d52-92f0-fd39b676b2d8",
+        "7634adbb-0b8f-487f-816f-bf3128e5b087"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2218,
+          "inputChars": 8581,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_gb0rgtu4",
+          "outputChars": 850
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1875,
+          "inputChars": 9681,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_4h23qzuk",
+          "outputChars": 236
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3080,
+          "inputChars": 9898,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_8kzcejlj",
+          "outputChars": 738
+        }
+      ]
+    },
+    {
+      "group": "later-months",
+      "id": "rocket-september-14",
+      "question": "Change the window to 14 days after first visit. Keep RocketSuperAds and the same dates.",
+      "months": [
+        "2019-08",
+        "2019-09"
+      ],
+      "channel": "RocketSuperAds",
+      "days": 14,
+      "pass": true,
+      "runId": "7e6bc7ca-4bd5-4367-bd97-bf49567ffe57",
+      "status": "completed",
+      "elapsedMs": 22720,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-08",
+            "start": "2019-08-01",
+            "end": "2019-09-01"
+          },
+          {
+            "label": "2019-09",
+            "start": "2019-09-01",
+            "end": "2019-10-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "RocketSuperAds"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did recorded spend and new-user revenue within 7 days of first visit change on TipTop in September 2019 compared with August 2019?",
+      "conclusion": "RocketSuperAds: 2019-09 vs 2019-08, Revenue within 14 days of first visit changed from 676.8 to 614.78; difference -62.02, relative change -9.16%.",
+      "factCount": 22,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-28a251c3-2bb6-46dc-9f13-d7fad933a01e",
+          "period": "2019-08",
+          "requestedStart": "2019-08-01",
+          "requestedEnd": "2019-09-01",
+          "effectiveEnd": "2019-09-01",
+          "excludedUsers": 0,
+          "days": 31
+        },
+        {
+          "evidenceId": "ev-28a251c3-2bb6-46dc-9f13-d7fad933a01e",
+          "period": "2019-09",
+          "requestedStart": "2019-09-01",
+          "requestedEnd": "2019-10-01",
+          "effectiveEnd": "2019-10-01",
+          "excludedUsers": 0,
+          "days": 30
+        }
+      ],
+      "queryIds": [
+        "50b8f777-5398-456f-b7bb-dd7dfa7009ee",
+        "cfca2b8d-1d96-44f1-a634-88df824248f6"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3216,
+          "inputChars": 8542,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_gva6qtnv",
+          "outputChars": 853
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1664,
+          "inputChars": 9677,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_6p7zwxv2",
+          "outputChars": 226
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 7874,
+          "inputChars": 9884,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_zcdlk2a1",
+          "outputChars": 738
+        }
+      ]
+    },
+    {
+      "group": "later-months",
+      "id": "rocket-october-14",
+      "question": "Now compare October 2019 with September 2019. Keep RocketSuperAds and the 14-day window after first visit.",
+      "months": [
+        "2019-09",
+        "2019-10"
+      ],
+      "channel": "RocketSuperAds",
+      "days": 14,
+      "pass": true,
+      "runId": "66e095d6-1f4c-4562-b9d9-cca50147850c",
+      "status": "completed",
+      "elapsedMs": 17843,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-09",
+            "start": "2019-09-01",
+            "end": "2019-10-01"
+          },
+          {
+            "label": "2019-10",
+            "start": "2019-10-01",
+            "end": "2019-11-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "RocketSuperAds"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "spend",
+          "new_users",
+          "payers",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "payer_rate",
+          "revenue_per_payer",
+          "cost_per_new_user",
+          "revenue_to_spend",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did recorded spend and new-user revenue within 7 days of first visit change on TipTop in September 2019 compared with August 2019?",
+      "conclusion": "RocketSuperAds: 2019-10 vs 2019-09, Revenue within 14 days of first visit changed from 614.78 to 320.36; difference -294.42, relative change -47.89%.",
+      "factCount": 22,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-ea324329-63c8-49ab-a629-fb0292a6e4a2",
+          "period": "2019-09",
+          "requestedStart": "2019-09-01",
+          "requestedEnd": "2019-10-01",
+          "effectiveEnd": "2019-10-01",
+          "excludedUsers": 0,
+          "days": 30
+        },
+        {
+          "evidenceId": "ev-ea324329-63c8-49ab-a629-fb0292a6e4a2",
+          "period": "2019-10",
+          "requestedStart": "2019-10-01",
+          "requestedEnd": "2019-11-01",
+          "effectiveEnd": "2019-10-18",
+          "excludedUsers": 246,
+          "days": 17
+        }
+      ],
+      "queryIds": [
+        "093017b0-1500-4e34-b715-2929a4419a87",
+        "a29572c3-f711-4712-adce-1b75f322519e",
+        "498a09be-84ce-41a3-8d89-c794df17e10c"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2014,
+          "inputChars": 8550,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_me5s9l72",
+          "outputChars": 854
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2139,
+          "inputChars": 10186,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_u4fs2rao",
+          "outputChars": 191
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3453,
+          "inputChars": 10412,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_08t4uw0u",
+          "outputChars": 750
+        }
+      ]
+    },
+    {
+      "group": "purchasing-behavior",
+      "id": "faceboom-june-7",
+      "question": "Why did the first-week purchaser rate for new users differ on FaceBoom in June 2019 versus May 2019? Check user behavior only, without spend analysis.",
+      "months": [
+        "2019-05",
+        "2019-06"
+      ],
+      "channel": "FaceBoom",
+      "days": 7,
+      "behaviorOnly": true,
+      "pass": true,
+      "runId": "25cd4d20-bf2c-4710-9c5e-e7a8eaf93b59",
+      "status": "completed",
+      "elapsedMs": 22852,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-05",
+            "start": "2019-05-01",
+            "end": "2019-06-01"
+          },
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "new_users",
+          "payers",
+          "payer_rate",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue_per_payer",
+          "avg_first_purchase_hours",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did the first-week purchaser rate for new users differ on FaceBoom in June 2019 versus May 2019? Check user behavior only, without spend analysis.",
+      "conclusion": "FaceBoom: 2019-06 vs 2019-05, Purchaser rate within 7 days of first visit changed from 11.2% to 11.19%; decreased by 0.02 percentage points.",
+      "factCount": 18,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-0e61fea6-aa23-4650-a0ae-dda5848f41dd",
+          "period": "2019-05",
+          "requestedStart": "2019-05-01",
+          "requestedEnd": "2019-06-01",
+          "effectiveEnd": "2019-06-01",
+          "excludedUsers": 0,
+          "days": 31
+        },
+        {
+          "evidenceId": "ev-0e61fea6-aa23-4650-a0ae-dda5848f41dd",
+          "period": "2019-06",
+          "requestedStart": "2019-06-01",
+          "requestedEnd": "2019-07-01",
+          "effectiveEnd": "2019-07-01",
+          "excludedUsers": 0,
+          "days": 30
+        }
+      ],
+      "queryIds": [
+        "1687e61e-a035-425d-a619-90caf5454fbd",
+        "f6d6eae9-b246-49d3-b13e-731a9424a091"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3916,
+          "inputChars": 8262,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_7zkuxr4m",
+          "outputChars": 765
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 4160,
+          "inputChars": 8393,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_gv3w5agx",
+          "outputChars": 122
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3473,
+          "inputChars": 8504,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_9jjgrvpm",
+          "outputChars": 603
+        }
+      ]
+    },
+    {
+      "group": "purchasing-behavior",
+      "id": "faceboom-july-7",
+      "question": "Compare July 2019 with June 2019 instead. Keep FaceBoom, the 7-day window and the same behavior metrics. Do not analyze spend.",
+      "months": [
+        "2019-06",
+        "2019-07"
+      ],
+      "channel": "FaceBoom",
+      "days": 7,
+      "behaviorOnly": true,
+      "pass": true,
+      "runId": "7cc960e0-4ffb-4ff6-825a-ecd7a397aa2d",
+      "status": "completed",
+      "elapsedMs": 49684,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 7,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "new_users",
+          "payers",
+          "payer_rate",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue_per_payer",
+          "avg_first_purchase_hours",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did the first-week purchaser rate for new users differ on FaceBoom in June 2019 versus May 2019? Check user behavior only, without spend analysis.",
+      "conclusion": "FaceBoom: 2019-07 vs 2019-06, Purchaser rate within 7 days of first visit changed from 11.19% to 11.76%; increased by 0.57 percentage points.",
+      "factCount": 18,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-6a709175-46ae-451d-8bc4-92964362a109",
+          "period": "2019-06",
+          "requestedStart": "2019-06-01",
+          "requestedEnd": "2019-07-01",
+          "effectiveEnd": "2019-07-01",
+          "excludedUsers": 0,
+          "days": 30
+        },
+        {
+          "evidenceId": "ev-6a709175-46ae-451d-8bc4-92964362a109",
+          "period": "2019-07",
+          "requestedStart": "2019-07-01",
+          "requestedEnd": "2019-08-01",
+          "effectiveEnd": "2019-08-01",
+          "excludedUsers": 0,
+          "days": 31
+        }
+      ],
+      "queryIds": [
+        "0ceadb3b-9441-4326-a453-3b3d156967f2",
+        "4ffe0c82-e194-4716-a20c-f125c9a3e71b"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 5716,
+          "inputChars": 8618,
+          "attempt": 1,
+          "status": "invalid_json",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_mqnxniza",
+          "outputChars": 774,
+          "validationIssues": [
+            {
+              "path": "patch",
+              "code": "unrecognized_keys"
+            }
+          ]
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1332,
+          "inputChars": 9956,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_po896917",
+          "outputChars": 451
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 27371,
+          "inputChars": 8540,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_xlwmdpeb",
+          "outputChars": 142
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1757,
+          "inputChars": 8651,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_yx1gticd",
+          "outputChars": 616
+        }
+      ]
+    },
+    {
+      "group": "purchasing-behavior",
+      "id": "faceboom-july-14",
+      "question": "Use 14 days after first visit. Keep FaceBoom, the same dates and behavior metrics. Do not analyze spend.",
+      "months": [
+        "2019-06",
+        "2019-07"
+      ],
+      "channel": "FaceBoom",
+      "days": 14,
+      "behaviorOnly": true,
+      "pass": true,
+      "runId": "1f012fcd-7cd2-4ea6-bfa0-a9bf87b7820d",
+      "status": "completed",
+      "elapsedMs": 16264,
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "new_users",
+          "payers",
+          "payer_rate",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue_per_payer",
+          "avg_first_purchase_hours",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did the first-week purchaser rate for new users differ on FaceBoom in June 2019 versus May 2019? Check user behavior only, without spend analysis.",
+      "conclusion": "FaceBoom: 2019-07 vs 2019-06, Purchaser rate within 14 days of first visit changed from 11.53% to 12.05%; increased by 0.52 percentage points.",
+      "factCount": 18,
+      "chartPoints": 6,
+      "coverage": [
+        {
+          "evidenceId": "ev-a1f8b130-5355-41bc-8126-ff7b0e71386d",
+          "period": "2019-06",
+          "requestedStart": "2019-06-01",
+          "requestedEnd": "2019-07-01",
+          "effectiveEnd": "2019-07-01",
+          "excludedUsers": 0,
+          "days": 30
+        },
+        {
+          "evidenceId": "ev-a1f8b130-5355-41bc-8126-ff7b0e71386d",
+          "period": "2019-07",
+          "requestedStart": "2019-07-01",
+          "requestedEnd": "2019-08-01",
+          "effectiveEnd": "2019-08-01",
+          "excludedUsers": 0,
+          "days": 31
+        }
+      ],
+      "queryIds": [
+        "d2924da7-2c08-468d-8f78-c78863bbd049",
+        "e0a492e9-0629-4f16-90c4-baeb4298a9a8"
+      ],
+      "modelTraces": [
+        {
+          "role": "investigator.intent",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 3294,
+          "inputChars": 8572,
+          "attempt": 1,
+          "status": "invalid_json",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_dse9kydv",
+          "outputChars": 393,
+          "validationIssues": [
+            {
+              "path": "patch",
+              "code": "unrecognized_keys"
+            }
+          ]
+        },
+        {
+          "role": "investigator.intent:repair",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 1700,
+          "inputChars": 9461,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_8hk72f62",
+          "outputChars": 40
+        },
+        {
+          "role": "investigator.explain",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 968,
+          "inputChars": 8535,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_rpzmp0pg",
+          "outputChars": 142
+        },
+        {
+          "role": "reviewer",
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "provider": "nvidia",
+          "durationMs": 2221,
+          "inputChars": 8646,
+          "attempt": 1,
+          "status": "ok",
+          "responseFormat": "json_object",
+          "receiptId": "rcpt_req_k5ouaosb",
+          "outputChars": 681
+        }
+      ]
+    },
+    {
+      "group": "purchasing-behavior",
+      "id": "missing-ctr",
+      "question": "Why did FaceBoom ad CTR fall over that period?",
+      "months": [
+        "2019-06",
+        "2019-07"
+      ],
+      "channel": "FaceBoom",
+      "days": 14,
+      "behaviorOnly": true,
+      "unsupported": true,
+      "pass": true,
+      "runId": "3a921e9e-d8fe-4744-936d-36761d3e8a7a",
+      "status": "unsupported",
+      "elapsedMs": 1778,
+      "message": "The available data is insufficient. Specify the dates, metrics or supported scope.",
+      "spec": {
+        "timeGrain": null,
+        "mode": "cohort",
+        "periods": [
+          {
+            "label": "2019-06",
+            "start": "2019-06-01",
+            "end": "2019-07-01"
+          },
+          {
+            "label": "2019-07",
+            "start": "2019-07-01",
+            "end": "2019-08-01"
+          }
+        ],
+        "windowDays": 14,
+        "audience": "paid",
+        "filters": {
+          "channels": [
+            "FaceBoom"
+          ],
+          "devices": [],
+          "regions": []
+        },
+        "groupBy": [
+          "channel"
+        ],
+        "metrics": [
+          "new_users",
+          "payers",
+          "payer_rate",
+          "revenue",
+          "first_purchase_revenue",
+          "repeat_purchase_revenue",
+          "revenue_per_payer",
+          "avg_first_purchase_hours",
+          "users"
+        ]
+      },
+      "taskKind": "why",
+      "objective": "Why did the first-week purchaser rate for new users differ on FaceBoom in June 2019 versus May 2019? Check user behavior only, without spend analysis."
+    }
+  ]
+}

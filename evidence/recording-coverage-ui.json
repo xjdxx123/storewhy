@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-26T22:41:04.865Z",
+  "pass": true,
+  "mode": "actual_react_pages_with_existing_live_zetaris_results",
+  "records": [
+    {
+      "name": "limited",
+      "runId": "e4744564-0b49-4adb-9f5d-53c5a5a4dbdb",
+      "status": "limited",
+      "headlineNotRepeated": true,
+      "sourceAccessRetained": true,
+      "mobileNoDocumentOverflow": true,
+      "postCount": 0
+    },
+    {
+      "name": "coverage",
+      "runId": "66e095d6-1f4c-4562-b9d9-cca50147850c",
+      "status": "completed",
+      "headlineNotRepeated": true,
+      "sourceAccessRetained": true,
+      "mobileNoDocumentOverflow": true,
+      "postCount": 0
+    }
+  ],
+  "cutoff": "2019-10-18",
+  "requestedEnd": "2019-11-01",
+  "excludedUsers": 246,
+  "visibleCoverageNoteCount": 1
+}

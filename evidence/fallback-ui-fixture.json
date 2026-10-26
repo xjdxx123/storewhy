@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-26T21:48:55.422Z",
+  "at": "2026-10-26T22:39:00.937Z",
   "kind": "actual_react_fallback_ui",
   "mode": "self_authored_fixture_and_scripted_model",
   "pass": true,
@@ -8,6 +8,8 @@
     "refreshWithoutDuplicatePost": true,
     "englishPresentation": true,
     "allChartPointsBound": 8,
+    "detailsRetainLimitationsAndChecks": true,
+    "consolidatedSourceShowsQueryRows": true,
     "englishEvidence": true,
     "evidenceSqlAndEscape": true,
     "savedDefaultRestored": true,
@@ -18,6 +20,7 @@
     "failedDoesNotLeaveOldReport": true,
     "ambiguousPostRequiresRestoreWithoutResubmit": true,
     "explicitFixtureReplay": true,
+    "clippedCoverageVisibleOnceAcrossCharts": true,
     "lineNullBreaksAndNegativePoints": true,
     "stackedBarRendered": true,
     "missingDayWeekMonthBucketsBreakLines": true,
@@ -28,7 +31,7 @@
   "records": [
     {
       "name": "main-after-refresh",
-      "runId": "c131decf-a9b3-480e-b7f5-06ed0ec389ee",
+      "runId": "6c518c67-f3a0-42c4-b4a8-c7b5e15e022e",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -62,7 +65,7 @@
     },
     {
       "name": "channel-followup",
-      "runId": "68d2250e-7ff6-4677-af36-7c18d00a7c6b",
+      "runId": "031f02c4-ad7c-4562-b3be-e18258d70096",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -98,7 +101,7 @@
     },
     {
       "name": "seven-day-followup",
-      "runId": "d09ac23e-09e8-4557-8f56-054906c61dbf",
+      "runId": "bf930ed9-f196-4455-8101-aa949e21eb16",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -134,7 +137,7 @@
     },
     {
       "name": "temporary-fourteen-day",
-      "runId": "6a9607bb-a34d-49ce-8cf4-1f0e13bf97bc",
+      "runId": "eaecaf0f-a5a9-43bb-918f-090d9d9a9922",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -170,7 +173,7 @@
     },
     {
       "name": "source-backed-memory-default",
-      "runId": "f1ad48fe-dd41-4160-9875-283d57c96b8b",
+      "runId": "b0a74527-cb4b-4e85-b0ff-6f6b61dcfc26",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -203,7 +206,7 @@
     },
     {
       "name": "recommended-followup",
-      "runId": "76f44e67-5c68-4b5e-887c-9e566ec4290e",
+      "runId": "b88454fb-f4ad-42dd-8b0d-eb20db527203",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -235,11 +238,11 @@
           "new_users"
         ]
       },
-      "summary": "Overall: 2019-07 vs 2019-06, First purchase revenue within 7 days of first visit changed from 82.5 to 82.5; difference 0, relative change 0.00%. Overall: 2019-07 vs 2019-06, Subsequent purchase revenue within 7 days of first visit changed from 7.5 to 7.5; difference 0, relative change 0.00%."
+      "summary": "Overall: 2019-07 vs 2019-06, revenue within 7 days of first visit changed by 0; first purchase revenue changed by 0 and subsequent purchase revenue changed by 0. These are revenue components, not new versus returning customers. Overall: 2019-07 vs 2019-06, Subsequent purchase revenue within 7 days of first visit changed from 7.5 to 7.5; difference 0, relative change 0.00%."
     },
     {
       "name": "cancelled-run",
-      "runId": "c425a2c4-de3b-41a8-81a3-f4074b947335",
+      "runId": "2874d8b2-cf6d-42eb-ba3c-01d38d4a6c41",
       "status": "cancelled",
       "spec": {
         "mode": "cohort",
@@ -275,7 +278,7 @@
     },
     {
       "name": "missing-click-data",
-      "runId": "7057015e-62c5-4d33-833a-d6f3eea42095",
+      "runId": "04a67510-20d2-4d4f-a568-ec36283b03cc",
       "status": "unsupported",
       "spec": {
         "mode": "cohort",
@@ -311,7 +314,7 @@
     },
     {
       "name": "polling-without-sse",
-      "runId": "ec3d26a0-755d-48cf-9189-8686a0f7b8fa",
+      "runId": "3f97ff74-cbab-442d-a2a4-82d6b5fb5edb",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -345,7 +348,7 @@
     },
     {
       "name": "injected-model-offline",
-      "runId": "23f66fd4-3ddc-4694-8a76-69333621db7f",
+      "runId": "65370fe6-7dac-4dda-8f48-1044160ee801",
       "status": "failed",
       "spec": {
         "mode": "cohort",

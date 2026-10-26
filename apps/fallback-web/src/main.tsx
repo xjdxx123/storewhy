@@ -18,7 +18,7 @@ const statuses: Record<RunStatus, string> = {
   queued: "Queued",
   running: "Investigating",
   completed: "Complete",
-  limited: "Some explanations need evidence",
+  limited: "Limited",
   needs_clarification: "Clarification needed",
   unsupported: "Unsupported by this data",
   no_data: "No data in this scope",
@@ -55,11 +55,15 @@ function Scope({ spec }: { spec?: AnalysisSpec }) {
               {spec.filters.channels.join(", ") || "All channels"}
             </span>
           </div>
-          <p className="caption">
-            {spec.periods.map((p) => `${p.start} to ${p.end}`).join("; ")}; end
-            dates excluded. Devices: {spec.filters.devices.join(", ") || "All"}{" "}
-            · Countries: {spec.filters.regions.join(", ") || "All"}
-          </p>
+          <details className="scope-details">
+            <summary>Date range and filters</summary>
+            <p className="caption">
+              {spec.periods.map((p) => `${p.start} to ${p.end}`).join("; ")};
+              end dates excluded. Devices:{" "}
+              {spec.filters.devices.join(", ") || "All"} · Countries:{" "}
+              {spec.filters.regions.join(", ") || "All"}
+            </p>
+          </details>
         </>
       )}
     </section>
@@ -76,43 +80,68 @@ function Report({
   followup: (a: FollowupAction) => void;
   disabled: boolean;
 }) {
-  const facts = (ids: string[]) =>
-    answer.facts.filter((f) => ids.includes(f.id));
+  const sources = (ids: string[]) => [
+    ...new Map(
+      answer.facts
+        .filter((f) => ids.includes(f.id))
+        .map((f) => [f.evidenceId, f]),
+    ).values(),
+  ];
+  const clippedCoverage = [
+    ...new Map(
+      (answer.charts ?? [])
+        .flatMap((chart) => chart.source.coverage)
+        .filter((coverage) => coverage.effectiveEnd < coverage.requestedEnd)
+        .map((coverage) => [JSON.stringify(coverage), coverage]),
+    ).values(),
+  ];
+  const headline = answer.conclusion?.text ?? answer.summary;
+  const headlineIds = answer.conclusion?.factIds ?? [];
+  const keyEvidence = (answer.keyEvidence ?? answer.findings).filter(
+    (finding) =>
+      !headlineIds.length ||
+      !headline.includes(finding.text) ||
+      !finding.factIds.every((id) => headlineIds.includes(id)),
+  );
+  const sourceLinks = (ids: string[]) => (
+    <div className="fact-links">
+      {sources(ids).map((fact) => (
+        <button
+          key={fact.evidenceId}
+          className="text-button"
+          onClick={() => open({ id: fact.evidenceId })}
+        >
+          View source
+        </button>
+      ))}
+    </div>
+  );
   return (
     <div className="report" data-testid="report">
       <section className="conclusion">
         <p className="eyebrow">Conclusion</p>
-        <h2>{answer.conclusion?.text ?? answer.summary}</h2>
+        <h2>{headline}</h2>
+        {sourceLinks(headlineIds)}
       </section>
-      {(answer.keyEvidence ?? answer.findings).length > 0 && (
+      {clippedCoverage.map((coverage, index) => (
+        <p className="caption" key={index}>
+          {coverage.period}: acquisition dates before {coverage.effectiveEnd};{" "}
+          {coverage.excludedUsers} users and matching spend excluded for
+          incomplete follow-up.
+        </p>
+      ))}
+      {keyEvidence.length > 0 && (
         <section>
           <div className="section-heading">
             <h3>Key evidence</h3>
-            <span className="meta">Figures from executed queries</span>
           </div>
           <div className="key-evidence">
-            {(answer.keyEvidence ?? answer.findings).map((finding, i) => (
+            {keyEvidence.map((finding, i) => (
               <article key={i}>
                 <span className="evidence-index">0{i + 1}</span>
                 <div>
                   <p>{finding.text}</p>
-                  <div className="fact-links">
-                    {facts(finding.factIds).map((f) => (
-                      <button
-                        key={f.id}
-                        className="text-button"
-                        onClick={() =>
-                          open({
-                            id: f.evidenceId,
-                            rowIndex: f.rowIndex,
-                            metric: f.metric,
-                          })
-                        }
-                      >
-                        View source · {f.label}
-                      </button>
-                    ))}
-                  </div>
+                  {sourceLinks(finding.factIds)}
                 </div>
               </article>
             ))}
@@ -130,12 +159,8 @@ function Report({
         </p>
       ))}
       {(answer.explanations ?? []).length > 0 && (
-        <section>
-          <h3>Explanations checked</h3>
-          <p className="caption">
-            Support and contradiction describe observations; they do not
-            establish causality.
-          </p>
+        <details className="report-details">
+          <summary>Explanation checks</summary>
           <div className="explanations">
             {answer.explanations!.map((e) => (
               <article key={e.id}>
@@ -178,17 +203,17 @@ function Report({
               </article>
             ))}
           </div>
-        </section>
+        </details>
       )}
       {answer.limitations.length > 0 && (
-        <section className="limitations">
-          <h3>Limitations</h3>
+        <details className="limitations">
+          <summary>Data limits</summary>
           <ul>
             {answer.limitations.map((item, i) => (
               <li key={i}>{item}</li>
             ))}
           </ul>
-        </section>
+        </details>
       )}
       {(answer.followups ?? []).length > 0 ? (
         <section>
@@ -204,7 +229,6 @@ function Report({
                   {action.label}
                   <span aria-hidden="true"> ↗</span>
                 </strong>
-                <span>{action.reason}</span>
               </button>
             ))}
           </div>
@@ -271,17 +295,15 @@ function App() {
       <header>
         <a className="brand" href="/" aria-label="StoreWhy home">
           <span className="brand-mark">w</span>
-          <span>
-            StoreWhy<small>From changes to evidence.</small>
-          </span>
+          <span>StoreWhy</span>
         </a>
         <div className="header-actions">
           <span className="mode">
             <i className={session.dataMode ? "connected" : ""} />
             {session.dataMode === "zetaris"
-              ? "Zetaris · Public teaching data"
+              ? "Zetaris"
               : session.dataMode === "fixture"
-                ? "Self-authored sample data"
+                ? "Sample data"
                 : "Connecting to backend"}
           </span>
           <button
@@ -300,14 +322,7 @@ function App() {
       <main>
         <section className="intro">
           <div>
-            <p className="eyebrow">GROWTH INVESTIGATION</p>
-            <h1>
-              Understand <em>the change.</em>
-            </h1>
-            <p>
-              From spend and users to purchase revenue. Check explanations, then
-              follow the evidence.
-            </p>
+            <h1>Channel performance</h1>
           </div>
           <button
             className="text-button"
@@ -332,7 +347,6 @@ function App() {
               disabled={busy}
               maxLength={4000}
               rows={3}
-              placeholder="For example: Why did spend increase without matching revenue growth?"
               onKeyDown={(e) => {
                 if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
                   e.preventDefault();
@@ -342,13 +356,6 @@ function App() {
               }}
             />
             <div className="composer-bottom">
-              <span className="caption">
-                {demo
-                  ? "This sample is read-only. Return to the investigation to ask a question."
-                  : conversation
-                    ? "Ask a question or follow up using the current scope."
-                    : "Connect to the backend to start investigating."}
-              </span>
               <button
                 className="primary"
                 type="submit"
@@ -406,16 +413,20 @@ function App() {
           </div>
         )}
         <div className="session-tools">
-          <button
-            className="text-button"
-            disabled={busy}
-            onClick={() => {
-              setDemo(undefined);
-              void session.restore();
-            }}
-          >
-            {session.loading ? "Loading session…" : "Resume session"}
-          </button>
+          {(session.error ||
+            session.uncertain ||
+            (session.connection && isRunning(run))) && (
+            <button
+              className="text-button"
+              disabled={busy}
+              onClick={() => {
+                setDemo(undefined);
+                void session.restore();
+              }}
+            >
+              {session.loading ? "Loading session…" : "Resume session"}
+            </button>
+          )}
           {spec?.mode === "cohort" && (
             <button
               className="text-button"
@@ -454,7 +465,7 @@ function App() {
         {demo && (
           <div className="notice sample">
             <span>
-              <strong>Self-authored sample replay</strong> · {demo.notice}
+              <strong>Self-authored sample replay</strong> · No live model calls
             </span>
             <button onClick={() => setDemo(undefined)}>
               Return to investigation
@@ -474,13 +485,15 @@ function App() {
                 <span className={`badge ${run?.status ?? "queued"}`}>
                   {run ? statuses[run.status] : "Submitting"}
                 </span>
-                <p className="progress-label">
-                  {session.submitting
-                    ? "Submitting your question"
-                    : (run?.progress?.label ??
-                      run?.message ??
-                      "Reading investigation status")}
-                </p>
+                {(session.submitting || isRunning(run)) && (
+                  <p className="progress-label">
+                    {session.submitting
+                      ? "Submitting your question"
+                      : (run?.progress?.label ??
+                        run?.message ??
+                        "Reading investigation status")}
+                  </p>
+                )}
               </div>
               {isRunning(run) && (
                 <button
@@ -495,7 +508,9 @@ function App() {
                 </button>
               )}
             </div>
-            {run && <p className="caption">Question: {run.question}</p>}
+            {run && run.question !== question && (
+              <p className="caption">Question: {run.question}</p>
+            )}
             {session.connection && isRunning(run) && (
               <p className="caption">{session.connection}</p>
             )}
@@ -534,16 +549,6 @@ function App() {
             )}
           </section>
         )}
-        {report && !demo && run && (
-          <p className="caption">
-            Dataset version: {run.context.datasetVersion} ·{" "}
-            {report.charts?.[0]?.source.backend === "fixture"
-              ? "Self-authored sample data"
-              : report.charts?.[0]?.source.backend === "zetaris"
-                ? "Zetaris query results (teaching data)"
-                : "See evidence for source details"}
-          </p>
-        )}
         {report && (
           <Report
             answer={report}
@@ -554,14 +559,7 @@ function App() {
         )}
         {!report && !run && !session.submitting && (
           <section className="empty-state">
-            <div>
-              <span className="eyebrow">START WITH A SPECIFIC QUESTION</span>
-              <h2>
-                See what changed.
-                <br />
-                Then check why.
-              </h2>
-            </div>
+            <h2>Example questions</h2>
             <div className="examples">
               {[
                 ["Spend and revenue", mainQuestion],
@@ -597,11 +595,6 @@ function App() {
             {session.catalog
               ? ` · ${session.catalog.dataset.start} to ${session.catalog.dataset.observationEndExclusive} (end exclusive)`
               : ""}
-          </p>
-          <p>
-            Spend is available by channel and date only. Clicks, impressions,
-            creatives and profit are unavailable. Observational diagnosis does
-            not prove causality.
           </p>
         </footer>
       </main>

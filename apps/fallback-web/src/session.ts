@@ -236,9 +236,7 @@ export function useInvestigation() {
     try {
       const saved = await api.rememberWindow(conversation.id, spec.windowDays);
       if (mounted.current && generation.current === token)
-        setNotice(
-          `Saved ${saved.windowDays}-day default window. Source: ${saved.source}`,
-        );
+        setNotice(`Saved ${saved.windowDays}-day default window.`);
     } catch (e) {
       if (mounted.current && generation.current === token) setError(message(e));
     }

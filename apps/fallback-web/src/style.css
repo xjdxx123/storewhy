@@ -82,13 +82,6 @@ header {
   font-size: 32px;
   font-weight: 400;
 }
-.brand small {
-  display: block;
-  font-weight: 400;
-  font-size: 11px;
-  letter-spacing: 1px;
-  color: #7e8179;
-}
 .header-actions {
   display: flex;
   align-items: center;
@@ -119,7 +112,7 @@ main {
   align-items: flex-end;
   justify-content: space-between;
   gap: 24px;
-  padding: 56px 0 30px;
+  padding: 28px 0 22px;
 }
 .eyebrow {
   font-size: 10px;
@@ -129,20 +122,10 @@ main {
   margin: 0 0 14px;
 }
 .intro h1 {
-  font-family: Georgia, "Songti SC", serif;
-  font-size: 48px;
-  letter-spacing: -2px;
+  font-size: 28px;
+  letter-spacing: -0.6px;
   line-height: 1.2;
-  font-weight: 400;
-  margin: 0 0 18px;
-}
-.intro em {
-  font-style: normal;
-  color: #54715f;
-}
-.intro p:last-child {
-  font-size: 14px;
-  color: #7a7e75;
+  font-weight: 550;
   margin: 0;
 }
 .text-button {
@@ -233,12 +216,9 @@ textarea::placeholder {
 .composer-bottom {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 18px;
   margin-top: 14px;
-}
-.composer-bottom .caption {
-  margin: 0;
 }
 .primary {
   background: #2c3833;
@@ -306,15 +286,15 @@ textarea::placeholder {
   flex-shrink: 0;
 }
 .empty-state {
-  padding: 46px 0 52px;
+  padding: 24px 0;
   display: grid;
-  grid-template-columns: 0.9fr 1.4fr;
-  gap: 70px;
+  grid-template-columns: 1fr;
+  gap: 6px;
 }
 .empty-state h2 {
-  font-size: 22px;
-  font-weight: 450;
-  letter-spacing: -0.6px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
   line-height: 1.7;
   margin: 10px 0;
   color: #6b776a;
@@ -570,12 +550,8 @@ th {
   font-size: 13px;
 }
 .limitations {
-  padding: 22px 24px;
-  background: #f0efe6;
-  border-radius: 6px;
-}
-.limitations h3 {
-  color: #74724f;
+  padding: 10px 0;
+  border-top: 1px solid #dfe2d9;
 }
 .limitations ul {
   font-size: 13px;
@@ -721,17 +697,14 @@ pre {
     padding: 0 20px;
   }
   .intro {
-    padding-top: 34px;
+    padding-top: 24px;
     align-items: flex-start;
     flex-direction: column;
     gap: 16px;
   }
   .intro h1 {
-    font-size: 38px;
-    letter-spacing: -1.8px;
-  }
-  .intro p:last-child {
-    font-size: 13px;
+    font-size: 25px;
+    letter-spacing: -0.5px;
   }
   .scope-items {
     gap: 8px 18px;
@@ -748,17 +721,13 @@ pre {
   .composer-bottom {
     align-items: flex-end;
   }
-  .composer-bottom .caption {
-    font-size: 10px;
-    max-width: 150px;
-  }
   .empty-state {
     grid-template-columns: 1fr;
     gap: 18px;
     padding: 30px 0;
   }
   .empty-state h2 {
-    font-size: 20px;
+    font-size: 13px;
   }
   .followups {
     grid-template-columns: 1fr;
@@ -792,4 +761,21 @@ pre {
   min-width: 0;
   max-width: 100%;
   overflow-wrap: anywhere;
+}
+
+.report > details {
+  margin-bottom: 18px;
+}
+.report-details {
+  border-top: 1px solid #dfe2d9;
+  padding-top: 8px;
+}
+.scope-details {
+  margin-top: 6px;
+}
+.limitations ul {
+  margin-top: 10px;
+}
+.followups strong {
+  margin-bottom: 0;
 }

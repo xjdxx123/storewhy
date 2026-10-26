@@ -14,6 +14,8 @@ StoreWhy 帮助运营人员检查“为什么费用增加，用户收入却没�
 
 已完成本机 Zetaris、Nightshift/NVIDIA 与数据配置后，执行 **`npm run demo`**，同时启动 Live API 与备用 UI，打开 **http://127.0.0.1:5173/**。Ctrl+C 同时关闭两个应用服务。新电脑须先完成一次环境准备，见 [队友录屏指南](docs/recording.md)；Git 不包含原电脑的密钥、平台容器与数据。
 
+已实跑的三组英文问题、连续追问和推荐演示顺序见 [录屏问题脚本](docs/recording-questions.md)，覆盖 5–10 月、三个渠道与 7/14 天窗口；验证记录见 [本次验收](docs/recording-polish-verification.md)。
+
 ## 本地快速启动
 
 需要 Node.js 22.12+。以下命令在仓库根目录执行：

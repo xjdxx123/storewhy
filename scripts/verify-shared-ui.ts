@@ -263,6 +263,27 @@ try {
       row.values[point.metric as keyof typeof row.values],
     );
   }
+  await page
+    .getByRole("button", { name: /^View source/ })
+    .first()
+    .click();
+  const dialog = page.getByRole("dialog");
+  await dialog.getByText("Query results", { exact: true }).waitFor();
+  const sourceId = (await dialog.locator("p.mono").first().textContent())!;
+  const displayedSource = (await (
+    await fetch(`${root}/api/v1/evidence/${sourceId}`)
+  ).json()) as Evidence;
+  assert.equal(
+    await dialog.locator("tbody tr").count(),
+    displayedSource.rows.length,
+  );
+  assert.match((await dialog.textContent()) ?? "", /SELECT/);
+  await page.keyboard.press("Escape");
+  records.push({
+    name: "consolidated-source-retains-all-query-rows-and-sql",
+    pass: true,
+    rows: displayedSource.rows.length,
+  });
   await page.screenshot({
     path: `evidence/shared-ui-${suffix}.png`,
     fullPage: true,

@@ -410,3 +410,35 @@ it("corrects an English spend-up revenue-down premise when the executed comparis
     await local.close();
   }
 });
+
+it("leads an English purchase-composition query with the queried revenue components even when spend remains in scope", () => {
+  const context = {
+    ...initialContext("composition", "why-fixture"),
+    spec: overall.spec,
+    taskKind: "query" as const,
+    objective:
+      "Split the revenue change into first and subsequent purchase revenue. Keep the same dates.",
+  };
+  const a = presentAnswer({
+    context,
+    evidence: [overall],
+    facts: factsFor([overall]),
+    ready: true,
+  });
+  expect(a.summary).toContain("first purchase revenue");
+  expect(a.summary).toContain("subsequent purchase revenue");
+  expect(a.conclusion!.factIds.length).toBeGreaterThan(2);
+});
+
+it("keeps the purchaser-rate objective prominent when behavior evidence also includes revenue", () => {
+  const a = answer(
+    [overall],
+    "Why did the purchaser rate change for new users?",
+  );
+  expect(a.summary).toContain("Purchaser rate");
+  expect(
+    a.conclusion!.factIds.every(
+      (id) => a.facts.find((f) => f.id === id)!.metric === "payer_rate",
+    ),
+  ).toBe(true);
+});

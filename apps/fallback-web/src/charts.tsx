@@ -236,11 +236,11 @@ export function EvidenceChart({
           )}
         </svg>
       </div>
-      {chart.notes.length > 0 && (
-        <p className="caption">{chart.notes.join(" ")}</p>
-      )}
       <details>
         <summary>View all data and sources</summary>
+        {chart.notes.length > 0 && (
+          <p className="caption">{chart.notes.join(" ")}</p>
+        )}
         <div className="table-scroll">
           <table>
             <thead>
