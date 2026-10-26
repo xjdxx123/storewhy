@@ -40,7 +40,9 @@
     "dev:ui": "npm run dev -w @storewhy/fallback-web",
     "preview:ui": "npm run preview -w @storewhy/fallback-web",
     "test:ui": "tsx scripts/verify-fallback-ui.ts",
-    "test:ui:live": "tsx scripts/verify-fallback-ui.ts --live"
+    "test:ui:live": "tsx scripts/verify-fallback-ui.ts --live",
+    "demo": "tsx scripts/start-demo.ts",
+    "test:demo": "tsx scripts/verify-demo-launcher.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.16",

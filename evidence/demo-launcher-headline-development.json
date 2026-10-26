@@ -1,0 +1,1822 @@
+{
+  "pass": false,
+  "kind": "overly_specific_launcher_test_assertion",
+  "assertion": "Expected TipTop in headline",
+  "actualStatus": "completed",
+  "actualSummary": "所列渠道合计：2019-07对比2019-06，首访后14天的收入与记录费用比从0.904277变为0.832253；费用增加1357.01，收入增加42.53。比值由渠道金额合计计算，不是渠道比值平均，也不代表广告因果增量。",
+  "context": {
+    "conversationId": "60d4a708-76b8-41b4-80c7-1a74d390f1a4",
+    "investigationId": "4bea9c26-47de-4d97-846d-bed13e5c676b",
+    "datasetVersion": "4c26d29934370408",
+    "metricVersion": "procrastinate-v1",
+    "revision": 1,
+    "spec": {
+      "timeGrain": null,
+      "mode": "cohort",
+      "periods": [
+        {
+          "label": "2019-06",
+          "start": "2019-06-01",
+          "end": "2019-07-01"
+        },
+        {
+          "label": "2019-07",
+          "start": "2019-07-01",
+          "end": "2019-08-01"
+        }
+      ],
+      "windowDays": 14,
+      "audience": "paid",
+      "filters": {
+        "channels": [],
+        "devices": [],
+        "regions": []
+      },
+      "groupBy": [
+        "channel"
+      ],
+      "metrics": [
+        "spend",
+        "new_users",
+        "payers",
+        "revenue",
+        "first_purchase_revenue",
+        "repeat_purchase_revenue",
+        "payer_rate",
+        "revenue_per_payer",
+        "cost_per_new_user",
+        "revenue_to_spend",
+        "users"
+      ]
+    },
+    "evidenceIds": [
+      "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4"
+    ],
+    "lastQuestion": "为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？",
+    "taskKind": "why",
+    "objective": "为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？"
+  },
+  "facts": [
+    {
+      "id": "f-0-0-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "spend",
+      "value": 538.65,
+      "label": "2019-06 / AdNonSense / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-0-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "new_users",
+      "value": 532,
+      "label": "2019-06 / AdNonSense / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-0-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "payers",
+      "value": 62,
+      "label": "2019-06 / AdNonSense / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-0-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "revenue",
+      "value": 434.17,
+      "label": "2019-06 / AdNonSense / 14天 / 收入"
+    },
+    {
+      "id": "f-0-0-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "first_purchase_revenue",
+      "value": 327.38,
+      "label": "2019-06 / AdNonSense / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-0-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "repeat_purchase_revenue",
+      "value": 106.79,
+      "label": "2019-06 / AdNonSense / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-0-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "payer_rate",
+      "value": 0.116541,
+      "label": "2019-06 / AdNonSense / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-0-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "revenue_per_payer",
+      "value": 7.002742,
+      "label": "2019-06 / AdNonSense / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-0-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "cost_per_new_user",
+      "value": 1.0125,
+      "label": "2019-06 / AdNonSense / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-0-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "revenue_to_spend",
+      "value": 0.806034,
+      "label": "2019-06 / AdNonSense / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-0-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 0,
+      "metric": "users",
+      "value": 532,
+      "label": "2019-06 / AdNonSense / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-1-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "spend",
+      "value": 5501.1,
+      "label": "2019-06 / FaceBoom / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-1-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "new_users",
+      "value": 4926,
+      "label": "2019-06 / FaceBoom / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-1-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "payers",
+      "value": 568,
+      "label": "2019-06 / FaceBoom / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-1-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "revenue",
+      "value": 3830.09,
+      "label": "2019-06 / FaceBoom / 14天 / 收入"
+    },
+    {
+      "id": "f-0-1-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "first_purchase_revenue",
+      "value": 3215.32,
+      "label": "2019-06 / FaceBoom / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-1-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "repeat_purchase_revenue",
+      "value": 614.77,
+      "label": "2019-06 / FaceBoom / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-1-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "payer_rate",
+      "value": 0.115307,
+      "label": "2019-06 / FaceBoom / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-1-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "revenue_per_payer",
+      "value": 6.743116,
+      "label": "2019-06 / FaceBoom / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-1-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "cost_per_new_user",
+      "value": 1.116748,
+      "label": "2019-06 / FaceBoom / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-1-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "revenue_to_spend",
+      "value": 0.696241,
+      "label": "2019-06 / FaceBoom / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-1-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 1,
+      "metric": "users",
+      "value": 4926,
+      "label": "2019-06 / FaceBoom / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-2-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "spend",
+      "value": 314.58,
+      "label": "2019-06 / LeapBob / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-2-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "new_users",
+      "value": 1486,
+      "label": "2019-06 / LeapBob / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-2-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "payers",
+      "value": 40,
+      "label": "2019-06 / LeapBob / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-2-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "revenue",
+      "value": 669.77,
+      "label": "2019-06 / LeapBob / 14天 / 收入"
+    },
+    {
+      "id": "f-0-2-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "first_purchase_revenue",
+      "value": 209.6,
+      "label": "2019-06 / LeapBob / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-2-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "repeat_purchase_revenue",
+      "value": 460.17,
+      "label": "2019-06 / LeapBob / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-2-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "payer_rate",
+      "value": 0.026918,
+      "label": "2019-06 / LeapBob / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-2-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "revenue_per_payer",
+      "value": 16.74425,
+      "label": "2019-06 / LeapBob / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-2-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "cost_per_new_user",
+      "value": 0.211696,
+      "label": "2019-06 / LeapBob / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-2-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "revenue_to_spend",
+      "value": 2.129093,
+      "label": "2019-06 / LeapBob / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-2-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 2,
+      "metric": "users",
+      "value": 1486,
+      "label": "2019-06 / LeapBob / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-3-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "spend",
+      "value": 138,
+      "label": "2019-06 / MediaTornado / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-3-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "new_users",
+      "value": 632,
+      "label": "2019-06 / MediaTornado / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-3-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "payers",
+      "value": 21,
+      "label": "2019-06 / MediaTornado / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-3-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "revenue",
+      "value": 319.42,
+      "label": "2019-06 / MediaTornado / 14天 / 收入"
+    },
+    {
+      "id": "f-0-3-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "first_purchase_revenue",
+      "value": 109.79,
+      "label": "2019-06 / MediaTornado / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-3-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "repeat_purchase_revenue",
+      "value": 209.63,
+      "label": "2019-06 / MediaTornado / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-3-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "payer_rate",
+      "value": 0.033228,
+      "label": "2019-06 / MediaTornado / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-3-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "revenue_per_payer",
+      "value": 15.210476,
+      "label": "2019-06 / MediaTornado / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-3-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "cost_per_new_user",
+      "value": 0.218354,
+      "label": "2019-06 / MediaTornado / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-3-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "revenue_to_spend",
+      "value": 2.314638,
+      "label": "2019-06 / MediaTornado / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-3-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 3,
+      "metric": "users",
+      "value": 632,
+      "label": "2019-06 / MediaTornado / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-4-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "spend",
+      "value": 370,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-4-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "new_users",
+      "value": 1481,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-4-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "payers",
+      "value": 39,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-4-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "revenue",
+      "value": 606.89,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 收入"
+    },
+    {
+      "id": "f-0-4-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "first_purchase_revenue",
+      "value": 194.61,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-4-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "repeat_purchase_revenue",
+      "value": 412.28,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-4-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "payer_rate",
+      "value": 0.026334,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-4-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "revenue_per_payer",
+      "value": 15.561282,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-4-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "cost_per_new_user",
+      "value": 0.249831,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-4-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "revenue_to_spend",
+      "value": 1.640243,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-4-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 4,
+      "metric": "users",
+      "value": 1481,
+      "label": "2019-06 / OppleCreativeMedia / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-5-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "spend",
+      "value": 325.72,
+      "label": "2019-06 / RocketSuperAds / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-5-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "new_users",
+      "value": 653,
+      "label": "2019-06 / RocketSuperAds / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-5-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "payers",
+      "value": 40,
+      "label": "2019-06 / RocketSuperAds / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-5-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "revenue",
+      "value": 521.06,
+      "label": "2019-06 / RocketSuperAds / 14天 / 收入"
+    },
+    {
+      "id": "f-0-5-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "first_purchase_revenue",
+      "value": 249.6,
+      "label": "2019-06 / RocketSuperAds / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-5-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "repeat_purchase_revenue",
+      "value": 271.46,
+      "label": "2019-06 / RocketSuperAds / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-5-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "payer_rate",
+      "value": 0.061256,
+      "label": "2019-06 / RocketSuperAds / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-5-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "revenue_per_payer",
+      "value": 13.0265,
+      "label": "2019-06 / RocketSuperAds / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-5-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "cost_per_new_user",
+      "value": 0.498806,
+      "label": "2019-06 / RocketSuperAds / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-5-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "revenue_to_spend",
+      "value": 1.599718,
+      "label": "2019-06 / RocketSuperAds / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-5-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 5,
+      "metric": "users",
+      "value": 653,
+      "label": "2019-06 / RocketSuperAds / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-6-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "spend",
+      "value": 6675.6,
+      "label": "2019-06 / TipTop / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-6-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "new_users",
+      "value": 3213,
+      "label": "2019-06 / TipTop / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-6-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "payers",
+      "value": 326,
+      "label": "2019-06 / TipTop / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-6-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "revenue",
+      "value": 5133.3,
+      "label": "2019-06 / TipTop / 14天 / 收入"
+    },
+    {
+      "id": "f-0-6-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "first_purchase_revenue",
+      "value": 1757.74,
+      "label": "2019-06 / TipTop / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-6-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "repeat_purchase_revenue",
+      "value": 3375.56,
+      "label": "2019-06 / TipTop / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-6-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "payer_rate",
+      "value": 0.101463,
+      "label": "2019-06 / TipTop / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-6-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "revenue_per_payer",
+      "value": 15.746319,
+      "label": "2019-06 / TipTop / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-6-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "cost_per_new_user",
+      "value": 2.077684,
+      "label": "2019-06 / TipTop / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-6-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "revenue_to_spend",
+      "value": 0.768965,
+      "label": "2019-06 / TipTop / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-6-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 6,
+      "metric": "users",
+      "value": 3213,
+      "label": "2019-06 / TipTop / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-7-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "spend",
+      "value": 921,
+      "label": "2019-06 / WahooNetBanner / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-7-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "new_users",
+      "value": 1539,
+      "label": "2019-06 / WahooNetBanner / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-7-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "payers",
+      "value": 84,
+      "label": "2019-06 / WahooNetBanner / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-7-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "revenue",
+      "value": 1411.23,
+      "label": "2019-06 / WahooNetBanner / 14天 / 收入"
+    },
+    {
+      "id": "f-0-7-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "first_purchase_revenue",
+      "value": 424.16,
+      "label": "2019-06 / WahooNetBanner / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-7-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "repeat_purchase_revenue",
+      "value": 987.07,
+      "label": "2019-06 / WahooNetBanner / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-7-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "payer_rate",
+      "value": 0.054581,
+      "label": "2019-06 / WahooNetBanner / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-7-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "revenue_per_payer",
+      "value": 16.800357,
+      "label": "2019-06 / WahooNetBanner / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-7-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "cost_per_new_user",
+      "value": 0.598441,
+      "label": "2019-06 / WahooNetBanner / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-7-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "revenue_to_spend",
+      "value": 1.53228,
+      "label": "2019-06 / WahooNetBanner / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-7-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 7,
+      "metric": "users",
+      "value": 1539,
+      "label": "2019-06 / WahooNetBanner / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-8-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "spend",
+      "value": 106.2,
+      "label": "2019-06 / YRabbit / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-8-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "new_users",
+      "value": 581,
+      "label": "2019-06 / YRabbit / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-8-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "payers",
+      "value": 24,
+      "label": "2019-06 / YRabbit / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-8-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "revenue",
+      "value": 339.32,
+      "label": "2019-06 / YRabbit / 14天 / 收入"
+    },
+    {
+      "id": "f-0-8-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "first_purchase_revenue",
+      "value": 119.76,
+      "label": "2019-06 / YRabbit / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-8-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "repeat_purchase_revenue",
+      "value": 219.56,
+      "label": "2019-06 / YRabbit / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-8-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "payer_rate",
+      "value": 0.041308,
+      "label": "2019-06 / YRabbit / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-8-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "revenue_per_payer",
+      "value": 14.138333,
+      "label": "2019-06 / YRabbit / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-8-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "cost_per_new_user",
+      "value": 0.182788,
+      "label": "2019-06 / YRabbit / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-8-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "revenue_to_spend",
+      "value": 3.195104,
+      "label": "2019-06 / YRabbit / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-8-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 8,
+      "metric": "users",
+      "value": 581,
+      "label": "2019-06 / YRabbit / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-9-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "spend",
+      "value": 199.2,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-9-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "new_users",
+      "value": 272,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-9-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "payers",
+      "value": 23,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-9-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "revenue",
+      "value": 380.34,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 收入"
+    },
+    {
+      "id": "f-0-9-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "first_purchase_revenue",
+      "value": 120.77,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-9-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "repeat_purchase_revenue",
+      "value": 259.57,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-9-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "payer_rate",
+      "value": 0.084559,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-9-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "revenue_per_payer",
+      "value": 16.536522,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-9-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "cost_per_new_user",
+      "value": 0.732353,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-9-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "revenue_to_spend",
+      "value": 1.909337,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-9-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 9,
+      "metric": "users",
+      "value": 272,
+      "label": "2019-06 / lambdaMediaAds / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-10-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "spend",
+      "value": 504,
+      "label": "2019-07 / AdNonSense / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-10-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "new_users",
+      "value": 508,
+      "label": "2019-07 / AdNonSense / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-10-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "payers",
+      "value": 46,
+      "label": "2019-07 / AdNonSense / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-10-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "revenue",
+      "value": 430.23,
+      "label": "2019-07 / AdNonSense / 14天 / 收入"
+    },
+    {
+      "id": "f-0-10-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "first_purchase_revenue",
+      "value": 274.54,
+      "label": "2019-07 / AdNonSense / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-10-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "repeat_purchase_revenue",
+      "value": 155.69,
+      "label": "2019-07 / AdNonSense / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-10-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "payer_rate",
+      "value": 0.090551,
+      "label": "2019-07 / AdNonSense / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-10-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "revenue_per_payer",
+      "value": 9.352826,
+      "label": "2019-07 / AdNonSense / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-10-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "cost_per_new_user",
+      "value": 0.992126,
+      "label": "2019-07 / AdNonSense / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-10-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "revenue_to_spend",
+      "value": 0.853631,
+      "label": "2019-07 / AdNonSense / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-10-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 10,
+      "metric": "users",
+      "value": 508,
+      "label": "2019-07 / AdNonSense / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-11-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "spend",
+      "value": 5294.3,
+      "label": "2019-07 / FaceBoom / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-11-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "new_users",
+      "value": 4754,
+      "label": "2019-07 / FaceBoom / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-11-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "payers",
+      "value": 573,
+      "label": "2019-07 / FaceBoom / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-11-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "revenue",
+      "value": 4369.51,
+      "label": "2019-07 / FaceBoom / 14天 / 收入"
+    },
+    {
+      "id": "f-0-11-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "first_purchase_revenue",
+      "value": 3386.27,
+      "label": "2019-07 / FaceBoom / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-11-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "repeat_purchase_revenue",
+      "value": 983.24,
+      "label": "2019-07 / FaceBoom / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-11-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "payer_rate",
+      "value": 0.12053,
+      "label": "2019-07 / FaceBoom / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-11-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "revenue_per_payer",
+      "value": 7.625672,
+      "label": "2019-07 / FaceBoom / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-11-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "cost_per_new_user",
+      "value": 1.113652,
+      "label": "2019-07 / FaceBoom / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-11-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "revenue_to_spend",
+      "value": 0.825323,
+      "label": "2019-07 / FaceBoom / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-11-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 11,
+      "metric": "users",
+      "value": 4754,
+      "label": "2019-07 / FaceBoom / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-12-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "spend",
+      "value": 313.53,
+      "label": "2019-07 / LeapBob / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-12-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "new_users",
+      "value": 1494,
+      "label": "2019-07 / LeapBob / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-12-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "payers",
+      "value": 49,
+      "label": "2019-07 / LeapBob / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-12-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "revenue",
+      "value": 661.69,
+      "label": "2019-07 / LeapBob / 14天 / 收入"
+    },
+    {
+      "id": "f-0-12-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "first_purchase_revenue",
+      "value": 252.51,
+      "label": "2019-07 / LeapBob / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-12-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "repeat_purchase_revenue",
+      "value": 409.18,
+      "label": "2019-07 / LeapBob / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-12-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "payer_rate",
+      "value": 0.032798,
+      "label": "2019-07 / LeapBob / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-12-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "revenue_per_payer",
+      "value": 13.503878,
+      "label": "2019-07 / LeapBob / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-12-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "cost_per_new_user",
+      "value": 0.209859,
+      "label": "2019-07 / LeapBob / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-12-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "revenue_to_spend",
+      "value": 2.110452,
+      "label": "2019-07 / LeapBob / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-12-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 12,
+      "metric": "users",
+      "value": 1494,
+      "label": "2019-07 / LeapBob / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-13-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "spend",
+      "value": 138.48,
+      "label": "2019-07 / MediaTornado / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-13-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "new_users",
+      "value": 643,
+      "label": "2019-07 / MediaTornado / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-13-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "payers",
+      "value": 22,
+      "label": "2019-07 / MediaTornado / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-13-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "revenue",
+      "value": 295.42,
+      "label": "2019-07 / MediaTornado / 14天 / 收入"
+    },
+    {
+      "id": "f-0-13-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "first_purchase_revenue",
+      "value": 110.78,
+      "label": "2019-07 / MediaTornado / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-13-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "repeat_purchase_revenue",
+      "value": 184.64,
+      "label": "2019-07 / MediaTornado / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-13-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "payer_rate",
+      "value": 0.034215,
+      "label": "2019-07 / MediaTornado / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-13-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "revenue_per_payer",
+      "value": 13.428182,
+      "label": "2019-07 / MediaTornado / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-13-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "cost_per_new_user",
+      "value": 0.215365,
+      "label": "2019-07 / MediaTornado / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-13-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "revenue_to_spend",
+      "value": 2.133304,
+      "label": "2019-07 / MediaTornado / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-13-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 13,
+      "metric": "users",
+      "value": 643,
+      "label": "2019-07 / MediaTornado / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-14-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "spend",
+      "value": 366.5,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-14-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "new_users",
+      "value": 1457,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-14-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "payers",
+      "value": 39,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-14-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "revenue",
+      "value": 486.03,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 收入"
+    },
+    {
+      "id": "f-0-14-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "first_purchase_revenue",
+      "value": 194.61,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-14-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "repeat_purchase_revenue",
+      "value": 291.42,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-14-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "payer_rate",
+      "value": 0.026767,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-14-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "revenue_per_payer",
+      "value": 12.462308,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-14-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "cost_per_new_user",
+      "value": 0.251544,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-14-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "revenue_to_spend",
+      "value": 1.326139,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-14-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 14,
+      "metric": "users",
+      "value": 1457,
+      "label": "2019-07 / OppleCreativeMedia / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-15-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "spend",
+      "value": 252.07,
+      "label": "2019-07 / RocketSuperAds / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-15-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "new_users",
+      "value": 604,
+      "label": "2019-07 / RocketSuperAds / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-15-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "payers",
+      "value": 46,
+      "label": "2019-07 / RocketSuperAds / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-15-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "revenue",
+      "value": 613.89,
+      "label": "2019-07 / RocketSuperAds / 14天 / 收入"
+    },
+    {
+      "id": "f-0-15-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "first_purchase_revenue",
+      "value": 232.54,
+      "label": "2019-07 / RocketSuperAds / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-15-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "repeat_purchase_revenue",
+      "value": 381.35,
+      "label": "2019-07 / RocketSuperAds / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-15-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "payer_rate",
+      "value": 0.076159,
+      "label": "2019-07 / RocketSuperAds / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-15-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "revenue_per_payer",
+      "value": 13.345435,
+      "label": "2019-07 / RocketSuperAds / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-15-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "cost_per_new_user",
+      "value": 0.417334,
+      "label": "2019-07 / RocketSuperAds / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-15-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "revenue_to_spend",
+      "value": 2.435395,
+      "label": "2019-07 / RocketSuperAds / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-15-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 15,
+      "metric": "users",
+      "value": 604,
+      "label": "2019-07 / RocketSuperAds / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-16-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "spend",
+      "value": 8410.2,
+      "label": "2019-07 / TipTop / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-16-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "new_users",
+      "value": 3173,
+      "label": "2019-07 / TipTop / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-16-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "payers",
+      "value": 291,
+      "label": "2019-07 / TipTop / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-16-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "revenue",
+      "value": 4532.46,
+      "label": "2019-07 / TipTop / 14天 / 收入"
+    },
+    {
+      "id": "f-0-16-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "first_purchase_revenue",
+      "value": 1581.09,
+      "label": "2019-07 / TipTop / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-16-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "repeat_purchase_revenue",
+      "value": 2951.37,
+      "label": "2019-07 / TipTop / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-16-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "payer_rate",
+      "value": 0.091711,
+      "label": "2019-07 / TipTop / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-16-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "revenue_per_payer",
+      "value": 15.575464,
+      "label": "2019-07 / TipTop / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-16-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "cost_per_new_user",
+      "value": 2.650552,
+      "label": "2019-07 / TipTop / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-16-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "revenue_to_spend",
+      "value": 0.538924,
+      "label": "2019-07 / TipTop / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-16-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 16,
+      "metric": "users",
+      "value": 3173,
+      "label": "2019-07 / TipTop / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-17-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "spend",
+      "value": 851.4,
+      "label": "2019-07 / WahooNetBanner / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-17-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "new_users",
+      "value": 1401,
+      "label": "2019-07 / WahooNetBanner / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-17-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "payers",
+      "value": 69,
+      "label": "2019-07 / WahooNetBanner / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-17-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "revenue",
+      "value": 1249.79,
+      "label": "2019-07 / WahooNetBanner / 14天 / 收入"
+    },
+    {
+      "id": "f-0-17-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "first_purchase_revenue",
+      "value": 389.31,
+      "label": "2019-07 / WahooNetBanner / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-17-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "repeat_purchase_revenue",
+      "value": 860.48,
+      "label": "2019-07 / WahooNetBanner / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-17-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "payer_rate",
+      "value": 0.049251,
+      "label": "2019-07 / WahooNetBanner / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-17-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "revenue_per_payer",
+      "value": 18.112899,
+      "label": "2019-07 / WahooNetBanner / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-17-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "cost_per_new_user",
+      "value": 0.607709,
+      "label": "2019-07 / WahooNetBanner / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-17-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "revenue_to_spend",
+      "value": 1.467923,
+      "label": "2019-07 / WahooNetBanner / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-17-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 17,
+      "metric": "users",
+      "value": 1401,
+      "label": "2019-07 / WahooNetBanner / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-18-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "spend",
+      "value": 97.38,
+      "label": "2019-07 / YRabbit / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-18-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "new_users",
+      "value": 603,
+      "label": "2019-07 / YRabbit / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-18-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "payers",
+      "value": 26,
+      "label": "2019-07 / YRabbit / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-18-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "revenue",
+      "value": 445.13,
+      "label": "2019-07 / YRabbit / 14天 / 收入"
+    },
+    {
+      "id": "f-0-18-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "first_purchase_revenue",
+      "value": 129.74,
+      "label": "2019-07 / YRabbit / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-18-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "repeat_purchase_revenue",
+      "value": 315.39,
+      "label": "2019-07 / YRabbit / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-18-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "payer_rate",
+      "value": 0.043118,
+      "label": "2019-07 / YRabbit / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-18-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "revenue_per_payer",
+      "value": 17.120385,
+      "label": "2019-07 / YRabbit / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-18-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "cost_per_new_user",
+      "value": 0.161493,
+      "label": "2019-07 / YRabbit / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-18-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "revenue_to_spend",
+      "value": 4.571062,
+      "label": "2019-07 / YRabbit / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-18-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 18,
+      "metric": "users",
+      "value": 603,
+      "label": "2019-07 / YRabbit / 14天 / 用户数"
+    },
+    {
+      "id": "f-0-19-spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "spend",
+      "value": 219.2,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 记录渠道费用"
+    },
+    {
+      "id": "f-0-19-new_users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "new_users",
+      "value": 304,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 首次观测用户数"
+    },
+    {
+      "id": "f-0-19-payers",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "payers",
+      "value": 34,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 购买用户数"
+    },
+    {
+      "id": "f-0-19-revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "revenue",
+      "value": 603.97,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 收入"
+    },
+    {
+      "id": "f-0-19-first_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "first_purchase_revenue",
+      "value": 259.66,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 首次购买收入"
+    },
+    {
+      "id": "f-0-19-repeat_purchase_revenue",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "repeat_purchase_revenue",
+      "value": 344.31,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 后续购买收入"
+    },
+    {
+      "id": "f-0-19-payer_rate",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "payer_rate",
+      "value": 0.111842,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 购买用户比例"
+    },
+    {
+      "id": "f-0-19-revenue_per_payer",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "revenue_per_payer",
+      "value": 17.763824,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 每位购买用户收入"
+    },
+    {
+      "id": "f-0-19-cost_per_new_user",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "cost_per_new_user",
+      "value": 0.721053,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 每位新用户记录费用"
+    },
+    {
+      "id": "f-0-19-revenue_to_spend",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "revenue_to_spend",
+      "value": 2.755338,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 收入与记录费用比"
+    },
+    {
+      "id": "f-0-19-users",
+      "evidenceId": "ev-e32d7c4e-2e56-412e-8e25-b2f81bf328e4",
+      "rowIndex": 19,
+      "metric": "users",
+      "value": 304,
+      "label": "2019-07 / lambdaMediaAds / 14天 / 用户数"
+    }
+  ],
+  "explanation": "Completed Live answer used a grounded aggregate fee/revenue ratio instead of a particular channel. Launcher validation is changed to check executed Why, UI output and all fact sources rather than prescribe an LLM headline."
+}

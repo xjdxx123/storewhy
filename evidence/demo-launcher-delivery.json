@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-26T18:12:52.694827+00:00",
+  "pass": true,
+  "command": "npm run demo",
+  "requiresFirstTimeSetup": true,
+  "starts": [
+    "Live API",
+    "built fallback React UI and API/SSE proxy"
+  ],
+  "externalServicesStartedAutomatically": false,
+  "checksPassed": 7,
+  "checksSource": "demo-launcher-verification.json",
+  "testsPassed": 150,
+  "unitSource": "demo-launcher-unit.json",
+  "lint": "pass",
+  "typecheck": "pass",
+  "build": "pass",
+  "review": "Primary-session review; no subagents. Preserves occupied services, sanitizes credentials, forces Live and closes only owned listeners.",
+  "notRun": "Full metric/Why suites: no Agent or SQL changes.",
+  "knownBoundary": "New teammate computer must first configure accessible Zetaris/Nightshift/NVIDIA and register the teaching dataset. Model discovery requires a manual complete Why before recording.",
+  "pushed": false
+}

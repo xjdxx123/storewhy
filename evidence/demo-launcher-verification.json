@@ -1,0 +1,91 @@
+{
+  "at": "2026-10-26T18:10:17.670Z",
+  "pass": true,
+  "kind": "actual_one_command_startup_and_shutdown",
+  "records": [
+    {
+      "name": "missing-private-config",
+      "pass": true,
+      "exitCode": 1
+    },
+    {
+      "name": "invalid-port",
+      "pass": true,
+      "exitCode": 1
+    },
+    {
+      "name": "same-ports",
+      "pass": true,
+      "exitCode": 1
+    },
+    {
+      "name": "occupied-ui-port-preserves-other-process",
+      "pass": true,
+      "exitCode": 1
+    },
+    {
+      "name": "one-command-live-api-ui-and-proxy",
+      "pass": true,
+      "forcedLiveDespiteFixtureDefault": true,
+      "health": {
+        "status": "ok",
+        "apiVersion": "1.4.0",
+        "dataMode": "zetaris",
+        "datasetVersion": "4c26d29934370408"
+      }
+    },
+    {
+      "name": "live-why-from-built-ui",
+      "pass": true,
+      "runId": "e4cdcb56-eb3a-4104-adfe-13fef66adf4d",
+      "status": "completed",
+      "summary": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加1734.6，收入减少600.84。费用增加没有伴随同口径收入增加。",
+      "timing": {
+        "totalMs": 40191,
+        "modelCalls": 3,
+        "repairCalls": 0,
+        "sqlCount": 2,
+        "steps": [
+          {
+            "phase": "intent",
+            "durationMs": 3156,
+            "outcome": "ok"
+          },
+          {
+            "phase": "query",
+            "durationMs": 15712,
+            "outcome": "ok"
+          },
+          {
+            "phase": "explain",
+            "durationMs": 7473,
+            "outcome": "ok",
+            "round": 1
+          },
+          {
+            "phase": "review",
+            "durationMs": 13788,
+            "outcome": "ok",
+            "round": 1
+          },
+          {
+            "phase": "presentation",
+            "durationMs": 15,
+            "outcome": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ctrl-c-closes-both-ports-with-active-run",
+      "pass": true,
+      "exitCode": 0
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  ],
+  "consoleErrorsDuringInvestigation": [],
+  "consoleErrorNote": "The investigation asserted zero browser errors before shutdown. Closing the active SSE/API can produce the recorded transport errors after Ctrl+C."
+}

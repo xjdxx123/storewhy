@@ -6,7 +6,9 @@
 
 在仓库根目录执行 `npm install`。Node.js 使用 22.12 或更新版本。
 
-两个 Terminal 分别运行：
+推荐录屏启动：完成 [新电脑首次配置](recording.md) 后执行 `npm run demo`，同时启动 Live 后端和生产构建的备用 UI；Ctrl+C 同时关闭。
+
+开发时也可使用两个 Terminal 分别运行：
 
 ```sh
 npm run dev:live

@@ -103,3 +103,7 @@ npm run test:live
 独立应用位于 apps/fallback-web，使用现有 SDK/API。150 项既有测试与 lint/typecheck/build 通过；实际 React 页面完成 10 轮 fixture 和 8 轮 Live 流程，Live 60 个图表点逐项核对来源；移动端 390px 无页面横向溢出，无浏览器 console error。生产构建也通过本机预览/代理与明确只读样例检查。
 
 Review 复现并修正折线跨缺失时间桶连线，按日/周/月（含跨年）断线；null/负值/堆叠为另外标注的自制渲染边界检查，不计作 Live 数值核算。保留开发失败记录。代码与证据由主会话 review，验证后本地合并，不 push；未修改 Agent/SQL，未重新执行整套指标或 Why 评测。[启动与边界](fallback-ui.md)、[机器可读结果](../evidence/fallback-ui-verification.json)。
+
+## 2026-10-26 单命令录屏启动
+
+`npm run demo` 在完成首次环境配置后同时提供 Live API 与生产版备用 UI。7 项真实启动/故障/退出检查通过，包含占用端口保护、强制 Live、代理中的完整 Why 和活动调查中 Ctrl+C；150 项既有测试、lint/typecheck/build 通过。记录见 [统一启动验证](../evidence/demo-launcher-verification.json)，首次配置与录制顺序见 [录屏指南](recording.md)。没有修改 Agent/SQL，完整业务评测未重复执行；模型发现仅验证路由，开录前仍需预跑真实 Why。保留首轮过度固定主结论的测试失败材料。

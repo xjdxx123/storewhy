@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-26T18:06:26.330Z",
+  "pass": false,
+  "records": [
+    {
+      "name": "missing-private-config",
+      "pass": true,
+      "exitCode": 1
+    },
+    {
+      "name": "invalid-port",
+      "pass": true,
+      "exitCode": 1
+    },
+    {
+      "name": "same-ports",
+      "pass": true,
+      "exitCode": 1
+    },
+    {
+      "name": "occupied-ui-port-preserves-other-process",
+      "pass": true,
+      "exitCode": 1
+    },
+    {
+      "name": "one-command-live-api-ui-and-proxy",
+      "pass": true,
+      "forcedLiveDespiteFixtureDefault": true,
+      "health": {
+        "status": "ok",
+        "apiVersion": "1.4.0",
+        "dataMode": "zetaris",
+        "datasetVersion": "4c26d29934370408"
+      }
+    }
+  ],
+  "error": "The expression evaluated to a falsy value:\n\n  assert.ok(run.answer?.summary.includes(\"TipTop\"))\n"
+}

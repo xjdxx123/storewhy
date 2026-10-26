@@ -4,11 +4,15 @@
 
 StoreWhy 帮助运营人员检查“为什么费用增加，用户收入却没有同步增长”。它支持指标查询、时期比较、渠道贡献、用户批次、人群比较与解释检查。Investigator 负责调查，Reviewer 独立检查证据并要求补查。数字、SQL、统计口径和查询 ID 可以追溯。模型选择调查路径和经过验证的观测证据，数字及比较语句由后端据此生成。
 
-当前仓库交付 TypeScript 后端与共享 contracts；React UI 由队友负责。见 [前端接入](docs/frontend-integration.md)、[架构](docs/architecture.md)、[实施计划](docs/plans/2026-10-23-growth-investigator-mvp.md)。
+当前仓库交付 TypeScript 后端、共享 contracts 和独立的轻量备用 React UI；队友可继续构建自己的页面。见 [前端接入](docs/frontend-integration.md)、[架构](docs/architecture.md)、[实施计划](docs/plans/2026-10-23-growth-investigator-mvp.md)。
+
+## 录屏启动
+
+已完成本机 Zetaris、Nightshift/NVIDIA 与数据配置后，执行 **`npm run demo`**，同时启动 Live API 与备用 UI，打开 **http://127.0.0.1:5173/**。Ctrl+C 同时关闭两个应用服务。新电脑须先完成一次环境准备，见 [队友录屏指南](docs/recording.md)；Git 不包含原电脑的密钥、平台容器与数据。
 
 ## 本地快速启动
 
-需要 Node.js 22+。以下命令在仓库根目录执行：
+需要 Node.js 22.12+。以下命令在仓库根目录执行：
 
 ```sh
 npm ci
