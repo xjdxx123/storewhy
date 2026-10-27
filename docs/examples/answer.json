@@ -3,7 +3,7 @@
   "status": "limited",
   "context": {
     "conversationId": "fixture-conversation",
-    "investigationId": "19c4ee82-8ac7-4e02-8dcf-9e5faf8c3b06",
+    "investigationId": "10c3cd35-0a63-4b44-8df0-60ca4eabbbd3",
     "datasetVersion": "self-authored-fixture-v1",
     "metricVersion": "procrastinate-v1",
     "revision": 1,
@@ -41,22 +41,22 @@
       ]
     },
     "evidenceIds": [
-      "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
-      "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
+      "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
+      "ev-08187080-e7c9-4801-82f2-204accf91546"
     ],
     "lastQuestion": "",
     "taskKind": "why",
-    "objective": "为什么新用户收入与费用变化不同？"
+    "objective": "Why did new-user revenue and spend move differently?"
   },
   "answer": {
-    "summary": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加24，收入不变0。费用增加没有伴随同口径收入增加。进一步解释仍有证据缺口。",
+    "summary": "TipTop: in 2019-07 vs 2019-06, spend in the first 14 days after the initial visit increased by 24 and revenue changed by 0. The spend increase was not accompanied by a comparable revenue increase. Additional evidence is still needed for a fuller explanation.",
     "explanations": [
       {
         "id": "traffic",
         "kind": "traffic",
-        "claim": "用户规模与收入同向变化",
+        "claim": "User volume and revenue moved in the same direction",
         "status": "contradicted",
-        "text": "整体：2019-07相较2019-06，首访后14天的 首次观测用户数 从8变为8，差额0，变化率0.00%。 整体：2019-07相较2019-06，首访后14天的 收入 从90变为90，差额0，变化率0.00%。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+        "text": "Overall: in 2019-07 vs 2019-06, New users for the first 14 days after the initial visit moved from 8 to 8; difference 0, a 0.00% relative change. Overall: in 2019-07 vs 2019-06, Revenue for the first 14 days after the initial visit moved from 90 to 90; difference 0, a 0.00% relative change. This checks direction only; it does not establish causality or allocate revenue contribution.",
         "factIds": [
           "f-0-0-new_users",
           "f-0-1-new_users",
@@ -64,16 +64,16 @@
           "f-0-1-revenue"
         ],
         "evidenceIds": [
-          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b"
+          "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077"
         ],
         "coverageRefs": []
       },
       {
         "id": "conversion",
         "kind": "conversion",
-        "claim": "购买用户比例与收入同向变化",
+        "claim": "Purchaser rate and revenue moved in the same direction",
         "status": "contradicted",
-        "text": "整体：2019-07相较2019-06，首访后14天的 收入 从90变为90，差额0，变化率0.00%。 整体：2019-07相较2019-06，首访后14天的 购买用户比例 从87.5%变为87.5%，不变0个百分点。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+        "text": "Overall: in 2019-07 vs 2019-06, Revenue for the first 14 days after the initial visit moved from 90 to 90; difference 0, a 0.00% relative change. Overall: in 2019-07 vs 2019-06, Purchaser rate for the first 14 days after the initial visit moved from 87.5% to 87.5%; changed by 0 percentage points. This checks direction only; it does not establish causality or allocate revenue contribution.",
         "factIds": [
           "f-0-0-revenue",
           "f-0-1-revenue",
@@ -81,16 +81,16 @@
           "f-0-1-payer_rate"
         ],
         "evidenceIds": [
-          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b"
+          "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077"
         ],
         "coverageRefs": []
       },
       {
         "id": "purchase_value",
         "kind": "purchase_value",
-        "claim": "每位购买用户收入与总收入同向变化",
+        "claim": "Revenue per purchaser and total revenue moved in the same direction",
         "status": "contradicted",
-        "text": "整体：2019-07相较2019-06，首访后14天的 收入 从90变为90，差额0，变化率0.00%。 整体：2019-07相较2019-06，首访后14天的 每位购买用户收入 从12.857143变为12.857143，差额0，变化率0.00%。这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+        "text": "Overall: in 2019-07 vs 2019-06, Revenue for the first 14 days after the initial visit moved from 90 to 90; difference 0, a 0.00% relative change. Overall: in 2019-07 vs 2019-06, Revenue per purchaser for the first 14 days after the initial visit moved from 12.857143 to 12.857143; difference 0, a 0.00% relative change. This checks direction only; it does not establish causality or allocate revenue contribution.",
         "factIds": [
           "f-0-0-revenue",
           "f-0-1-revenue",
@@ -98,16 +98,16 @@
           "f-0-1-revenue_per_payer"
         ],
         "evidenceIds": [
-          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b"
+          "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077"
         ],
         "coverageRefs": []
       },
       {
         "id": "repeat",
         "kind": "repeat",
-        "claim": "首次与后续购买收入能拆解已观测收入变化",
+        "claim": "First- and repeat-purchase revenue can explain the composition of observed revenue change",
         "status": "not_checked",
-        "text": "尚未执行所需指标与拆分，不能支持或排除该解释。",
+        "text": "The required metrics and breakdown have not been run, so this explanation cannot be supported or ruled out.",
         "factIds": [],
         "evidenceIds": [],
         "coverageRefs": []
@@ -115,9 +115,9 @@
       {
         "id": "spend_efficiency",
         "kind": "spend_efficiency",
-        "claim": "费用增加且收入增长未跟上费用增长",
+        "claim": "Spend increased while revenue growth did not keep pace",
         "status": "supported",
-        "text": "整体：2019-07对比2019-06，首访后14天口径下，费用增加36，收入不变0。费用增加没有伴随同口径收入增加。该判断只核查费用与收入的观测前提。",
+        "text": "Overall: in 2019-07 vs 2019-06, spend in the first 14 days after the initial visit increased by 36 and revenue changed by 0. The spend increase was not accompanied by a comparable revenue increase. This judgment checks only the observed spend and revenue premise.",
         "factIds": [
           "f-0-0-spend",
           "f-0-1-spend",
@@ -125,16 +125,16 @@
           "f-0-1-revenue"
         ],
         "evidenceIds": [
-          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b"
+          "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077"
         ],
         "coverageRefs": []
       },
       {
         "id": "channel_mix",
         "kind": "channel_mix",
-        "claim": "所列渠道的收入变化存在差异",
+        "claim": "Revenue changes differ across the listed channels",
         "status": "contradicted",
-        "text": "2019-07对比2019-06，首访后14天的收入：FaceBoom不变0，其余所列渠道合计不变0，所列渠道合计不变0。",
+        "text": "In 2019-07 vs 2019-06, Revenue for the first 14 days after the initial visit: FaceBoom changed by 0; the other listed channels combined changed by 0; all listed channels combined changed by 0.",
         "factIds": [
           "f-1-0-revenue",
           "f-1-1-revenue",
@@ -142,43 +142,43 @@
           "f-1-3-revenue"
         ],
         "evidenceIds": [
-          "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
+          "ev-08187080-e7c9-4801-82f2-204accf91546"
         ],
         "coverageRefs": []
       },
       {
         "id": "maturity",
         "kind": "maturity",
-        "claim": "请求范围内所有用户均有完整随访",
+        "claim": "Every user in the requested scope has a complete follow-up window",
         "status": "supported",
-        "text": "当前获客批次已保留完整观察窗口；不能把剩余批次的变化归咎于随访不足，也不能推断更长窗口表现。",
+        "text": "The current acquisition cohorts retain a complete observation window. The remaining cohort change cannot be attributed to incomplete follow-up, and longer-window performance cannot be inferred.",
         "factIds": [],
         "evidenceIds": [
-          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
-          "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
+          "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
+          "ev-08187080-e7c9-4801-82f2-204accf91546"
         ],
         "coverageRefs": [
           {
-            "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+            "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
             "period": "2019-06"
           },
           {
-            "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+            "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
             "period": "2019-07"
           },
           {
-            "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+            "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
             "period": "2019-06"
           },
           {
-            "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+            "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
             "period": "2019-07"
           }
         ]
       }
     ],
     "conclusion": {
-      "text": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加24，收入不变0。费用增加没有伴随同口径收入增加。进一步解释仍有证据缺口。",
+      "text": "TipTop: in 2019-07 vs 2019-06, spend in the first 14 days after the initial visit increased by 24 and revenue changed by 0. The spend increase was not accompanied by a comparable revenue increase. Additional evidence is still needed for a fuller explanation.",
       "factIds": [
         "f-1-1-spend",
         "f-1-3-spend",
@@ -188,7 +188,7 @@
     },
     "keyEvidence": [
       {
-        "text": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加24，收入不变0。费用增加没有伴随同口径收入增加。",
+        "text": "TipTop: in 2019-07 vs 2019-06, spend in the first 14 days after the initial visit increased by 24 and revenue changed by 0. The spend increase was not accompanied by a comparable revenue increase.",
         "factIds": [
           "f-1-1-spend",
           "f-1-3-spend",
@@ -197,7 +197,7 @@
         ]
       },
       {
-        "text": "2019-07对比2019-06，首访后14天的记录渠道费用：TipTop增加24，其余所列渠道合计增加12，所列渠道合计增加36。",
+        "text": "In 2019-07 vs 2019-06, Recorded acquisition spend for the first 14 days after the initial visit: TipTop increased by 24; the other listed channels combined increased by 12; all listed channels combined increased by 36.",
         "factIds": [
           "f-1-0-spend",
           "f-1-1-spend",
@@ -206,7 +206,7 @@
         ]
       },
       {
-        "text": "2019-07对比2019-06，首访后14天的收入：FaceBoom不变0，其余所列渠道合计不变0，所列渠道合计不变0。",
+        "text": "In 2019-07 vs 2019-06, Revenue for the first 14 days after the initial visit: FaceBoom changed by 0; the other listed channels combined changed by 0; all listed channels combined changed by 0.",
         "factIds": [
           "f-1-0-revenue",
           "f-1-1-revenue",
@@ -218,9 +218,9 @@
     "followups": [
       {
         "id": "focus-channel",
-        "label": "核查 TipTop 的付费表现",
-        "message": "只看TipTop，进一步比较购买用户比例和每位购买用户收入？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
-        "reason": "该渠道出现在结论证据中，可继续核查其付费表现。",
+        "label": "Check TipTop purchaser performance",
+        "message": "Focus on TipTop and compare purchaser rate with revenue per purchaser? Period: 2019-06-01 to 2019-07-01 (end exclusive) vs 2019-07-01 to 2019-08-01 (end exclusive); first 14 days after the initial visit; paid-channel users; Channel=TipTop.",
+        "reason": "This channel appears in the conclusion evidence and can be examined further.",
         "taskKind": "query",
         "patch": {
           "mode": "cohort",
@@ -260,21 +260,21 @@
         },
         "basedOn": {
           "conversationId": "fixture-conversation",
-          "investigationId": "19c4ee82-8ac7-4e02-8dcf-9e5faf8c3b06",
+          "investigationId": "10c3cd35-0a63-4b44-8df0-60ca4eabbbd3",
           "datasetVersion": "self-authored-fixture-v1",
           "metricVersion": "procrastinate-v1",
           "revision": 1
         },
         "evidenceIds": [
-          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
-          "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
+          "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
+          "ev-08187080-e7c9-4801-82f2-204accf91546"
         ]
       },
       {
         "id": "purchase-composition",
-        "label": "拆分首次与后续购买收入",
-        "message": "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户。",
-        "reason": "尚未在当前范围完成首次与后续购买收入的拆分。",
+        "label": "Split first and repeat revenue",
+        "message": "Compare whether the revenue change came from first or repeat purchases? Period: 2019-06-01 to 2019-07-01 (end exclusive) vs 2019-07-01 to 2019-08-01 (end exclusive); first 14 days after the initial visit; paid-channel users.",
+        "reason": "First- and repeat-purchase revenue have not yet been separated for this scope.",
         "taskKind": "query",
         "patch": {
           "mode": "cohort",
@@ -314,21 +314,21 @@
         },
         "basedOn": {
           "conversationId": "fixture-conversation",
-          "investigationId": "19c4ee82-8ac7-4e02-8dcf-9e5faf8c3b06",
+          "investigationId": "10c3cd35-0a63-4b44-8df0-60ca4eabbbd3",
           "datasetVersion": "self-authored-fixture-v1",
           "metricVersion": "procrastinate-v1",
           "revision": 1
         },
         "evidenceIds": [
-          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
-          "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
+          "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
+          "ev-08187080-e7c9-4801-82f2-204accf91546"
         ]
       },
       {
         "id": "compare-window",
-        "label": "改用首访后 7 天核查",
-        "message": "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户。",
-        "reason": "用另一种完整观察窗口检验结论是否依赖观察时长。",
+        "label": "Check a 7-day window",
+        "message": "Use the first 7 days after the initial visit to check these metrics? Period: 2019-06-01 to 2019-07-01 (end exclusive) vs 2019-07-01 to 2019-08-01 (end exclusive); first 7 days after the initial visit; paid-channel users.",
+        "reason": "Use another complete observation window to test whether the conclusion depends on window length.",
         "taskKind": "followup",
         "patch": {
           "mode": "cohort",
@@ -365,406 +365,406 @@
         },
         "basedOn": {
           "conversationId": "fixture-conversation",
-          "investigationId": "19c4ee82-8ac7-4e02-8dcf-9e5faf8c3b06",
+          "investigationId": "10c3cd35-0a63-4b44-8df0-60ca4eabbbd3",
           "datasetVersion": "self-authored-fixture-v1",
           "metricVersion": "procrastinate-v1",
           "revision": 1
         },
         "evidenceIds": [
-          "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
-          "ev-8d01fca2-18fd-4d07-86c3-4008161be038"
+          "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
+          "ev-08187080-e7c9-4801-82f2-204accf91546"
         ]
       }
     ],
     "facts": [
       {
         "id": "f-0-0-spend",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 0,
         "metric": "spend",
         "value": 576,
-        "label": "2019-06 / 整体 / 14天 / 记录渠道费用"
+        "label": "2019-06 / Overall / first 14 days / Recorded acquisition spend"
       },
       {
         "id": "f-0-0-new_users",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 0,
         "metric": "new_users",
         "value": 8,
-        "label": "2019-06 / 整体 / 14天 / 首次观测用户数"
+        "label": "2019-06 / Overall / first 14 days / New users"
       },
       {
         "id": "f-0-0-payers",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 0,
         "metric": "payers",
         "value": 7,
-        "label": "2019-06 / 整体 / 14天 / 购买用户数"
+        "label": "2019-06 / Overall / first 14 days / Purchasers"
       },
       {
         "id": "f-0-0-revenue",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 0,
         "metric": "revenue",
         "value": 90,
-        "label": "2019-06 / 整体 / 14天 / 收入"
+        "label": "2019-06 / Overall / first 14 days / Revenue"
       },
       {
         "id": "f-0-0-payer_rate",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 0,
         "metric": "payer_rate",
         "value": 0.875,
-        "label": "2019-06 / 整体 / 14天 / 购买用户比例"
+        "label": "2019-06 / Overall / first 14 days / Purchaser rate"
       },
       {
         "id": "f-0-0-revenue_per_payer",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 0,
         "metric": "revenue_per_payer",
         "value": 12.857143,
-        "label": "2019-06 / 整体 / 14天 / 每位购买用户收入"
+        "label": "2019-06 / Overall / first 14 days / Revenue per purchaser"
       },
       {
         "id": "f-0-0-cost_per_new_user",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 0,
         "metric": "cost_per_new_user",
         "value": 72,
-        "label": "2019-06 / 整体 / 14天 / 每位新用户记录费用"
+        "label": "2019-06 / Overall / first 14 days / Recorded spend per new user"
       },
       {
         "id": "f-0-0-revenue_to_spend",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 0,
         "metric": "revenue_to_spend",
         "value": 0.15625,
-        "label": "2019-06 / 整体 / 14天 / 收入与记录费用比"
+        "label": "2019-06 / Overall / first 14 days / Revenue / recorded spend"
       },
       {
         "id": "f-0-1-spend",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 1,
         "metric": "spend",
         "value": 612,
-        "label": "2019-07 / 整体 / 14天 / 记录渠道费用"
+        "label": "2019-07 / Overall / first 14 days / Recorded acquisition spend"
       },
       {
         "id": "f-0-1-new_users",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 1,
         "metric": "new_users",
         "value": 8,
-        "label": "2019-07 / 整体 / 14天 / 首次观测用户数"
+        "label": "2019-07 / Overall / first 14 days / New users"
       },
       {
         "id": "f-0-1-payers",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 1,
         "metric": "payers",
         "value": 7,
-        "label": "2019-07 / 整体 / 14天 / 购买用户数"
+        "label": "2019-07 / Overall / first 14 days / Purchasers"
       },
       {
         "id": "f-0-1-revenue",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 1,
         "metric": "revenue",
         "value": 90,
-        "label": "2019-07 / 整体 / 14天 / 收入"
+        "label": "2019-07 / Overall / first 14 days / Revenue"
       },
       {
         "id": "f-0-1-payer_rate",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 1,
         "metric": "payer_rate",
         "value": 0.875,
-        "label": "2019-07 / 整体 / 14天 / 购买用户比例"
+        "label": "2019-07 / Overall / first 14 days / Purchaser rate"
       },
       {
         "id": "f-0-1-revenue_per_payer",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 1,
         "metric": "revenue_per_payer",
         "value": 12.857143,
-        "label": "2019-07 / 整体 / 14天 / 每位购买用户收入"
+        "label": "2019-07 / Overall / first 14 days / Revenue per purchaser"
       },
       {
         "id": "f-0-1-cost_per_new_user",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 1,
         "metric": "cost_per_new_user",
         "value": 76.5,
-        "label": "2019-07 / 整体 / 14天 / 每位新用户记录费用"
+        "label": "2019-07 / Overall / first 14 days / Recorded spend per new user"
       },
       {
         "id": "f-0-1-revenue_to_spend",
-        "evidenceId": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+        "evidenceId": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
         "rowIndex": 1,
         "metric": "revenue_to_spend",
         "value": 0.147059,
-        "label": "2019-07 / 整体 / 14天 / 收入与记录费用比"
+        "label": "2019-07 / Overall / first 14 days / Revenue / recorded spend"
       },
       {
         "id": "f-1-0-spend",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 0,
         "metric": "spend",
         "value": 192,
-        "label": "2019-06 / FaceBoom / 14天 / 记录渠道费用"
+        "label": "2019-06 / FaceBoom / first 14 days / Recorded acquisition spend"
       },
       {
         "id": "f-1-0-new_users",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 0,
         "metric": "new_users",
         "value": 4,
-        "label": "2019-06 / FaceBoom / 14天 / 首次观测用户数"
+        "label": "2019-06 / FaceBoom / first 14 days / New users"
       },
       {
         "id": "f-1-0-payers",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 0,
         "metric": "payers",
         "value": 4,
-        "label": "2019-06 / FaceBoom / 14天 / 购买用户数"
+        "label": "2019-06 / FaceBoom / first 14 days / Purchasers"
       },
       {
         "id": "f-1-0-revenue",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 0,
         "metric": "revenue",
         "value": 37.5,
-        "label": "2019-06 / FaceBoom / 14天 / 收入"
+        "label": "2019-06 / FaceBoom / first 14 days / Revenue"
       },
       {
         "id": "f-1-0-payer_rate",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 0,
         "metric": "payer_rate",
         "value": 1,
-        "label": "2019-06 / FaceBoom / 14天 / 购买用户比例"
+        "label": "2019-06 / FaceBoom / first 14 days / Purchaser rate"
       },
       {
         "id": "f-1-0-revenue_per_payer",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 0,
         "metric": "revenue_per_payer",
         "value": 9.375,
-        "label": "2019-06 / FaceBoom / 14天 / 每位购买用户收入"
+        "label": "2019-06 / FaceBoom / first 14 days / Revenue per purchaser"
       },
       {
         "id": "f-1-0-cost_per_new_user",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 0,
         "metric": "cost_per_new_user",
         "value": 48,
-        "label": "2019-06 / FaceBoom / 14天 / 每位新用户记录费用"
+        "label": "2019-06 / FaceBoom / first 14 days / Recorded spend per new user"
       },
       {
         "id": "f-1-0-revenue_to_spend",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 0,
         "metric": "revenue_to_spend",
         "value": 0.195313,
-        "label": "2019-06 / FaceBoom / 14天 / 收入与记录费用比"
+        "label": "2019-06 / FaceBoom / first 14 days / Revenue / recorded spend"
       },
       {
         "id": "f-1-1-spend",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 1,
         "metric": "spend",
         "value": 384,
-        "label": "2019-06 / TipTop / 14天 / 记录渠道费用"
+        "label": "2019-06 / TipTop / first 14 days / Recorded acquisition spend"
       },
       {
         "id": "f-1-1-new_users",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 1,
         "metric": "new_users",
         "value": 4,
-        "label": "2019-06 / TipTop / 14天 / 首次观测用户数"
+        "label": "2019-06 / TipTop / first 14 days / New users"
       },
       {
         "id": "f-1-1-payers",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 1,
         "metric": "payers",
         "value": 3,
-        "label": "2019-06 / TipTop / 14天 / 购买用户数"
+        "label": "2019-06 / TipTop / first 14 days / Purchasers"
       },
       {
         "id": "f-1-1-revenue",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 1,
         "metric": "revenue",
         "value": 52.5,
-        "label": "2019-06 / TipTop / 14天 / 收入"
+        "label": "2019-06 / TipTop / first 14 days / Revenue"
       },
       {
         "id": "f-1-1-payer_rate",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 1,
         "metric": "payer_rate",
         "value": 0.75,
-        "label": "2019-06 / TipTop / 14天 / 购买用户比例"
+        "label": "2019-06 / TipTop / first 14 days / Purchaser rate"
       },
       {
         "id": "f-1-1-revenue_per_payer",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 1,
         "metric": "revenue_per_payer",
         "value": 17.5,
-        "label": "2019-06 / TipTop / 14天 / 每位购买用户收入"
+        "label": "2019-06 / TipTop / first 14 days / Revenue per purchaser"
       },
       {
         "id": "f-1-1-cost_per_new_user",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 1,
         "metric": "cost_per_new_user",
         "value": 96,
-        "label": "2019-06 / TipTop / 14天 / 每位新用户记录费用"
+        "label": "2019-06 / TipTop / first 14 days / Recorded spend per new user"
       },
       {
         "id": "f-1-1-revenue_to_spend",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 1,
         "metric": "revenue_to_spend",
         "value": 0.136719,
-        "label": "2019-06 / TipTop / 14天 / 收入与记录费用比"
+        "label": "2019-06 / TipTop / first 14 days / Revenue / recorded spend"
       },
       {
         "id": "f-1-2-spend",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 2,
         "metric": "spend",
         "value": 204,
-        "label": "2019-07 / FaceBoom / 14天 / 记录渠道费用"
+        "label": "2019-07 / FaceBoom / first 14 days / Recorded acquisition spend"
       },
       {
         "id": "f-1-2-new_users",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 2,
         "metric": "new_users",
         "value": 4,
-        "label": "2019-07 / FaceBoom / 14天 / 首次观测用户数"
+        "label": "2019-07 / FaceBoom / first 14 days / New users"
       },
       {
         "id": "f-1-2-payers",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 2,
         "metric": "payers",
         "value": 4,
-        "label": "2019-07 / FaceBoom / 14天 / 购买用户数"
+        "label": "2019-07 / FaceBoom / first 14 days / Purchasers"
       },
       {
         "id": "f-1-2-revenue",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 2,
         "metric": "revenue",
         "value": 37.5,
-        "label": "2019-07 / FaceBoom / 14天 / 收入"
+        "label": "2019-07 / FaceBoom / first 14 days / Revenue"
       },
       {
         "id": "f-1-2-payer_rate",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 2,
         "metric": "payer_rate",
         "value": 1,
-        "label": "2019-07 / FaceBoom / 14天 / 购买用户比例"
+        "label": "2019-07 / FaceBoom / first 14 days / Purchaser rate"
       },
       {
         "id": "f-1-2-revenue_per_payer",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 2,
         "metric": "revenue_per_payer",
         "value": 9.375,
-        "label": "2019-07 / FaceBoom / 14天 / 每位购买用户收入"
+        "label": "2019-07 / FaceBoom / first 14 days / Revenue per purchaser"
       },
       {
         "id": "f-1-2-cost_per_new_user",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 2,
         "metric": "cost_per_new_user",
         "value": 51,
-        "label": "2019-07 / FaceBoom / 14天 / 每位新用户记录费用"
+        "label": "2019-07 / FaceBoom / first 14 days / Recorded spend per new user"
       },
       {
         "id": "f-1-2-revenue_to_spend",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 2,
         "metric": "revenue_to_spend",
         "value": 0.183824,
-        "label": "2019-07 / FaceBoom / 14天 / 收入与记录费用比"
+        "label": "2019-07 / FaceBoom / first 14 days / Revenue / recorded spend"
       },
       {
         "id": "f-1-3-spend",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 3,
         "metric": "spend",
         "value": 408,
-        "label": "2019-07 / TipTop / 14天 / 记录渠道费用"
+        "label": "2019-07 / TipTop / first 14 days / Recorded acquisition spend"
       },
       {
         "id": "f-1-3-new_users",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 3,
         "metric": "new_users",
         "value": 4,
-        "label": "2019-07 / TipTop / 14天 / 首次观测用户数"
+        "label": "2019-07 / TipTop / first 14 days / New users"
       },
       {
         "id": "f-1-3-payers",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 3,
         "metric": "payers",
         "value": 3,
-        "label": "2019-07 / TipTop / 14天 / 购买用户数"
+        "label": "2019-07 / TipTop / first 14 days / Purchasers"
       },
       {
         "id": "f-1-3-revenue",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 3,
         "metric": "revenue",
         "value": 52.5,
-        "label": "2019-07 / TipTop / 14天 / 收入"
+        "label": "2019-07 / TipTop / first 14 days / Revenue"
       },
       {
         "id": "f-1-3-payer_rate",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 3,
         "metric": "payer_rate",
         "value": 0.75,
-        "label": "2019-07 / TipTop / 14天 / 购买用户比例"
+        "label": "2019-07 / TipTop / first 14 days / Purchaser rate"
       },
       {
         "id": "f-1-3-revenue_per_payer",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 3,
         "metric": "revenue_per_payer",
         "value": 17.5,
-        "label": "2019-07 / TipTop / 14天 / 每位购买用户收入"
+        "label": "2019-07 / TipTop / first 14 days / Revenue per purchaser"
       },
       {
         "id": "f-1-3-cost_per_new_user",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 3,
         "metric": "cost_per_new_user",
         "value": 102,
-        "label": "2019-07 / TipTop / 14天 / 每位新用户记录费用"
+        "label": "2019-07 / TipTop / first 14 days / Recorded spend per new user"
       },
       {
         "id": "f-1-3-revenue_to_spend",
-        "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+        "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
         "rowIndex": 3,
         "metric": "revenue_to_spend",
         "value": 0.128676,
-        "label": "2019-07 / TipTop / 14天 / 收入与记录费用比"
+        "label": "2019-07 / TipTop / first 14 days / Revenue / recorded spend"
       }
     ],
     "findings": [
       {
-        "text": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加24，收入不变0。费用增加没有伴随同口径收入增加。",
+        "text": "TipTop: in 2019-07 vs 2019-06, spend in the first 14 days after the initial visit increased by 24 and revenue changed by 0. The spend increase was not accompanied by a comparable revenue increase.",
         "factIds": [
           "f-1-1-spend",
           "f-1-3-spend",
@@ -773,7 +773,7 @@
         ]
       },
       {
-        "text": "2019-07对比2019-06，首访后14天的记录渠道费用：TipTop增加24，其余所列渠道合计增加12，所列渠道合计增加36。",
+        "text": "In 2019-07 vs 2019-06, Recorded acquisition spend for the first 14 days after the initial visit: TipTop increased by 24; the other listed channels combined increased by 12; all listed channels combined increased by 36.",
         "factIds": [
           "f-1-0-spend",
           "f-1-1-spend",
@@ -782,7 +782,7 @@
         ]
       },
       {
-        "text": "2019-07对比2019-06，首访后14天的收入：FaceBoom不变0，其余所列渠道合计不变0，所列渠道合计不变0。",
+        "text": "In 2019-07 vs 2019-06, Revenue for the first 14 days after the initial visit: FaceBoom changed by 0; the other listed channels combined changed by 0; all listed channels combined changed by 0.",
         "factIds": [
           "f-1-0-revenue",
           "f-1-1-revenue",
@@ -792,47 +792,47 @@
       }
     ],
     "checkedExplanations": [
-      "首访后14天，整体已核查：记录渠道费用、首次观测用户数、购买用户数、收入、购买用户比例、每位购买用户收入、每位新用户记录费用、收入与记录费用比。",
-      "首访后14天，按渠道已核查：记录渠道费用、首次观测用户数、购买用户数、收入、购买用户比例、每位购买用户收入、每位新用户记录费用、收入与记录费用比。"
+      "First 14 days after the initial visit; overall; checked: Recorded acquisition spend, New users, Purchasers, Revenue, Purchaser rate, Revenue per purchaser, Recorded spend per new user, Revenue / recorded spend.",
+      "First 14 days after the initial visit; grouped by channel; checked: Recorded acquisition spend, New users, Purchasers, Revenue, Purchaser rate, Revenue per purchaser, Recorded spend per new user, Revenue / recorded spend."
     ],
     "limitations": [
-      "进一步解释尚未完全通过审查，当前只确认已查询到的观测变化。",
-      "尚未检查：首次与后续购买收入能拆解已观测收入变化。这些解释尚未排除。",
-      "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
-      "金额币种与时区未注明，沿用原始时间与样例金额单位",
-      "没有广告曝光、点击、预算、素材或真实广告增量",
-      "没有商品、结账步骤、退款或利润",
-      "费用只有渠道和日期粒度；无法计算设备或国家广告费用",
-      "订单没有 session ID；渠道、设备、国家使用首次观测访问归属",
-      "organic 未提供费用，费用缺失不补零"
+      "The fuller explanation has not passed review; only the queried observed changes are confirmed.",
+      "Not checked: First- and repeat-purchase revenue can explain the composition of observed revenue change. These explanations have not been ruled out.",
+      "Channel amount changes are additive. Relationships among user volume, purchaser rate, and revenue describe observed composition, not causal advertising contribution.",
+      "Currency and time zone are unspecified; source timestamps and sample amount units are preserved",
+      "No ad impressions, clicks, budgets, creative data, or true advertising lift are available",
+      "No product, checkout-step, refund, or profit data are available",
+      "Spend is available only by channel and date, so device- or country-level ad spend cannot be calculated",
+      "Orders have no session ID; channel, device, and country use first-observed-session attribution",
+      "Organic spend is unavailable; missing spend is not replaced with zero"
     ],
     "nextSteps": [
-      "只看TipTop，进一步比较购买用户比例和每位购买用户收入？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户；渠道=TipTop。",
-      "比较收入变化来自首次购买还是后续购买？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后14天；付费渠道用户。",
-      "将观察窗口改成首访后7天，核查这些指标的变化？时期：2019-06-01至2019-07-01（结束日不含）与2019-07-01至2019-08-01（结束日不含）；首访后7天；付费渠道用户。"
+      "Focus on TipTop and compare purchaser rate with revenue per purchaser? Period: 2019-06-01 to 2019-07-01 (end exclusive) vs 2019-07-01 to 2019-08-01 (end exclusive); first 14 days after the initial visit; paid-channel users; Channel=TipTop.",
+      "Compare whether the revenue change came from first or repeat purchases? Period: 2019-06-01 to 2019-07-01 (end exclusive) vs 2019-07-01 to 2019-08-01 (end exclusive); first 14 days after the initial visit; paid-channel users.",
+      "Use the first 7 days after the initial visit to check these metrics? Period: 2019-06-01 to 2019-07-01 (end exclusive) vs 2019-07-01 to 2019-08-01 (end exclusive); first 7 days after the initial visit; paid-channel users."
     ],
     "charts": [
       {
-        "id": "chart-ev-8d01fca2-18fd-4d07-86c3-4008161be038-bar-spend",
+        "id": "chart-ev-08187080-e7c9-4801-82f2-204accf91546-bar-spend",
         "version": "1.0.0",
         "type": "bar",
-        "title": "首访后14天 · 记录渠道费用",
+        "title": "First 14 days · Recorded acquisition spend",
         "xAxis": {
           "label": "channel",
           "kind": "category"
         },
         "yAxis": {
-          "label": "样例金额（币种未注明）",
+          "label": "Sample amount (currency unspecified)",
           "unit": "sample_amount",
           "zeroBaseline": true
         },
         "missingValues": "gap",
         "source": {
-          "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+          "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
           "datasetVersion": "self-authored-fixture-v1",
           "metricVersion": "procrastinate-v1",
           "backend": "fixture",
-          "createdAt": "2026-10-25T22:44:31.837Z",
+          "createdAt": "2026-10-27T03:28:46.839Z",
           "spec": {
             "mode": "cohort",
             "periods": [
@@ -887,14 +887,14 @@
             }
           ],
           "definitions": {
-            "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
-            "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
-            "payers": "时期或观察窗口内至少购买一次的不同用户数",
-            "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
-            "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
-            "revenue_per_payer": "收入 / 购买用户数",
-            "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
-            "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+            "spend": "Recorded spend for the selected channels and dates, in an unspecified currency; it is not allocated by device or country",
+            "new_users": "Users whose first visit in the snapshot falls within the selected acquisition dates; this is not historical registration",
+            "payers": "Distinct users with at least one purchase in the period or window",
+            "revenue": "Purchase revenue in a calendar period, or within H days after first visit; the two modes are calculated separately",
+            "payer_rate": "Purchasers / current user denominator; in cohort mode the denominator is mature first-observed users",
+            "revenue_per_payer": "Revenue / purchasers",
+            "cost_per_new_user": "Channel spend on matching acquisition dates / first-observed users; not experimental acquisition cost",
+            "revenue_to_spend": "Observed attributed revenue / channel spend on matching dates; not profit or causal lift"
           }
         },
         "series": [
@@ -913,7 +913,7 @@
                 },
                 "value": 192,
                 "source": {
-                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+                  "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
                   "rowIndex": 0,
                   "metric": "spend"
                 }
@@ -927,7 +927,7 @@
                 },
                 "value": 384,
                 "source": {
-                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+                  "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
                   "rowIndex": 1,
                   "metric": "spend"
                 }
@@ -949,7 +949,7 @@
                 },
                 "value": 204,
                 "source": {
-                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+                  "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
                   "rowIndex": 2,
                   "metric": "spend"
                 }
@@ -963,7 +963,7 @@
                 },
                 "value": 408,
                 "source": {
-                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+                  "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
                   "rowIndex": 3,
                   "metric": "spend"
                 }
@@ -972,33 +972,33 @@
           }
         ],
         "notes": [
-          "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-          "时间为源数据原始时间，金额单位未标注。",
-          "图表为查询结果的观测展示，解释与审查状态见本轮回答。",
-          "缺失值不补零；趋势中不连续的时间桶须断线。"
+          "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+          "Times use the source data as provided; the amount unit is unspecified.",
+          "The chart visualizes observed query results; see this answer for interpretation and review status.",
+          "Missing values are not replaced with zero; discontinuous trend buckets remain disconnected."
         ]
       },
       {
-        "id": "chart-ev-8d01fca2-18fd-4d07-86c3-4008161be038-bar-revenue",
+        "id": "chart-ev-08187080-e7c9-4801-82f2-204accf91546-bar-revenue",
         "version": "1.0.0",
         "type": "bar",
-        "title": "首访后14天 · 收入",
+        "title": "First 14 days · Revenue",
         "xAxis": {
           "label": "channel",
           "kind": "category"
         },
         "yAxis": {
-          "label": "样例金额（币种未注明）",
+          "label": "Sample amount (currency unspecified)",
           "unit": "sample_amount",
           "zeroBaseline": true
         },
         "missingValues": "gap",
         "source": {
-          "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+          "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
           "datasetVersion": "self-authored-fixture-v1",
           "metricVersion": "procrastinate-v1",
           "backend": "fixture",
-          "createdAt": "2026-10-25T22:44:31.837Z",
+          "createdAt": "2026-10-27T03:28:46.839Z",
           "spec": {
             "mode": "cohort",
             "periods": [
@@ -1053,14 +1053,14 @@
             }
           ],
           "definitions": {
-            "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
-            "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
-            "payers": "时期或观察窗口内至少购买一次的不同用户数",
-            "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
-            "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
-            "revenue_per_payer": "收入 / 购买用户数",
-            "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
-            "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+            "spend": "Recorded spend for the selected channels and dates, in an unspecified currency; it is not allocated by device or country",
+            "new_users": "Users whose first visit in the snapshot falls within the selected acquisition dates; this is not historical registration",
+            "payers": "Distinct users with at least one purchase in the period or window",
+            "revenue": "Purchase revenue in a calendar period, or within H days after first visit; the two modes are calculated separately",
+            "payer_rate": "Purchasers / current user denominator; in cohort mode the denominator is mature first-observed users",
+            "revenue_per_payer": "Revenue / purchasers",
+            "cost_per_new_user": "Channel spend on matching acquisition dates / first-observed users; not experimental acquisition cost",
+            "revenue_to_spend": "Observed attributed revenue / channel spend on matching dates; not profit or causal lift"
           }
         },
         "series": [
@@ -1079,7 +1079,7 @@
                 },
                 "value": 37.5,
                 "source": {
-                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+                  "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
                   "rowIndex": 0,
                   "metric": "revenue"
                 }
@@ -1093,7 +1093,7 @@
                 },
                 "value": 52.5,
                 "source": {
-                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+                  "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
                   "rowIndex": 1,
                   "metric": "revenue"
                 }
@@ -1115,7 +1115,7 @@
                 },
                 "value": 37.5,
                 "source": {
-                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+                  "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
                   "rowIndex": 2,
                   "metric": "revenue"
                 }
@@ -1129,7 +1129,7 @@
                 },
                 "value": 52.5,
                 "source": {
-                  "evidenceId": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+                  "evidenceId": "ev-08187080-e7c9-4801-82f2-204accf91546",
                   "rowIndex": 3,
                   "metric": "revenue"
                 }
@@ -1138,10 +1138,10 @@
           }
         ],
         "notes": [
-          "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-          "时间为源数据原始时间，金额单位未标注。",
-          "图表为查询结果的观测展示，解释与审查状态见本轮回答。",
-          "缺失值不补零；趋势中不连续的时间桶须断线。"
+          "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+          "Times use the source data as provided; the amount unit is unspecified.",
+          "The chart visualizes observed query results; see this answer for interpretation and review status.",
+          "Missing values are not replaced with zero; discontinuous trend buckets remain disconnected."
         ]
       }
     ],
@@ -1149,7 +1149,7 @@
   },
   "evidence": [
     {
-      "id": "ev-474fbf83-f775-41b9-97bb-a8347f1e7e6b",
+      "id": "ev-7913d9d4-ffb9-49bd-b57d-207db1faf077",
       "datasetVersion": "self-authored-fixture-v1",
       "metricVersion": "procrastinate-v1",
       "spec": {
@@ -1190,8 +1190,8 @@
         "WITH population AS (SELECT u.* FROM public.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN public.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN public.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM public.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201"
       ],
       "queryIds": [
-        "fixture-c7eecec2-d451-4a59-bc4e-4a0ab29de3cd",
-        "fixture-c93266e0-d787-4b68-be36-398022958101"
+        "fixture-f43bdef6-89c4-4b50-8c2d-69808b1675ac",
+        "fixture-6a07ddc8-7ece-4a6c-b971-51c8c7791cb4"
       ],
       "comparisons": [
         {
@@ -1309,26 +1309,26 @@
         }
       ],
       "definitions": {
-        "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
-        "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
-        "payers": "时期或观察窗口内至少购买一次的不同用户数",
-        "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
-        "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
-        "revenue_per_payer": "收入 / 购买用户数",
-        "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
-        "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+        "spend": "Recorded spend for the selected channels and dates, in an unspecified currency; it is not allocated by device or country",
+        "new_users": "Users whose first visit in the snapshot falls within the selected acquisition dates; this is not historical registration",
+        "payers": "Distinct users with at least one purchase in the period or window",
+        "revenue": "Purchase revenue in a calendar period, or within H days after first visit; the two modes are calculated separately",
+        "payer_rate": "Purchasers / current user denominator; in cohort mode the denominator is mature first-observed users",
+        "revenue_per_payer": "Revenue / purchasers",
+        "cost_per_new_user": "Channel spend on matching acquisition dates / first-observed users; not experimental acquisition cost",
+        "revenue_to_spend": "Observed attributed revenue / channel spend on matching dates; not profit or causal lift"
       },
       "notes": [
-        "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-        "时间为源数据原始时间，金额单位未标注。",
+        "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+        "Times use the source data as provided; the amount unit is unspecified.",
         "spec:747c144ebed5ae2c69637bbd25e2603238b3c609872cab7ab1a4ad9455adf14a"
       ],
-      "createdAt": "2026-10-25T22:44:31.833Z",
-      "durationMs": 9,
+      "createdAt": "2026-10-27T03:28:46.823Z",
+      "durationMs": 42,
       "truncated": false
     },
     {
-      "id": "ev-8d01fca2-18fd-4d07-86c3-4008161be038",
+      "id": "ev-08187080-e7c9-4801-82f2-204accf91546",
       "datasetVersion": "self-authored-fixture-v1",
       "metricVersion": "procrastinate-v1",
       "spec": {
@@ -1371,8 +1371,8 @@
         "WITH population AS (SELECT u.* FROM public.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,u.channel AS channel, '__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN public.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen,u.channel),\nuser_agg AS (SELECT channel, segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY channel, segment),\nsession_agg AS (SELECT u.channel AS channel, '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN public.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.channel),\ncost_agg AS (SELECT c.channel,'__all' AS segment,SUM(c.amount) AS spend_amount FROM public.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) GROUP BY c.channel),\nkeys AS (SELECT channel, segment FROM user_agg UNION SELECT channel, segment FROM session_agg UNION SELECT channel, segment FROM cost_agg) SELECT k.channel, k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.channel=u.channel AND k.segment=u.segment LEFT JOIN session_agg s ON k.channel=s.channel AND k.segment=s.segment LEFT JOIN cost_agg c ON k.channel=c.channel AND k.segment=c.segment ORDER BY k.channel, k.segment LIMIT 201"
       ],
       "queryIds": [
-        "fixture-93856029-282e-46be-89c2-63bee5047ca1",
-        "fixture-e4a114f9-c42c-4e9c-9027-afff9ed842a6"
+        "fixture-94735aee-f7ae-49a1-9c95-17fc4b627c41",
+        "fixture-ea248023-c086-453b-a953-a3c78732ef5a"
       ],
       "comparisons": [
         {
@@ -1622,22 +1622,22 @@
         }
       ],
       "definitions": {
-        "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
-        "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
-        "payers": "时期或观察窗口内至少购买一次的不同用户数",
-        "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
-        "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
-        "revenue_per_payer": "收入 / 购买用户数",
-        "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
-        "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+        "spend": "Recorded spend for the selected channels and dates, in an unspecified currency; it is not allocated by device or country",
+        "new_users": "Users whose first visit in the snapshot falls within the selected acquisition dates; this is not historical registration",
+        "payers": "Distinct users with at least one purchase in the period or window",
+        "revenue": "Purchase revenue in a calendar period, or within H days after first visit; the two modes are calculated separately",
+        "payer_rate": "Purchasers / current user denominator; in cohort mode the denominator is mature first-observed users",
+        "revenue_per_payer": "Revenue / purchasers",
+        "cost_per_new_user": "Channel spend on matching acquisition dates / first-observed users; not experimental acquisition cost",
+        "revenue_to_spend": "Observed attributed revenue / channel spend on matching dates; not profit or causal lift"
       },
       "notes": [
-        "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-        "时间为源数据原始时间，金额单位未标注。",
+        "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+        "Times use the source data as provided; the amount unit is unspecified.",
         "spec:f18ac8b5992b58d88e7418b2b4d38906cd24b6928968f51df7804acdec874c89"
       ],
-      "createdAt": "2026-10-25T22:44:31.837Z",
-      "durationMs": 4,
+      "createdAt": "2026-10-27T03:28:46.839Z",
+      "durationMs": 16,
       "truncated": false
     }
   ]

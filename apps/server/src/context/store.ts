@@ -24,7 +24,7 @@ export class DiskStore {
   }
   private file(kind: string, id: string) {
     if (!/^[a-z0-9-]{1,100}$/i.test(id))
-      throw new AppError("INVALID_ID", "无效 ID");
+      throw new AppError("INVALID_ID", "Invalid ID");
     const dir = path.join(this.dir, kind);
     fs.mkdirSync(dir, { recursive: true });
     return path.join(dir, id + ".json");
@@ -41,8 +41,12 @@ export class DiskStore {
     } catch (error) {
       if (error instanceof AppError) throw error;
       if ((error as NodeJS.ErrnoException).code === "ENOENT")
-        throw new AppError("NOT_FOUND", "记录不存在", 404);
-      throw new AppError("STATE_CORRUPT", "本地记录损坏，未自动清空", 500);
+        throw new AppError("NOT_FOUND", "The record does not exist", 404);
+      throw new AppError(
+        "STATE_CORRUPT",
+        "The local record is corrupted and was not cleared automatically",
+        500,
+      );
     }
   }
 }

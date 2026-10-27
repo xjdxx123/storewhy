@@ -3,7 +3,7 @@
   "examples": [
     {
       "evidence": {
-        "id": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+        "id": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
         "datasetVersion": "self-authored-fixture-v1",
         "metricVersion": "procrastinate-v1",
         "spec": {
@@ -46,8 +46,8 @@
           "WITH population AS (SELECT u.* FROM public.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,u.channel AS channel, '__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN public.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen,u.channel),\nuser_agg AS (SELECT channel, segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY channel, segment),\nsession_agg AS (SELECT u.channel AS channel, '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN public.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.channel),\ncost_agg AS (SELECT c.channel,'__all' AS segment,SUM(c.amount) AS spend_amount FROM public.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) GROUP BY c.channel),\nkeys AS (SELECT channel, segment FROM user_agg UNION SELECT channel, segment FROM session_agg UNION SELECT channel, segment FROM cost_agg) SELECT k.channel, k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.channel=u.channel AND k.segment=u.segment LEFT JOIN session_agg s ON k.channel=s.channel AND k.segment=s.segment LEFT JOIN cost_agg c ON k.channel=c.channel AND k.segment=c.segment ORDER BY k.channel, k.segment LIMIT 201"
         ],
         "queryIds": [
-          "fixture-fb142564-9d78-46b5-b3bf-68f2911c1526",
-          "fixture-e6aebb87-2ce1-47e5-982c-3d75a70fa765"
+          "fixture-30f0a1e7-d214-4bf1-bee0-8f607cd4c56e",
+          "fixture-31174e77-b2fc-487a-a6a0-7ed55234a0b4"
         ],
         "comparisons": [
           {
@@ -297,47 +297,47 @@
           }
         ],
         "definitions": {
-          "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
-          "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
-          "payers": "时期或观察窗口内至少购买一次的不同用户数",
-          "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
-          "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
-          "revenue_per_payer": "收入 / 购买用户数",
-          "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
-          "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+          "spend": "Recorded spend for the selected channels and dates, in an unspecified currency; it is not allocated by device or country",
+          "new_users": "Users whose first visit in the snapshot falls within the selected acquisition dates; this is not historical registration",
+          "payers": "Distinct users with at least one purchase in the period or window",
+          "revenue": "Purchase revenue in a calendar period, or within H days after first visit; the two modes are calculated separately",
+          "payer_rate": "Purchasers / current user denominator; in cohort mode the denominator is mature first-observed users",
+          "revenue_per_payer": "Revenue / purchasers",
+          "cost_per_new_user": "Channel spend on matching acquisition dates / first-observed users; not experimental acquisition cost",
+          "revenue_to_spend": "Observed attributed revenue / channel spend on matching dates; not profit or causal lift"
         },
         "notes": [
-          "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-          "时间为源数据原始时间，金额单位未标注。",
+          "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+          "Times use the source data as provided; the amount unit is unspecified.",
           "spec:f18ac8b5992b58d88e7418b2b4d38906cd24b6928968f51df7804acdec874c89"
         ],
-        "createdAt": "2026-10-25T19:18:56.955Z",
-        "durationMs": 7,
+        "createdAt": "2026-10-27T03:28:43.137Z",
+        "durationMs": 49,
         "truncated": false
       },
       "response": {
         "charts": [
           {
-            "id": "chart-ev-72da4fa8-07de-4b2c-bc98-74175cb8486c-bar-spend",
+            "id": "chart-ev-7ec85c45-68f9-436e-89bf-ed414769e0f4-bar-spend",
             "version": "1.0.0",
             "type": "bar",
-            "title": "首访后14天 · 记录渠道费用",
+            "title": "First 14 days · Recorded acquisition spend",
             "xAxis": {
               "label": "channel",
               "kind": "category"
             },
             "yAxis": {
-              "label": "样例金额（币种未注明）",
+              "label": "Sample amount (currency unspecified)",
               "unit": "sample_amount",
               "zeroBaseline": true
             },
             "missingValues": "gap",
             "source": {
-              "evidenceId": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+              "evidenceId": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
               "datasetVersion": "self-authored-fixture-v1",
               "metricVersion": "procrastinate-v1",
               "backend": "fixture",
-              "createdAt": "2026-10-25T19:18:56.955Z",
+              "createdAt": "2026-10-27T03:28:43.137Z",
               "spec": {
                 "mode": "cohort",
                 "periods": [
@@ -392,14 +392,14 @@
                 }
               ],
               "definitions": {
-                "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
-                "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
-                "payers": "时期或观察窗口内至少购买一次的不同用户数",
-                "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
-                "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
-                "revenue_per_payer": "收入 / 购买用户数",
-                "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
-                "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+                "spend": "Recorded spend for the selected channels and dates, in an unspecified currency; it is not allocated by device or country",
+                "new_users": "Users whose first visit in the snapshot falls within the selected acquisition dates; this is not historical registration",
+                "payers": "Distinct users with at least one purchase in the period or window",
+                "revenue": "Purchase revenue in a calendar period, or within H days after first visit; the two modes are calculated separately",
+                "payer_rate": "Purchasers / current user denominator; in cohort mode the denominator is mature first-observed users",
+                "revenue_per_payer": "Revenue / purchasers",
+                "cost_per_new_user": "Channel spend on matching acquisition dates / first-observed users; not experimental acquisition cost",
+                "revenue_to_spend": "Observed attributed revenue / channel spend on matching dates; not profit or causal lift"
               }
             },
             "series": [
@@ -418,7 +418,7 @@
                     },
                     "value": 192,
                     "source": {
-                      "evidenceId": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+                      "evidenceId": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
                       "rowIndex": 0,
                       "metric": "spend"
                     }
@@ -432,7 +432,7 @@
                     },
                     "value": 384,
                     "source": {
-                      "evidenceId": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+                      "evidenceId": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
                       "rowIndex": 1,
                       "metric": "spend"
                     }
@@ -454,7 +454,7 @@
                     },
                     "value": 204,
                     "source": {
-                      "evidenceId": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+                      "evidenceId": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
                       "rowIndex": 2,
                       "metric": "spend"
                     }
@@ -468,7 +468,7 @@
                     },
                     "value": 408,
                     "source": {
-                      "evidenceId": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+                      "evidenceId": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
                       "rowIndex": 3,
                       "metric": "spend"
                     }
@@ -477,33 +477,33 @@
               }
             ],
             "notes": [
-              "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-              "时间为源数据原始时间，金额单位未标注。",
-              "图表为查询结果的观测展示，解释与审查状态见本轮回答。",
-              "缺失值不补零；趋势中不连续的时间桶须断线。"
+              "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+              "Times use the source data as provided; the amount unit is unspecified.",
+              "The chart visualizes observed query results; see this answer for interpretation and review status.",
+              "Missing values are not replaced with zero; discontinuous trend buckets remain disconnected."
             ]
           },
           {
-            "id": "chart-ev-72da4fa8-07de-4b2c-bc98-74175cb8486c-bar-revenue",
+            "id": "chart-ev-7ec85c45-68f9-436e-89bf-ed414769e0f4-bar-revenue",
             "version": "1.0.0",
             "type": "bar",
-            "title": "首访后14天 · 收入",
+            "title": "First 14 days · Revenue",
             "xAxis": {
               "label": "channel",
               "kind": "category"
             },
             "yAxis": {
-              "label": "样例金额（币种未注明）",
+              "label": "Sample amount (currency unspecified)",
               "unit": "sample_amount",
               "zeroBaseline": true
             },
             "missingValues": "gap",
             "source": {
-              "evidenceId": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+              "evidenceId": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
               "datasetVersion": "self-authored-fixture-v1",
               "metricVersion": "procrastinate-v1",
               "backend": "fixture",
-              "createdAt": "2026-10-25T19:18:56.955Z",
+              "createdAt": "2026-10-27T03:28:43.137Z",
               "spec": {
                 "mode": "cohort",
                 "periods": [
@@ -558,14 +558,14 @@
                 }
               ],
               "definitions": {
-                "spend": "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
-                "new_users": "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
-                "payers": "时期或观察窗口内至少购买一次的不同用户数",
-                "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
-                "payer_rate": "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
-                "revenue_per_payer": "收入 / 购买用户数",
-                "cost_per_new_user": "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
-                "revenue_to_spend": "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量"
+                "spend": "Recorded spend for the selected channels and dates, in an unspecified currency; it is not allocated by device or country",
+                "new_users": "Users whose first visit in the snapshot falls within the selected acquisition dates; this is not historical registration",
+                "payers": "Distinct users with at least one purchase in the period or window",
+                "revenue": "Purchase revenue in a calendar period, or within H days after first visit; the two modes are calculated separately",
+                "payer_rate": "Purchasers / current user denominator; in cohort mode the denominator is mature first-observed users",
+                "revenue_per_payer": "Revenue / purchasers",
+                "cost_per_new_user": "Channel spend on matching acquisition dates / first-observed users; not experimental acquisition cost",
+                "revenue_to_spend": "Observed attributed revenue / channel spend on matching dates; not profit or causal lift"
               }
             },
             "series": [
@@ -584,7 +584,7 @@
                     },
                     "value": 37.5,
                     "source": {
-                      "evidenceId": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+                      "evidenceId": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
                       "rowIndex": 0,
                       "metric": "revenue"
                     }
@@ -598,7 +598,7 @@
                     },
                     "value": 52.5,
                     "source": {
-                      "evidenceId": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+                      "evidenceId": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
                       "rowIndex": 1,
                       "metric": "revenue"
                     }
@@ -620,7 +620,7 @@
                     },
                     "value": 37.5,
                     "source": {
-                      "evidenceId": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+                      "evidenceId": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
                       "rowIndex": 2,
                       "metric": "revenue"
                     }
@@ -634,7 +634,7 @@
                     },
                     "value": 52.5,
                     "source": {
-                      "evidenceId": "ev-72da4fa8-07de-4b2c-bc98-74175cb8486c",
+                      "evidenceId": "ev-7ec85c45-68f9-436e-89bf-ed414769e0f4",
                       "rowIndex": 3,
                       "metric": "revenue"
                     }
@@ -643,10 +643,10 @@
               }
             ],
             "notes": [
-              "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-              "时间为源数据原始时间，金额单位未标注。",
-              "图表为查询结果的观测展示，解释与审查状态见本轮回答。",
-              "缺失值不补零；趋势中不连续的时间桶须断线。"
+              "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+              "Times use the source data as provided; the amount unit is unspecified.",
+              "The chart visualizes observed query results; see this answer for interpretation and review status.",
+              "Missing values are not replaced with zero; discontinuous trend buckets remain disconnected."
             ]
           }
         ],
@@ -655,7 +655,7 @@
     },
     {
       "evidence": {
-        "id": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+        "id": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
         "datasetVersion": "self-authored-fixture-v1",
         "metricVersion": "procrastinate-v1",
         "spec": {
@@ -684,7 +684,7 @@
           "WITH activity AS (SELECT CAST(CAST(date_trunc('day',started_at) AS DATE) AS VARCHAR(10)) AS bucket,user_id FROM public.visits WHERE started_at >= CAST('2019-06-01' AS TIMESTAMP) AND started_at < CAST('2019-07-01' AS TIMESTAMP) UNION SELECT CAST(CAST(date_trunc('day',purchased_at) AS DATE) AS VARCHAR(10)) AS bucket,user_id FROM public.purchases WHERE purchased_at >= CAST('2019-06-01' AS TIMESTAMP) AND purchased_at < CAST('2019-07-01' AS TIMESTAMP)),\npurchase_user AS (SELECT CAST(CAST(date_trunc('day',p.purchased_at) AS DATE) AS VARCHAR(10)) AS bucket,p.user_id,COUNT(*) AS n_purchases,SUM(p.amount) AS revenue_amount,SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END) AS first_amount,SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM public.purchase_facts p JOIN public.profiles u ON p.user_id=u.user_id WHERE p.purchased_at >= CAST('2019-06-01' AS TIMESTAMP) AND p.purchased_at < CAST('2019-07-01' AS TIMESTAMP) AND u.channel <> 'organic' GROUP BY CAST(CAST(date_trunc('day',p.purchased_at) AS DATE) AS VARCHAR(10)),p.user_id),\nuser_agg AS (SELECT a.bucket,COUNT(*) AS n_users,SUM(CASE WHEN u.first_seen >= CAST('2019-06-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-07-01' AS TIMESTAMP) AND CAST(CAST(date_trunc('day',u.first_seen) AS DATE) AS VARCHAR(10))=a.bucket THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN p.n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN p.n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,COALESCE(SUM(p.n_purchases),0) AS n_purchases,COALESCE(SUM(p.revenue_amount),0) AS revenue_amount,COALESCE(SUM(p.first_amount),0) AS first_amount,COALESCE(SUM(p.repeat_amount),0) AS repeat_amount,AVG(p.first_hours) AS first_hours FROM activity a JOIN public.profiles u ON a.user_id=u.user_id LEFT JOIN purchase_user p ON a.user_id=p.user_id AND a.bucket=p.bucket WHERE u.channel <> 'organic' GROUP BY a.bucket),\nsession_agg AS (SELECT CAST(CAST(date_trunc('day',v.started_at) AS DATE) AS VARCHAR(10)) AS bucket,COUNT(*) AS n_sessions FROM public.visits v JOIN public.profiles u ON v.user_id=u.user_id WHERE v.started_at >= CAST('2019-06-01' AS TIMESTAMP) AND v.started_at < CAST('2019-07-01' AS TIMESTAMP) AND u.channel <> 'organic' GROUP BY CAST(CAST(date_trunc('day',v.started_at) AS DATE) AS VARCHAR(10))),\ncost_agg AS (SELECT CAST(CAST(date_trunc('day',c.cost_date) AS DATE) AS VARCHAR(10)) AS bucket,SUM(c.amount) AS spend_amount FROM public.costs c WHERE c.cost_date >= CAST('2019-06-01' AS DATE) AND c.cost_date < CAST('2019-07-01' AS DATE) GROUP BY CAST(CAST(date_trunc('day',c.cost_date) AS DATE) AS VARCHAR(10))),\nkeys AS (SELECT bucket FROM user_agg UNION SELECT bucket FROM session_agg UNION SELECT bucket FROM cost_agg) SELECT k.bucket,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.bucket=u.bucket LEFT JOIN session_agg s ON k.bucket=s.bucket LEFT JOIN cost_agg c ON k.bucket=c.bucket ORDER BY k.bucket LIMIT 201"
         ],
         "queryIds": [
-          "fixture-a8a9dda2-3fa5-49bd-acb7-d08370ad0d04"
+          "fixture-b3d8b8e9-2de7-4bba-b312-6bea45762928"
         ],
         "comparisons": [],
         "backend": "fixture",
@@ -797,40 +797,40 @@
           }
         ],
         "definitions": {
-          "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算"
+          "revenue": "Purchase revenue in a calendar period, or within H days after first visit; the two modes are calculated separately"
         },
         "notes": [
-          "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-          "时间为源数据原始时间，金额单位未标注。",
+          "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+          "Times use the source data as provided; the amount unit is unspecified.",
           "spec:25de9c9cd7a6a876270ce46f367495551c3dcea0af6199a963b84da78503e5ef"
         ],
-        "createdAt": "2026-10-25T19:18:56.962Z",
-        "durationMs": 3,
+        "createdAt": "2026-10-27T03:28:43.168Z",
+        "durationMs": 12,
         "truncated": false
       },
       "response": {
         "charts": [
           {
-            "id": "chart-ev-6903fe18-9657-4f7c-a3fd-5648b8355c99-line-revenue",
+            "id": "chart-ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767-line-revenue",
             "version": "1.0.0",
             "type": "line",
-            "title": "自然时期 · 收入",
+            "title": "Calendar period · Revenue",
             "xAxis": {
-              "label": "日期（源数据原始时间）",
+              "label": "Date (source time)",
               "kind": "time"
             },
             "yAxis": {
-              "label": "样例金额（币种未注明）",
+              "label": "Sample amount (currency unspecified)",
               "unit": "sample_amount",
               "zeroBaseline": true
             },
             "missingValues": "gap",
             "source": {
-              "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+              "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
               "datasetVersion": "self-authored-fixture-v1",
               "metricVersion": "procrastinate-v1",
               "backend": "fixture",
-              "createdAt": "2026-10-25T19:18:56.962Z",
+              "createdAt": "2026-10-27T03:28:43.168Z",
               "spec": {
                 "timeGrain": "day",
                 "mode": "calendar",
@@ -864,13 +864,13 @@
                 }
               ],
               "definitions": {
-                "revenue": "自然时期购买收入，或首访后 H 天收入；两种模式分别计算"
+                "revenue": "Purchase revenue in a calendar period, or within H days after first visit; the two modes are calculated separately"
               }
             },
             "series": [
               {
                 "id": "s-0",
-                "label": "2019-06 / 整体",
+                "label": "2019-06 / Overall",
                 "metric": "revenue",
                 "period": "2019-06",
                 "dimensions": {},
@@ -883,7 +883,7 @@
                     "dimensions": {},
                     "value": 7.5,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 0,
                       "metric": "revenue"
                     }
@@ -896,7 +896,7 @@
                     "dimensions": {},
                     "value": 15,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 1,
                       "metric": "revenue"
                     }
@@ -909,7 +909,7 @@
                     "dimensions": {},
                     "value": 0,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 2,
                       "metric": "revenue"
                     }
@@ -922,7 +922,7 @@
                     "dimensions": {},
                     "value": 10,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 3,
                       "metric": "revenue"
                     }
@@ -935,7 +935,7 @@
                     "dimensions": {},
                     "value": 0,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 4,
                       "metric": "revenue"
                     }
@@ -948,7 +948,7 @@
                     "dimensions": {},
                     "value": 0,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 5,
                       "metric": "revenue"
                     }
@@ -961,7 +961,7 @@
                     "dimensions": {},
                     "value": 10,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 6,
                       "metric": "revenue"
                     }
@@ -974,7 +974,7 @@
                     "dimensions": {},
                     "value": 15,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 7,
                       "metric": "revenue"
                     }
@@ -987,7 +987,7 @@
                     "dimensions": {},
                     "value": 0,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 8,
                       "metric": "revenue"
                     }
@@ -1000,7 +1000,7 @@
                     "dimensions": {},
                     "value": 10,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 9,
                       "metric": "revenue"
                     }
@@ -1013,7 +1013,7 @@
                     "dimensions": {},
                     "value": 22.5,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 10,
                       "metric": "revenue"
                     }
@@ -1026,7 +1026,7 @@
                     "dimensions": {},
                     "value": 0,
                     "source": {
-                      "evidenceId": "ev-6903fe18-9657-4f7c-a3fd-5648b8355c99",
+                      "evidenceId": "ev-04fe0e56-6b6f-47d6-a5a4-ea692b1aa767",
                       "rowIndex": 11,
                       "metric": "revenue"
                     }
@@ -1035,10 +1035,10 @@
               }
             ],
             "notes": [
-              "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-              "时间为源数据原始时间，金额单位未标注。",
-              "图表为查询结果的观测展示，解释与审查状态见本轮回答。",
-              "缺失值不补零；趋势中不连续的时间桶须断线。"
+              "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+              "Times use the source data as provided; the amount unit is unspecified.",
+              "The chart visualizes observed query results; see this answer for interpretation and review status.",
+              "Missing values are not replaced with zero; discontinuous trend buckets remain disconnected."
             ]
           }
         ],
@@ -1047,7 +1047,7 @@
     },
     {
       "evidence": {
-        "id": "ev-f6750922-52e0-4583-8190-c4601f929eae",
+        "id": "ev-cf9c8a28-53c1-4d9f-a671-e31bf594e84f",
         "datasetVersion": "self-authored-fixture-v1",
         "metricVersion": "procrastinate-v1",
         "spec": {
@@ -1082,8 +1082,8 @@
           "WITH population AS (SELECT u.* FROM public.profiles u  WHERE u.channel <> 'organic' AND u.first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND u.first_seen < CAST('2019-08-01' AS TIMESTAMP)),\nper_user AS (SELECT u.user_id,u.first_seen,'__all' AS segment,COUNT(p.purchase_id) AS n_purchases,COALESCE(SUM(p.amount),0) AS revenue_amount,COALESCE(SUM(CASE WHEN p.purchase_index=1 THEN p.amount ELSE 0 END),0) AS first_amount,COALESCE(SUM(CASE WHEN p.purchase_index>1 THEN p.amount ELSE 0 END),0) AS repeat_amount,MIN(CASE WHEN p.purchase_index=1 THEN (unix_timestamp(p.purchased_at)-unix_timestamp(u.first_seen))/3600.0 ELSE NULL END) AS first_hours FROM population u LEFT JOIN public.purchase_facts p ON p.user_id=u.user_id AND p.purchased_at >= u.first_seen AND p.purchased_at < u.first_seen + INTERVAL '14' DAY GROUP BY u.user_id,u.first_seen),\nuser_agg AS (SELECT segment,COUNT(*) AS n_users,SUM(CASE WHEN first_seen >= CAST('2019-07-01' AS TIMESTAMP) AND first_seen < CAST('2019-08-01' AS TIMESTAMP) THEN 1 ELSE 0 END) AS n_new,SUM(CASE WHEN n_purchases>0 THEN 1 ELSE 0 END) AS n_payers,SUM(CASE WHEN n_purchases>1 THEN 1 ELSE 0 END) AS n_repeat_payers,SUM(n_purchases) AS n_purchases,SUM(revenue_amount) AS revenue_amount,SUM(first_amount) AS first_amount,SUM(repeat_amount) AS repeat_amount,AVG(first_hours) AS first_hours FROM per_user GROUP BY segment),\nsession_agg AS (SELECT '__all' AS segment,COUNT(*) AS n_sessions FROM population u JOIN public.visits v ON u.user_id=v.user_id AND v.started_at >= u.first_seen AND v.started_at < u.first_seen + INTERVAL '14' DAY ),\ncost_agg AS (SELECT '__all' AS segment,SUM(c.amount) AS spend_amount FROM public.costs c WHERE c.cost_date >= CAST('2019-07-01' AS DATE) AND c.cost_date < CAST('2019-08-01' AS DATE) ),\nkeys AS (SELECT segment FROM user_agg UNION SELECT segment FROM session_agg UNION SELECT segment FROM cost_agg) SELECT k.segment,COALESCE(u.n_users,0) AS n_users,COALESCE(u.n_new,0) AS n_new,COALESCE(u.n_payers,0) AS n_payers,COALESCE(u.n_repeat_payers,0) AS n_repeat_payers,COALESCE(u.n_purchases,0) AS n_purchases,COALESCE(u.revenue_amount,0) AS revenue_amount,COALESCE(u.first_amount,0) AS first_amount,COALESCE(u.repeat_amount,0) AS repeat_amount,u.first_hours,COALESCE(s.n_sessions,0) AS n_sessions,c.spend_amount FROM keys k LEFT JOIN user_agg u ON k.segment=u.segment LEFT JOIN session_agg s ON k.segment=s.segment LEFT JOIN cost_agg c ON k.segment=c.segment ORDER BY k.segment LIMIT 201"
         ],
         "queryIds": [
-          "fixture-7abf90fe-0a5a-4760-b6d4-c3ac3ab251eb",
-          "fixture-acbc794c-5ba8-4b9b-b78a-994e52893afb"
+          "fixture-ab574bc5-4b13-4225-a21b-ab2ed7217f2b",
+          "fixture-25ae04a1-d41f-4bd7-a9cd-7a284e370be2"
         ],
         "comparisons": [
           {
@@ -1141,41 +1141,41 @@
           }
         ],
         "definitions": {
-          "first_purchase_revenue": "快照中每位用户首次购买产生的收入",
-          "repeat_purchase_revenue": "快照中每位用户首次购买之后的购买收入"
+          "first_purchase_revenue": "Revenue from each user's first purchase in the snapshot",
+          "repeat_purchase_revenue": "Revenue from purchases after each user's first purchase in the snapshot"
         },
         "notes": [
-          "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-          "时间为源数据原始时间，金额单位未标注。",
+          "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+          "Times use the source data as provided; the amount unit is unspecified.",
           "spec:98e059901b1ed36b93de5160142e3b51180d2e97731b6daf74718da64b00334d"
         ],
-        "createdAt": "2026-10-25T19:18:56.972Z",
-        "durationMs": 3,
+        "createdAt": "2026-10-27T03:28:43.200Z",
+        "durationMs": 10,
         "truncated": false
       },
       "response": {
         "charts": [
           {
-            "id": "chart-ev-f6750922-52e0-4583-8190-c4601f929eae-stacked_bar-purchase-revenue",
+            "id": "chart-ev-cf9c8a28-53c1-4d9f-a671-e31bf594e84f-stacked_bar-purchase-revenue",
             "version": "1.0.0",
             "type": "stacked_bar",
-            "title": "首访后14天 · 首次与后续购买收入构成",
+            "title": "First 14 days · First- and repeat-purchase revenue",
             "xAxis": {
-              "label": "时期 / 人群",
+              "label": "Period / audience",
               "kind": "category"
             },
             "yAxis": {
-              "label": "样例金额（币种未注明）",
+              "label": "Sample amount (currency unspecified)",
               "unit": "sample_amount",
               "zeroBaseline": true
             },
             "missingValues": "gap",
             "source": {
-              "evidenceId": "ev-f6750922-52e0-4583-8190-c4601f929eae",
+              "evidenceId": "ev-cf9c8a28-53c1-4d9f-a671-e31bf594e84f",
               "datasetVersion": "self-authored-fixture-v1",
               "metricVersion": "procrastinate-v1",
               "backend": "fixture",
-              "createdAt": "2026-10-25T19:18:56.972Z",
+              "createdAt": "2026-10-27T03:28:43.200Z",
               "spec": {
                 "mode": "cohort",
                 "periods": [
@@ -1222,36 +1222,36 @@
                 }
               ],
               "definitions": {
-                "first_purchase_revenue": "快照中每位用户首次购买产生的收入",
-                "repeat_purchase_revenue": "快照中每位用户首次购买之后的购买收入"
+                "first_purchase_revenue": "Revenue from each user's first purchase in the snapshot",
+                "repeat_purchase_revenue": "Revenue from purchases after each user's first purchase in the snapshot"
               }
             },
             "series": [
               {
                 "id": "first_purchase_revenue",
-                "label": "首次购买收入",
+                "label": "First-purchase revenue",
                 "metric": "first_purchase_revenue",
                 "points": [
                   {
                     "key": "[\"2019-06\",null,null,null]",
-                    "label": "2019-06 / 整体",
+                    "label": "2019-06 / Overall",
                     "period": "2019-06",
                     "dimensions": {},
                     "value": 82.5,
                     "source": {
-                      "evidenceId": "ev-f6750922-52e0-4583-8190-c4601f929eae",
+                      "evidenceId": "ev-cf9c8a28-53c1-4d9f-a671-e31bf594e84f",
                       "rowIndex": 0,
                       "metric": "first_purchase_revenue"
                     }
                   },
                   {
                     "key": "[\"2019-07\",null,null,null]",
-                    "label": "2019-07 / 整体",
+                    "label": "2019-07 / Overall",
                     "period": "2019-07",
                     "dimensions": {},
                     "value": 82.5,
                     "source": {
-                      "evidenceId": "ev-f6750922-52e0-4583-8190-c4601f929eae",
+                      "evidenceId": "ev-cf9c8a28-53c1-4d9f-a671-e31bf594e84f",
                       "rowIndex": 1,
                       "metric": "first_purchase_revenue"
                     }
@@ -1260,29 +1260,29 @@
               },
               {
                 "id": "repeat_purchase_revenue",
-                "label": "后续购买收入",
+                "label": "Repeat-purchase revenue",
                 "metric": "repeat_purchase_revenue",
                 "points": [
                   {
                     "key": "[\"2019-06\",null,null,null]",
-                    "label": "2019-06 / 整体",
+                    "label": "2019-06 / Overall",
                     "period": "2019-06",
                     "dimensions": {},
                     "value": 7.5,
                     "source": {
-                      "evidenceId": "ev-f6750922-52e0-4583-8190-c4601f929eae",
+                      "evidenceId": "ev-cf9c8a28-53c1-4d9f-a671-e31bf594e84f",
                       "rowIndex": 0,
                       "metric": "repeat_purchase_revenue"
                     }
                   },
                   {
                     "key": "[\"2019-07\",null,null,null]",
-                    "label": "2019-07 / 整体",
+                    "label": "2019-07 / Overall",
                     "period": "2019-07",
                     "dimensions": {},
                     "value": 7.5,
                     "source": {
-                      "evidenceId": "ev-f6750922-52e0-4583-8190-c4601f929eae",
+                      "evidenceId": "ev-cf9c8a28-53c1-4d9f-a671-e31bf594e84f",
                       "rowIndex": 1,
                       "metric": "repeat_purchase_revenue"
                     }
@@ -1291,10 +1291,10 @@
               }
             ],
             "notes": [
-              "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-              "时间为源数据原始时间，金额单位未标注。",
-              "图表为查询结果的观测展示，解释与审查状态见本轮回答。",
-              "缺失值不补零；趋势中不连续的时间桶须断线。"
+              "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+              "Times use the source data as provided; the amount unit is unspecified.",
+              "The chart visualizes observed query results; see this answer for interpretation and review status.",
+              "Missing values are not replaced with zero; discontinuous trend buckets remain disconnected."
             ]
           }
         ],

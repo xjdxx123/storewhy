@@ -218,5 +218,5 @@ it("reports a permanently closed event stream without claiming reconnection", ()
   sources[0].emit("error");
   expect(connection).toHaveBeenLastCalledWith("closed");
   expect(connection).not.toHaveBeenCalledWith("reconnecting");
-  expect(error.mock.calls[0][0].message).toContain("Run");
+  expect(error.mock.calls[0][0].message).toContain("run");
 });

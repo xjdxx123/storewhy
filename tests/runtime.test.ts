@@ -218,7 +218,7 @@ it("gives a structured data outage rather than fixture fallback", async () => {
     );
     expect(r.status).toBe("failed");
     expect(r.error).toEqual({ code: "ZETARIS_OFFLINE", retryable: true });
-    expect(r.message).toContain("无法连接数据服务");
+    expect(r.message).toContain("data service is currently unavailable");
     expect(r.evidenceIds).toEqual([]);
     expect(r.answer).toBeUndefined();
   } finally {
@@ -271,7 +271,9 @@ it("does not fail a completed analysis when optional memory summary persistence 
     );
     expect(r.status).toBe("completed");
     expect(r.answer).toBeDefined();
-    expect(r.warnings).toEqual(["分析已完成，但本轮记忆暂未保存。"]);
+    expect(r.warnings).toEqual([
+      "The analysis is complete, but this run's memory could not be saved.",
+    ]);
     expect(JSON.stringify(r.warnings)).not.toContain("private diagnostic");
   } finally {
     await s.app.close();
@@ -318,7 +320,7 @@ it("accepts bounded extra grounded candidates without allowing invented evidence
       suggestedQuery: null,
     }).observationIds,
   ).toHaveLength(8);
-  expect(() => validateSelection(ids, [])).toThrow("不存在");
+  expect(() => validateSelection(ids, [])).toThrow("does not exist");
   expect(() =>
     draftSchema.parse({
       observationIds: Array.from({ length: 13 }, (_, i) => `o-${i}`),

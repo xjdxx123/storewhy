@@ -59,7 +59,7 @@ export function factsFor(evidence: Evidence[]): Fact[] {
         rowIndex: ri,
         metric: metric as Fact["metric"],
         value: value ?? null,
-        label: `${row.period}${row.bucket ? " / " + row.bucket : ""} / ${segmentLabel(row.dimensions, e.spec.filters)} / ${e.spec.mode === "cohort" ? e.spec.windowDays + "天" : "自然时期"} / ${LABELS[metric as Fact["metric"]]}`,
+        label: `${row.period}${row.bucket ? " / " + row.bucket : ""} / ${segmentLabel(row.dimensions, e.spec.filters)} / ${e.spec.mode === "cohort" ? `first ${e.spec.windowDays} days` : "calendar period"} / ${LABELS[metric as Fact["metric"]]}`,
       })),
     ),
   );
@@ -77,7 +77,10 @@ function restrictPatch(
       requested &&
       (!requested.length || requested.some((v) => !constrained.includes(v)))
     )
-      throw new AppError("SCOPE_EXPANSION", "自动调查不能扩大用户明确筛选范围");
+      throw new AppError(
+        "SCOPE_EXPANSION",
+        "An automatic investigation cannot expand the user's explicit filters",
+      );
   }
 }
 export class Engine {
@@ -106,13 +109,13 @@ export class Engine {
     if (this.active.has(conversationId))
       throw new AppError(
         "CONVERSATION_BUSY",
-        "当前会话仍在调查，请等待或取消",
+        "This conversation already has an active investigation. Wait or cancel it first.",
         409,
       );
     if (this.active.size >= 2)
       throw new AppError(
         "CAPACITY",
-        "当前已有两个调查运行，请稍后重试",
+        "Two investigations are already running. Try again shortly.",
         429,
         true,
       );
@@ -128,7 +131,7 @@ export class Engine {
       )
         throw new AppError(
           "STALE_CONTEXT",
-          "分析条件已更新，请使用最新回答中的推荐追问。",
+          "The analysis scope has changed. Use a suggested follow-up from the latest answer.",
           409,
         );
     }
@@ -144,7 +147,10 @@ export class Engine {
       evidenceIds: [],
       modelTraces: [],
       createdAt: new Date().toISOString(),
-      progress: progress("understanding", "已收到问题，准备开始调查"),
+      progress: progress(
+        "understanding",
+        "Question received; preparing the investigation",
+      ),
       timing: {
         totalMs: 0,
         modelCalls: 0,
@@ -183,7 +189,8 @@ export class Engine {
       if (!terminal(run.status)) {
         run.status = "failed";
         run.finishedAt = new Date().toISOString();
-        run.message = "服务重启中断了上轮调查，请重新提问。";
+        run.message =
+          "A service restart interrupted the previous investigation. Ask again.";
         run.answer = undefined;
         run.error = { code: "SERVER_RESTARTED", retryable: true };
         this.event(run, "error", run.message, { code: "SERVER_RESTARTED" });
@@ -232,7 +239,7 @@ export class Engine {
     const run = this.liveRuns.get(id) ?? this.store.get<Run>("runs", id);
     if (terminal(run.status)) return run;
     run.cancellationRequested = true;
-    this.emitProgress(run, "cancelling", "正在停止本轮调查");
+    this.emitProgress(run, "cancelling", "Stopping this investigation");
     this.controllers.get(id)?.abort();
     return structuredClone(run);
   }
@@ -250,7 +257,7 @@ export class Engine {
     try {
       signal.throwIfAborted();
       run.status = "running";
-      this.event(run, "run_started", "开始检查问题与数据范围");
+      this.event(run, "run_started", "Checking the question and data scope");
       const c = this.store.get<Conversation>(
         "conversations",
         run.conversationId,
@@ -260,7 +267,7 @@ export class Engine {
         this.event(
           run,
           "memory_recalled",
-          "已检索有来源的默认口径",
+          "Retrieved the saved default scope",
           preference,
         );
       if (
@@ -279,12 +286,16 @@ export class Engine {
       if (needsDateClarification(input.message, input.patch)) {
         run.status = "needs_clarification";
         run.message =
-          "当前数据仅覆盖二零一九年五月至十月。请明确样例中的日期，不能将现实的相对日期替换成样例月份。";
+          "The data covers May through October 2019. Use explicit dates from the sample; current relative dates cannot be mapped to sample months.";
         this.event(run, "clarification", run.message);
         return;
       }
       if (!input.patch)
-        this.emitProgress(run, "understanding", "正在理解问题与分析条件");
+        this.emitProgress(
+          run,
+          "understanding",
+          "Understanding the question and scope",
+        );
       const intent = input.patch
         ? { kind: input.taskKind ?? ("followup" as const), patch: input.patch }
         : await measure(
@@ -297,7 +308,7 @@ export class Engine {
                 [
                   {
                     role: "system",
-                    content: `你是增长运营调查员。只提取用户明确改变的条件，未提及字段不要放进 patch。Why 可用 initialGroupBy 规划首次查询拆分；多渠道费用与收入比较优先 channel，单渠道无需按渠道拆分。followup 继承当前目标，只有新的明确查询才选 query。why 是解释问题。支持 calendar/cohort，归属为首次观测。趋势用 mode:calendar、timeGrain:day/week/month，统计汇总用 timeGrain:null。月份收入趋势用 calendar all。只有用户明确要求趋势或按时间分桶才设 timeGrain；自然月单期汇总应设 timeGrain:null。一次最多两个期间，结果最多两百行；全渠道每日趋势需要缩小范围。日期 end 是不包含的结束日。用户说七月指样例年份须在有明确样例上下文时使用二零一九年。现实今年/本月超出范围必须 clarify。全部用户或包含organic表示 audience:all，不是 channels:[organic]；只有“仅organic”才筛选该渠道。地区只能使用catalog的UK等原值。首周为七天，两周为十四天。日期连续范围要覆盖中间所有日期，不要只比较范围端点。人群付费表现至少查payer_rate。reset 只用于要求清空分析。没有曝光/点击/预算/素材/商品/结账/退款/利润/因果增量，相关请求返回 unsupported。设备/国家没有费用；设备用户行为可查。收入与费用比较优先 cohort paid；整体购买月收入用 calendar all。清除筛选写空数组。普通自然语言描述不能改变不相关条件。未修改的 optional patch 字段直接省略，不要填 null；windowDays 只能是 7 或 14，即使 calendar 也不能填 null。\nCATALOG:${JSON.stringify(catalog(this.analytics.datasetVersion, this.analytics.backend.kind))}`,
+                    content: `你是增长运营调查员。只提取用户明确改变的条件，未提及字段不要放进 patch。Why 可用 initialGroupBy 规划首次查询拆分；多渠道费用与收入比较优先 channel，单渠道无需按渠道拆分。followup 继承当前目标，只有新的明确查询才选 query。why 是解释问题。支持 calendar/cohort，归属为首次观测。趋势用 mode:calendar、timeGrain:day/week/month，统计汇总用 timeGrain:null。月份收入趋势用 calendar all。只有用户明确要求趋势或按时间分桶才设 timeGrain；自然月单期汇总应设 timeGrain:null。一次最多两个期间，结果最多两百行；全渠道每日趋势需要缩小范围。日期 end 是不包含的结束日。用户说七月指样例年份须在有明确样例上下文时使用二零一九年。现实今年/本月超出范围必须 clarify。全部用户或包含organic表示 audience:all，不是 channels:[organic]；只有“仅organic”才筛选该渠道。地区只能使用catalog的UK等原值。首周为七天，两周为十四天。日期连续范围要覆盖中间所有日期，不要只比较范围端点。人群付费表现至少查payer_rate。reset 只用于要求清空分析。没有曝光/点击/预算/素材/商品/结账/退款/利润/因果增量，相关请求返回 unsupported。设备/国家没有费用；设备用户行为可查。收入与费用比较优先 cohort paid；整体购买月收入用 calendar all。清除筛选写空数组。普通自然语言描述不能改变不相关条件。未修改的 optional patch 字段直接省略，不要填 null；windowDays 只能是 7 或 14，即使 calendar 也不能填 null。所有用户可见的 message 必须只使用英文。\nCATALOG:${JSON.stringify(catalog(this.analytics.datasetVersion, this.analytics.backend.kind))}`,
                   },
                   {
                     role: "user",
@@ -340,7 +351,8 @@ export class Engine {
         run.investigationId = c.context.investigationId;
         this.store.put("conversations", c.id, c);
         run.status = "needs_clarification";
-        run.message = "已开始新分析。请告诉我想检查的指标与时期。";
+        run.message =
+          "A new analysis is ready. What metric and period should it check?";
         this.event(run, "clarification", run.message);
         return;
       }
@@ -354,7 +366,8 @@ export class Engine {
         run.status =
           intent.kind === "clarify" ? "needs_clarification" : "unsupported";
         run.message =
-          intent.message ?? "当前数据不足以回答，请明确时期、指标或可用范围。";
+          intent.message ??
+          "The available data cannot answer this yet. Specify a period, metric, or supported scope.";
         this.event(run, "clarification", run.message);
         return;
       }
@@ -389,9 +402,14 @@ export class Engine {
       run.context = structuredClone(c.context);
       run.investigationId = c.context.investigationId;
       this.store.put("conversations", c.id, c);
-      this.event(run, "scope_updated", "已确定本轮条件，相关数字将重新查询", {
-        context: run.context,
-      });
+      this.event(
+        run,
+        "scope_updated",
+        "Scope confirmed; querying fresh values",
+        {
+          context: run.context,
+        },
+      );
       const evidence: Evidence[] = [];
       const seen = new Set<string>();
       let queries = 0;
@@ -429,7 +447,7 @@ export class Engine {
         run.evidenceIds.push(e.id);
         run.context.evidenceIds.push(e.id);
         this.store.put("evidence", e.id, e);
-        this.event(run, "query_completed", "所选数据已核查", {
+        this.event(run, "query_completed", "Selected data checked", {
           evidenceId: e.id,
           rows: e.rows.length,
           durationMs: e.durationMs,
@@ -458,7 +476,8 @@ export class Engine {
       );
       if (!observed) {
         run.status = "no_data";
-        run.message = "在所选数据范围内没有可用记录或可计算指标。";
+        run.message =
+          "No usable records or calculable metrics are available in the selected scope.";
         this.event(run, "clarification", run.message);
         return;
       }
@@ -474,7 +493,11 @@ export class Engine {
         .flatMap((prior) => prior.evidenceIds)
         .map((id) => this.store.get<Evidence>("evidence", id));
       if (taskKind === "query") {
-        this.emitProgress(run, "presenting", "正在整理结论、证据与下一步");
+        this.emitProgress(
+          run,
+          "presenting",
+          "Preparing the conclusion, evidence, and next steps",
+        );
         run.answer = await measure(
           run,
           "presentation",
@@ -526,7 +549,7 @@ export class Engine {
           this.emitProgress(
             run,
             "explaining",
-            "正在整理已查询到的变化",
+            "Organizing the queried changes",
             round + 1,
           );
           const draft = await measure(
@@ -540,7 +563,7 @@ export class Engine {
                   {
                     role: "system",
                     content:
-                      "你是 Investigator，以 scope 为有效口径，追问覆盖旧条件。observationIds 选1至12个不同ID，优先3至6个。从 observations 选择最能解释用户问题的观测ID，并选择待检验的 hypothesis。headlineObservationId 必须是 observationIds 内最直接回答问题的一条，优先选择具体渠道或人群的关键变化；不要用审查状态充当结论。数字与事实句由系统按所选证据生成，你不能重写数字或发明证据。如果已执行补查，必须选取最新补查中的相关观测，优先展示补查的关键变化，不能只重复最初的整体结果。若现有证据不能区分解释，提出 suggestedQuery，只能改metrics/groupBy/filters，不能扩大用户筛选。已有渠道拆分不能重复。收入与费用的变化只能解释观测构成，不能证明广告因果增量。根据 reviewFeedback 改选证据或补查。",
+                      "你是 Investigator，以 scope 为有效口径，追问覆盖旧条件。observationIds 选1至12个不同ID，优先3至6个。从 observations 选择最能解释用户问题的观测ID，并选择待检验的 hypothesis。headlineObservationId 必须是 observationIds 内最直接回答问题的一条，优先选择具体渠道或人群的关键变化；不要用审查状态充当结论。数字与事实句由系统按所选证据生成，你不能重写数字或发明证据。如果已执行补查，必须选取最新补查中的相关观测，优先展示补查的关键变化，不能只重复最初的整体结果。若现有证据不能区分解释，提出 suggestedQuery，只能改metrics/groupBy/filters，不能扩大用户筛选。已有渠道拆分不能重复。收入与费用的变化只能解释观测构成，不能证明广告因果增量。根据 reviewFeedback 改选证据或补查。hypothesis 和任何用户可见文本必须只使用英文。",
                   },
                   {
                     role: "user",
@@ -572,7 +595,7 @@ export class Engine {
             )
               throw new AppError(
                 "UNBOUND_HEADLINE",
-                "结论必须引用已选择的观测。",
+                "The conclusion must reference a selected observation.",
                 503,
               );
             if (evidence.length > 1) {
@@ -601,7 +624,7 @@ export class Engine {
             continue;
           }
           lastDraft = draft;
-          this.event(run, "hypothesis", "已形成待审查的解释", {
+          this.event(run, "hypothesis", "Formed an explanation for review", {
             selectedObservations: validateSelection(
               draft.observationIds,
               observations,
@@ -612,7 +635,7 @@ export class Engine {
           this.emitProgress(
             run,
             "reviewing",
-            "正在核查解释与证据是否充分",
+            "Reviewing whether the explanation is supported",
             round + 1,
           );
           const review = await measure(
@@ -626,7 +649,7 @@ export class Engine {
                   {
                     role: "system",
                     content:
-                      "你是独立 Reviewer。以 scope 为有效口径，追问覆盖旧问题的窗口/时期/筛选。核查证据与金额、分母；scope.mode：calendar 按自然时期活动统计，windowDays 无效；cohort 按首访批次观察完整H天，不能混入老用户自然月收入。首次/后续购买不是新客/老客。完整随访不能称为随访不足；未标币种不妨碍同单位比较。只看真实 evidence、observations 和 availableAnalyses，不相信草稿的无证据限制。整体渠道费用或增长仅有汇总时要求渠道拆分；已查过的指标和拆分不能重复。发现可补的具体缺口才 needs_query，query 只改 metrics/groupBy/filters，不能扩大用户筛选。数据缺失或因果原因无法由记录证明时 limited。充分时 ready；不必穷尽所有分组。中文简述理由。",
+                      "你是独立 Reviewer。以 scope 为有效口径，追问覆盖旧问题的窗口/时期/筛选。核查证据与金额、分母；scope.mode：calendar 按自然时期活动统计，windowDays 无效；cohort 按首访批次观察完整H天，不能混入老用户自然月收入。首次/后续购买不是新客/老客。完整随访不能称为随访不足；未标币种不妨碍同单位比较。只看真实 evidence、observations 和 availableAnalyses，不相信草稿的无证据限制。整体渠道费用或增长仅有汇总时要求渠道拆分；已查过的指标和拆分不能重复。发现可补的具体缺口才 needs_query，query 只改 metrics/groupBy/filters，不能扩大用户筛选。数据缺失或因果原因无法由记录证明时 limited。充分时 ready；不必穷尽所有分组。reason、issues 和所有用户可见文本必须只使用英文。",
                   },
                   {
                     role: "user",
@@ -656,10 +679,10 @@ export class Engine {
             run,
             "review_completed",
             review.decision === "ready"
-              ? "证据审查完成"
+              ? "Evidence review complete"
               : review.decision === "needs_query"
-                ? "审查发现需要补充的证据"
-                : "当前证据仍有无法验证的解释",
+                ? "The review identified evidence to add"
+                : "Some explanations remain unverifiable with the current evidence",
             {
               reason: review.reason,
               decision: review.decision,
@@ -682,19 +705,19 @@ export class Engine {
             const accepted = await execute(toolPatchSchema.parse(patch));
             if (!accepted) {
               feedback +=
-                " 本查询已执行或超出预算，请依据 availableAnalyses 中已有证据审查，不要重复索取。";
+                " This query has already run or exceeds the budget. Review the existing evidence in availableAnalyses instead of requesting it again.";
               continue;
             }
           } catch (error) {
             if (!(error instanceof AppError) || error.statusCode >= 500)
               throw error;
-            feedback += " 无法执行该拆分：" + error.message;
+            feedback += " This breakdown could not be run: " + error.message;
           }
         }
         if (!lastDraft)
           throw new AppError(
             "UNVALIDATED_ANSWER",
-            "没有通过事实引用校验的解释",
+            "No explanation passed fact-reference validation",
             503,
           );
         const allFacts = factsFor(evidence);
@@ -702,7 +725,11 @@ export class Engine {
           lastDraft.observationIds,
           observationsFor(evidence, allFacts),
         );
-        this.emitProgress(run, "presenting", "正在整理结论、证据与下一步");
+        this.emitProgress(
+          run,
+          "presenting",
+          "Preparing the conclusion, evidence, and next steps",
+        );
         run.answer = await measure(
           run,
           "presentation",
@@ -732,11 +759,13 @@ export class Engine {
       } catch {
         run.warnings = [
           ...(run.warnings ?? []),
-          "分析已完成，但本轮记忆暂未保存。",
+          "The analysis is complete, but this run's memory could not be saved.",
         ];
       }
       run.finishedAt = new Date().toISOString();
-      this.event(run, "answer_ready", "本轮调查完成", { status: run.status });
+      this.event(run, "answer_ready", "Investigation complete", {
+        status: run.status,
+      });
     } catch (error) {
       const own = this.controllers.get(run.id)?.signal.aborted;
       const failure = failureFor(error, signal, own);

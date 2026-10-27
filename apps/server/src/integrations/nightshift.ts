@@ -72,7 +72,7 @@ export class Nightshift implements ModelGateway {
     if (!settings.nightshiftToken)
       throw new AppError(
         "MODEL_UNAUTHORIZED",
-        "请在本机配置 Nightshift Runtime token",
+        "Configure the Nightshift Runtime token on this machine",
         503,
         false,
       );
@@ -175,7 +175,11 @@ export class Nightshift implements ModelGateway {
           }
           if (error instanceof AppError) throw error;
           if (error instanceof TypeError && retry === 0) continue;
-          throw new AppError("MODEL_OFFLINE", "Nightshift 未返回有效响应", 503);
+          throw new AppError(
+            "MODEL_OFFLINE",
+            "Nightshift did not return a valid response",
+            503,
+          );
         } finally {
           trace.durationMs = Date.now() - start;
           traces.push(trace);
@@ -184,7 +188,11 @@ export class Nightshift implements ModelGateway {
       const content = body?.choices?.[0]?.message?.content;
       if (typeof content !== "string" || !content.trim()) {
         trace.status = "error";
-        throw new AppError("MODEL_EMPTY", "模型未返回文本内容", 503);
+        throw new AppError(
+          "MODEL_EMPTY",
+          "The model returned no text content",
+          503,
+        );
       }
       trace.outputChars = content.length;
       try {
@@ -219,7 +227,7 @@ export class Nightshift implements ModelGateway {
         if (attempt === 1)
           throw new AppError(
             "MODEL_INVALID_JSON",
-            "模型指令校验失败：" + cleanError(error),
+            "The model output failed validation: " + cleanError(error),
             503,
           );
         history.push(
@@ -233,6 +241,10 @@ export class Nightshift implements ModelGateway {
         );
       }
     }
-    throw new AppError("MODEL_INVALID_JSON", "无法解析模型响应", 503);
+    throw new AppError(
+      "MODEL_INVALID_JSON",
+      "The model response could not be parsed",
+      503,
+    );
   }
 }

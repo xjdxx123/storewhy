@@ -140,7 +140,7 @@ describe("multi-agent and context contracts", () => {
     const c = createConversation(store, "fixture-test");
     const r = engine.createRun(c.id, { message: "调查" });
     expect(() => engine.createRun(c.id, { message: "另一个调查" })).toThrow(
-      "当前会话",
+      "active investigation",
     );
     await wait(engine, r.id);
   });

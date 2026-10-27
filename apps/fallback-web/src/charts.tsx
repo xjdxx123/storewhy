@@ -5,18 +5,18 @@ export type EvidenceRequest = {
   metric?: string;
 };
 export const unitLabels: Record<ChartUnit, string> = {
-  sample_amount: "样例金额",
-  count: "人数 / 次数",
+  sample_amount: "Sample amount",
+  count: "People / events",
   proportion: "%",
-  multiple: "倍",
-  hours: "小时",
-  sample_amount_per_user: "样例金额 / 用户",
-  sample_amount_per_payer: "样例金额 / 购买用户",
+  multiple: "Multiple",
+  hours: "Hours",
+  sample_amount_per_user: "Sample amount / user",
+  sample_amount_per_payer: "Sample amount / purchaser",
 };
 export function formatValue(value: number | null, unit?: ChartUnit) {
-  if (value === null) return "不可计算 / 缺失";
+  if (value === null) return "Not available";
   return (
-    new Intl.NumberFormat("zh-CN", { maximumFractionDigits: 2 }).format(
+    new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(
       unit === "proportion" ? value * 100 : value,
     ) + (unit === "proportion" ? "%" : "")
   );
@@ -33,12 +33,12 @@ function consecutiveBucket(
   return next.toISOString().slice(0, 10) === current;
 }
 const colors = [
-  "#496a5b",
-  "#b88c55",
-  "#5c7897",
-  "#ae7171",
-  "#8a7b9e",
-  "#687d80",
+  "#416f63",
+  "#f0a16a",
+  "#7899aa",
+  "#ca7767",
+  "#917fa6",
+  "#71888a",
 ];
 export function EvidenceChart({
   chart,
@@ -95,12 +95,12 @@ export function EvidenceChart({
     "data-value": p.value ?? undefined,
   });
   function pointTitle(p: ChartPoint, seriesLabel: string) {
-    return `${p.label} · ${seriesLabel}：${formatValue(p.value, chart.yAxis.unit)}`;
+    return `${p.label} · ${seriesLabel}: ${formatValue(p.value, chart.yAxis.unit)}`;
   }
   const positives = new Map<string, number>(),
     negatives = new Map<string, number>();
   return (
-    <section className="chart-card" data-chart-id={chart.id}>
+    <section className="chart-card glass-panel" data-chart-id={chart.id}>
       <div className="section-heading">
         <h3>{chart.title}</h3>
         <span className="meta">{unitLabels[chart.yAxis.unit]}</span>
@@ -118,7 +118,7 @@ export function EvidenceChart({
           viewBox={`0 0 ${width} ${height}`}
           style={{ minWidth: width }}
           role="img"
-          aria-label={`${chart.title}，完整数值和来源可在下方展开`}
+          aria-label={`${chart.title}. Expand below for values and provenance.`}
         >
           {[0, 1, 2, 3].map((i) => {
             const v = low + ((high - low) * i) / 3;
@@ -165,6 +165,7 @@ export function EvidenceChart({
               <g key={s.id} fill={colors[si % colors.length]}>
                 {chart.type === "line" && (
                   <path
+                    className="chart-line"
                     d={path}
                     fill="none"
                     stroke={colors[si % colors.length]}
@@ -177,6 +178,7 @@ export function EvidenceChart({
                   if (chart.type === "line")
                     return (
                       <circle
+                        className="chart-dot"
                         key={key}
                         cx={x(i)}
                         cy={y(p.value)}
@@ -195,6 +197,7 @@ export function EvidenceChart({
                     stack.set(key, end);
                     return (
                       <rect
+                        className="chart-bar"
                         key={key}
                         x={x(i) - groupWidth / 2}
                         y={Math.min(y(start), y(end))}
@@ -209,6 +212,7 @@ export function EvidenceChart({
                   const barWidth = groupWidth / chart.series.length;
                   return (
                     <rect
+                      className="chart-bar"
                       key={key}
                       x={x(i) - groupWidth / 2 + si * barWidth}
                       y={Math.min(y(0), y(p.value))}
@@ -237,18 +241,21 @@ export function EvidenceChart({
         </svg>
       </div>
       {chart.notes.length > 0 && (
-        <p className="caption">{chart.notes.join(" ")}</p>
+        <details className="chart-notes">
+          <summary>Method notes</summary>
+          <p className="caption">{chart.notes.join(" ")}</p>
+        </details>
       )}
       <details>
-        <summary>查看全部数据与来源</summary>
+        <summary>Data &amp; source</summary>
         <div className="table-scroll">
           <table>
             <thead>
               <tr>
-                <th>系列</th>
-                <th>范围</th>
-                <th>数值</th>
-                <th>依据</th>
+                <th>Series</th>
+                <th>Scope</th>
+                <th>Value</th>
+                <th>Evidence</th>
               </tr>
             </thead>
             <tbody>
@@ -269,7 +276,7 @@ export function EvidenceChart({
                           })
                         }
                       >
-                        查看来源
+                        View source
                       </button>
                     </td>
                   </tr>

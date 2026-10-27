@@ -40,8 +40,8 @@ export function explanationsFor(
       claim,
       status: candidates.length ? "missing_data" : "not_checked",
       text: candidates.length
-        ? "已查询，但缺少可配对的时期或可计算分母，不能判断变化。"
-        : "尚未执行所需指标与拆分，不能支持或排除该解释。",
+        ? "The data was queried, but comparable periods or a usable denominator are missing, so the change cannot be assessed."
+        : "The required metrics and breakdown have not been run, so this explanation cannot be supported or ruled out.",
       factIds: [],
       evidenceIds: candidates.map((e) => e.id),
       coverageRefs: [],
@@ -57,10 +57,18 @@ export function explanationsFor(
       )
         ? "users"
         : "new_users",
-      "用户规模与收入同向变化",
+      "User volume and revenue moved in the same direction",
     ],
-    ["conversion", "payer_rate", "购买用户比例与收入同向变化"],
-    ["purchase_value", "revenue_per_payer", "每位购买用户收入与总收入同向变化"],
+    [
+      "conversion",
+      "payer_rate",
+      "Purchaser rate and revenue moved in the same direction",
+    ],
+    [
+      "purchase_value",
+      "revenue_per_payer",
+      "Revenue per purchaser and total revenue moved in the same direction",
+    ],
   ] as const) {
     check(kind, claim, [metric, "revenue"], (e) => {
       const pairs = e.comparisons
@@ -106,14 +114,14 @@ export function explanationsFor(
         status: same ? "supported" : "contradicted",
         text:
           chosen.map((o) => o.text).join(" ") +
-          "这里只检验变化方向，不能据此认定因果或分摊收入贡献。",
+          " This checks direction only; it does not establish causality or allocate revenue contribution.",
         factIds: [...new Set(chosen.flatMap((o) => o.factIds))],
       };
     });
   }
   check(
     "repeat",
-    "首次与后续购买收入能拆解已观测收入变化",
+    "First- and repeat-purchase revenue can explain the composition of observed revenue change",
     ["revenue", "first_purchase_revenue", "repeat_purchase_revenue"],
     (e) => {
       const all = e.comparisons
@@ -137,7 +145,7 @@ export function explanationsFor(
   );
   check(
     "spend_efficiency",
-    "费用增加且收入增长未跟上费用增长",
+    "Spend increased while revenue growth did not keep pace",
     ["spend", "revenue"],
     (e) => {
       const costs = e.comparisons
@@ -164,7 +172,9 @@ export function explanationsFor(
               c.delta! > 0 && r.relativeChange < c.relativeChange
                 ? "supported"
                 : "contradicted",
-            text: o.text + "该判断只核查费用与收入的观测前提。",
+            text:
+              o.text +
+              " This judgment checks only the observed spend and revenue premise.",
             factIds: o.factIds,
           };
       }
@@ -190,7 +200,7 @@ export function explanationsFor(
     output.push({
       id: "channel_mix",
       kind: "channel_mix",
-      claim: "所列渠道的收入变化存在差异",
+      claim: "Revenue changes differ across the listed channels",
       status:
         rows.length < 2 || !contribution
           ? "missing_data"
@@ -199,7 +209,7 @@ export function explanationsFor(
             : "contradicted",
       text:
         contribution?.text ??
-        "当前拆分不足两个可比较渠道，不能判断渠道间差异。",
+        "Fewer than two comparable channels are available, so cross-channel differences cannot be assessed.",
       factIds: contribution?.factIds ?? [],
       evidenceIds: [grouped.id],
       coverageRefs: [],
@@ -208,9 +218,9 @@ export function explanationsFor(
     output.push({
       id: "channel_mix",
       kind: "channel_mix",
-      claim: "所列渠道的收入变化存在差异",
+      claim: "Revenue changes differ across the listed channels",
       status: "not_checked",
-      text: "尚未完成多个渠道同口径收入变化的拆分，不能支持或排除渠道构成解释。",
+      text: "A comparable multi-channel revenue breakdown has not been completed, so a channel-mix explanation cannot be supported or ruled out.",
       factIds: [],
       evidenceIds: [],
       coverageRefs: [],
@@ -219,7 +229,7 @@ export function explanationsFor(
   output.push({
     id: "maturity",
     kind: "maturity",
-    claim: "请求范围内所有用户均有完整随访",
+    claim: "Every user in the requested scope has a complete follow-up window",
     status: cohorts.length
       ? cohorts.some((e) => e.coverage.some((c) => c.excludedUsers > 0))
         ? "contradicted"
@@ -227,9 +237,9 @@ export function explanationsFor(
       : "not_checked",
     text: cohorts.length
       ? cohorts.some((e) => e.coverage.some((c) => c.excludedUsers > 0))
-        ? "请求包含随访不足用户，已排除这些获客日期，费用同步裁剪；结论仅适用于剩余完整观察窗口用户，不能证明被排除的新用户表现差。"
-        : "当前获客批次已保留完整观察窗口；不能把剩余批次的变化归咎于随访不足，也不能推断更长窗口表现。"
-      : "本轮使用自然时期，未检验新获客批次的完整随访。",
+        ? "The request included users without complete follow-up. Those acquisition dates were excluded and spend was trimmed to match. The conclusion applies only to users with a complete remaining window and does not show that excluded new users performed poorly."
+        : "The current acquisition cohorts retain a complete observation window. The remaining cohort change cannot be attributed to incomplete follow-up, and longer-window performance cannot be inferred."
+      : "This run uses a calendar period and does not test complete follow-up for newly acquired cohorts.",
     factIds: [],
     evidenceIds: cohorts.map((e) => e.id),
     coverageRefs: cohorts.flatMap((e) =>

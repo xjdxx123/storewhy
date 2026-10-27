@@ -112,10 +112,13 @@ export function presentAnswer(input: {
     ? finding(lead)
     : fallback
       ? {
-          text: `${fallback.label} 为${fallback.value}。`,
+          text: `${fallback.label} was ${fallback.value}.`,
           factIds: [fallback.id],
         }
-      : { text: "当前范围没有可计算的数值。", factIds: [] };
+      : {
+          text: "No calculable values are available for the current scope.",
+          factIds: [],
+        };
   if (
     !input.selected &&
     context.spec.metrics[0] === "first_purchase_revenue" &&
@@ -136,8 +139,11 @@ export function presentAnswer(input: {
   }
   if (reversedPremise)
     conclusion.text =
-      "提问中的费用与收入变化前提与当前数据不符。" + conclusion.text;
-  if (!ready) conclusion.text += "进一步解释仍有证据缺口。";
+      "The spend-and-revenue premise in the question does not match the current data. " +
+      conclusion.text;
+  if (!ready)
+    conclusion.text +=
+      " Additional evidence is still needed for a fuller explanation.";
   const keyEvidence: Finding[] = [];
   const covered = new Set<string>();
   for (const o of [
@@ -163,7 +169,11 @@ export function presentAnswer(input: {
     input.history,
     lead?.focus,
   );
-  const dimensions = { channel: "渠道", device: "设备", region: "国家" };
+  const dimensions = {
+    channel: "channel",
+    device: "device",
+    region: "country",
+  };
   const explanations =
     context.taskKind === "why" ? explanationsFor(evidence, facts) : undefined;
   return {
@@ -178,35 +188,39 @@ export function presentAnswer(input: {
       ...new Set(
         evidence.map(
           (e) =>
-            `${e.spec.mode === "cohort" ? `首访后${e.spec.windowDays}天` : "自然时期"}，${e.spec.groupBy.length ? "按" + e.spec.groupBy.map((d) => dimensions[d]).join(" / ") : "整体"}已核查：${e.spec.metrics.map((m) => LABELS[m]).join("、")}。`,
+            `${e.spec.mode === "cohort" ? `First ${e.spec.windowDays} days after the initial visit` : "Calendar period"}; ${e.spec.groupBy.length ? "grouped by " + e.spec.groupBy.map((d) => dimensions[d]).join(" / ") : "overall"}; checked: ${e.spec.metrics.map((m) => LABELS[m]).join(", ")}.`,
         ),
       ),
     ],
     limitations: [
       ...(!ready
-        ? ["进一步解释尚未完全通过审查，当前只确认已查询到的观测变化。"]
+        ? [
+            "The fuller explanation has not passed review; only the queried observed changes are confirmed.",
+          ]
         : []),
       ...(evidence.some((e) => e.coverage.some((c) => c.excludedUsers > 0))
         ? [
-            "已排除随访不足的获客日期，费用同步裁剪；时期有效获客天数可能不同，不能把这些合计直接解释成完整月份的表现或被排除用户的表现。",
+            "Acquisition dates without complete follow-up were excluded, and spend was trimmed to match. Effective acquisition-day counts may differ across periods, so these totals do not represent full-month performance or the performance of excluded users.",
           ]
         : []),
       ...(explanations?.some((e) => e.status === "not_checked")
         ? [
-            "尚未检查：" +
+            "Not checked: " +
               explanations
                 .filter((e) => e.status === "not_checked")
                 .map((e) => e.claim)
-                .join("；") +
-              "。这些解释尚未排除。",
+                .join("; ") +
+              ". These explanations have not been ruled out.",
           ]
         : []),
-      "渠道金额增减可相加；用户规模、付费比例与收入的关系只描述观测构成，不代表广告因果贡献。",
+      "Channel amount changes are additive. Relationships among user volume, purchaser rate, and revenue describe observed composition, not causal advertising contribution.",
       ...catalog(context.datasetVersion, evidence[0]?.backend ?? "fixture")
         .limitations,
     ],
     nextSteps: followups.length
       ? followups.map((action) => action.message)
-      : ["当前范围的这些检查已完成，可以指定新的时期或筛选条件继续分析。"],
+      : [
+          "The checks for this scope are complete. Choose a new period or filter to continue.",
+        ],
   };
 }

@@ -40,15 +40,17 @@ export class ScriptedGateway implements ModelGateway {
       out = data.evidence.some((e: any) => e.scope.groupBy.includes("channel"))
         ? {
             decision: "ready",
-            reason: "渠道拆分已提供，可以给出观测解释。",
+            reason:
+              "A channel breakdown is available, so an observational explanation can be given.",
             query: null,
             issues: [],
           }
         : {
             decision: "needs_query",
-            reason: "整体结果不足以判断渠道贡献，需要拆分。",
+            reason:
+              "The overall result is insufficient to assess channel contribution; a breakdown is needed.",
             query: { groupBy: ["channel"] },
-            issues: ["缺少渠道结构"],
+            issues: ["Channel structure is missing"],
           };
     return schema.parse(out);
   }

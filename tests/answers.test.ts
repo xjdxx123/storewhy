@@ -68,8 +68,9 @@ it("leads with a concrete chosen channel finding, binds the summary and deduplic
     ready: true,
   });
   expect(answer.summary).toContain("TipTop");
-  expect(answer.summary).toContain("费用增加24");
-  expect(answer.summary).not.toContain("通过证据审查");
+  expect(answer.summary).toContain("spend in the first 14 days");
+  expect(answer.summary).toContain("increased by 24");
+  expect(answer.summary).not.toContain("passed evidence review");
   expect(answer.summary).toBe(answer.conclusion?.text);
   expect(answer.keyEvidence!.length).toBeGreaterThanOrEqual(2);
   expect(answer.keyEvidence!.length).toBeLessThanOrEqual(3);
@@ -94,8 +95,8 @@ it("honors another valid headline and keeps limited conclusions specific", () =>
     ready: false,
   });
   expect(answer.summary).toContain("FaceBoom");
-  expect(answer.summary).toContain("费用增加12");
-  expect(answer.summary).toContain("证据缺口");
+  expect(answer.summary).toContain("increased by 12");
+  expect(answer.summary).toContain("Additional evidence");
   expect(answer.conclusion?.factIds).toEqual(lead.factIds);
 });
 it("recomputes direction and scope rather than carrying over a fixed main-demo conclusion", async () => {
@@ -115,8 +116,8 @@ it("recomputes direction and scope rather than carrying over a fixed main-demo c
     selected: observationsFor([e], factsFor([e])),
     ready: true,
   });
-  expect(answer.summary).toContain("费用减少12");
-  expect(answer.summary).toContain("2019-06对比2019-07");
+  expect(answer.summary).toContain("decreased by 12");
+  expect(answer.summary).toContain("2019-06 vs 2019-07");
   expect(answer.summary).not.toContain("TipTop");
 });
 it("gives a concrete summary for a single-period query", async () => {
@@ -141,9 +142,9 @@ it("reconciles channel amounts and offsets without summing rates", () => {
   const o = i.observations.find(
     (o) => o.kind === "contribution" && o.metrics[0] === "spend",
   )!;
-  expect(o.text).toContain("TipTop增加24");
-  expect(o.text).toContain("其余所列渠道合计增加12");
-  expect(o.text).toContain("所列渠道合计增加36");
+  expect(o.text).toContain("TipTop increased by 24");
+  expect(o.text).toContain("other listed channels combined increased by 12");
+  expect(o.text).toContain("all listed channels combined increased by 36");
   expect(o.factIds).toHaveLength(4);
   expect(
     i.observations
@@ -234,8 +235,8 @@ it("executes two consecutive recommendations and rejects stale sibling actions b
   expect(next.context.spec.filters).toEqual(first.context.spec.filters);
   expect(next.context.spec.metrics).toContain("repeat_purchase_revenue");
   expect(next.context.taskKind).toBe("query");
-  expect(next.answer?.summary).toContain("首次购买收入");
-  expect(next.answer?.summary).toContain("后续购买收入");
+  expect(next.answer?.summary).toContain("First-purchase revenue");
+  expect(next.answer?.summary).toContain("Repeat-purchase revenue");
   const before = server.disk.get<any>("conversations", c.id);
   const stale = await server.app.inject({
     method: "POST",
@@ -373,7 +374,7 @@ it("refuses a model headline outside the selected observations", async () => {
     );
     expect(r.status).toBe("failed");
     expect(r.answer).toBeUndefined();
-    expect(r.message).toContain("结论必须引用");
+    expect(r.message).toContain("must reference a selected observation");
   } finally {
     await local.app.close();
     rmSync(temporary, { recursive: true, force: true });
@@ -411,8 +412,8 @@ it("names the filtered channel and displays payer-rate changes as percentages an
   const o = observationsFor([e], facts).find((o) => o.kind === "comparison")!;
   expect(o.text).toContain("TipTop");
   expect(o.text).toContain("75%");
-  expect(o.text).toContain("个百分点");
-  expect(o.text).not.toContain("0.75变为");
+  expect(o.text).toContain("percentage points");
+  expect(o.text).not.toContain("0.75 to");
   expect(facts.every((f) => f.label.includes("TipTop"))).toBe(true);
 });
 it("keeps an explicit Why on the reviewed path when the model misclassifies it as a query", async () => {
@@ -489,7 +490,7 @@ it("keeps a query comparison focused on the largest increase before the largest 
     ready: true,
   });
   expect(answer.summary).toContain("FaceBoom");
-  expect(answer.summary).toContain("差额5");
+  expect(answer.summary).toContain("difference 5");
 });
 
 it("honors a recommended new metric query even when its message begins with only this channel", async () => {
@@ -514,7 +515,7 @@ it("honors a recommended new metric query even when its message begins with only
     }).id,
   );
   expect(next.context.taskKind).toBe("query");
-  expect(next.answer?.summary).toContain("购买用户比例");
+  expect(next.answer?.summary).toContain("Purchaser rate");
   expect(next.answer?.summary).toContain("%");
 });
 

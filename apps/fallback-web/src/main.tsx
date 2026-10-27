@@ -1,4 +1,10 @@
-import { useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type FormEvent,
+} from "react";
 import { createRoot } from "react-dom/client";
 import type {
   Answer,
@@ -6,6 +12,7 @@ import type {
   ContextPatch,
   DemoReplay,
   FollowupAction,
+  Run,
   RunStatus,
 } from "@storewhy/contracts";
 import { api, useInvestigation, isRunning } from "./session";
@@ -13,56 +20,131 @@ import { EvidenceChart, type EvidenceRequest } from "./charts";
 import { EvidenceDialog } from "./evidence";
 import "./style.css";
 const mainQuestion =
-  "为什么2019年7月比6月费用增加，新用户首访后14天收入却没有同步增长？";
+  "Why did spend rise in July 2019 while 14-day new-user revenue stayed flat?";
 const statuses: Record<RunStatus, string> = {
-  queued: "等待开始",
-  running: "调查中",
-  completed: "调查完成",
-  limited: "部分解释仍需证据",
-  needs_clarification: "需要补充信息",
-  unsupported: "当前数据无法回答",
-  no_data: "此范围没有数据",
-  failed: "调查未完成",
-  cancelled: "已取消",
+  queued: "Queued",
+  running: "Investigating",
+  completed: "Completed",
+  limited: "Evidence gap",
+  needs_clarification: "Needs input",
+  unsupported: "Unsupported",
+  no_data: "No data",
+  failed: "Failed",
+  cancelled: "Cancelled",
 };
 function Scope({ spec }: { spec?: AnalysisSpec }) {
   return (
-    <section className="scope" aria-label="当前分析条件" data-testid="scope">
-      <p className="eyebrow">当前分析条件</p>
+    <section
+      id="scope"
+      className="scope glass-panel"
+      aria-label="Investigation scope"
+      data-testid="scope"
+    >
       {!spec ? (
-        <p>连接后读取实际范围</p>
+        <p>Connect to load scope.</p>
       ) : (
         <>
           <div className="scope-items">
             <span>
-              <b>时期</b>
+              <b>PERIOD</b>
               {spec.periods.map((p) => p.label).join(" → ")}
             </span>
             <span>
-              <b>口径</b>
+              <b>WINDOW</b>
               {spec.mode === "cohort"
-                ? `首访后 ${spec.windowDays} 天`
-                : `自然时期${spec.timeGrain ? ` · ${({ day: "按日", week: "按周", month: "按月" } as const)[spec.timeGrain]}` : ""}`}
+                ? `${spec.windowDays}-day cohort`
+                : `Calendar${spec.timeGrain ? ` · ${({ day: "Daily", week: "Weekly", month: "Monthly" } as const)[spec.timeGrain]}` : ""}`}
             </span>
             <span>
-              <b>人群</b>
-              {spec.audience === "paid"
-                ? "付费渠道用户"
-                : "全部用户（含 organic）"}
+              <b>AUDIENCE</b>
+              {spec.audience === "paid" ? "Paid users" : "All users"}
             </span>
             <span>
-              <b>渠道</b>
-              {spec.filters.channels.join("、") || "全部渠道"}
+              <b>CHANNEL</b>
+              {spec.filters.channels.join(", ") || "All channels"}
             </span>
           </div>
-          <p className="caption">
-            {spec.periods.map((p) => `${p.start} 至 ${p.end}`).join("；")}
-            ，结束日不含。设备：{spec.filters.devices.join("、") || "全部"} ·
-            国家：{spec.filters.regions.join("、") || "全部"}
-          </p>
         </>
       )}
     </section>
+  );
+}
+
+const metricNames: Record<string, string> = {
+  spend: "Acquisition spend",
+  new_users: "New users",
+  revenue: "14-day revenue",
+  purchasers: "Purchasers",
+  payers: "Purchasers",
+  payer_rate: "Payer rate",
+  revenue_to_spend: "Revenue / spend",
+  cost_per_new_user: "Cost / new user",
+};
+
+function MetricStrip({ answer }: { answer: Answer }) {
+  const visible = answer.facts.slice(0, 4);
+  if (!visible.length) return null;
+  return (
+    <section className="metric-strip" aria-label="Verified metrics">
+      {visible.map((fact, index) => (
+        <article
+          className="metric-card glass-panel"
+          key={fact.id}
+          style={{ "--delay": `${index * 70}ms` } as CSSProperties}
+        >
+          <span className="metric-label">
+            {metricNames[fact.metric] ?? fact.metric.replaceAll("_", " ")}
+          </span>
+          <strong>
+            {fact.value === null
+              ? "—"
+              : new Intl.NumberFormat("en-US", {
+                  maximumFractionDigits: 2,
+                }).format(fact.value)}
+          </strong>
+          <span className="metric-context">
+            {fact.label.split("/")[0]?.trim()}
+          </span>
+        </article>
+      ))}
+    </section>
+  );
+}
+
+function SignalMap() {
+  return (
+    <div className="signal-map" aria-hidden="true">
+      <div className="signal-glow signal-glow-one" />
+      <div className="signal-glow signal-glow-two" />
+      <svg viewBox="0 0 520 360" role="presentation">
+        <path
+          className="signal-path path-one"
+          d="M94 258 C155 176 185 180 258 181 S373 184 429 92"
+        />
+        <path
+          className="signal-path path-two"
+          d="M91 258 C171 294 270 298 429 92"
+        />
+        <circle className="signal-node node-data" cx="94" cy="258" r="43" />
+        <circle className="signal-node node-agent" cx="258" cy="181" r="53" />
+        <circle className="signal-node node-proof" cx="429" cy="92" r="43" />
+        <circle
+          className="signal-particle particle-one"
+          cx="94"
+          cy="258"
+          r="5"
+        />
+        <circle
+          className="signal-particle particle-two"
+          cx="94"
+          cy="258"
+          r="4"
+        />
+      </svg>
+      <span className="signal-label signal-data">Data</span>
+      <span className="signal-label signal-agent">Investigate</span>
+      <span className="signal-label signal-proof">Evidence</span>
+    </div>
   );
 }
 function Report({
@@ -79,16 +161,15 @@ function Report({
   const facts = (ids: string[]) =>
     answer.facts.filter((f) => ids.includes(f.id));
   return (
-    <div className="report" data-testid="report">
-      <section className="conclusion">
-        <p className="eyebrow">调查结论</p>
+    <div className="report" id="evidence" data-testid="report">
+      <MetricStrip answer={answer} />
+      <section className="conclusion glass-panel">
         <h2>{answer.conclusion?.text ?? answer.summary}</h2>
       </section>
       {(answer.keyEvidence ?? answer.findings).length > 0 && (
         <section>
           <div className="section-heading">
-            <h3>关键证据</h3>
-            <span className="meta">数字来自实际查询</span>
+            <h3>Key evidence</h3>
           </div>
           <div className="key-evidence">
             {(answer.keyEvidence ?? answer.findings).map((finding, i) => (
@@ -101,6 +182,7 @@ function Report({
                       <button
                         key={f.id}
                         className="text-button"
+                        aria-label={`View evidence · ${f.label}`}
                         onClick={() =>
                           open({
                             id: f.evidenceId,
@@ -109,7 +191,7 @@ function Report({
                           })
                         }
                       >
-                        查看依据 · {f.label}
+                        Evidence ↗
                       </button>
                     ))}
                   </div>
@@ -124,17 +206,19 @@ function Report({
           <EvidenceChart key={chart.id} chart={chart} open={open} />
         ))}
       </div>
-      {(answer.chartNotes ?? []).map((note, i) => (
-        <p className="caption" key={i}>
-          {note}
-        </p>
-      ))}
+      {(answer.chartNotes ?? []).length > 0 && (
+        <details className="report-notes">
+          <summary>Analysis notes</summary>
+          {(answer.chartNotes ?? []).map((note, i) => (
+            <p className="caption" key={i}>
+              {note}
+            </p>
+          ))}
+        </details>
+      )}
       {(answer.explanations ?? []).length > 0 && (
         <section>
-          <h3>检查了哪些解释</h3>
-          <p className="caption">
-            支持与反驳描述观测结果，不代表已证明因果关系。
-          </p>
+          <h3>Explanations checked</h3>
           <div className="explanations">
             {answer.explanations!.map((e) => (
               <article key={e.id}>
@@ -142,10 +226,10 @@ function Report({
                   {
                     (
                       {
-                        supported: "观测支持",
-                        contradicted: "观测反驳",
-                        missing_data: "缺少数据",
-                        not_checked: "尚未检查",
+                        supported: "Supported",
+                        contradicted: "Contradicted",
+                        missing_data: "Missing data",
+                        not_checked: "Not checked",
                       } as const
                     )[e.status]
                   }
@@ -160,7 +244,7 @@ function Report({
                         className="text-button"
                         onClick={() => open({ id })}
                       >
-                        查看证据
+                        View evidence
                       </button>
                     ))}
                     {e.coverageRefs.map((c) => (
@@ -169,7 +253,7 @@ function Report({
                         className="text-button"
                         onClick={() => open({ id: c.evidenceId })}
                       >
-                        查看 {c.period} 覆盖
+                        View {c.period} coverage
                       </button>
                     ))}
                   </div>
@@ -180,18 +264,18 @@ function Report({
         </section>
       )}
       {answer.limitations.length > 0 && (
-        <section className="limitations">
-          <h3>仍需注意</h3>
+        <details className="limitations">
+          <summary>Limitations · {answer.limitations.length}</summary>
           <ul>
             {answer.limitations.map((item, i) => (
               <li key={i}>{item}</li>
             ))}
           </ul>
-        </section>
+        </details>
       )}
       {(answer.followups ?? []).length > 0 ? (
         <section>
-          <h3>继续追问</h3>
+          <h3>Continue the investigation</h3>
           <div className="followups">
             {answer.followups!.map((action) => (
               <button
@@ -211,7 +295,7 @@ function Report({
       ) : (
         answer.nextSteps.length > 0 && (
           <section>
-            <h3>可以继续检查</h3>
+            <h3>What to check next</h3>
             <ul>
               {answer.nextSteps.map((step, i) => (
                 <li key={i}>{step}</li>
@@ -223,10 +307,478 @@ function Report({
     </div>
   );
 }
+
+const investigationPhases = [
+  { id: "understanding", label: "Frame" },
+  { id: "querying", label: "Query" },
+  { id: "explaining", label: "Explain" },
+  { id: "reviewing", label: "Review" },
+  { id: "presenting", label: "Present" },
+];
+
+function ProgressRail({
+  phase,
+  complete,
+}: {
+  phase?: string;
+  complete?: boolean;
+}) {
+  const activeIndex = complete
+    ? investigationPhases.length
+    : Math.max(
+        0,
+        investigationPhases.findIndex((item) => item.id === phase),
+      );
+  return (
+    <div className="progress-rail" aria-label="Investigation progress">
+      {investigationPhases.map((item, index) => {
+        const state =
+          index < activeIndex
+            ? "done"
+            : index === activeIndex
+              ? "active"
+              : "pending";
+        return (
+          <div className={`progress-step ${state}`} key={item.id}>
+            <span>
+              <i />
+              <span className="sr-only">{item.label}</span>
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+const starterThreads = [
+  {
+    id: "purchasers",
+    title: "Purchaser rate",
+    prompt:
+      "Why did the first-week purchaser rate of new users fall in August 2019 versus July? Focus on user behaviour, not spend.",
+  },
+  {
+    id: "boundaries",
+    title: "Data boundaries",
+    prompt: "Why did FaceBoom ad CTR decline in July 2019?",
+  },
+] as const;
+
+type ChatWorkspaceProps = {
+  run?: Run;
+  report?: Answer;
+  spec?: AnalysisSpec;
+  question: string;
+  input: string;
+  setInput: (value: string) => void;
+  busy: boolean;
+  disabled: boolean;
+  submitting: boolean;
+  connection?: string;
+  notice?: string;
+  error?: string;
+  modeLabel: string;
+  open: (request: EvidenceRequest) => void;
+  followup: (action: FollowupAction) => void;
+  patch: (text: string, value: ContextPatch) => void;
+  send: (event: FormEvent) => void;
+  cancel: () => void;
+  remember: () => void;
+  startDefaults: () => void;
+  restore: () => void;
+  sample: () => void;
+  back: () => void;
+  fresh: () => void;
+  useStarter: (prompt: string) => void;
+};
+
+function ChatWorkspace({
+  run,
+  report,
+  spec,
+  question,
+  input,
+  setInput,
+  busy,
+  disabled,
+  submitting,
+  connection,
+  notice,
+  error,
+  modeLabel,
+  open,
+  followup,
+  patch,
+  send,
+  cancel,
+  remember,
+  startDefaults,
+  restore,
+  sample,
+  back,
+  fresh,
+  useStarter,
+}: ChatWorkspaceProps) {
+  const currentQuestion = run?.question ?? question;
+  const threads = [
+    {
+      id: "current",
+      title: currentQuestion,
+      prompt: currentQuestion,
+      current: true,
+    },
+    ...starterThreads.map((thread) => ({ ...thread, current: false })),
+  ];
+  const [activeThread, setActiveThread] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<"left" | "right">(
+    "right",
+  );
+  const [slideKey, setSlideKey] = useState(0);
+  const touchStart = useRef<number | undefined>(undefined);
+
+  useEffect(() => {
+    setActiveThread(0);
+  }, [run?.id]);
+
+  function goToThread(index: number) {
+    if (index < 0 || index >= threads.length || index === activeThread) return;
+    setSlideDirection(index > activeThread ? "left" : "right");
+    setActiveThread(index);
+    setSlideKey((value) => value + 1);
+  }
+
+  const selected = threads[activeThread] ?? threads[0];
+
+  return (
+    <div className="chat-shell">
+      <aside className="chat-sidebar glass-panel">
+        <div className="chat-sidebar-head">
+          <button className="chat-brand" onClick={back} aria-label="Back home">
+            <span className="brand-mark">W</span>
+            <span>StoreWhy</span>
+          </button>
+          <button
+            className="chat-new"
+            onClick={fresh}
+            disabled={busy}
+            aria-label="New investigation"
+          >
+            <span aria-hidden="true">＋</span> New
+          </button>
+        </div>
+
+        <div className="thread-list-wrap">
+          <nav className="thread-list" aria-label="Investigation conversations">
+            {threads.map((thread, index) => (
+              <button
+                key={thread.id}
+                className={index === activeThread ? "active" : ""}
+                onClick={() => goToThread(index)}
+                aria-current={index === activeThread ? "page" : undefined}
+              >
+                <strong>{thread.title}</strong>
+              </button>
+            ))}
+          </nav>
+        </div>
+
+        <div className="chat-sidebar-tools">
+          <div className="chat-mode">
+            <i className="connected" />
+            <span>{modeLabel}</span>
+          </div>
+          <div className="chat-tool-row">
+            <button
+              aria-label="Restore session"
+              disabled={busy}
+              onClick={restore}
+            >
+              Restore
+            </button>
+            <button
+              aria-label="Explore a sample investigation"
+              disabled={busy}
+              onClick={sample}
+            >
+              Sample
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <section className="chat-main glass-panel">
+        <header className="chat-topbar">
+          <div>
+            <button className="chat-back" onClick={back} aria-label="Back home">
+              ←
+            </button>
+          </div>
+          <div className="chat-pager">
+            <button
+              aria-label="Previous conversation"
+              disabled={activeThread === 0}
+              onClick={() => goToThread(activeThread - 1)}
+            >
+              ←
+            </button>
+            <button
+              aria-label="Next conversation"
+              disabled={activeThread === threads.length - 1}
+              onClick={() => goToThread(activeThread + 1)}
+            >
+              →
+            </button>
+          </div>
+        </header>
+
+        <div className="chat-thread-strip" aria-label="Conversation carousel">
+          {threads.map((thread, index) => (
+            <button
+              key={thread.id}
+              className={index === activeThread ? "active" : ""}
+              onClick={() => goToThread(index)}
+            >
+              {thread.current ? "Current" : thread.title}
+            </button>
+          ))}
+        </div>
+
+        <div
+          className="chat-carousel"
+          onTouchStart={(event) => {
+            touchStart.current = event.changedTouches[0]?.clientX;
+          }}
+          onTouchEnd={(event) => {
+            if (touchStart.current === undefined) return;
+            const distance =
+              (event.changedTouches[0]?.clientX ?? touchStart.current) -
+              touchStart.current;
+            touchStart.current = undefined;
+            if (Math.abs(distance) < 55) return;
+            goToThread(activeThread + (distance < 0 ? 1 : -1));
+          }}
+        >
+          <article
+            key={`${selected.id}-${slideKey}`}
+            className={`conversation-slide slide-${slideDirection}`}
+          >
+            {selected.current ? (
+              <div className="conversation-flow">
+                <div className="chat-message user-message">
+                  <div className="message-bubble">{currentQuestion}</div>
+                </div>
+
+                <div className="chat-message assistant-message">
+                  <div className="assistant-avatar" aria-hidden="true">
+                    W
+                  </div>
+                  <div className="assistant-body">
+                    {error && (
+                      <div className="notice error" role="alert">
+                        {error}
+                      </div>
+                    )}
+                    {(run || submitting) && (
+                      <section
+                        className="run-state chat-run-state"
+                        data-testid="run-state"
+                        data-run-id={run?.id ?? ""}
+                        data-status={run?.status ?? "submitting"}
+                        aria-live="polite"
+                      >
+                        <div className="section-heading">
+                          <div>
+                            <span
+                              className={`badge ${run?.status ?? "queued"}`}
+                            >
+                              {run ? statuses[run.status] : "Submitting"}
+                            </span>
+                            {(submitting || isRunning(run)) && (
+                              <p className="progress-label">
+                                {submitting
+                                  ? "Sending your question"
+                                  : (run?.progress?.label ??
+                                    "Reading investigation status")}
+                              </p>
+                            )}
+                          </div>
+                          {isRunning(run) && (
+                            <button
+                              disabled={run?.cancellationRequested}
+                              onClick={cancel}
+                            >
+                              {run?.cancellationRequested
+                                ? "Cancelling…"
+                                : "Cancel investigation"}
+                            </button>
+                          )}
+                        </div>
+                        <ProgressRail
+                          phase={run?.progress?.phase}
+                          complete={!!run && !isRunning(run)}
+                        />
+                        {connection && isRunning(run) && (
+                          <p className="caption">{connection}</p>
+                        )}
+                        {run?.message && !run.answer && <p>{run.message}</p>}
+                        {run?.warnings?.map((warning, index) => (
+                          <p className="notice" key={index}>
+                            {warning}
+                          </p>
+                        ))}
+                        {run && (
+                          <details>
+                            <summary>
+                              Execution log
+                              {run.timing
+                                ? ` · ${(run.timing.totalMs / 1000).toFixed(1)} sec`
+                                : ""}
+                            </summary>
+                            <ol className="event-list">
+                              {run.events.map((event) => (
+                                <li key={event.seq}>
+                                  <span className="meta">
+                                    {event.seq.toString().padStart(2, "0")}
+                                  </span>
+                                  {event.message}
+                                </li>
+                              ))}
+                            </ol>
+                          </details>
+                        )}
+                      </section>
+                    )}
+                    {report && run && (
+                      <p className="caption dataset-caption">
+                        ✓ {run.context.datasetVersion}
+                      </p>
+                    )}
+                    {report && (
+                      <Report
+                        answer={report}
+                        disabled={disabled}
+                        open={open}
+                        followup={followup}
+                      />
+                    )}
+                    {notice && (
+                      <p className="chat-notice" role="status">
+                        {notice}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="starter-thread glass-panel">
+                <h2>{selected.title}</h2>
+                <p>{selected.prompt}</p>
+                <button onClick={() => useStarter(selected.prompt)}>
+                  Use this question <span aria-hidden="true">↗</span>
+                </button>
+              </div>
+            )}
+          </article>
+        </div>
+
+        {selected.current && (
+          <div className="chat-composer-wrap">
+            <div
+              className="chat-scope-tools"
+              aria-label="Investigation filters"
+            >
+              <button
+                disabled={disabled}
+                onClick={() =>
+                  patch("Show FaceBoom only", {
+                    filters: { channels: ["FaceBoom"] },
+                  })
+                }
+              >
+                FaceBoom only
+              </button>
+              <button
+                disabled={disabled}
+                onClick={() =>
+                  patch("Clear the channel filter", {
+                    filters: { channels: [] },
+                  })
+                }
+              >
+                All channels
+              </button>
+              <button
+                disabled={disabled || spec?.mode !== "cohort"}
+                onClick={() => patch("Use a 7-day window", { windowDays: 7 })}
+              >
+                7-day window
+              </button>
+              <button
+                disabled={disabled || spec?.mode !== "cohort"}
+                onClick={() => patch("Use a 14-day window", { windowDays: 14 })}
+              >
+                14-day window
+              </button>
+              {spec?.mode === "cohort" && (
+                <button
+                  aria-label={`Remember ${spec.windowDays}-day window`}
+                  disabled={disabled}
+                  onClick={remember}
+                >
+                  Remember {spec.windowDays}d
+                </button>
+              )}
+              <button
+                aria-label="Start from saved defaults"
+                disabled={disabled}
+                onClick={startDefaults}
+              >
+                Start fresh
+              </button>
+            </div>
+            <form className="chat-composer" onSubmit={send}>
+              <textarea
+                aria-label="Continue this investigation"
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                disabled={busy}
+                rows={1}
+                maxLength={4000}
+                placeholder="Ask a follow-up…"
+                onKeyDown={(event) => {
+                  if (
+                    (event.metaKey || event.ctrlKey) &&
+                    event.key === "Enter"
+                  ) {
+                    event.preventDefault();
+                    event.currentTarget.form?.requestSubmit();
+                  }
+                }}
+              />
+              <button
+                className="primary"
+                type="submit"
+                aria-label="Investigate"
+                disabled={disabled || !input.trim()}
+              >
+                <span aria-hidden="true">↑</span>
+              </button>
+            </form>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
+
 function App() {
   const session = useInvestigation();
   const [question, setQuestion] = useState(mainQuestion),
     [demo, setDemo] = useState<DemoReplay>();
+  const [view, setView] = useState<"home" | "chat">("home");
+  const [chatInput, setChatInput] = useState("");
+  const [pendingChatInput, setPendingChatInput] = useState("");
   const [demoBusy, setDemoBusy] = useState(false),
     [pageError, setPageError] = useState("");
   const [source, setSource] = useState<EvidenceRequest>();
@@ -235,10 +787,43 @@ function App() {
   const disabled = busy || session.uncertain || !conversation || !!demo;
   const report = demo?.answer ?? run?.answer;
   const spec = demo?.evidence.spec ?? session.spec;
+
+  function changeView(next: "home" | "chat") {
+    if (next === view) return;
+    const documentWithTransitions = document as Document & {
+      startViewTransition?: (update: () => void) => unknown;
+    };
+    if (documentWithTransitions.startViewTransition) {
+      documentWithTransitions.startViewTransition(() => setView(next));
+    } else {
+      setView(next);
+    }
+  }
+
+  useEffect(() => {
+    if (run?.id && !demo) setView("chat");
+  }, [run?.id, demo]);
+
+  useEffect(() => {
+    if (run?.id) setPendingChatInput("");
+  }, [run?.id]);
+
+  useEffect(() => {
+    if (session.uncertain && pendingChatInput) {
+      setChatInput(pendingChatInput);
+    }
+  }, [session.uncertain, pendingChatInput]);
+
+  useEffect(() => {
+    document.body.classList.toggle("chat-open", view === "chat" && !demo);
+    return () => document.body.classList.remove("chat-open");
+  }, [view, demo]);
+
   function launch(create: () => Promise<import("@storewhy/contracts").Run>) {
     setDemo(undefined);
     setSource(undefined);
     setPageError("");
+    changeView("chat");
     void session.launch(create);
   }
   function send(e: FormEvent) {
@@ -246,338 +831,450 @@ function App() {
     if (!conversation || !question.trim() || disabled) return;
     launch(() => api.send(conversation.id, question.trim()));
   }
+  function sendChat(e: FormEvent) {
+    e.preventDefault();
+    const text = chatInput.trim();
+    if (!conversation || !text || disabled) return;
+    setPendingChatInput(text);
+    setChatInput("");
+    launch(() => api.send(conversation.id, text));
+  }
   function patch(text: string, value: ContextPatch) {
     if (conversation && !disabled)
       launch(() => api.send(conversation.id, text, { patch: value }));
   }
   async function showDemo() {
     if (busy) return;
+    changeView("home");
     setDemoBusy(true);
     setPageError("");
     setSource(undefined);
     try {
       setDemo(await api.demo());
     } catch (e) {
-      setPageError(e instanceof Error ? e.message : "样例暂不可用");
+      setPageError(
+        e instanceof Error
+          ? e.message
+          : "The sample is temporarily unavailable.",
+      );
     } finally {
       setDemoBusy(false);
     }
   }
+
+  function newInvestigation(prompt = mainQuestion) {
+    setDemo(undefined);
+    setSource(undefined);
+    setPageError("");
+    setQuestion(prompt);
+    setChatInput("");
+    setPendingChatInput("");
+    changeView("home");
+    void session.restore(true);
+  }
+
+  const chatMode = view === "chat" && !demo;
+  const modeLabel =
+    session.dataMode === "zetaris"
+      ? "Live data"
+      : session.dataMode === "fixture"
+        ? "Sample mode"
+        : "Connecting";
+
   return (
     <>
-      <header>
-        <a className="brand" href="/" aria-label="StoreWhy 首页">
-          <span className="brand-mark">w</span>
-          <span>
-            StoreWhy<small>从变化，找到线索。</small>
-          </span>
-        </a>
-        <div className="header-actions">
-          <span className="mode">
-            <i className={session.dataMode ? "connected" : ""} />
-            {session.dataMode === "zetaris"
-              ? "Zetaris 模式 · 公开教学数据"
-              : session.dataMode === "fixture"
-                ? "自制样例数据"
-                : "等待后端连接"}
-          </span>
-          <button
-            disabled={busy}
-            onClick={() => {
-              setDemo(undefined);
-              setSource(undefined);
-              setPageError("");
-              void session.restore(true);
-            }}
-          >
-            新会话
-          </button>
-        </div>
-      </header>
-      <main>
-        <section className="intro">
-          <div>
-            <p className="eyebrow">GROWTH INVESTIGATION / 运营调查</p>
-            <h1>
-              把变化，<em>问清楚。</em>
-            </h1>
-            <p>从费用、用户到购买收入，用数据检查解释，带着证据继续追问。</p>
-          </div>
-          <button
-            className="text-button"
-            disabled={busy}
-            onClick={() => {
-              void showDemo();
-            }}
-          >
-            {demoBusy ? "正在读取样例…" : "查看自制样例 ↗"}
-          </button>
-        </section>
-        <Scope spec={spec} />
-        <section className="question-card">
-          <form onSubmit={send} aria-label="调查问题">
-            <label htmlFor="question">
-              {run ? "继续这次调查" : "想了解什么变化？"}
-            </label>
-            <textarea
-              id="question"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              disabled={busy}
-              maxLength={4000}
-              rows={3}
-              placeholder="例如：为什么费用增加了，收入却没有同步增长？"
-              onKeyDown={(e) => {
-                if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-                  e.preventDefault();
-                  if (!disabled && conversation && question.trim())
-                    launch(() => api.send(conversation.id, question.trim()));
-                }
-              }}
-            />
-            <div className="composer-bottom">
-              <span className="caption">
-                {demo
-                  ? "样例为只读回放，返回调查后可继续提问。"
-                  : conversation
-                    ? "可直接问问题，也可以沿用上轮条件追问。"
-                    : "连接本地后端后开始调查。"}
-              </span>
-              <button
-                className="primary"
-                type="submit"
-                disabled={disabled || !question.trim()}
-              >
-                {session.submitting
-                  ? "正在提交…"
-                  : isRunning(run)
-                    ? "调查进行中"
-                    : "开始调查 →"}
-              </button>
-            </div>
-          </form>
-          <div className="quick-actions">
-            <span>快捷追问</span>
-            <button
-              disabled={disabled || !!demo}
-              onClick={() =>
-                patch("只看 FaceBoom", { filters: { channels: ["FaceBoom"] } })
-              }
-            >
-              只看 FaceBoom
-            </button>
-            <button
-              disabled={disabled || !!demo}
-              onClick={() =>
-                patch("清除渠道限制", { filters: { channels: [] } })
-              }
-            >
-              全部渠道
-            </button>
-            <button
-              disabled={disabled || !!demo || spec?.mode !== "cohort"}
-              onClick={() => patch("窗口改成7天", { windowDays: 7 })}
-            >
-              改为 7 天
-            </button>
-            <button
-              disabled={disabled || !!demo || spec?.mode !== "cohort"}
-              onClick={() => patch("窗口改成14天", { windowDays: 14 })}
-            >
-              改为 14 天
-            </button>
-          </div>
-        </section>
-        {(session.error || pageError) && (
-          <div className="notice error" role="alert">
-            {session.error || pageError}
-          </div>
-        )}
-        <div className="session-tools">
-          <button
-            className="text-button"
-            disabled={busy}
-            onClick={() => {
-              setDemo(undefined);
-              void session.restore();
-            }}
-          >
-            {session.loading ? "正在读取会话…" : "恢复会话"}
-          </button>
-          {spec?.mode === "cohort" && (
-            <button
-              className="text-button"
-              disabled={disabled || !!demo}
-              onClick={() => {
-                void session.remember(spec);
-              }}
-            >
-              记住 {spec.windowDays} 天默认窗口
-            </button>
-          )}
-          <button
-            className="text-button"
-            disabled={disabled || !!demo}
-            onClick={() => {
-              if (conversation)
-                launch(() =>
-                  api.send(conversation.id, "开始新分析：查询新用户收入", {
+      <div className="ambient" aria-hidden="true">
+        <span className="orb orb-one" />
+        <span className="orb orb-two" />
+        <span className="orb orb-three" />
+        <span className="noise" />
+      </div>
+      {chatMode ? (
+        <ChatWorkspace
+          run={run}
+          report={run?.answer}
+          spec={session.spec}
+          question={question}
+          input={chatInput}
+          setInput={setChatInput}
+          busy={busy}
+          disabled={disabled}
+          submitting={session.submitting}
+          connection={session.connection}
+          notice={session.notice}
+          error={session.error || pageError}
+          modeLabel={modeLabel}
+          open={setSource}
+          followup={(action) => launch(() => api.followup(action))}
+          patch={patch}
+          send={sendChat}
+          cancel={() => {
+            void session.cancel();
+          }}
+          remember={() => {
+            if (session.spec) void session.remember(session.spec);
+          }}
+          startDefaults={() => {
+            if (conversation)
+              launch(() =>
+                api.send(
+                  conversation.id,
+                  "Start a new analysis of new-user revenue",
+                  {
                     newInvestigation: true,
                     taskKind: "query",
                     patch: { metrics: ["new_users", "revenue"] },
-                  }),
-                );
-            }}
-          >
-            按默认条件新分析
-          </button>
-          <span className="caption" role="status">
-            {session.notice}
-          </span>
-        </div>
-        {demo && (
-          <div className="notice sample">
-            <span>
-              <strong>自制样例回放</strong> · {demo.notice}
-            </span>
-            <button onClick={() => setDemo(undefined)}>返回调查</button>
-          </div>
-        )}
-        {!demo && (run || session.submitting) && (
-          <section
-            className="run-state"
-            data-testid="run-state"
-            data-run-id={run?.id ?? ""}
-            data-status={run?.status ?? "submitting"}
-            aria-live="polite"
-          >
-            <div className="section-heading">
-              <div>
-                <span className={`badge ${run?.status ?? "queued"}`}>
-                  {run ? statuses[run.status] : "提交中"}
-                </span>
-                <p className="progress-label">
-                  {session.submitting
-                    ? "正在提交问题"
-                    : (run?.progress?.label ?? run?.message ?? "正在读取状态")}
-                </p>
-              </div>
-              {isRunning(run) && (
+                  },
+                ),
+              );
+          }}
+          restore={() => {
+            setDemo(undefined);
+            void session.restore();
+          }}
+          sample={() => {
+            void showDemo();
+          }}
+          back={() => changeView("home")}
+          fresh={() => newInvestigation()}
+          useStarter={(prompt) => newInvestigation(prompt)}
+        />
+      ) : (
+        <>
+          <header className="glass-panel">
+            <a className="brand" href="/" aria-label="StoreWhy home">
+              <span className="brand-mark">W</span>
+              <span>StoreWhy</span>
+            </a>
+            <nav className="rail-nav" aria-label="Primary navigation">
+              <a className="active" href="#ask">
+                <span aria-hidden="true">✦</span> Ask
+              </a>
+              <a href="#scope">
+                <span aria-hidden="true">◎</span> Scope
+              </a>
+              <a href="#evidence">
+                <span aria-hidden="true">⌁</span> Evidence
+              </a>
+            </nav>
+            <div className="header-actions">
+              <span className="mode">
+                <i className={session.dataMode ? "connected" : ""} />
+                {modeLabel}
+              </span>
+              <button
+                className="header-button"
+                aria-label="New investigation"
+                disabled={busy}
+                onClick={() => newInvestigation()}
+              >
+                New <span aria-hidden="true">＋</span>
+              </button>
+            </div>
+          </header>
+          <main>
+            <section
+              className={`intro glass-panel ${report || run ? "intro-compact" : ""}`}
+            >
+              <div className="intro-copy">
+                <h1>
+                  Ask what changed.
+                  <br />
+                  <em>See why.</em>
+                </h1>
                 <button
-                  disabled={run?.cancellationRequested}
+                  className="sample-link"
+                  aria-label="Explore a sample investigation"
+                  disabled={busy}
                   onClick={() => {
-                    void session.cancel();
+                    void showDemo();
                   }}
                 >
-                  {run?.cancellationRequested ? "正在取消…" : "取消调查"}
+                  {demoBusy ? "Loading…" : "View sample"}
+                  <span aria-hidden="true">↗</span>
+                </button>
+              </div>
+              <SignalMap />
+            </section>
+            <Scope spec={spec} />
+            <section id="ask" className="question-card glass-panel">
+              <form onSubmit={send} aria-label="Investigation question">
+                <textarea
+                  id="question"
+                  aria-label={
+                    run
+                      ? "Continue this investigation"
+                      : "What changed—and why?"
+                  }
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  disabled={busy}
+                  maxLength={4000}
+                  rows={3}
+                  placeholder="What changed—and why?"
+                  onKeyDown={(e) => {
+                    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+                      e.preventDefault();
+                      if (!disabled && conversation && question.trim())
+                        launch(() =>
+                          api.send(conversation.id, question.trim()),
+                        );
+                    }
+                  }}
+                />
+                <div className="composer-bottom">
+                  {!conversation && (
+                    <span className="caption">Connect to begin.</span>
+                  )}
+                  <button
+                    className="primary"
+                    type="submit"
+                    disabled={disabled || !question.trim()}
+                  >
+                    {session.submitting
+                      ? "Submitting…"
+                      : isRunning(run)
+                        ? "Investigating"
+                        : "Investigate"}
+                    <span aria-hidden="true"> ↗</span>
+                  </button>
+                </div>
+              </form>
+              <div className="quick-actions">
+                <button
+                  disabled={disabled || !!demo}
+                  onClick={() =>
+                    patch("Show FaceBoom only", {
+                      filters: { channels: ["FaceBoom"] },
+                    })
+                  }
+                >
+                  FaceBoom only
+                </button>
+                <button
+                  disabled={disabled || !!demo}
+                  onClick={() =>
+                    patch("Clear the channel filter", {
+                      filters: { channels: [] },
+                    })
+                  }
+                >
+                  All channels
+                </button>
+                <button
+                  disabled={disabled || !!demo || spec?.mode !== "cohort"}
+                  onClick={() => patch("Use a 7-day window", { windowDays: 7 })}
+                >
+                  7-day window
+                </button>
+                <button
+                  disabled={disabled || !!demo || spec?.mode !== "cohort"}
+                  onClick={() =>
+                    patch("Use a 14-day window", { windowDays: 14 })
+                  }
+                >
+                  14-day window
+                </button>
+              </div>
+            </section>
+            {(session.error || pageError) && (
+              <div className="notice error" role="alert">
+                {session.error || pageError}
+              </div>
+            )}
+            <div className="session-tools">
+              <button
+                className="text-button"
+                aria-label="Restore session"
+                disabled={busy}
+                onClick={() => {
+                  setDemo(undefined);
+                  void session.restore();
+                }}
+              >
+                {session.loading ? "Restoring…" : "Restore"}
+              </button>
+              {spec?.mode === "cohort" && (
+                <button
+                  className="text-button"
+                  aria-label={`Remember ${spec.windowDays}-day window`}
+                  disabled={disabled || !!demo}
+                  onClick={() => {
+                    void session.remember(spec);
+                  }}
+                >
+                  Remember {spec.windowDays}d
                 </button>
               )}
+              <button
+                className="text-button"
+                aria-label="Start from saved defaults"
+                disabled={disabled || !!demo}
+                onClick={() => {
+                  if (conversation)
+                    launch(() =>
+                      api.send(
+                        conversation.id,
+                        "Start a new analysis of new-user revenue",
+                        {
+                          newInvestigation: true,
+                          taskKind: "query",
+                          patch: { metrics: ["new_users", "revenue"] },
+                        },
+                      ),
+                    );
+                }}
+              >
+                Start fresh
+              </button>
+              <span className="caption" role="status">
+                {session.notice}
+              </span>
             </div>
-            {run && <p className="caption">本轮问题：{run.question}</p>}
-            {session.connection && isRunning(run) && (
-              <p className="caption">{session.connection}</p>
-            )}
-            {run?.message && !run.answer && <p>{run.message}</p>}
-            {run?.warnings?.map((w, i) => (
-              <p className="notice" key={i}>
-                {w}
-              </p>
-            ))}
-            {run && (
-              <details>
-                <summary>
-                  执行记录
-                  {run.timing
-                    ? ` · ${(run.timing.totalMs / 1000).toFixed(1)} 秒`
-                    : ""}
-                </summary>
-                <ol className="event-list">
-                  {run.events.map((e) => (
-                    <li key={e.seq}>
-                      <span className="meta">
-                        {e.seq.toString().padStart(2, "0")}
-                      </span>
-                      {e.message}
-                    </li>
-                  ))}
-                </ol>
-                {run.timing && (
-                  <p className="caption">
-                    模型调用 {run.timing.modelCalls} 次 · 实际返回 SQL{" "}
-                    {run.timing.sqlCount} 条 · 格式修复 {run.timing.repairCalls}{" "}
-                    次
-                  </p>
-                )}
-              </details>
-            )}
-          </section>
-        )}
-        {report && !demo && run && (
-          <p className="caption">
-            本轮数据版本：{run.context.datasetVersion} ·{" "}
-            {report.charts?.[0]?.source.backend === "fixture"
-              ? "自制样例数据"
-              : report.charts?.[0]?.source.backend === "zetaris"
-                ? "Zetaris 查询结果（教学数据）"
-                : "详细来源见分析依据"}
-          </p>
-        )}
-        {report && (
-          <Report
-            answer={report}
-            disabled={disabled || !!demo}
-            open={setSource}
-            followup={(action) => launch(() => api.followup(action))}
-          />
-        )}
-        {!report && !run && !session.submitting && (
-          <section className="empty-state">
-            <div>
-              <span className="eyebrow">从一个具体问题开始</span>
-              <h2>
-                先看发生了什么，
-                <br />
-                再检查可能的解释。
-              </h2>
-            </div>
-            <div className="examples">
-              {[
-                ["费用与收入", mainQuestion],
-                [
-                  "购买用户比例",
-                  "为什么2019年8月比7月新用户首周购买用户比例下降？只检查用户行为，不分析费用。",
-                ],
-                ["数据的边界", "为什么2019年7月FaceBoom的广告CTR下降？"],
-              ].map(([label, text]) => (
+            {demo && (
+              <div className="notice sample">
+                <span>
+                  <strong>Sample</strong>
+                </span>
                 <button
-                  key={label}
-                  disabled={busy}
-                  onClick={() => setQuestion(text)}
+                  aria-label="Return to investigation"
+                  onClick={() => {
+                    setDemo(undefined);
+                    if (run) changeView("chat");
+                  }}
                 >
-                  <strong>{label} ↗</strong>
-                  <span>{text}</span>
+                  Back
                 </button>
-              ))}
-            </div>
-          </section>
-        )}
-        <footer>
-          <p>
-            Procrastinate Pro+ ·{" "}
-            {session.catalog?.dataset.kind === "public_teaching_sample"
-              ? "公开教学数据"
-              : session.catalog?.dataset.kind === "self_authored_fixture"
-                ? "自制测试数据"
-                : "等待数据连接"}
-            {session.catalog
-              ? ` · ${session.catalog.dataset.start} 至 ${session.catalog.dataset.observationEndExclusive}（结束日不含）`
-              : ""}
-          </p>
-          <p>
-            费用仅支持渠道与日期。没有点击、曝光、素材、利润数据；观测诊断不等同于因果证明。
-          </p>
-        </footer>
-      </main>
+              </div>
+            )}
+            {!demo && (run || session.submitting) && (
+              <section
+                className="run-state glass-panel"
+                data-testid="run-state"
+                data-run-id={run?.id ?? ""}
+                data-status={run?.status ?? "submitting"}
+                aria-live="polite"
+              >
+                <div className="section-heading">
+                  <div>
+                    <span className={`badge ${run?.status ?? "queued"}`}>
+                      {run ? statuses[run.status] : "Submitting"}
+                    </span>
+                    {(session.submitting || isRunning(run)) && (
+                      <p className="progress-label">
+                        {session.submitting
+                          ? "Sending your question"
+                          : (run?.progress?.label ??
+                            "Reading investigation status")}
+                      </p>
+                    )}
+                  </div>
+                  {isRunning(run) && (
+                    <button
+                      disabled={run?.cancellationRequested}
+                      onClick={() => {
+                        void session.cancel();
+                      }}
+                    >
+                      {run?.cancellationRequested
+                        ? "Cancelling…"
+                        : "Cancel investigation"}
+                    </button>
+                  )}
+                </div>
+                <ProgressRail
+                  phase={run?.progress?.phase}
+                  complete={!!run && !isRunning(run)}
+                />
+                {session.connection && isRunning(run) && (
+                  <p className="caption">{session.connection}</p>
+                )}
+                {run?.message && !run.answer && <p>{run.message}</p>}
+                {run?.warnings?.map((w, i) => (
+                  <p className="notice" key={i}>
+                    {w}
+                  </p>
+                ))}
+                {run && (
+                  <details>
+                    <summary>
+                      Execution log
+                      {run.timing
+                        ? ` · ${(run.timing.totalMs / 1000).toFixed(1)} sec`
+                        : ""}
+                    </summary>
+                    <ol className="event-list">
+                      {run.events.map((e) => (
+                        <li key={e.seq}>
+                          <span className="meta">
+                            {e.seq.toString().padStart(2, "0")}
+                          </span>
+                          {e.message}
+                        </li>
+                      ))}
+                    </ol>
+                    {run.timing && (
+                      <p className="caption">
+                        {run.timing.modelCalls} model calls ·{" "}
+                        {run.timing.sqlCount} SQL queries ·{" "}
+                        {run.timing.repairCalls} format repairs
+                      </p>
+                    )}
+                  </details>
+                )}
+              </section>
+            )}
+            {report && !demo && run && (
+              <p className="caption dataset-caption">
+                ✓ {run.context.datasetVersion}
+              </p>
+            )}
+            {report && (
+              <Report
+                answer={report}
+                disabled={disabled || !!demo}
+                open={setSource}
+                followup={(action) => launch(() => api.followup(action))}
+              />
+            )}
+            {!report && !run && !session.submitting && (
+              <section className="empty-state glass-panel">
+                <div className="examples">
+                  {[
+                    ["Spend vs. revenue", mainQuestion],
+                    [
+                      "Purchaser rate",
+                      "Why did the first-week purchaser rate of new users fall in August 2019 versus July? Focus on user behaviour, not spend.",
+                    ],
+                    [
+                      "Data boundaries",
+                      "Why did FaceBoom ad CTR decline in July 2019?",
+                    ],
+                  ].map(([label, text]) => (
+                    <button
+                      key={label}
+                      disabled={busy}
+                      onClick={() => setQuestion(text)}
+                    >
+                      <strong>{label} ↗</strong>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
+            <footer>
+              <p>
+                {session.catalog?.dataset.kind === "public_teaching_sample"
+                  ? "Teaching data"
+                  : session.catalog?.dataset.kind === "self_authored_fixture"
+                    ? "Sample data"
+                    : "Connecting"}
+                {" · Observational, not causal"}
+              </p>
+            </footer>
+          </main>
+        </>
+      )}
       {source && (
         <EvidenceDialog
           key={`${source.id}-${source.rowIndex ?? "all"}-${source.metric ?? ""}`}

@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-26T21:23:40.934Z",
+  "at": "2026-10-27T03:35:30.438Z",
   "kind": "actual_react_fallback_ui",
   "mode": "self_authored_fixture_and_scripted_model",
   "pass": true,
@@ -20,16 +20,16 @@
     "stackedBarRendered": true,
     "missingDayWeekMonthBucketsBreakLines": true,
     "syntheticRendererChecksSeparateFromSourceBinding": true,
-    "mobileNoDocumentOverflow": true
+    "mobileNoDocumentOverflow": true,
+    "englishOnlyUserFacingText": true
   },
   "consoleErrors": [],
   "records": [
     {
       "name": "main-after-refresh",
-      "runId": "dcbae2a4-6d67-48f9-875f-4829cd06f147",
+      "runId": "1f4ddc14-f9ce-4331-a1e5-a433abbeb260",
       "status": "completed",
       "spec": {
-        "timeGrain": null,
         "mode": "cohort",
         "periods": [
           {
@@ -57,14 +57,13 @@
           "revenue"
         ]
       },
-      "summary": "TipTop：2019-07对比2019-06，首访后14天口径下，费用增加24，收入不变0。费用增加没有伴随同口径收入增加。"
+      "summary": "TipTop: in 2019-07 vs 2019-06, spend in the first 14 days after the initial visit increased by 24 and revenue changed by 0. The spend increase was not accompanied by a comparable revenue increase."
     },
     {
       "name": "channel-followup",
-      "runId": "f0db8645-bfa1-46f7-92ef-349b0010c93c",
+      "runId": "da4278c3-9bcd-4bc3-83b2-574685fa6d89",
       "status": "completed",
       "spec": {
-        "timeGrain": null,
         "mode": "cohort",
         "periods": [
           {
@@ -94,14 +93,13 @@
           "revenue"
         ]
       },
-      "summary": "FaceBoom：2019-07对比2019-06，首访后14天口径下，费用增加12，收入不变0。费用增加没有伴随同口径收入增加。"
+      "summary": "FaceBoom: in 2019-07 vs 2019-06, spend in the first 14 days after the initial visit increased by 12 and revenue changed by 0. The spend increase was not accompanied by a comparable revenue increase."
     },
     {
       "name": "seven-day-followup",
-      "runId": "9947163c-1ffe-47ae-ad3b-49dfe7283fdb",
+      "runId": "485ba9fd-d710-48e8-ac5f-3c392ff5a65d",
       "status": "completed",
       "spec": {
-        "timeGrain": null,
         "mode": "cohort",
         "periods": [
           {
@@ -131,14 +129,13 @@
           "revenue"
         ]
       },
-      "summary": "FaceBoom：2019-07对比2019-06，首访后7天口径下，费用增加12，收入不变0。费用增加没有伴随同口径收入增加。"
+      "summary": "FaceBoom: in 2019-07 vs 2019-06, spend in the first 7 days after the initial visit increased by 12 and revenue changed by 0. The spend increase was not accompanied by a comparable revenue increase."
     },
     {
       "name": "temporary-fourteen-day",
-      "runId": "55293ba0-0aac-4dcd-9a4a-cb5e3c711861",
+      "runId": "305104f5-97bd-4afe-a8a4-19678259bf7b",
       "status": "completed",
       "spec": {
-        "timeGrain": null,
         "mode": "cohort",
         "periods": [
           {
@@ -168,11 +165,11 @@
           "revenue"
         ]
       },
-      "summary": "FaceBoom：2019-07对比2019-06，首访后14天口径下，费用增加12，收入不变0。费用增加没有伴随同口径收入增加。"
+      "summary": "FaceBoom: in 2019-07 vs 2019-06, spend in the first 14 days after the initial visit increased by 12 and revenue changed by 0. The spend increase was not accompanied by a comparable revenue increase."
     },
     {
       "name": "source-backed-memory-default",
-      "runId": "8dd3aedc-99ac-49f3-919d-424e61f386df",
+      "runId": "bf662900-1eba-4f3e-ae13-b4d86ec22f47",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -201,11 +198,11 @@
           "revenue"
         ]
       },
-      "summary": "整体：2019-07相较2019-06，首访后7天的 首次观测用户数 从8变为8，差额0，变化率0.00%。"
+      "summary": "Overall: in 2019-07 vs 2019-06, New users for the first 7 days after the initial visit moved from 8 to 8; difference 0, a 0.00% relative change."
     },
     {
       "name": "recommended-followup",
-      "runId": "af92093b-59da-4ae9-b9d9-9c34f578c390",
+      "runId": "5dd99db8-617c-4b57-a0ca-a53da4a509e7",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -237,11 +234,11 @@
           "new_users"
         ]
       },
-      "summary": "整体：2019-07相较2019-06，首访后7天的 首次购买收入 从82.5变为82.5，差额0，变化率0.00%。 整体：2019-07相较2019-06，首访后7天的 后续购买收入 从7.5变为7.5，差额0，变化率0.00%。"
+      "summary": "Overall: in 2019-07 vs 2019-06, First-purchase revenue for the first 7 days after the initial visit moved from 82.5 to 82.5; difference 0, a 0.00% relative change. Overall: in 2019-07 vs 2019-06, Repeat-purchase revenue for the first 7 days after the initial visit moved from 7.5 to 7.5; difference 0, a 0.00% relative change."
     },
     {
       "name": "cancelled-run",
-      "runId": "1767a282-ad94-40f9-82ef-1117ac349cb8",
+      "runId": "54e4716a-61da-4cfe-b1b4-bf3ef1056c0e",
       "status": "cancelled",
       "spec": {
         "mode": "cohort",
@@ -273,11 +270,11 @@
           "new_users"
         ]
       },
-      "summary": "本轮调查已取消，可以调整条件后重新提问。"
+      "summary": "This investigation was cancelled. Adjust the scope and ask again."
     },
     {
       "name": "missing-click-data",
-      "runId": "96632041-21c1-433d-8e92-adb30f3239c5",
+      "runId": "3b8462b3-d7eb-43d4-aa68-7db3d752b35d",
       "status": "unsupported",
       "spec": {
         "mode": "cohort",
@@ -309,11 +306,11 @@
           "new_users"
         ]
       },
-      "summary": "当前自制样例没有曝光与点击数据，无法检查 CTR。"
+      "summary": "The self-authored sample has no impression or click data, so CTR cannot be checked."
     },
     {
       "name": "polling-without-sse",
-      "runId": "1ed656e3-0f3f-4c1f-9f59-19475ecf8f53",
+      "runId": "960974a7-5933-497e-854b-02d1313688ad",
       "status": "completed",
       "spec": {
         "mode": "cohort",
@@ -343,11 +340,11 @@
           "revenue"
         ]
       },
-      "summary": "整体：2019-07相较2019-06，首访后7天的 记录渠道费用 从576变为612，差额36，变化率6.25%。"
+      "summary": "Overall: in 2019-07 vs 2019-06, Recorded acquisition spend for the first 7 days after the initial visit moved from 576 to 612; difference 36, a 6.25% relative change."
     },
     {
       "name": "injected-model-offline",
-      "runId": "7f5f12bd-c8e7-4ac0-bd71-8d1524d31d9a",
+      "runId": "f9240eaf-7919-4980-b51b-392bc4fced8d",
       "status": "failed",
       "spec": {
         "mode": "cohort",
@@ -377,7 +374,7 @@
           "revenue"
         ]
       },
-      "summary": "暂时无法连接模型服务，本轮未完成。请恢复连接后重试。"
+      "summary": "The model service is currently unavailable. Restore the connection and try again."
     }
   ]
 }

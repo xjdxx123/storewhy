@@ -35,7 +35,7 @@ export class ZetarisBackend implements SqlBackend {
     if (!settings.zetarisKey)
       throw new AppError(
         "ZETARIS_UNAUTHORIZED",
-        "未配置 Zetaris token",
+        "The Zetaris token is not configured",
         503,
         false,
       );
@@ -67,7 +67,11 @@ export class ZetarisBackend implements SqlBackend {
           "Zetaris response timed out",
           504,
         );
-      throw new AppError("ZETARIS_OFFLINE", "无法连接 Zetaris", 503);
+      throw new AppError(
+        "ZETARIS_OFFLINE",
+        "Could not connect to Zetaris",
+        503,
+      );
     }
     if (!response.ok) {
       const detail = cleanError(
@@ -79,14 +83,14 @@ export class ZetarisBackend implements SqlBackend {
               "Zetaris response body timed out",
               504,
             );
-          return "响应内容无法读取";
+          return "The response body could not be read";
         }),
       );
       throw new AppError(
         response.status === 401 || response.status === 403
           ? "ZETARIS_UNAUTHORIZED"
           : "ZETARIS_ERROR",
-        "Zetaris 查询失败 HTTP " + response.status + ": " + detail,
+        "Zetaris query failed with HTTP " + response.status + ": " + detail,
         503,
         response.status !== 401 && response.status !== 403,
       );
@@ -102,12 +106,16 @@ export class ZetarisBackend implements SqlBackend {
           "Zetaris response body timed out",
           504,
         );
-      throw new AppError("ZETARIS_RESULT", "Zetaris 返回了不可读取的响应", 503);
+      throw new AppError(
+        "ZETARIS_RESULT",
+        "Zetaris returned an unreadable response",
+        503,
+      );
     }
     if (!body || typeof body !== "object" || Array.isArray(body))
       throw new AppError(
         "ZETARIS_RESULT",
-        "Zetaris 返回了不符合接口约定的响应",
+        "Zetaris returned a response that does not match the API contract",
         503,
       );
     if (body.error || body.errorMessage || body.status === "FAILED")
@@ -118,7 +126,11 @@ export class ZetarisBackend implements SqlBackend {
       );
     const data = body.data ?? body.rows;
     if (!Array.isArray(data))
-      throw new AppError("ZETARIS_RESULT", "Zetaris 未返回完整结果数组", 503);
+      throw new AppError(
+        "ZETARIS_RESULT",
+        "Zetaris did not return a complete result array",
+        503,
+      );
     const columns =
       body.headers ?? body.columns ?? body.columnNames ?? body.schema;
     const names = Array.isArray(columns)

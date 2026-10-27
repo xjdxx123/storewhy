@@ -16,10 +16,10 @@ export const isRunning = (run?: Run) =>
 const storageKey = "storewhy-fallback-conversation-v1";
 const message = (e: unknown) =>
   e instanceof TypeError
-    ? "暂时无法连接本地后端，请确认服务已启动。"
+    ? "The local backend is unavailable. Check that the service is running."
     : e instanceof Error
       ? e.message
-      : "请求未完成，请恢复会话后重试。";
+      : "The request did not complete. Restore the session before trying again.";
 function savedId() {
   try {
     return localStorage.getItem(storageKey);
@@ -60,7 +60,9 @@ export function useInvestigation() {
         fetch("/healthz", { signal: AbortSignal.timeout(10000) }).then(
           async (response) => {
             if (!response.ok)
-              throw new Error("后端暂时不可用，请确认本地服务已启动。");
+              throw new Error(
+                "The local backend is unavailable. Check that the service is running.",
+              );
             return response.json() as Promise<{ dataMode: string }>;
           },
         ),
@@ -123,7 +125,9 @@ export function useInvestigation() {
         apply(next);
       } catch (e) {
         if (!disposed)
-          setConnection(message(e) + " 保留当前调查，正在等待恢复。");
+          setConnection(
+            message(e) + " Your investigation is preserved while we reconnect.",
+          );
       } finally {
         polling = false;
       }
@@ -157,8 +161,8 @@ export function useInvestigation() {
                     state === "open"
                       ? ""
                       : state === "connecting"
-                        ? "正在连接进度"
-                        : "进度连接已中断，正在读取调查状态",
+                        ? "Connecting to live progress"
+                        : "Live progress paused; refreshing investigation status",
                   );
               },
               onError: () => {
@@ -206,7 +210,7 @@ export function useInvestigation() {
       setError(
         message(e) +
           (ambiguous
-            ? " 提交状态尚未确认，请先点击“恢复会话”，不要重复发送。"
+            ? " Submission status is unconfirmed. Restore the session before sending again."
             : ""),
       );
     } finally {
@@ -232,7 +236,7 @@ export function useInvestigation() {
       const saved = await api.rememberWindow(conversation.id, spec.windowDays);
       if (mounted.current && generation.current === token)
         setNotice(
-          `已保存 ${saved.windowDays} 天默认窗口，来源：${saved.source}`,
+          `Saved a ${saved.windowDays}-day default window · Source: ${saved.source}`,
         );
     } catch (e) {
       if (mounted.current && generation.current === token) setError(message(e));

@@ -25,44 +25,53 @@ export const COST_METRICS: Metric[] = [
   "revenue_to_spend",
 ];
 export const LABELS: Record<Metric, string> = {
-  spend: "记录渠道费用",
-  sessions: "访问次数",
-  users: "用户数",
-  new_users: "首次观测用户数",
-  payers: "购买用户数",
-  purchases: "购买事件数",
-  revenue: "收入",
-  first_purchase_revenue: "首次购买收入",
-  repeat_purchase_revenue: "后续购买收入",
-  payer_rate: "购买用户比例",
-  revenue_per_user: "每用户收入",
-  revenue_per_payer: "每位购买用户收入",
-  repeat_payer_rate: "复购用户比例",
-  cost_per_new_user: "每位新用户记录费用",
-  revenue_to_spend: "收入与记录费用比",
-  avg_first_purchase_hours: "首次购买平均等待小时",
+  spend: "Recorded acquisition spend",
+  sessions: "Sessions",
+  users: "Users",
+  new_users: "New users",
+  payers: "Purchasers",
+  purchases: "Purchase events",
+  revenue: "Revenue",
+  first_purchase_revenue: "First-purchase revenue",
+  repeat_purchase_revenue: "Repeat-purchase revenue",
+  payer_rate: "Purchaser rate",
+  revenue_per_user: "Revenue per user",
+  revenue_per_payer: "Revenue per purchaser",
+  repeat_payer_rate: "Repeat purchaser rate",
+  cost_per_new_user: "Recorded spend per new user",
+  revenue_to_spend: "Revenue / recorded spend",
+  avg_first_purchase_hours: "Average hours to first purchase",
 };
 export const DEFINITIONS: Record<Metric, string> = {
-  spend: "所选渠道与日期内记录的费用，金额单位未注明；不按设备或国家分摊",
-  sessions: "所选时期/用户观察期内的访问记录数，按首次观测用户归属筛选",
+  spend:
+    "Recorded spend for the selected channels and dates, in an unspecified currency; it is not allocated by device or country",
+  sessions:
+    "Visit records in the selected period or observation window, filtered by first-observed attribution",
   users:
-    "自然时期内有访问或购买的用户数；批次模式为首次出现且具有完整观察期的用户数",
-  new_users: "快照中首次访问发生在所选获客日期的用户数，不代表历史首次注册",
-  payers: "时期或观察窗口内至少购买一次的不同用户数",
-  purchases: "购买事件行数，不是不同购买用户数",
-  revenue: "自然时期购买收入，或首访后 H 天收入；两种模式分别计算",
-  first_purchase_revenue: "快照中每位用户首次购买产生的收入",
-  repeat_purchase_revenue: "快照中每位用户首次购买之后的购买收入",
-  payer_rate: "购买用户数 / 当前用户分母；批次模式分母为成熟首次出现用户",
-  revenue_per_user: "收入 / 当前用户分母，属于观测收入，不是预测终身价值",
-  revenue_per_payer: "收入 / 购买用户数",
-  repeat_payer_rate: "窗口内至少购买两次用户数 / 至少购买一次用户数",
+    "Users with a visit or purchase in a calendar period; in cohort mode, first-observed users with a complete observation window",
+  new_users:
+    "Users whose first visit in the snapshot falls within the selected acquisition dates; this is not historical registration",
+  payers: "Distinct users with at least one purchase in the period or window",
+  purchases: "Purchase-event rows, not distinct purchasers",
+  revenue:
+    "Purchase revenue in a calendar period, or within H days after first visit; the two modes are calculated separately",
+  first_purchase_revenue:
+    "Revenue from each user's first purchase in the snapshot",
+  repeat_purchase_revenue:
+    "Revenue from purchases after each user's first purchase in the snapshot",
+  payer_rate:
+    "Purchasers / current user denominator; in cohort mode the denominator is mature first-observed users",
+  revenue_per_user:
+    "Revenue / current user denominator; observed revenue, not predicted lifetime value",
+  revenue_per_payer: "Revenue / purchasers",
+  repeat_payer_rate:
+    "Users with at least two purchases in the window / users with at least one purchase",
   cost_per_new_user:
-    "匹配获客日期的渠道费用 / 首次观测用户数；不是实验获客成本",
+    "Channel spend on matching acquisition dates / first-observed users; not experimental acquisition cost",
   revenue_to_spend:
-    "观测归属口径下的收入 / 匹配日期渠道费用；不是利润或因果增量",
+    "Observed attributed revenue / channel spend on matching dates; not profit or causal lift",
   avg_first_purchase_hours:
-    "已观测到首次购买的用户，从首次访问到首次购买的平均小时数；未购买用户不进入该平均值",
+    "Average hours from first visit to first purchase among observed purchasers; non-purchasers are excluded",
 };
 export function catalog(datasetVersion: string, backend: string) {
   return {
@@ -93,12 +102,12 @@ export function catalog(datasetVersion: string, backend: string) {
     trendMode: "calendar",
     attribution: "first_observed_session",
     limitations: [
-      "金额币种与时区未注明，沿用原始时间与样例金额单位",
-      "没有广告曝光、点击、预算、素材或真实广告增量",
-      "没有商品、结账步骤、退款或利润",
-      "费用只有渠道和日期粒度；无法计算设备或国家广告费用",
-      "订单没有 session ID；渠道、设备、国家使用首次观测访问归属",
-      "organic 未提供费用，费用缺失不补零",
+      "Currency and time zone are unspecified; source timestamps and sample amount units are preserved",
+      "No ad impressions, clicks, budgets, creative data, or true advertising lift are available",
+      "No product, checkout-step, refund, or profit data are available",
+      "Spend is available only by channel and date, so device- or country-level ad spend cannot be calculated",
+      "Orders have no session ID; channel, device, and country use first-observed-session attribution",
+      "Organic spend is unavailable; missing spend is not replaced with zero",
     ],
     dateEndIsExclusive: true,
   };
@@ -115,6 +124,6 @@ export function segmentLabel(
     ["region", "regions"],
   ] as const)
     if (!dimensions[dimension] && filters[key].length)
-      labels.push(filters[key].join("、"));
-  return labels.join(" / ") || "整体";
+      labels.push(filters[key].join(", "));
+  return labels.join(" / ") || "Overall";
 }

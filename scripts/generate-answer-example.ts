@@ -26,7 +26,7 @@ try {
   );
   context.revision = 1;
   context.taskKind = "why";
-  context.objective = "为什么新用户收入与费用变化不同？";
+  context.objective = "Why did new-user revenue and spend move differently?";
   context.evidenceIds = evidence.map((e) => e.id);
   const answer = presentAnswer({
     context,

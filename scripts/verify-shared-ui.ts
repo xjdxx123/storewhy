@@ -216,24 +216,24 @@ try {
       !(document.querySelector('button[type="submit"]') as HTMLButtonElement)
         ?.disabled,
   );
-  await page.getByRole("button", { name: "开始调查 →", exact: true }).click();
-  await page.getByRole("button", { name: "取消调查", exact: true }).waitFor();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Cancel investigation", exact: true })
+    .waitFor();
   await page.reload();
   const main = await finished();
   const conversation = await (
     await fetch(`${root}/api/v1/conversations/${main.conversationId}`)
   ).json();
   assert.equal(conversation.runIds.length, 1);
-  const points = await page
-    .locator("svg [data-value]")
-    .evaluateAll((nodes) =>
-      nodes.map((node) => ({
-        evidenceId: node.getAttribute("data-evidence-id")!,
-        rowIndex: Number(node.getAttribute("data-row-index")),
-        metric: node.getAttribute("data-metric")!,
-        value: Number(node.getAttribute("data-value")),
-      })),
-    );
+  const points = await page.locator("svg [data-value]").evaluateAll((nodes) =>
+    nodes.map((node) => ({
+      evidenceId: node.getAttribute("data-evidence-id")!,
+      rowIndex: Number(node.getAttribute("data-row-index")),
+      metric: node.getAttribute("data-metric")!,
+      value: Number(node.getAttribute("data-value")),
+    })),
+  );
   const expected = main.answer!.charts!.flatMap((chart) =>
     chart.series.flatMap((series) =>
       series.points.filter((point) => point.value !== null),
@@ -269,7 +269,7 @@ try {
     chartPoints: points.length,
   });
   await page
-    .getByRole("button", { name: "只看 FaceBoom", exact: true })
+    .getByRole("button", { name: "FaceBoom only", exact: true })
     .click();
   const followup = await finished();
   assert.deepEqual(followup.context.spec.filters.channels, ["FaceBoom"]);

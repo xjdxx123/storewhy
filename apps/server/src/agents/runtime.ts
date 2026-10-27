@@ -64,20 +64,33 @@ export function terminalProgress(run: Run): RunProgress | undefined {
   if (run.status === "completed" || run.status === "limited")
     return progress(
       "complete",
-      run.status === "limited" ? "调查完成，部分解释仍需更多证据" : "调查完成",
+      run.status === "limited"
+        ? "Investigation complete; some explanations still need more evidence"
+        : "Investigation complete",
     );
   if (run.status === "failed")
-    return progress("failed", run.message ?? "本轮未完成，请查看原因");
+    return progress(
+      "failed",
+      run.message ?? "This run did not complete; review the reason",
+    );
   if (run.status === "cancelled")
-    return progress("cancelled", "本轮调查已取消");
-  return progress("needs_input", run.message ?? "需要补充或调整问题");
+    return progress("cancelled", "Investigation cancelled");
+  return progress(
+    "needs_input",
+    run.message ?? "More detail or a revised question is needed",
+  );
 }
 export function queryLabel(spec: Run["context"]["spec"]) {
   if (spec.groupBy.length) {
-    const names = { channel: "渠道", device: "设备", region: "国家" };
-    return "正在检查" + spec.groupBy.map((d) => names[d]).join("与") + "差异";
+    const names = { channel: "channel", device: "device", region: "country" };
+    return (
+      "Checking differences by " +
+      spec.groupBy.map((d) => names[d]).join(" and ")
+    );
   }
-  return spec.periods.length === 2 ? "正在比较两个时期" : "正在核算所选时期";
+  return spec.periods.length === 2
+    ? "Comparing the two periods"
+    : "Calculating the selected period";
 }
 export function failureFor(
   error: unknown,
@@ -91,7 +104,8 @@ export function failureFor(
   if (cancelled)
     return {
       status: "cancelled",
-      message: "本轮调查已取消，可以调整条件后重新提问。",
+      message:
+        "This investigation was cancelled. Adjust the scope and ask again.",
       error: { code: "CANCELLED", retryable: false },
     };
   const runTimeout = signal?.aborted && signal.reason?.name === "TimeoutError";
@@ -101,15 +115,22 @@ export function failureFor(
       ? error.code
       : "RUNTIME_ERROR";
   const messages: Record<string, string> = {
-    RUN_TIMEOUT: "本轮调查超过时间限制，未生成新的回答。可以缩小范围后重试。",
-    MODEL_TIMEOUT: "模型响应超时，本轮未生成新的回答。可以稍后重试。",
-    MODEL_OFFLINE: "暂时无法连接模型服务，本轮未完成。请恢复连接后重试。",
-    ZETARIS_TIMEOUT: "数据查询超时，本轮未生成新的回答。可以缩小范围后重试。",
-    ZETARIS_OFFLINE: "暂时无法连接数据服务，本轮未完成。请恢复连接后重试。",
-    MODEL_UNAUTHORIZED: "模型服务尚未授权，请检查本机连接配置。",
-    ZETARIS_UNAUTHORIZED: "数据服务尚未授权，请检查本机连接配置。",
+    RUN_TIMEOUT:
+      "This investigation exceeded the time limit and produced no new answer. Narrow the scope and try again.",
+    MODEL_TIMEOUT:
+      "The model response timed out, so no new answer was produced. Try again later.",
+    MODEL_OFFLINE:
+      "The model service is currently unavailable. Restore the connection and try again.",
+    ZETARIS_TIMEOUT:
+      "The data query timed out, so no new answer was produced. Narrow the scope and try again.",
+    ZETARIS_OFFLINE:
+      "The data service is currently unavailable. Restore the connection and try again.",
+    MODEL_UNAUTHORIZED:
+      "The model service is not authorized. Check the local connection settings.",
+    ZETARIS_UNAUTHORIZED:
+      "The data service is not authorized. Check the local connection settings.",
     MODEL_INVALID_JSON:
-      "模型返回内容未通过校验，本轮未生成可靠回答。可以重试。",
+      "The model response failed validation, so no reliable answer was produced. Try again.",
   };
   return {
     status:

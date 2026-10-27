@@ -15,13 +15,21 @@ import { AppError } from "../config.ts";
 const n = (v: unknown) => {
   const x = Number(v ?? 0);
   if (!Number.isFinite(x))
-    throw new AppError("INVALID_NUMBER", "查询包含不可计算数值", 503);
+    throw new AppError(
+      "INVALID_NUMBER",
+      "The query contains a non-calculable value",
+      503,
+    );
   return x;
 };
 const money = (v: unknown) => {
   const x = new Decimal(String(v ?? 0));
   if (!x.isFinite() || x.abs().greaterThan("1000000000000"))
-    throw new AppError("UNSAFE_MONEY", "金额超出支持范围", 503);
+    throw new AppError(
+      "UNSAFE_MONEY",
+      "The amount exceeds the supported range",
+      503,
+    );
   return x.toDecimalPlaces(2, Decimal.ROUND_HALF_UP).toNumber();
 };
 const ratio = (a: number, b: number | null) =>
@@ -105,7 +113,7 @@ export class Analytics {
       if (result.truncated || result.rows.length >= 201)
         throw new AppError(
           "RESULT_TRUNCATED",
-          "结果超出完整覆盖限制，请缩小范围",
+          "The result exceeds the complete-coverage limit. Narrow the scope.",
           422,
         );
       for (const row of result.rows) {
@@ -125,7 +133,7 @@ export class Analytics {
         if (required.some((column) => !Object.hasOwn(row, column)))
           throw new AppError(
             "RESULT_SCHEMA",
-            "查询结果缺少预期字段，拒绝以零代替",
+            "The query result is missing an expected field; it will not be replaced with zero",
             503,
           );
         const all = values(row);
@@ -141,7 +149,7 @@ export class Analytics {
       if (rows.length > 200)
         throw new AppError(
           "RESULT_TRUNCATED",
-          "合并结果超过两百行，请缩小范围",
+          "The combined result exceeds 200 rows. Narrow the scope.",
           422,
         );
       let excludedUsers = 0;
@@ -154,7 +162,11 @@ export class Analytics {
           ex.rows.length !== 1 ||
           !Object.hasOwn(ex.rows[0], "n")
         )
-          throw new AppError("RESULT_SCHEMA", "无法核对排除用户数", 503);
+          throw new AppError(
+            "RESULT_SCHEMA",
+            "The excluded-user count could not be verified",
+            503,
+          );
         excludedUsers = n(ex.rows[0].n);
       }
       coverage.push({
@@ -232,18 +244,20 @@ export class Analytics {
         spec.metrics.map((m) => [m, DEFINITIONS[m]]),
       ),
       notes: [
-        "归属采用首次观测渠道/设备/国家；这是观测比较，不是广告因果增量或利润。",
-        "时间为源数据原始时间，金额单位未标注。",
+        "Attribution uses the first-observed channel, device, and country. This is an observational comparison, not causal advertising lift or profit.",
+        "Times use the source data as provided; the amount unit is unspecified.",
         ...(spec.audience === "all" &&
         spec.metrics.some((m) =>
           ["spend", "revenue_to_spend", "cost_per_new_user"].includes(m),
         )
           ? [
-              "整体收入可能包含 organic 收入；记录费用仅来自付费渠道，整体收入/费用不能解释为广告增量或 organic 回报。",
+              "Overall revenue may include organic revenue, while recorded spend comes only from paid channels. Overall revenue / spend is not advertising lift or organic return.",
             ]
           : []),
         ...(coverage.some((c) => c.excludedUsers > 0)
-          ? ["已排除随访不足用户，并将费用裁剪到相同获客日期。"]
+          ? [
+              "Users without complete follow-up were excluded, and spend was trimmed to the same acquisition dates.",
+            ]
           : []),
         "spec:" + fingerprint,
       ],
