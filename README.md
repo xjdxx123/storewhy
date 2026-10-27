@@ -1,10 +1,45 @@
 # StoreWhy
 
-**An evidence-backed growth investigation agent.** StoreWhy explains changes in acquisition, purchasing and observed channel returns, then carries the investigation through follow-up questions.
+**Ask what changed. See why.** StoreWhy is an evidence-backed growth investigation agent. It explains changes in acquisition, purchasing, and observed channel returns, then carries the investigation forward with grounded follow-up questions.
 
-StoreWhy 帮助运营人员检查“为什么费用增加，用户收入却没有同步增长”。它支持指标查询、时期比较、渠道贡献、用户批次、人群比较与解释检查。Investigator 负责调查，Reviewer 独立检查证据并要求补查。数字、SQL、统计口径和查询 ID 可以追溯。模型选择调查路径和经过验证的观测证据，数字及比较语句由后端据此生成。
+<p align="center">
+  <img src="share-samples/01-desktop-hero.jpg" alt="StoreWhy desktop investigation interface" width="920" />
+</p>
 
-当前仓库交付 TypeScript 后端、共享 contracts 和独立的轻量备用 React UI；队友可继续构建自己的页面。见 [前端接入](docs/frontend-integration.md)、[架构](docs/architecture.md)、[实施计划](docs/plans/2026-10-23-growth-investigator-mvp.md)。
+## Web experience
+
+- Ask a business question and watch the investigation progress in real time.
+- Compare periods, channels, cohorts, purchaser rates, and observed revenue.
+- Open the evidence behind a claim, including source rows, SQL, and query IDs.
+- Continue through validated follow-up actions without losing the current scope.
+- Move between conversations on desktop or use the focused mobile layout.
+- Explore the interface safely with a clearly labeled self-authored sample replay.
+
+> **Language support:** questions can be written in **English or Chinese**. User-authored text remains exactly as entered, while navigation, generated conclusions, evidence, charts, progress messages, and errors are presented in English for a consistent demo experience.
+
+### Quick UI preview
+
+Requires Node.js 22.12+.
+
+```sh
+npm ci
+```
+
+Start the fixture API in one terminal:
+
+```sh
+npm run dev
+```
+
+Then start the React UI in a second terminal:
+
+```sh
+npm run dev:ui
+```
+
+Open **http://127.0.0.1:5173/** and select **Explore a sample investigation**. The sample replay does not require live platform credentials. Free-form investigations require Nightshift; the full Live stack can be started with `npm run demo` after Zetaris and Nightshift are configured.
+
+See the [UI guide](docs/ui-guide.md) for the complete interaction flow, bilingual question examples, responsive behavior, and Sample versus Live mode. Engineering references are available in [frontend integration](docs/frontend-integration.md), [architecture](docs/architecture.md), and the [implementation plan](docs/plans/2026-10-23-growth-investigator-mvp.md).
 
 ## 录屏启动
 
@@ -115,10 +150,10 @@ npm run test:browser:live      # 真实 Zetaris / Nightshift / NVIDIA
 npm run demo:check             # 当前服务的只读 Demo 预检
 ```
 
-浏览器命令使用本机 Chrome，必要时设置 `STOREWHY_CHROME`。这些 test:browser 命令是独立的 SDK/API 联调工具。实际备用 React 页面见下节；队友页面仍可独立实现。Live 评测与性能测试逐项运行，避免共享本地 Spark driver 上多套测试争用资源；连接状态健康不保证长时间高负载不会耗尽 Docker 内存。本机 Zetaris 的 heap/内存配置见 [本地运行配置](docs/local-runtime-profile.md)。最新前后对照、故障记录和验收边界见 [运行优化验证](docs/runtime-verification.md)。
+浏览器命令使用本机 Chrome，必要时设置 `STOREWHY_CHROME`。这些 test:browser 命令是独立的 SDK/API 联调工具。正式 React 页面见下节。Live 评测与性能测试逐项运行，避免共享本地 Spark driver 上多套测试争用资源；连接状态健康不保证长时间高负载不会耗尽 Docker 内存。本机 Zetaris 的 heap/内存配置见 [本地运行配置](docs/local-runtime-profile.md)。最新前后对照、故障记录和验收边界见 [运行优化验证](docs/runtime-verification.md)。
 
-## 轻量备用 UI
+## StoreWhy Web App
 
-React + TypeScript 单页位于 `apps/fallback-web`，与队友 `apps/web` 分开。后端运行后，在另一 Terminal 执行 `npm run dev:ui`，打开 **http://127.0.0.1:5173/**。支持自由提问、连续追问、真实进度、取消、刷新恢复、图表与逐点 Evidence/SQL。
+The React + TypeScript app lives in `apps/fallback-web`. With the backend running, execute `npm run dev:ui` in another terminal and open **http://127.0.0.1:5173/**. It supports bilingual questions, continuous follow-ups, real progress, cancellation, refresh recovery, charts, and evidence/SQL inspection.
 
-`npm run build` 同时构建后端与备用 UI；`npm run test:ui` / `npm run test:ui:live` 验证实际 React 页面。启动、代理、样例标识和边界见 [备用 UI](docs/fallback-ui.md)。
+`npm run build` builds both the backend and UI. `npm run test:ui` and `npm run test:ui:live` verify the real React experience. Read the product-facing [UI guide](docs/ui-guide.md) or the engineering-focused [UI runtime reference](docs/fallback-ui.md).
